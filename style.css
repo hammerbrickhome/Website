@@ -72,30 +72,67 @@ nav a{
 }
 nav a:hover{ opacity:1; }
 
-/* BUTTONS */
+/* ---------------------------------------------------
+BUTTONS — RITZ-CARLTON LUXURY GOLD
+--------------------------------------------------- */
 .btn{
   display:inline-block;
-  padding:12px 16px;
-  background:var(--gold);
+  padding:12px 18px;
+  background:linear-gradient(180deg, #f2d183, #d8b65a);
   color:#0b1630;
   text-decoration:none;
-  border-radius:10px;
+  border-radius:12px;
   font-weight:900;
-  transition:.2s ease;
+  border:1px solid rgba(240,220,170,0.85);
+  box-shadow:0 4px 14px rgba(0,0,0,0.35);
+  transition:0.25s ease;
 }
-.btn:hover{ transform:translateY(-2px); }
+.btn:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 6px 18px rgba(0,0,0,0.50);
+  background:linear-gradient(180deg,#ffdf9c,#e0be63);
+}
 
+/* Ghost Button */
 .btn.ghost{
   background:transparent;
-  border:1px solid var(--gold);
-  color:var(--gold);
+  border:1px solid rgba(240,220,170,0.75);
+  color:#f2d183;
 }
 .btn.ghost:hover{
-  background:var(--gold);
+  background:rgba(240,220,170,0.18);
   color:#0b1630;
+  box-shadow:0 4px 12px rgba(0,0,0,0.35);
 }
 
-/* HERO */
+/* STICKY CALL BUTTON — LUXURY GOLD */
+.sticky-call{
+  position:fixed; left:50%; transform:translateX(-50%);
+  bottom:14px; z-index:10001;
+  background:linear-gradient(180deg,#f2d183,#d8b65a);
+  color:#0b1630;
+  border:1px solid rgba(240,220,170,0.9);
+  padding:12px 20px;
+  border-radius:999px;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 10px 28px rgba(0,0,0,.45);
+  transition:transform .2s ease;
+}
+.sticky-call:hover{
+  transform:translateX(-50%) scale(1.06);
+}
+.sticky-call:active{
+  transform:translateX(-50%) translateY(1px);
+}
+
+@media (max-width:520px){
+  .sticky-call{width:calc(100% - 24px); left:12px; transform:none;}
+}
+
+/* ---------------------------------------------------
+HERO
+--------------------------------------------------- */
 .hero{
   padding:50px 0;
   margin-bottom:30px;
@@ -232,7 +269,6 @@ footer{
   main{ padding:20px 16px 120px; }
 }
 
-
 /* --- Pricing cards grid --- */
 .cards{
   display:grid;
@@ -265,16 +301,3 @@ footer{
 /* Small CTA */
 .btn.btn-sm{padding:10px 12px; border-radius:10px}
 
-/* Sticky call button for pricing */
-.sticky-call{
-  position:fixed; left:50%; transform:translateX(-50%);
-  bottom:14px; z-index:10001;
-  background:var(--gold); color:#0b1630; border:1px solid rgba(231,191,99,.7);
-  padding:12px 18px; border-radius:999px; font-weight:900; text-decoration:none;
-  box-shadow:0 10px 28px rgba(0,0,0,.35);
-}
-.sticky-call:active{transform:translateX(-50%) translateY(1px);}
-
-@media (max-width:520px){
-  .sticky-call{width:calc(100% - 24px); left:12px; transform:none;}
-}
