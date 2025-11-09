@@ -427,4 +427,45 @@ img {
     max-width: 100% !important;
   }
 }
+/* ✅ FIX RULES / MEMBERSHIP SECTION (No more overflow) */
+#rules {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  padding: 0 14px;
+  box-sizing: border-box;
+}
+
+#rules * {
+  max-width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ✅ Fix 2-column social buttons breaking layout on mobile */
+#rules .panel div[style*="grid-template-columns"] {
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  #rules .panel div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ✅ Fix accordion content pushing outside the page */
+.acc-body {
+  padding-right: 8px;
+  max-width: 100%;
+}
+
+.acc-section {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
