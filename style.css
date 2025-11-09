@@ -284,4 +284,63 @@ footer{margin-top:16px;opacity:.65;font-size:13px;}
 }
 
 
+/* ============================
+   FIX CONTACT SECTION SIZING
+   ============================ */
+#contact {
+  padding: 40px 0 !important;
+}
+
+#contact h2 {
+  font-size: 28px !important;
+  margin-bottom: 18px !important;
+  color: var(--gold-1);
+  text-shadow: 0 2px 6px rgba(0,0,0,.45);
+}
+
+#contact form {
+  width: 100%;
+  max-width: 680px !important;    /* ✅ clean wide size again */
+  margin: 0 auto;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,235,185,0.18);
+  padding: 22px 26px !important;   /* ✅ bigger padding */
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+}
+
+#contact input,
+#contact textarea {
+  font-size: 15px !important;      /* ✅ bigger readable text */
+  padding: 12px 14px !important;
+  margin-bottom: 12px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(255,235,185,0.35);
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+}
+
+#contact textarea {
+  min-height: 120px;
+}
+
+#contact button.btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#contact a.btn.ghost {
+  width: 100%;
+}
+
+/* Footer alignment */
+#contact footer {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+
 
