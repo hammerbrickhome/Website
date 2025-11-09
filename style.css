@@ -1,3 +1,238 @@
+/* ---------------------------------------------------
+ORIGINAL SITE LAYOUT — RESTORED
+This brings back your full design, spacing, fonts,
+dark glass look, sidebar, hero, cards, panels, etc.
+--------------------------------------------------- */
+
+:root{
+  --bg: #0b1630;
+  --ink: #ffffff;
+  --gold: #e7bf63;
+}
+
+*{
+  margin:0; padding:0; box-sizing:border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.5;
+}
+
+/* LAYOUT */
+.layout{
+  display:flex;
+  min-height:100vh;
+}
+
+aside{
+  width:240px;
+  padding:20px;
+  border-right:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(6px);
+}
+
+main{
+  flex:1;
+  padding:20px 30px 120px;
+}
+
+/* SIDEBAR BRAND */
+.brand{
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:22px;
+}
+.brand .name{
+  font-size:18px; font-weight:900;
+}
+.brand .small{
+  font-size:12px; opacity:.7;
+}
+.mark{
+  width:14px; height:14px;
+  background:var(--gold);
+  border-radius:50%;
+}
+
+/* SIDEBAR NAV */
+nav .group{ margin-bottom:26px; }
+.group-title{
+  font-size:13px; opacity:.6; margin-bottom:8px; font-weight:700;
+}
+nav a{
+  display:block;
+  color:var(--ink);
+  text-decoration:none;
+  padding:4px 0;
+  font-size:14px;
+  opacity:.85;
+}
+nav a:hover{ opacity:1; }
+
+/* BUTTONS */
+.btn{
+  display:inline-block;
+  padding:12px 16px;
+  background:var(--gold);
+  color:#0b1630;
+  text-decoration:none;
+  border-radius:10px;
+  font-weight:900;
+  transition:.2s ease;
+}
+.btn:hover{ transform:translateY(-2px); }
+
+.btn.ghost{
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+}
+.btn.ghost:hover{
+  background:var(--gold);
+  color:#0b1630;
+}
+
+/* HERO */
+.hero{
+  padding:50px 0;
+  margin-bottom:30px;
+}
+.hero h1{ font-size:32px; font-weight:900; margin-bottom:8px; }
+.hero p{ opacity:.85; margin-bottom:12px; }
+
+/* SECTION */
+.section{
+  margin-bottom:40px;
+}
+.section h2{
+  font-size:22px; font-weight:900; margin-bottom:12px;
+}
+.muted{ opacity:.7; font-size:14px; }
+
+/* SERVICE CATEGORY PANELS */
+.panel{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:12px;
+  padding:18px;
+  margin-top:14px;
+}
+
+/* SERVICES */
+.services{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:10px;
+  margin-top:12px;
+}
+.card{
+  padding:14px;
+  background:rgba(255,255,255,.12);
+  border-radius:10px;
+  font-size:14px;
+  font-weight:600;
+  text-align:center;
+  transition:.2s;
+}
+.card:hover{
+  background:rgba(255,255,255,.18);
+}
+
+/* GALLERY */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px;
+}
+.gallery img{
+  width:100%; border-radius:10px;
+  cursor:pointer;
+}
+.lightbox{
+  position:fixed; inset:0;
+  backdrop-filter:blur(12px);
+  background:rgba(0,0,0,.8);
+  display:none;
+  align-items:center; justify-content:center;
+  z-index:1000;
+}
+.lightbox.show{ display:flex; }
+.lightbox img{
+  width:90%; max-width:600px; border-radius:10px;
+}
+
+/* BEFORE/AFTER COMPARE */
+.compare{
+  position:relative;
+  overflow:hidden;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+.compare img{
+  width:100%; display:block;
+}
+.compare .after{
+  position:absolute; inset:0;
+  clip-path:inset(0 0 0 50%);
+}
+.compare input{
+  position:absolute; inset:0;
+  opacity:0;
+}
+
+/* CHAT BUBBLE */
+.chat-bubble{
+  position:fixed;
+  right:20px;
+  bottom:90px;
+  z-index:10000;
+}
+.chat-bubble .chat-modal{
+  display:none;
+  flex-direction:column;
+  margin-top:6px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);
+  backdrop-filter:blur(10px);
+  padding:12px;
+  border-radius:12px;
+}
+.chat-bubble .chat-modal.show{ display:flex; }
+
+/* SEARCH BAR */
+#search{
+  width:100%;
+  padding:10px 12px;
+  margin-top:6px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.08);
+  color:var(--ink);
+  font-size:14px;
+}
+
+/* FOOTER */
+footer{
+  margin-top:15px;
+  opacity:.6;
+  font-size:13px;
+}
+
+/* MOBILE */
+@media (max-width:800px){
+  .layout{ flex-direction:column; }
+  aside{
+    width:100%;
+    border-right:none;
+    border-bottom:1px solid rgba(255,255,255,.12);
+  }
+  main{ padding:20px 16px 120px; }
+}
+
+
 /* --- Pricing cards grid --- */
 .cards{
   display:grid;
@@ -17,7 +252,6 @@
 
 .pkg-media{
   aspect-ratio: 16/9;
-  background: radial-gradient(circle at 30% 30%, #fff7cf, #f4d379 60%, #c79a3a 100%);
   background-size: cover; background-position: center;
   border-bottom:1px solid rgba(231,191,99,.28);
 }
@@ -31,14 +265,7 @@
 /* Small CTA */
 .btn.btn-sm{padding:10px 12px; border-radius:10px}
 
-/* Make the hero slightly different here */
-.hero--pricing{background-image:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.25)), url('images/hero.jpg');}
-
-/* --- Reveal-on-scroll animation (re-usable) --- */
-.reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
-.reveal.visible{opacity:1; transform:none}
-
-/* --- Sticky Call button (GLOBAL) --- */
+/* Sticky call button for pricing */
 .sticky-call{
   position:fixed; left:50%; transform:translateX(-50%);
   bottom:14px; z-index:10001;
@@ -48,12 +275,6 @@
 }
 .sticky-call:active{transform:translateX(-50%) translateY(1px);}
 
-/* Cards hover lift */
-.pkg-card:hover{transform:translateY(-2px);}
-
-/* Mobile tweaks */
 @media (max-width:520px){
-  .sticky-call{width:calc(100% - 24px); left:12px; right:12px; transform:none; text-align:center}
-  .pkg-list{margin-left:16px}
+  .sticky-call{width:calc(100% - 24px); left:12px; transform:none;}
 }
-
