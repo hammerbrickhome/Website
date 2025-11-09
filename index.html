@@ -13,7 +13,7 @@
     .fade-in { opacity:0; transform:translateY(18px); animation:fadeIn .6s ease forwards; }
     @keyframes fadeIn { to { opacity:1; transform:translateY(0); } }
 
-    /* Nicer service cards */
+    /* Nicer service cards (keeps your grid + colors) */
     .services .card{
       padding:10px 14px;border-radius:12px;
       background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.08));
@@ -27,7 +27,7 @@
       border-color:rgba(231,191,99,.55);
     }
 
-    /* Global sticky Call Now button */
+    /* Global sticky Call Now button (appears on every page that includes this file) */
     .sticky-call{
       position:fixed; right:16px; bottom:16px; z-index:10000;
       background:var(--gold); color:#0b1630; text-decoration:none;
@@ -36,29 +36,19 @@
       transition:transform .15s ease;
     }
     .sticky-call:hover{ transform:scale(1.05); }
-
     @media (max-width:600px){
       .sticky-call{ padding:11px 16px; font-size:15px; right:12px; bottom:12px; }
     }
 
-    /* New buttons (will style gold later in your CSS file) */
-    .btn-follow, .btn-subscribe{
-      display:block;
-      margin:8px 0;
-      padding:10px 14px;
-      border-radius:10px;
-      text-align:center;
-      font-weight:800;
-      text-decoration:none;
-      color:#fff;
-      background:rgba(231,191,99,.35);
-      border:1px solid rgba(231,191,99,.45);
-      transition:0.2s ease;
+    /* Tiny helpers for the rules section buttons (kept local & minimal) */
+    .rules-actions{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 6px; }
+    .social-grid{
+      display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:8px 0 6px;
     }
-    .btn-follow:hover, .btn-subscribe:hover{
-      background:rgba(231,191,99,.65);
-      transform:scale(1.04);
-    }
+    .rules-note{ color:var(--muted); font-size:14px; margin:6px 0 0; }
+    .rules-list{ margin:0 0 10px 0; }
+    .rules-list li{ margin:6px 0; }
+    .rules-subhead{ color:var(--gold); margin-top:12px; }
   </style>
 </head>
 <body>
@@ -78,8 +68,6 @@
     </div>
 
     <nav>
-
-      <!-- NAVIGATION -->
       <div class="group fade-in">
         <div class="group-title">Navigate</div>
         <a href="index.html#services">Services</a>
@@ -91,50 +79,26 @@
         <a href="index.html#contact">Contact</a>
       </div>
 
-      <!-- NEW SUBSCRIBE BUTTON -->
       <div class="group fade-in">
-        <div class="group-title">Subscribe</div>
-        <a class="btn-subscribe" href="YOUR-NEWSLETTER-LINK" target="_blank">
-          ✅ Subscribe to Newsletter
-        </a>
+        <div class="group-title">Social</div>
+        <a href="https://instagram.com/hammerbrickhome" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/hammerbrickhome" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.youtube.com/@hammerbrickhome" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.tiktok.com/@hammerbrickhome" target="_blank" rel="noopener">TikTok</a>
       </div>
 
-      <!-- SOCIAL WITH BUTTONS -->
-      <div class="group fade-in">
-        <div class="group-title">Follow Us</div>
-
-        <a class="btn-follow" href="https://instagram.com/hammerbrickhome" target="_blank">
-          Instagram @hammerbrickhome
-        </a>
-
-        <a class="btn-follow" href="https://facebook.com/hammerbrickhome" target="_blank">
-          Facebook @hammerbrickhome
-        </a>
-
-        <a class="btn-follow" href="https://tiktok.com/@hammerbrickhome" target="_blank">
-          TikTok @hammerbrickhome
-        </a>
-
-        <a class="btn-follow" href="https://youtube.com/@hammerbrickhome" target="_blank">
-          YouTube @hammerbrickhome
-        </a>
-      </div>
-
-      <!-- QUICK -->
       <div class="group fade-in">
         <div class="group-title">Quick</div>
         <a class="cta" href="tel:+19295955300">Call 929-595-5300</a>
         <a href="hammerbrickhome.vcf" download>➕ Add to Contacts</a>
       </div>
 
-      <div class="small">located In 📍 Staten Island · NYC</div>
-
+      <div class="small"> located In 📍 Staten Island · NYC</div>
     </nav>
   </aside>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main>
-
     <!-- HERO -->
     <section class="hero fade-in">
       <div>
@@ -145,13 +109,267 @@
       </div>
     </section>
 
-    <!-- SERVICES SECTION (UNCHANGED) -->
-    <!-- ✅ Your entire services section remains intact. -->
-    <!-- ✅ Your before & after, gallery, booking, rules, contact all left untouched. -->
+    <!-- SERVICES -->
+<section class="section fade-in" id="services">
+  <h2>Services</h2>
+  <p class="muted">Use search to filter instantly.</p>
+  <input id="search" placeholder="Search services…" oninput="filterServices()" />
 
-    <!-- ✅ NOTE: I did NOT remove or break anything else. -->
-    
-    <!-- (Your services, compare sliders, gallery, booking, rules, contact, chat bubble, scripts remain unchanged from your original file.) -->
+  <!-- MASONRY -->
+  <div class="cat panel" data-cat="masonry">
+    <h3>🧱 Masonry & Concrete</h3>
+    <div class="services">
+      <div class="card">Brickwork & Repointing</div><div class="card">Block & CMU Walls</div>
+      <div class="card">Concrete Sidewalks</div><div class="card">DOT Sidewalk Violation Repairs</div>
+      <div class="card">Driveways (Concrete/Asphalt)</div><div class="card">Pavers & Walkways</div>
+      <div class="card">Steps & Stoops</div><div class="card">Retaining Walls</div>
+      <div class="card">Stone Veneer / Cultured Stone</div><div class="card">Bluestone / Flagstone</div>
+      <div class="card">Chimney Rebuild/Repair</div><div class="card">Masonry Waterproofing / Sealing</div>
+      <div class="card">Foundation / Footings</div><div class="card">Pointing & Crack Repair</div>
+    </div>
+  </div>
 
-    <!-- I kept your original code from SERVICES to END exactly the same. -->
+  <!-- CARPENTRY / REMODELING -->
+  <div class="cat panel" data-cat="remodel">
+    <h3>🛠 Carpentry & Remodeling</h3>
+    <div class="services">
+      <div class="card">Kitchen Remodels</div><div class="card">Bathroom Remodels</div>
+      <div class="card">Basement Finishing</div><div class="card">Open Concept / Framing</div>
+      <div class="card">Sheetrock & Spackle</div><div class="card">Doors & Trim</div>
+      <div class="card">Closets & Built-ins</div><div class="card">Decks & Railings</div>
+      <div class="card">Fences</div><div class="card">Flooring (Tile/LVP/Engineered)</div>
+      <div class="card">Tile Installation (Bath/Kitchen/Floor)</div><div class="card">Backsplash & Grout</div>
+      <div class="card">Window & Door Replacement</div>
+    </div>
+  </div>
+
+  <!-- SHEETROCK & INSULATION -->
+  <div class="cat panel" data-cat="sheetrock">
+    <h3>🧱 Sheetrock & Insulation</h3>
+    <div class="services">
+      <div class="card">Drywall Installation</div><div class="card">Drywall Repair & Patching</div>
+      <div class="card">Taping, Mudding & Sanding</div><div class="card">Skim Coating / Level 5 Finish</div>
+      <div class="card">Ceiling Repairs</div><div class="card">Soundproofing Systems</div>
+      <div class="card">Insulation – Fiberglass Batts</div><div class="card">Insulation – Mineral Wool</div>
+      <div class="card">Blown-In Insulation</div><div class="card">Vapor Barriers & Air Sealing</div>
+      <div class="card">Framing Repairs</div><div class="card">Moisture Damage Fix</div>
+    </div>
+  </div>
+
+  <!-- ROOFING REPAIRS -->
+  <div class="cat panel" data-cat="roofing">
+    <h3>🏠 Roofing (Repairs Only)</h3>
+    <div class="services">
+      <div class="card">Shingle Repairs (Small Areas)</div><div class="card">Leak Detection & Patching</div>
+      <div class="card">Flashing Repair</div><div class="card">Vent / Pipe Boot Repair</div>
+      <div class="card">Small Skylight Reseal</div><div class="card">Gutter & Downspout Fixes</div>
+      <div class="card">Soffit / Fascia Repair</div><div class="card">Storm Damage Temporary Tarp</div>
+      <div class="card">— No Full Roof Replacements —</div>
+    </div>
+  </div>
+
+  <!-- EXTERIOR -->
+  <div class="cat panel" data-cat="exterior">
+    <h3>🌿 Exterior & Landscaping</h3>
+    <div class="services">
+      <div class="card">Lawn Care & Edging</div><div class="card">Mulch / Planting / Beds</div>
+      <div class="card">Sod / Seed Installation</div><div class="card">Seasonal Cleanup</div>
+      <div class="card">Drainage Solutions</div><div class="card">Gutter Cleaning</div>
+      <div class="card">Power Raking / Dethatching</div><div class="card">Sheds / Small Structures</div>
+    </div>
+  </div>
+
+  <!-- PAINTING -->
+  <div class="cat panel" data-cat="paint">
+    <h3>🎨 Painting & Finishes</h3>
+    <div class="services">
+      <div class="card">Interior Painting</div><div class="card">Exterior Painting</div>
+      <div class="card">Stucco / EIFS Repair</div><div class="card">Caulking & Sealing</div>
+      <div class="card">Epoxy Garage Floors</div><div class="card">Wallpaper Removal</div>
+      <div class="card">Plaster & Patch</div>
+    </div>
+  </div>
+
+  <!-- WINDOWS & DOORS -->
+  <div class="cat panel" data-cat="windows">
+    <h3>🚪 Windows & Doors</h3>
+    <div class="services">
+      <div class="card">Window Installation</div><div class="card">Door Installation</div>
+      <div class="card">Weatherproofing</div><div class="card">Trim & Casing</div>
+      <div class="card">Storm Doors / Screens</div>
+    </div>
+  </div>
+
+  <!-- POWER WASHING -->
+  <div class="cat panel" data-cat="clean">
+    <h3>🧼 Power Washing & Cleaning</h3>
+    <div class="services">
+      <div class="card">House Wash (Soft Wash)</div><div class="card">Concrete / Patio Wash</div>
+      <div class="card">Deck Wash & Brighten</div><div class="card">Roof Soft Wash</div>
+      <div class="card">Graffiti Removal (non-hazard)</div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- BEFORE / AFTER -->
+    <section class="section fade-in" id="beforeafter">
+      <h2>Before / After</h2>
+      <div id="cmp1" class="compare panel">
+        <img src="images/before1.jpg" alt="before">
+        <img class="after" src="images/after1.jpg" alt="after">
+        <input type="range" min="0" max="100" value="50" aria-label="Compare slider">
+      </div>
+      <div id="cmp2" class="compare panel">
+        <img src="images/before2.jpg" alt="before">
+        <img class="after" src="images/after2.jpg" alt="after">
+        <input type="range" min="0" max="100" value="50" aria-label="Compare slider">
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section fade-in" id="gallery">
+      <h2>Photo Gallery</h2>
+      <div class="gallery">
+        <img src="images/Neon Hammer Brick & Home Sign.png" alt="Sign">
+        <img src="images/Home Improvement Hero Watermark Design.png" alt="Watermark">
+        <img src="images/before1.jpg" alt="Before">
+        <img src="images/after1.jpg" alt="After">
+        <img src="images/before2.jpg" alt="Before">
+        <img src="images/after2.jpg" alt="After">
+      </div>
+      <div class="lightbox" id="lightbox"><img alt="preview"></div>
+    </section>
+
+    <!-- BOOKING -->
+    <section class="section fade-in" id="booking">
+      <h2>Booking Calendar</h2>
+      <div class="calendly panel">
+        <!-- Replace with your real Calendly link -->
+        <iframe src="https://calendly.com/your-link/15min" style="width:100%;height:100%;border:0" title="Booking"></iframe>
+      </div>
+    </section>
+
+    <!-- RULES & EXCLUSIONS -->
+    <section class="section panel fade-in" id="rules">
+      <h2>Rules &amp; Exclusions — Free Perks & Giveaways Program</h2>
+      <p class="muted">Exclusive complimentary mini-services for loyal supporters of our brand — designed to excite homeowners while protecting our time, team, and tools.</p>
+
+      <!-- Quick actions: subscribe + social grid -->
+      <div class="rules-actions">
+        <a class="btn" href="mailto:hammerbrickhome@gmail.com?subject=Subscribe%20me%20to%20the%20newsletter&body=Hi%20Hammer%20Brick%20%26%20Home%2C%0A%0APlease%20subscribe%20me%20to%20your%20email%20newsletter.%0A%0AThanks!" aria-label="Subscribe to newsletter">✉️ Subscribe to Newsletter</a>
+      </div>
+      <div class="social-grid">
+        <a class="btn" href="https://instagram.com/hammerbrickhome" target="_blank" rel="noopener" aria-label="Follow on Instagram">📷 Instagram</a>
+        <a class="btn" href="https://www.facebook.com/hammerbrickhome" target="_blank" rel="noopener" aria-label="Follow on Facebook">📘 Facebook</a>
+        <a class="btn" href="https://www.tiktok.com/@hammerbrickhome" target="_blank" rel="noopener" aria-label="Follow on TikTok">🎵 TikTok</a>
+        <a class="btn" href="https://www.youtube.com/@hammerbrickhome" target="_blank" rel="noopener" aria-label="Follow on YouTube">@ YouTube</a>
+      </div>
+      <p class="rules-note">Be subscribed to our email newsletter <strong>AND</strong> follow at least <strong>two</strong> of the social platforms above to unlock perks and giveaways.</p>
+
+      <h3 class="rules-subhead">✅ ELIGIBILITY — WHO QUALIFIES</h3>
+      <ul class="rules-list">
+        <li>Subscribed to our email newsletter <strong>AND</strong> following at least <strong>two</strong> of: Instagram, Facebook, TikTok, YouTube (@hammerbrickhome).</li>
+        <li>Live within our service areas: <strong>Staten Island + nearby NYC</strong>.</li>
+        <li>One perk per household per month • Non-transferable • No cash value.</li>
+        <li>Perks are quick tasks designed for <strong>10–20 minutes max</strong> of labor.</li>
+      </ul>
+      <p class="rules-note">✅ <strong>No purchase is required</strong> for perks or giveaways. This is a <strong>loyalty reward program</strong>, not a discount or coupon.</p>
+
+      <h3 class="rules-subhead">✅ FREE PERK MENU (CHOOSE ONE PER MONTH)</h3>
+      <ul class="rules-list">
+        <li><strong>1. Gutter Cleaning (Mini)</strong> — Up to <strong>40 ft</strong>, first story only; ladder-safe areas; light debris only (no clogged drains, no guard removal).</li>
+        <li><strong>2. Power Wash — Steps/Walkway</strong> — Up to <strong>60 sq ft</strong>; light dirt only (no rust/oil/heavy stains); front entry or small walkway.</li>
+        <li><strong>3. Lawn Mowing (Trim &amp; Blow)</strong> — Up to <strong>2,000 sq ft</strong> of short grass; includes trim + blow-off; no overgrowth/brush/heavy debris.</li>
+        <li><strong>4. Minor Paint Touch-Up</strong> — Up to <strong>10 linear ft</strong> of trims/frames; basic white or owner-supplied color; no full walls/big patches.</li>
+        <li><strong>5. Exterior Window Cleaning (Mini)</strong> — Up to <strong>4 front windows</strong>; first floor only; exterior only.</li>
+        <li><strong>6. Patio/Walkway Weed Pull</strong> — Up to <strong>80–100 sq ft</strong>; hand-pull surface weeds only; no chemicals/no deep removal.</li>
+        <li><strong>7. Seasonal Snow Removal</strong> — Front steps + primary walkway; up to <strong>30 ft</strong> or one path; &lt;6" snowfall; no driveways, no ice chip, no emergencies.</li>
+        <li><strong>8. “10-Minute Fix” Handy Help</strong> — Choose one mini task (tighten ≤3 cabinet handles, adjust 1 door strike, tighten 1 railing bracket, install 1 doorstop, lube a sticky hinge/lock).</li>
+        <li><strong>9. Front Entry Refresh</strong> — Sweep/blow, straighten mat, light cobweb removal, wipe door handle.</li>
+        <li><strong>10. Exterior Safety Snapshot</strong> — 5-minute visual check of steps/rails/walkway; texted note of anything we notice (not a formal inspection).</li>
+        <li><strong>11. House Number / Mailbox Check</strong> — Tighten/straighten existing numbers; tighten one mailbox screw/hinge (no new holes or installs).</li>
+      </ul>
+
+      <h3 class="rules-subhead">✅ UNIQUE HIGH-VALUE PERKS (RARE — NO ONE ELSE OFFERS THESE)</h3>
+      <ul class="rules-list">
+        <li><strong>12. “VIP Homeowner Reminder Setup” (Digital)</strong> — We set up free reminders on your phone (filters, gutter checks, winterizing, smoke/CO batteries). <em>Customers <strong>LOVE</strong> this because no other contractor does it.</em></li>
+        <li><strong>13. “Curb Appeal Audit” (Quick)</strong> — We take 3 photos and send simple suggestions + small improvement ideas. <em>Builds trust without big free work.</em></li>
+        <li><strong>14. “Small Tool Loan” (24 hours)</strong> — Choose one: electric screwdriver, stud finder, level, small hand-tool kit. Simple sign-out form. <em>NO other contractor offers this — huge loyalty builder.</em></li>
+        <li><strong>15. Personalized Home Maintenance Checklist</strong> — Short custom list by season &amp; home age (text/email).</li>
+      </ul>
+
+      <h3 class="rules-subhead">✅ MONTHLY GIVEAWAYS — 2 WINNERS PER MONTH</h3>
+      <ul class="rules-list">
+        <li>Auto-entered when subscribed + following 2+ platforms.</li>
+        <li>Winners must live within our radius; schedule within <strong>30 days</strong>.</li>
+        <li>Missed appointments void the prize; we may substitute a perk of equal value.</li>
+        <li>Giveaway perks are slightly larger (e.g., extra mowing area, larger wash area).</li>
+      </ul>
+
+      <h3 class="rules-subhead">✅ PROTECTION RULES (ANTI-ABUSE)</h3>
+      <ul class="rules-list">
+        <li>All perks require <strong>pre-approval with photos</strong>.</li>
+        <li>If the job is bigger/unsafe or time exceeds limits, we pause and offer a <strong>paid estimate</strong>.</li>
+        <li>Perks include <strong>labor only</strong>; no materials/parts.</li>
+        <li>No electrical, plumbing, HVAC, gas, roofing, chimney, structural, DOB/permit, or violation work.</li>
+        <li>No heavy lifting, moving furniture, or clearing vehicles/pets.</li>
+        <li>Multi-unit, rental, or commercial properties excluded unless approved.</li>
+        <li>Hazards (lead, mold, asbestos, infestations, steep roofs) void eligibility.</li>
+        <li>We reserve the right to decline, limit monthly slots, or reschedule for safety or weather.</li>
+        <li>Customer must ensure safe access (gates unlocked, animals contained, walkway clear).</li>
+      </ul>
+
+      <h3 class="rules-subhead">✅ MEDIA &amp; PRIVACY</h3>
+      <ul class="rules-list">
+        <li>Before/after <strong>photos and videos</strong> may be taken and used on our website, Google listing, Instagram, Facebook, TikTok, and YouTube.</li>
+        <li>We avoid personal identifiers inside homes; privacy is respected.</li>
+      </ul>
+
+      <h3 class="rules-subhead">✅ DISCLAIMERS</h3>
+      <ul class="rules-list">
+        <li>Program is voluntary and can be updated or discontinued at any time.</li>
+        <li>Not a coupon or price discount.</li>
+        <li>Perks cannot be combined or carried over month-to-month.</li>
+        <li>The latest version on our website always applies.</li>
+      </ul>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section fade-in" id="contact">
+      <h2>Contact</h2>
+      <form action="https://formspree.io/f/yourcode" method="POST" style="max-width:640px">
+        <input name="name" placeholder="Your Name" required style="padding:12px;width:100%;margin:6px 0;border-radius:10px;border:1px solid rgba(231,191,99,.35);background:rgba(255,255,255,.14);color:var(--ink)">
+        <input name="phone" placeholder="Phone Number" required style="padding:12px;width:100%;margin:6px 0;border-radius:10px;border:1px solid rgba(231,191,99,.35);background:rgba(255,255,255,.14);color:var(--ink)">
+        <input type="email" name="email" placeholder="Email" value="hammerbrickhome@gmail.com" style="padding:12px;width:100%;margin:6px 0;border-radius:10px;border:1px solid rgba(231,191,99,.35);background:rgba(255,255,255,.14);color:var(--ink)">
+        <textarea name="message" placeholder="What do you need?" required style="padding:12px;width:100%;margin:6px 0;border-radius:10px;border:1px solid rgba(231,191,99,.35);background:rgba(255,255,255,.14);color:var(--ink);height:120px"></textarea>
+        <input type="hidden" name="_subject" value="Website lead – Hammer Brick & Home">
+        <button class="btn" type="submit">Send Message</button>
+        <a class="btn ghost" href="hammerbrickhome.vcf" download>➕ Add to Contacts</a>
+      </form>
+      <footer>© <span id="yr"></span> Hammer Brick &amp; Home LLC · HIC #21311291</footer>
+    </section>
+  </main>
+</div>
+
+<!-- CHAT BUBBLE -->
+<div class="chat-bubble fade-in">
+  <button class="btn" onclick="toggleChat()">💬 Chat</button>
+  <div id="chatModal" class="chat-modal">
+    <div style="font-weight:800;margin-bottom:6px">Live Chat</div>
+    <a class="btn" href="https://wa.me/19295955300" target="_blank" rel="noopener" style="display:block;margin:6px 0">WhatsApp</a>
+    <a class="btn ghost" href="sms:+19295955300" style="display:block;margin:6px 0">Send SMS</a>
+    <a class="btn ghost" href="mailto:hammerbrickhome@gmail.com?subject=Website%20Chat" style="display:block;margin:6px 0">Email</a>
+  </div>
+</div>
+
+<!-- LIGHTBOX (shared) -->
+<div class="lightbox" id="lightbox"><img alt="preview"></div>
+
+<!-- Scripts -->
+<script src="script.js"></script>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
+
 
