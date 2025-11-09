@@ -1,12 +1,6 @@
 /* ======================================================
    Hammer Brick & Home — Full Script (Auto Version)
-   Includes:
-   - Reveal animation
-   - Search filter
-   - Before/After auto sliders
-   - Auto Gallery from JSON
-   - Lightbox
-   - Chat toggle
+   FIXED Before/After Sliders (small, clean, centered)
    ====================================================== */
 
 
@@ -59,14 +53,14 @@ function wireCompare(id) {
   const range = cmp.querySelector('input[type=range]');
 
   range.addEventListener('input', e => {
-    const v = e.target.value; // 0..100
+    const v = e.target.value;
     after.style.clipPath = `inset(0 0 0 ${v}%)`;
   });
 }
 
 
 /* ----------------------------------------------
-   4. Auto-Generated Before/After Sliders
+   ✅ 4. Auto-Generated Before/After Sliders — FIXED
    ---------------------------------------------- */
 
 const comparePairs = [
@@ -77,7 +71,6 @@ const comparePairs = [
 
 function buildCompareSection() {
   const container = document.getElementById("compareContainer");
-
   if (!container) return;
 
   comparePairs.forEach((pair, i) => {
@@ -87,9 +80,13 @@ function buildCompareSection() {
     block.className = "compare panel";
     block.id = id;
 
+    /* ✅ FIXED: small clean centered slider box */
     block.innerHTML = `
-      <img src="images/${pair.before}" alt="before">
-      <img class="after" src="images/${pair.after}" alt="after">
+      <div class="cmp-wrap">
+        <img src="images/${pair.before}" class="cmp before" alt="before">
+        <img src="images/${pair.after}" class="cmp after" alt="after">
+      </div>
+
       <input type="range" min="0" max="100" value="50">
     `;
 
@@ -145,7 +142,7 @@ async function buildGallery() {
       container.appendChild(img);
     });
 
-    wireLightbox(); // reapply for new images
+    wireLightbox();
   } catch (e) {
     console.error("Gallery JSON missing or invalid.", e);
   }
@@ -156,6 +153,7 @@ async function buildGallery() {
    8. Initialize on Load
    ---------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
-  buildCompareSection();  // ✅ Auto Before/After Sliders
-  buildGallery();         // ✅ Auto Gallery
+  buildCompareSection();
+  buildGallery();
 });
+
