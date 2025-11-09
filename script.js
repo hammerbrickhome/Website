@@ -49,7 +49,12 @@ const comparePairs = [
   { before: "before1.jpg",  after: "after1.jpg"  },
   { before: "before2.jpg",  after: "after2.jpg"  },
   { before: "before-test.png", after: "after-test.png" },
-  { before: "before5.png",  after: "after5.png"  } // add more lines as you get pairs
+  { before: "before5.png",  after: "after5.png"  },
+
+  // ✅ New ones you add
+  { before: "before7.jpg", after: "after7.jpg" },
+  { before: "before8.png", after: "after8.png" },
+  { before: "before9.jpg", after: "after9.jpg" }
 ];
 
 function buildCompareSection() {
