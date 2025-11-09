@@ -63,11 +63,17 @@ function wireCompare(id) {
    ✅ 4. Auto-Generated Before/After Sliders — FIXED
    ---------------------------------------------- */
 
+
+
 const comparePairs = [
   { before: "before1.jpg", after: "after1.jpg" },
   { before: "before2.jpg", after: "after2.jpg" },
-  { before: "before-test.png", after: "after-test.png" }
+  { before: "before-test.png", after: "after-test.png" },
+
+  // ✅ Add new ones here
+  { before: "before5.png", after: "after5.png" }
 ];
+
 
 function buildCompareSection() {
  const container = document.getElementById("compareRow");
