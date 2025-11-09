@@ -618,3 +618,50 @@ footer{
 .gallery img:hover {
   transform: scale(1.06);
 }
+/* ✅ FINAL Before/After layout override */
+#compareRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ✅ Two per row on desktop */
+#compareRow .compare {
+  flex: 0 0 calc(50% - 20px);
+  max-width: 380px;
+  margin: 0 auto;
+  border-radius: 14px;
+}
+
+/* ✅ Fix image wrapper size */
+#compareRow .cmp-wrap {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+#compareRow .cmp {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ✅ Mobile — scroll strip */
+@media (max-width: 700px) {
+  #compareRow {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  #compareRow .compare {
+    flex: 0 0 85%;
+    max-width: 85%;
+    scroll-snap-align: center;
+    margin-right: 16px;
+  }
+}
+
