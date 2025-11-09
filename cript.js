@@ -76,7 +76,8 @@ const comparePairs = [
 ];
 
 function buildCompareSection() {
-  const container = document.getElementById("beforeafter");
+  const container = document.getElementById("compareContainer");
+
   if (!container) return;
 
   comparePairs.forEach((pair, i) => {
