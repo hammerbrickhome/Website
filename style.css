@@ -232,6 +232,24 @@ footer{margin-top:16px;opacity:.65;font-size:13px;}
   background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(10px);
 }
 .chat-bubble .chat-modal.show{display:flex;}
+/* ===== FIX QR CODE SIZE ON RULES SECTION ===== */
+#rules img[src*="qr-hammerbrick-membership"]{
+  width:140px !important;
+  height:140px !important;
+  max-width:140px !important;
+  max-height:140px !important;
+  display:block;
+  margin:12px auto;
+  border-radius:8px;
+}
+
+/* Mobile tweak */
+@media (max-width:600px){
+  #rules img[src*="qr-hammerbrick-membership"]{
+    width:130px !important;
+    height:130px !important;
+  }
+}
 
 
 
