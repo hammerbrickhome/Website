@@ -10,8 +10,6 @@
 
 <body>
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <aside>
     <div class="brand">
       <span class="mark"></span>
@@ -20,7 +18,6 @@
         <div class="small">HIC #21311291 · Licensed & Insured</div>
       </div>
     </div>
-
     <nav>
       <div class="group">
         <div class="group-title">Navigate</div>
@@ -33,7 +30,6 @@
         <a href="index.html#rules">Rules & Exclusions</a>
         <a href="index.html#contact">Contact</a>
       </div>
-
       <div class="group">
         <div class="group-title">Quick</div>
         <a class="cta" href="tel:+19295955300">Call 929-595-5300</a>
@@ -41,110 +37,194 @@
     </nav>
   </aside>
 
-  <!-- MAIN CONTENT -->
   <main>
-
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero hero--pricing reveal">
       <div>
-        <h1>Pricing & Packages</h1>
-        <p>Easy, transparent pricing designed for NYC homeowners.</p>
-        <a class="btn" href="index.html#contact">Request a Quote</a>
+        <h1>Transparent Pricing & Packages</h1>
+        <p>Clean bundles, images, and simple ranges. Final quotes depend on site conditions & scope.</p>
+        <a class="btn" href="index.html#contact">Request a Detailed Quote</a>
       </div>
     </section>
 
-    <!-- PACKAGES -->
+    <!-- PACKAGES GRID -->
     <section class="section">
-      <h2>Service Packages</h2>
+      <h2>Popular Packages</h2>
 
-      <div class="panel">
-        <h3 style="color:var(--gold)">🧱 Masonry Quick-Fix Package — $499–$1,299</h3>
-        <ul>
-          <li>Crack repair & pointing (up to 20 ft)</li>
-          <li>Step repair (1–2 steps)</li>
-          <li>Reset up to 10 loose bricks</li>
-          <li>Concrete patching (small areas)</li>
-        </ul>
+      <div class="cards">
+        <!-- CARD 1 -->
+        <article class="pkg-card reveal">
+          <div class="pkg-media" style="background-image:url('images/pkg-curb.jpg');"></div>
+          <div class="pkg-body">
+            <div class="pkg-eyebrow">🧼 Exterior</div>
+            <h3>Curb Appeal Refresh</h3>
+            <ul class="pkg-list">
+              <li>Front steps/walk power-wash</li>
+              <li>Minor trim paint touch-ups</li>
+              <li>Gutter clean (1-story)</li>
+            </ul>
+            <div class="pkg-bottom">
+              <div class="pkg-price">Starting <strong>$399</strong></div>
+              <a class="btn btn-sm" href="index.html#contact">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2 -->
+        <article class="pkg-card reveal">
+          <div class="pkg-media" style="background-image:url('images/pkg-bath.jpg');"></div>
+          <div class="pkg-body">
+            <div class="pkg-eyebrow">🛁 Bathroom</div>
+            <h3>Basic Bathroom Refresh</h3>
+            <ul class="pkg-list">
+              <li>Regrout & recaulk tub / tiles</li>
+              <li>Paint walls & trim (standard)</li>
+              <li>Swap shower hardware</li>
+            </ul>
+            <div class="pkg-bottom">
+              <div class="pkg-price">Starting <strong>$1,650</strong></div>
+              <a class="btn btn-sm" href="index.html#contact">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3 -->
+        <article class="pkg-card reveal">
+          <div class="pkg-media" style="background-image:url('images/pkg-pavers.jpg');"></div>
+          <div class="pkg-body">
+            <div class="pkg-eyebrow">🧱 Masonry</div>
+            <h3>Paver Walkway (Small)</h3>
+            <ul class="pkg-list">
+              <li>Up to 120 sq ft pavers</li>
+              <li>Compacted base + polymeric sand</li>
+              <li>Basic edge restraints</li>
+            </ul>
+            <div class="pkg-bottom">
+              <div class="pkg-price">Starting <strong>$2,900</strong></div>
+              <a class="btn btn-sm" href="index.html#contact">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 4 -->
+        <article class="pkg-card reveal">
+          <div class="pkg-media" style="background-image:url('images/pkg-handyman.jpg');"></div>
+          <div class="pkg-body">
+            <div class="pkg-eyebrow">🛠 Handyman</div>
+            <h3>Handyman Essentials</h3>
+            <p class="muted"><strong>Pick any 3 tasks</strong></p>
+            <ul class="pkg-list">
+              <li>TV mount • Caulking • Drywall patch</li>
+              <li>Lock/handle • Trim fixes • Grout repair</li>
+            </ul>
+            <div class="pkg-bottom">
+              <div class="pkg-price"><strong>$299–$499</strong></div>
+              <a class="btn btn-sm" href="index.html#contact">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 5 -->
+        <article class="pkg-card reveal">
+          <div class="pkg-media" style="background-image:url('images/pkg-paint.jpg');"></div>
+          <div class="pkg-body">
+            <div class="pkg-eyebrow">🎨 Painting</div>
+            <h3>Paint Refresh</h3>
+            <ul class="pkg-list">
+              <li>1 bedroom repaint</li>
+              <li>Patch • sand • prime</li>
+              <li>Trim & baseboards included</li>
+            </ul>
+            <div class="pkg-bottom">
+              <div class="pkg-price"><strong>$799–$1,499</strong></div>
+              <a class="btn btn-sm" href="index.html#contact">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 6 -->
+        <article class="pkg-card reveal">
+          <div class="pkg-media" style="background-image:url('images/pkg-kitchen.jpg');"></div>
+          <div class="pkg-body">
+            <div class="pkg-eyebrow">🍽 Kitchen</div>
+            <h3>Kitchen Mini-Upgrade</h3>
+            <ul class="pkg-list">
+              <li>Backsplash install</li>
+              <li>Faucet + hardware upgrade</li>
+              <li>Small cabinet refinishing</li>
+            </ul>
+            <div class="pkg-bottom">
+              <div class="pkg-price"><strong>$1,899–$3,900</strong></div>
+              <a class="btn btn-sm" href="index.html#contact">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 7 -->
+        <article class="pkg-card reveal">
+          <div class="pkg-media" style="background-image:url('images/pkg-windows.jpg');"></div>
+          <div class="pkg-body">
+            <div class="pkg-eyebrow">🚪 Openings</div>
+            <h3>Windows & Doors</h3>
+            <ul class="pkg-list">
+              <li>Replacement & weatherproofing</li>
+              <li>Exterior trim sealing</li>
+            </ul>
+            <div class="pkg-bottom">
+              <div class="pkg-price">From <strong>$350 / opening</strong></div>
+              <a class="btn btn-sm" href="index.html#contact">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 8 -->
+        <article class="pkg-card reveal">
+          <div class="pkg-media" style="background-image:url('images/pkg-patio.jpg');"></div>
+          <div class="pkg-body">
+            <div class="pkg-eyebrow">🧱 Patio</div>
+            <h3>Premium Paver Patio</h3>
+            <ul class="pkg-list">
+              <li>Up to 150 sq ft pavers</li>
+              <li>Compacted base + polymer sand</li>
+              <li>Edge restraints • Layout</li>
+            </ul>
+            <div class="pkg-bottom">
+              <div class="pkg-price">Starting <strong>$3,200</strong></div>
+              <a class="btn btn-sm" href="index.html#contact">Book</a>
+            </div>
+          </div>
+        </article>
       </div>
-
-      <div class="panel">
-        <h3 style="color:var(--gold)">🛠 Handyman Essentials — $299–$499</h3>
-        <p><strong>Pick any 3 tasks:</strong></p>
-        <ul>
-          <li>TV mounting</li>
-          <li>Kitchen or bathroom caulking</li>
-          <li>Drywall patch</li>
-          <li>Handle/lock replacement</li>
-          <li>Trim transitions</li>
-          <li>Minor grout repair</li>
-        </ul>
-      </div>
-
-      <div class="panel">
-        <h3 style="color:var(--gold)">🧼 Deep Exterior Wash — Starting $499</h3>
-        <ul>
-          <li>Siding soft wash</li>
-          <li>Walkway & steps pressure wash</li>
-          <li>Gutter clean add-on available</li>
-        </ul>
-      </div>
-
-      <div class="panel">
-        <h3 style="color:var(--gold)">🎨 Paint Refresh — $799–$1,499</h3>
-        <ul>
-          <li>1 full bedroom repaint</li>
-          <li>Patch, sand & prime included</li>
-          <li>Trim & baseboards included</li>
-        </ul>
-      </div>
-
-      <div class="panel">
-        <h3 style="color:var(--gold)">🍽 Kitchen Mini-Upgrade — $1,899–$3,900</h3>
-        <ul>
-          <li>Backsplash installation</li>
-          <li>Faucet + hardware upgrade</li>
-          <li>Small kitchen cabinet refinishing</li>
-          <li>Caulking & sealing</li>
-        </ul>
-      </div>
-
-      <div class="panel">
-        <h3 style="color:var(--gold)">🚪 Windows & Doors — Starting $350 each</h3>
-        <ul>
-          <li>Window/door installation</li>
-          <li>Weatherproofing</li>
-          <li>Exterior trim sealing</li>
-        </ul>
-      </div>
-
-      <div class="panel">
-        <h3 style="color:var(--gold)">🧱 Paver Patio Package — Starting $3,200</h3>
-        <ul>
-          <li>Up to 150 sq ft pavers</li>
-          <li>Compacted base + polymeric sand</li>
-          <li>Edge restraints</li>
-          <li>Basic design layout</li>
-        </ul>
-      </div>
-
     </section>
 
-    <!-- ADD ONS -->
-    <section class="section">
-      <h2>Optional Add-Ons</h2>
+    <!-- SMALL JOBS -->
+    <section class="section reveal">
+      <h2>Hourly / Day Rates (Small Jobs)</h2>
       <div class="panel">
-        <ul>
-          <li>Material pickup: $49–$99</li>
-          <li>Debris disposal: $75–$250</li>
-          <li>Same-day service: +$150</li>
-          <li>NYC permit prep: $199–$399</li>
-        </ul>
+        <p>Handyman team (2 workers): <strong>$160–$220/hr</strong> (min. 2 hrs) — includes basic tools and disposal of small debris.</p>
+        <p>Day rate (8 hrs): <strong>$1,200–$1,600</strong> depending on task complexity.</p>
       </div>
     </section>
 
+    <!-- WHAT AFFECTS -->
+    <section class="section reveal">
+      <h2>What Affects Price?</h2>
+      <div class="panel">
+        <ul>
+          <li>Site access, parking, deliveries</li>
+          <li>Material selections (tile/paver/fixtures)</li>
+          <li>Substrate condition (leveling, rot, hidden damage)</li>
+          <li>Permits / inspections (if required by NYC DOB)</li>
+        </ul>
+      </div>
+    </section>
   </main>
 </div>
+
+<!-- GLOBAL STICKY CALL BUTTON (shows on every page when included) -->
+<a class="sticky-call" href="tel:+19295955300" aria-label="Call Now">📞 Call Now</a>
 
 <script src="script.js"></script>
 </body>
 </html>
+
