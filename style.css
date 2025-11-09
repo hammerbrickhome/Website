@@ -250,6 +250,38 @@ footer{margin-top:16px;opacity:.65;font-size:13px;}
     height:130px !important;
   }
 }
+/* ================================
+   FIX: Rules Section Ordered List
+   ================================ */
+
+/* keep numbers visible - stop clipping */
+#rules ol {
+  padding-left: 28px !important;   /* ✅ push text right so numbers show */
+  margin-left: 0 !important;
+  list-style-position: outside !important;
+}
+
+/* style numbers in gold */
+#rules ol li {
+  margin-bottom: 10px;
+  position: relative;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+/* gold numbers */
+#rules ol li::marker {
+  color: var(--gold-1);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* ensure no cutting off on sides */
+.acc-body {
+  overflow-x: visible !important;
+  padding-left: 4px !important;
+}
 
 
 
