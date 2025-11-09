@@ -4,6 +4,7 @@
    - Reveal animation
    - Search filter
    - Before/After auto sliders
+   - Auto Gallery from JSON
    - Lightbox
    - Chat toggle
    ====================================================== */
@@ -68,14 +69,10 @@ function wireCompare(id) {
    4. Auto-Generated Before/After Sliders
    ---------------------------------------------- */
 
-// ✅ LIST ONLY YOUR IMAGE PAIRS HERE
 const comparePairs = [
   { before: "before1.jpg", after: "after1.jpg" },
-  { before: "before2.jpg", after: "after2.jpg" },
-
-  // ✅ Just add new ones:
-  // { before: "before3.jpg", after: "after3.jpg" },
-  // { before: "before4.jpg", after: "after4.jpg" },
+  { before: "before2.jpg", after: "after2.jpg" }
+  // ✅ Add more pairs here
 ];
 
 function buildCompareSection() {
@@ -96,7 +93,6 @@ function buildCompareSection() {
     `;
 
     container.appendChild(block);
-
     wireCompare(id);
   });
 }
@@ -131,10 +127,36 @@ function toggleChat() {
 
 
 /* ----------------------------------------------
-   7. Initialize on Load
+   7. Auto Gallery (Loads from gallery.json)
+   ---------------------------------------------- */
+async function buildGallery() {
+  const container = document.getElementById("galleryContainer");
+  if (!container) return;
+
+  try {
+    const res = await fetch("images/gallery.json");
+    const images = await res.json();
+
+    images.forEach(src => {
+      const img = document.createElement("img");
+      img.src = "images/" + src;
+      img.alt = "Gallery Photo";
+      container.appendChild(img);
+    });
+
+    wireLightbox(); // reapply for new images
+  } catch (e) {
+    console.error("Gallery JSON missing or invalid.", e);
+  }
+}
+
+
+/* ----------------------------------------------
+   8. Initialize on Load
    ---------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
-  buildCompareSection();  // ✅ Auto-build sliders
-  wireLightbox();         // ✅ Lightbox stays active
+  buildCompareSection();  // ✅ Auto Before/After Sliders
+  buildGallery();         // ✅ Auto Gallery
 });
+
 
