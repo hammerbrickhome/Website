@@ -39,16 +39,6 @@
     @media (max-width:600px){
       .sticky-call{ padding:11px 16px; font-size:15px; right:12px; bottom:12px; }
     }
-
-    /* Tiny helpers for the rules section buttons (kept local & minimal) */
-    .rules-actions{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 6px; }
-    .social-grid{
-      display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:8px 0 6px;
-    }
-    .rules-note{ color:var(--muted); font-size:14px; margin:6px 0 0; }
-    .rules-list{ margin:0 0 10px 0; }
-    .rules-list li{ margin:6px 0; }
-    .rules-subhead{ color:var(--gold); margin-top:12px; }
   </style>
 </head>
 <body>
@@ -82,7 +72,7 @@
       <div class="group fade-in">
         <div class="group-title">Social</div>
         <a href="https://instagram.com/hammerbrickhome" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.facebook.com/hammerbrickhome" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
         <a href="https://www.youtube.com/@hammerbrickhome" target="_blank" rel="noopener">YouTube</a>
         <a href="https://www.tiktok.com/@hammerbrickhome" target="_blank" rel="noopener">TikTok</a>
       </div>
@@ -252,86 +242,46 @@
 
     <!-- RULES & EXCLUSIONS -->
     <section class="section panel fade-in" id="rules">
-      <h2>Rules &amp; Exclusions — Free Perks & Giveaways Program</h2>
-      <p class="muted">Exclusive complimentary mini-services for loyal supporters of our brand — designed to excite homeowners while protecting our time, team, and tools.</p>
+      <h2>Rules &amp; Exclusions — Free Perks Program</h2>
+      <p class="muted">Complimentary services to attract and thank customers — with clear limits to protect both sides.</p>
 
-      <!-- Quick actions: subscribe + social grid -->
-      <div class="rules-actions">
-        <a class="btn" href="mailto:hammerbrickhome@gmail.com?subject=Subscribe%20me%20to%20the%20newsletter&body=Hi%20Hammer%20Brick%20%26%20Home%2C%0A%0APlease%20subscribe%20me%20to%20your%20email%20newsletter.%0A%0AThanks!" aria-label="Subscribe to newsletter">✉️ Subscribe to Newsletter</a>
-      </div>
-      <div class="social-grid">
-        <a class="btn" href="https://instagram.com/hammerbrickhome" target="_blank" rel="noopener" aria-label="Follow on Instagram">📷 Instagram</a>
-        <a class="btn" href="https://www.facebook.com/hammerbrickhome" target="_blank" rel="noopener" aria-label="Follow on Facebook">📘 Facebook</a>
-        <a class="btn" href="https://www.tiktok.com/@hammerbrickhome" target="_blank" rel="noopener" aria-label="Follow on TikTok">🎵 TikTok</a>
-        <a class="btn" href="https://www.youtube.com/@hammerbrickhome" target="_blank" rel="noopener" aria-label="Follow on YouTube">@ YouTube</a>
-      </div>
-      <p class="rules-note">Be subscribed to our email newsletter <strong>AND</strong> follow at least <strong>two</strong> of the social platforms above to unlock perks and giveaways.</p>
-
-      <h3 class="rules-subhead">✅ ELIGIBILITY — WHO QUALIFIES</h3>
-      <ul class="rules-list">
-        <li>Subscribed to our email newsletter <strong>AND</strong> following at least <strong>two</strong> of: Instagram, Facebook, TikTok, YouTube (@hammerbrickhome).</li>
-        <li>Live within our service areas: <strong>Staten Island + nearby NYC</strong>.</li>
-        <li>One perk per household per month • Non-transferable • No cash value.</li>
-        <li>Perks are quick tasks designed for <strong>10–20 minutes max</strong> of labor.</li>
-      </ul>
-      <p class="rules-note">✅ <strong>No purchase is required</strong> for perks or giveaways. This is a <strong>loyalty reward program</strong>, not a discount or coupon.</p>
-
-      <h3 class="rules-subhead">✅ FREE PERK MENU (CHOOSE ONE PER MONTH)</h3>
-      <ul class="rules-list">
-        <li><strong>1. Gutter Cleaning (Mini)</strong> — Up to <strong>40 ft</strong>, first story only; ladder-safe areas; light debris only (no clogged drains, no guard removal).</li>
-        <li><strong>2. Power Wash — Steps/Walkway</strong> — Up to <strong>60 sq ft</strong>; light dirt only (no rust/oil/heavy stains); front entry or small walkway.</li>
-        <li><strong>3. Lawn Mowing (Trim &amp; Blow)</strong> — Up to <strong>2,000 sq ft</strong> of short grass; includes trim + blow-off; no overgrowth/brush/heavy debris.</li>
-        <li><strong>4. Minor Paint Touch-Up</strong> — Up to <strong>10 linear ft</strong> of trims/frames; basic white or owner-supplied color; no full walls/big patches.</li>
-        <li><strong>5. Exterior Window Cleaning (Mini)</strong> — Up to <strong>4 front windows</strong>; first floor only; exterior only.</li>
-        <li><strong>6. Patio/Walkway Weed Pull</strong> — Up to <strong>80–100 sq ft</strong>; hand-pull surface weeds only; no chemicals/no deep removal.</li>
-        <li><strong>7. Seasonal Snow Removal</strong> — Front steps + primary walkway; up to <strong>30 ft</strong> or one path; &lt;6" snowfall; no driveways, no ice chip, no emergencies.</li>
-        <li><strong>8. “10-Minute Fix” Handy Help</strong> — Choose one mini task (tighten ≤3 cabinet handles, adjust 1 door strike, tighten 1 railing bracket, install 1 doorstop, lube a sticky hinge/lock).</li>
-        <li><strong>9. Front Entry Refresh</strong> — Sweep/blow, straighten mat, light cobweb removal, wipe door handle.</li>
-        <li><strong>10. Exterior Safety Snapshot</strong> — 5-minute visual check of steps/rails/walkway; texted note of anything we notice (not a formal inspection).</li>
-        <li><strong>11. House Number / Mailbox Check</strong> — Tighten/straighten existing numbers; tighten one mailbox screw/hinge (no new holes or installs).</li>
+      <h3 style="color:var(--gold)">Free Services (choose one when eligible)</h3>
+      <ul>
+        <li><strong>Free Gutter Cleaning</strong> — single-story up to <strong>120 ft</strong>, accessible by ladder.</li>
+        <li><strong>Free Power Wash: Steps/Walk</strong> — up to <strong>150 sq ft</strong> front entry or walkway.</li>
+        <li><strong>Free Lawn Mow</strong> — up to <strong>4,000 sq ft</strong> standard lot; trim and blow-off included.</li>
+        <li><strong>Free Minor Paint Touch-Ups</strong> — one room trims/patches (basic white provided or owner-supplied color).</li>
+        <li><strong>Free Window Cleaning</strong> — front <strong>6 windows</strong>, exterior-only, first floor only.</li>
+        <li><strong>Free Patio Weed Removal</strong> — hand-pull up to <strong>200 sq ft</strong>.</li>
       </ul>
 
-      <h3 class="rules-subhead">✅ UNIQUE HIGH-VALUE PERKS (RARE — NO ONE ELSE OFFERS THESE)</h3>
-      <ul class="rules-list">
-        <li><strong>12. “VIP Homeowner Reminder Setup” (Digital)</strong> — We set up free reminders on your phone (filters, gutter checks, winterizing, smoke/CO batteries). <em>Customers <strong>LOVE</strong> this because no other contractor does it.</em></li>
-        <li><strong>13. “Curb Appeal Audit” (Quick)</strong> — We take 3 photos and send simple suggestions + small improvement ideas. <em>Builds trust without big free work.</em></li>
-        <li><strong>14. “Small Tool Loan” (24 hours)</strong> — Choose one: electric screwdriver, stud finder, level, small hand-tool kit. Simple sign-out form. <em>NO other contractor offers this — huge loyalty builder.</em></li>
-        <li><strong>15. Personalized Home Maintenance Checklist</strong> — Short custom list by season &amp; home age (text/email).</li>
+      <h3 style="color:var(--gold)">Eligibility</h3>
+      <ul>
+        <li>Book a paid project of <strong>$350+</strong> (after discounts) within Staten Island / nearby NYC.</li>
+        <li><strong>One perk per household per month</strong>; non-transferable; no cash value.</li>
+        <li>Scheduling Mon–Sat; weather-permitting; peak-season blackout dates may apply.</li>
       </ul>
 
-      <h3 class="rules-subhead">✅ MONTHLY GIVEAWAYS — 2 WINNERS PER MONTH</h3>
-      <ul class="rules-list">
-        <li>Auto-entered when subscribed + following 2+ platforms.</li>
-        <li>Winners must live within our radius; schedule within <strong>30 days</strong>.</li>
-        <li>Missed appointments void the prize; we may substitute a perk of equal value.</li>
-        <li>Giveaway perks are slightly larger (e.g., extra mowing area, larger wash area).</li>
+      <h3 style="color:var(--gold)">Exclusions &amp; Safety</h3>
+      <ul>
+        <li>No structural, electrical, plumbing, HVAC, or gas work as part of free perks.</li>
+        <li>Perks exclude materials, parts replacement, permits, DOB filings, or violations removal.</li>
+        <li>Multi-unit buildings or commercial properties excluded unless agreed in writing.</li>
+        <li>Hazards (lead, mold, asbestos), severe infestations, or unsafe/steep roofs void eligibility.</li>
+        <li>Access limitations must be cleared by customer (locked areas, pets, vehicles, etc.).</li>
       </ul>
 
-      <h3 class="rules-subhead">✅ PROTECTION RULES (ANTI-ABUSE)</h3>
-      <ul class="rules-list">
-        <li>All perks require <strong>pre-approval with photos</strong>.</li>
-        <li>If the job is bigger/unsafe or time exceeds limits, we pause and offer a <strong>paid estimate</strong>.</li>
-        <li>Perks include <strong>labor only</strong>; no materials/parts.</li>
-        <li>No electrical, plumbing, HVAC, gas, roofing, chimney, structural, DOB/permit, or violation work.</li>
-        <li>No heavy lifting, moving furniture, or clearing vehicles/pets.</li>
-        <li>Multi-unit, rental, or commercial properties excluded unless approved.</li>
-        <li>Hazards (lead, mold, asbestos, infestations, steep roofs) void eligibility.</li>
-        <li>We reserve the right to decline, limit monthly slots, or reschedule for safety or weather.</li>
-        <li>Customer must ensure safe access (gates unlocked, animals contained, walkway clear).</li>
+      <h3 style="color:var(--gold)">Giveaways (“2 monthly draws — location based”)</h3>
+      <ul>
+        <li>Winners must reside within service radius; proof of residence may be required.</li>
+        <li>Prize must be scheduled within <strong>30 days</strong>; missed appointments void the perk.</li>
+        <li>Void where prohibited. We may substitute a perk of similar value at our discretion.</li>
       </ul>
 
-      <h3 class="rules-subhead">✅ MEDIA &amp; PRIVACY</h3>
-      <ul class="rules-list">
-        <li>Before/after <strong>photos and videos</strong> may be taken and used on our website, Google listing, Instagram, Facebook, TikTok, and YouTube.</li>
-        <li>We avoid personal identifiers inside homes; privacy is respected.</li>
-      </ul>
-
-      <h3 class="rules-subhead">✅ DISCLAIMERS</h3>
-      <ul class="rules-list">
-        <li>Program is voluntary and can be updated or discontinued at any time.</li>
-        <li>Not a coupon or price discount.</li>
-        <li>Perks cannot be combined or carried over month-to-month.</li>
-        <li>The latest version on our website always applies.</li>
+      <h3 style="color:var(--gold)">Media &amp; Privacy</h3>
+      <ul>
+        <li>Before/after photos may be taken for quality control and marketing unless you opt-out in writing.</li>
+        <li>No interior photos will show personal identifiers; we respect your privacy.</li>
       </ul>
     </section>
 
@@ -341,7 +291,7 @@
       <form action="https://formspree.io/f/yourcode" method="POST" style="max-width:640px">
         <input name="name" placeholder="Your Name" required style="padding:12px;width:100%;margin:6px 0;border-radius:10px;border:1px solid rgba(231,191,99,.35);background:rgba(255,255,255,.14);color:var(--ink)">
         <input name="phone" placeholder="Phone Number" required style="padding:12px;width:100%;margin:6px 0;border-radius:10px;border:1px solid rgba(231,191,99,.35);background:rgba(255,255,255,.14);color:var(--ink)">
-        <input type="email" name="email" placeholder="Email" value="hammerbrickhome@gmail.com" style="padding:12px;width:100%;margin:6px 0;border-radius:10px;border:1px solid rgba(231,191,99,.35);background:rgba(255,255,255,.14);color:var(--ink)">
+        <input type="email" name="email" placeholder="Email" value="Hammerbrickhome@gmail.com" style="padding:12px;width:100%;margin:6px 0;border-radius:10px;border:1px solid rgba(231,191,99,.35);background:rgba(255,255,255,.14);color:var(--ink)">
         <textarea name="message" placeholder="What do you need?" required style="padding:12px;width:100%;margin:6px 0;border-radius:10px;border:1px solid rgba(231,191,99,.35);background:rgba(255,255,255,.14);color:var(--ink);height:120px"></textarea>
         <input type="hidden" name="_subject" value="Website lead – Hammer Brick & Home">
         <button class="btn" type="submit">Send Message</button>
@@ -359,7 +309,7 @@
     <div style="font-weight:800;margin-bottom:6px">Live Chat</div>
     <a class="btn" href="https://wa.me/19295955300" target="_blank" rel="noopener" style="display:block;margin:6px 0">WhatsApp</a>
     <a class="btn ghost" href="sms:+19295955300" style="display:block;margin:6px 0">Send SMS</a>
-    <a class="btn ghost" href="mailto:hammerbrickhome@gmail.com?subject=Website%20Chat" style="display:block;margin:6px 0">Email</a>
+    <a class="btn ghost" href="mailto:Hammerbrickhome@gmail.com?subject=Website%20Chat" style="display:block;margin:6px 0">Email</a>
   </div>
 </div>
 
@@ -371,5 +321,3 @@
 <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
 </body>
 </html>
-
-
