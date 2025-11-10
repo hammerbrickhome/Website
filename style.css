@@ -254,28 +254,27 @@ footer{margin-top:16px;opacity:.65;font-size:13px;}
    FIX: Rules Section Ordered List
    ================================ */
 
-/* keep numbers visible - stop clipping */
+/* ✅ RESTORE NORMAL NUMBERING WITH DOTS LIKE “1. Mini Gutter…” */
 #rules ol {
-  padding-left: 28px !important;   /* ✅ push text right so numbers show */
+  padding-left: 32px !important;
   margin-left: 0 !important;
+  list-style-type: decimal !important; /* show 1. 2. 3. */
   list-style-position: outside !important;
 }
 
-/* style numbers in gold */
 #rules ol li {
-  margin-bottom: 10px;
-  position: relative;
+  margin-bottom: 12px;
   color: var(--ink);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.45;
 }
 
-/* gold numbers */
 #rules ol li::marker {
   color: var(--gold-1);
-  font-weight: bold;
-  font-size: 18px;
+  font-weight: 800;
+  font-size: 17px;
 }
+
 
 /* ensure no cutting off on sides */
 .acc-body {
