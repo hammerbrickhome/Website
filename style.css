@@ -31,6 +31,7 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 img,video,iframe{max-width:100%;height:auto;display:block;}
 h1,h2,h3{font-family:"Georgia","Times New Roman",serif;letter-spacing:.3px;}
@@ -49,9 +50,11 @@ aside{
   border-right:1px solid var(--stroke);
   background:rgba(255,255,255,0.04);
   backdrop-filter:blur(8px);
+  min-width:260px;
 }
 main{
   flex:1;
+  min-width:0;
   padding:22px 30px 130px;
 }
 
@@ -67,7 +70,7 @@ main{
 
 /* ---------- Sidebar Nav ---------- */
 nav .group{margin-bottom:26px;}
-.group-title{font-size:12px;opacity:.6;margin-bottom:8px;font-weight:800;}
+.group-title{font-size:12px;opacity:.6;margin-bottom:8px;font-weight:800;letter-spacing:.4px;}
 nav a{
   display:block;padding:6px 0;
   color:var(--ink);opacity:.88;font-size:14px;text-decoration:none;transition:.2s;
@@ -84,7 +87,7 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
 
 /* ---------- Hero ---------- */
 .hero{padding:56px 0 40px;margin-bottom:26px;}
-.hero h1{font-size:34px;font-weight:900;margin-bottom:8px;position:relative;}
+.hero h1{font-size:34px;font-weight:900;margin-bottom:8px;display:inline-block;position:relative;}
 .hero h1::after{
   content:"";position:absolute;left:0;right:0;bottom:-6px;height:3px;border-radius:999px;
   background:linear-gradient(90deg,var(--gold-1),transparent 65%);
@@ -99,14 +102,15 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
   border:1px solid rgba(255,235,185,.95);
   box-shadow:0 3px 6px rgba(0,0,0,.45),inset 0 1px 1px rgba(255,255,255,.5);
 }
-.btn:hover{transform:translateY(-2px) scale(1.03);}
+.btn:hover{transform:translateY(-2px) scale(1.03);background:linear-gradient(180deg,#ffe7b5,var(--gold-3));box-shadow:0 8px 18px rgba(0,0,0,.55);}
+.btn.ghost{background:transparent;color:var(--gold-1);border:1px solid rgba(255,235,185,.9);}
+.btn.ghost:hover{background:rgba(245,216,155,.14);color:#0b1630;}
 
 /* ---------- Sticky Call ---------- */
 .sticky-call{
-  position:fixed;right:18px;bottom:18px;padding:13px 22px;border-radius:999px;font-weight:900;
-  background:linear-gradient(180deg,var(--gold-1),var(--gold-2));color:#1a1a1a;
-  border:1px solid rgba(255,235,185,1);z-index:9999;
-  transition:.25s;
+  position:fixed;right:18px;bottom:18px;padding:13px 22px;border-radius:999px;font-weight:900;font-size:16px;
+  background:linear-gradient(180deg,var(--gold-1),var(--gold-2));color:#1a1a1a;border:1px solid rgba(255,235,185,1);
+  z-index:9999;transition:.25s;
 }
 .sticky-call:hover{transform:scale(1.08);}
 
@@ -114,11 +118,11 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
 .section{margin-bottom:42px;}
 .section h2{
   font-size:26px;font-weight:900;color:var(--gold-1);margin-bottom:14px;
-  text-shadow:0 2px 4px rgba(0,0,0,.4);
+  text-shadow:0 2px 4px rgba(0,0,0,.4),0 0 12px rgba(255,235,185,.35);
 }
 .panel{
   background:rgba(10,10,20,0.55);border-radius:16px;padding:22px;margin-top:22px;
-  border:1px solid rgba(255,235,185,.22);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,235,185,.22);backdrop-filter:blur(12px);box-shadow:0 12px 28px rgba(0,0,0,.55);
 }
 
 /* ---------- Services Grid ---------- */
@@ -131,49 +135,14 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
   background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
   border:1px solid rgba(255,235,185,.25);transition:.28s ease;
 }
-.card:hover{transform:translateY(-4px) scale(1.04);}
+.card:hover{transform:translateY(-4px) scale(1.04);border-color:rgba(255,235,185,.8);}
 
-/* ===================================================
-   ✅ GOLD CIRCLE PERK NUMBERS (Option A1)
-   =================================================== */
-
-/* remove old numbering rules */
-#rules ol, #rules ol li, #rules ol li::marker { all: unset; }
-
-.perk-list{
-  list-style:none;
-  padding:0;
-  margin:0;
+/* ---------- Search ---------- */
+#search{
+  width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,235,185,.35);
+  background:rgba(255,255,255,.10);color:#fff;font-size:14px;
 }
-
-.perk-item{
-  margin-bottom:18px;
-  display:flex;
-  flex-direction:column;
-}
-
-.perk-item-title{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:800;
-  font-size:16px;
-}
-
-.perk-item-num{
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  background:var(--gold-1);
-  color:#0b1630;
-  font-weight:900;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:15px;
-  flex-shrink:0;
-  box-shadow:0 2px 6px rgba(0,0,0,.35);
-}
+#search:focus{outline:none;border-color:var(--gold-1);box-shadow:0 0 12px rgba(245,216,155,.45);}
 
 /* ===================================================
    ✅ GALLERY
@@ -187,9 +156,13 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
   width:100%;height:150px;object-fit:cover;border-radius:12px;cursor:pointer;transition:.25s;
 }
 .gallery img:hover{transform:scale(1.04);}
+@media (max-width:700px){
+  .gallery{display:flex;overflow-x:auto;gap:14px;scroll-snap-type:x mandatory;padding:2px;}
+  .gallery img{flex:0 0 72%;height:180px;scroll-snap-align:center;}
+}
 
 /* ---------- Lightbox ---------- */
-.lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8);z-index:1000;}
+.lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);z-index:1000;}
 .lightbox.show{display:flex;}
 .lightbox img{width:90%;max-width:640px;border-radius:12px;}
 
@@ -198,45 +171,173 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
    =================================================== */
 #compareRow{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:20px;
+  width:100%;
 }
 .compare{
+  max-width:380px;
+  width:100%;
+  margin:0 auto;
   border-radius:14px;overflow:hidden;
   background:rgba(255,255,255,0.05);
   border:1px solid rgba(255,235,185,0.25);
 }
-.cmp-wrap{height:240px;overflow:hidden;position:relative;}
+.cmp-wrap{width:100%;height:240px;overflow:hidden;position:relative;border-radius:14px;}
 .cmp{width:100%;height:100%;object-fit:cover;}
 .cmp.after{position:absolute;inset:0;clip-path:inset(0 0 0 50%);}
 
-/* ===================================================
-   ✅ CONTACT SECTION
-   =================================================== */
-#contact form{
-  max-width:680px;
-  margin:0 auto;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,235,185,0.18);
-  padding:22px;
-  border-radius:14px;
-}
-#contact input,
-#contact textarea{
-  width:100%;
-  margin-bottom:12px;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid rgba(255,235,185,0.35);
-  background:rgba(255,255,255,0.10);
-  color:#fff;
+@media (max-width:700px){
+  #compareRow{grid-template-columns:1fr;gap:16px;}
+  .compare{max-width:420px;}
 }
 
 /* ===================================================
-   ✅ RESPONSIVE
+   ✅ RULES / MEMBERSHIP (cleaned, safe)
    =================================================== */
+#rules{width:100%;max-width:100%;overflow-x:hidden;padding:0 14px;}
+#rules *{max-width:100%;word-wrap:break-word;overflow-wrap:break-word;}
+
+.acc-section{width:100%;overflow-x:hidden;}
+.acc-body{padding-right:8px;max-width:100%;}
+
+/* ✅ SAFE GRID REPLACEMENT (no more dangerous inline selector) */
+.rules-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  width:100%;
+}
+@media(max-width:600px){
+  .rules-grid{grid-template-columns:1fr;}
+}
+
+/* ---------- Reveal Animation ---------- */
+.fade-in{opacity:0;transform:translateY(18px);animation:fadeIn .6s forwards;}
+@keyframes fadeIn{to{opacity:1;transform:translateY(0);}}
+
+footer{margin-top:16px;opacity:.65;font-size:13px;}
+
+/* ---------- Responsive Layout ---------- */
 @media(max-width:820px){
-  .layout{flex-direction:column;}
-  aside{width:100%;border-right:none;border-bottom:1px solid var(--stroke);}
-  main{padding:20px 16px 128px;}
-}  give me full copy n paste code back
+  .layout{flex-direction:column;max-width:100%;}
+  aside{width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--stroke);}
+  main{width:100%;min-width:0;padding:20px 16px 128px;}
+}
+
+/* ---------- Chat Bubble ---------- */
+.chat-bubble{position:fixed;right:20px;bottom:92px;z-index:10000;}
+.chat-bubble .chat-modal{
+  display:none;flex-direction:column;margin-top:6px;padding:12px;border-radius:12px;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(10px);
+}
+.chat-bubble .chat-modal.show{display:flex;}
+/* ===== FIX QR CODE SIZE ON RULES SECTION ===== */
+#rules img[src*="qr-hammerbrick-membership"]{
+  width:140px !important;
+  height:140px !important;
+  max-width:140px !important;
+  max-height:140px !important;
+  display:block;
+  margin:12px auto;
+  border-radius:8px;
+}
+
+/* Mobile tweak */
+@media (max-width:600px){
+  #rules img[src*="qr-hammerbrick-membership"]{
+    width:130px !important;
+    height:130px !important;
+  }
+}
+/* ================================
+   FIX: Rules Section Ordered List
+   ================================ */
+
+/* keep numbers visible - stop clipping */
+#rules ol {
+  padding-left: 28px !important;   /* ✅ push text right so numbers show */
+  margin-left: 0 !important;
+  list-style-position: outside !important;
+}
+
+/* style numbers in gold */
+#rules ol li {
+  margin-bottom: 10px;
+  position: relative;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+/* gold numbers */
+#rules ol li::marker {
+  color: var(--gold-1);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* ensure no cutting off on sides */
+.acc-body {
+  overflow-x: visible !important;
+  padding-left: 4px !important;
+}
+
+
+/* ============================
+   FIX CONTACT SECTION SIZING
+   ============================ */
+#contact {
+  padding: 40px 0 !important;
+}
+
+#contact h2 {
+  font-size: 28px !important;
+  margin-bottom: 18px !important;
+  color: var(--gold-1);
+  text-shadow: 0 2px 6px rgba(0,0,0,.45);
+}
+
+#contact form {
+  width: 100%;
+  max-width: 680px !important;    /* ✅ clean wide size again */
+  margin: 0 auto;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,235,185,0.18);
+  padding: 22px 26px !important;   /* ✅ bigger padding */
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+}
+
+#contact input,
+#contact textarea {
+  font-size: 15px !important;      /* ✅ bigger readable text */
+  padding: 12px 14px !important;
+  margin-bottom: 12px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(255,235,185,0.35);
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+}
+
+#contact textarea {
+  min-height: 120px;
+}
+
+#contact button.btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#contact a.btn.ghost {
+  width: 100%;
+}
+
+/* Footer alignment */
+#contact footer {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.7;
+} fix this and give me the whole copy n paste file 
