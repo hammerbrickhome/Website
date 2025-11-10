@@ -340,3 +340,8 @@ footer{margin-top:16px;opacity:.65;font-size:13px;}
   font-size: 13px;
   opacity: 0.7;
 } fix this and give me the whole copy n paste file 
+/* ✅ FIX SPACING: turns "1Mini" into "1. Mini" */
+.perk-item-num::after {
+  content: ".";
+  margin-left: 4px; /* space between number and text */
+}
