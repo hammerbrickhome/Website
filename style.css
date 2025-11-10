@@ -1,6 +1,5 @@
 /* ===================================================
    HAMMER BRICK & HOME — "Ritz-Carlton Gold" Theme
-   Full Style Sheet — Option A (All Features Included)
    =================================================== */
 
 /* ---------- CSS Variables ---------- */
@@ -35,10 +34,6 @@ body{
 }
 img,video,iframe{max-width:100%;height:auto;display:block;}
 h1,h2,h3{font-family:"Georgia","Times New Roman",serif;letter-spacing:.3px;}
-
-/* ---------- Fade-In Animation ---------- */
-.fade-in { opacity:0; transform:translateY(18px); animation:fadeIn .6s ease forwards; }
-@keyframes fadeIn { to { opacity:1; transform:translateY(0); } }
 
 /* ---------- Layout ---------- */
 .layout{
@@ -142,20 +137,21 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
    ✅ GOLD CIRCLE PERK NUMBERS (Option A1)
    =================================================== */
 
-/* Remove old ordered list behavior */
+/* remove old numbering rules */
 #rules ol, #rules ol li, #rules ol li::marker { all: unset; }
 
-/* Proper perk layout */
 .perk-list{
   list-style:none;
   padding:0;
   margin:0;
 }
+
 .perk-item{
   margin-bottom:18px;
   display:flex;
   flex-direction:column;
 }
+
 .perk-item-title{
   display:flex;
   align-items:center;
@@ -163,6 +159,7 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
   font-weight:800;
   font-size:16px;
 }
+
 .perk-item-num{
   width:28px;
   height:28px;
@@ -176,106 +173,6 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
   font-size:15px;
   flex-shrink:0;
   box-shadow:0 2px 6px rgba(0,0,0,.35);
-}
-
-/* Perk descriptions */
-.perk-item p{
-  margin-left:38px;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.45;
-}
-
-/* ===================================================
-   ✅ RULES BLOCKS / HEADINGS / DIVIDERS
-   =================================================== */
-
-.rules-heading{
-  font-size:24px;
-  font-weight:900;
-  color:var(--gold-1);
-  margin-bottom:14px;
-}
-.rules-subtitle{
-  color:var(--muted);
-  margin-bottom:18px;
-}
-.rules-pill{
-  background:rgba(255,255,255,.1);
-  padding:6px 12px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.2);
-  font-weight:700;
-}
-.rules-block{
-  margin-top:22px;
-  padding:18px;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:12px;
-}
-.rules-block-title{
-  font-size:18px;
-  margin-bottom:10px;
-  font-weight:900;
-  color:var(--gold-1);
-}
-
-.rules-note{
-  font-size:13px;
-  color:var(--muted);
-}
-
-.rules-list{
-  margin-top:10px;
-  padding-left:18px;
-}
-.rules-list li{
-  font-size:14px;
-  margin-bottom:8px;
-  color:var(--ink);
-}
-
-/* Divider */
-.rules-divider{
-  height:1px;
-  background:rgba(255,255,255,.15);
-  margin:28px 0;
-}
-
-/* Social grid */
-.rules-social-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
-  gap:12px;
-  margin-bottom:16px;
-}
-
-/* Join card */
-.rules-join{
-  margin-bottom:20px;
-}
-.rules-join-btn{
-  width:100%;
-  display:inline-block;
-  text-align:center;
-}
-.rules-join-note{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-/* QR card */
-.rules-qr-card{
-  text-align:center;
-  margin-top:18px;
-}
-.rules-qr-card img{
-  width:160px;
-  height:160px;
-  object-fit:contain;
-  margin:10px auto;
 }
 
 /* ===================================================
@@ -314,25 +211,6 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
 .cmp.after{position:absolute;inset:0;clip-path:inset(0 0 0 50%);}
 
 /* ===================================================
-   ✅ CHAT BUBBLE
-   =================================================== */
-.chat-bubble{
-  position:fixed;
-  right:18px;
-  bottom:82px;
-  z-index:9999;
-}
-.chat-modal{
-  display:none;
-  background:rgba(255,255,255,.08);
-  padding:14px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.25);
-  margin-top:8px;
-}
-.chat-modal.show{display:block;}
-
-/* ===================================================
    ✅ CONTACT SECTION
    =================================================== */
 #contact form{
@@ -354,14 +232,6 @@ nav .cta:hover{transform:translateY(-1px);background:linear-gradient(180deg,#ffe
   color:#fff;
 }
 
-/* Footer */
-footer{
-  text-align:center;
-  margin-top:20px;
-  font-size:13px;
-  color:var(--muted);
-}
-
 /* ===================================================
    ✅ RESPONSIVE
    =================================================== */
@@ -369,9 +239,4 @@ footer{
   .layout{flex-direction:column;}
   aside{width:100%;border-right:none;border-bottom:1px solid var(--stroke);}
   main{padding:20px 16px 128px;}
-}
-
-
-
-
-
+}  give me full copy n paste code back
