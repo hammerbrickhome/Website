@@ -268,5 +268,14 @@ footer{margin-top:16px;opacity:.65;font-size:13px;}
   align-items: center;
   gap: 8px;
 }
+/* FIX CONTACT FORM BREAKING INTO ONE ROW */
+#contact form input,
+#contact form textarea,
+#contact form button,
+#contact form a.btn {
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: 12px !important;
+}
 
 
