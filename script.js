@@ -27,7 +27,8 @@ if (chatToggle && chatModal) {
    ✅ Service Filter
 ---------------------------- */
 function filterServices() {
-  const q = (document.getElementById('serviceSearch')?.value || '').toLowerCase();
+  const q =
+    (document.getElementById('serviceSearch')?.value || '').toLowerCase();
   document.querySelectorAll('.service-grid .card').forEach(card => {
     const show = card.textContent.toLowerCase().includes(q);
     card.style.display = show ? '' : 'none';
@@ -37,13 +38,12 @@ window.filterServices = filterServices;
 
 /* ============================================================
    ✅ GALLERY PAGE — LOAD gallery.json (UNCHANGED)
-   This ONLY runs on gallery.html because #galleryContainer exists
 =============================================================== */
 async function loadGalleryPage() {
   const galleryContainer = document.getElementById('galleryContainer');
   const compareRow = document.getElementById('compareRow');
 
-  if (!galleryContainer && !compareRow) return; // not on gallery page
+  if (!galleryContainer && !compareRow) return;
 
   try {
     const res = await fetch('gallery.json', { cache: 'no-store' });
@@ -51,7 +51,7 @@ async function loadGalleryPage() {
     const data = await res.json();
     const files = data.images || [];
 
-    /* ✅ BEFORE/AFTER ON GALLERY PAGE ONLY */
+    /* ✅ GALLERY PAGE — BEFORE/AFTER STATIC PAIRS */
     if (compareRow) {
       const pairs = [
         { before: 'before1.jpg', after: 'after1.jpg' },
@@ -124,6 +124,7 @@ document.addEventListener('click', e => {
 
 /* ============================================================
    ✅ HOMEPAGE — AUTO BEFORE & AFTER
+   ✅ Supports BOTH hyphens AND underscores
 =============================================================== */
 const BA_GRID = document.getElementById('ba-grid');
 const BA_LOADMORE = document.getElementById('ba-loadmore');
@@ -132,29 +133,33 @@ const BA_TEMPLATE = document.getElementById('ba-card');
 let allPairs = [];
 let baIndex = 0;
 
-/* ✅ Generate list of possible before/after filenames */
-function generatePossibleNames() {
-  const prefixes = [
-    "job", "paver", "masonry", "sidewalk", "stoop", "kitchen",
-    "bath", "yard", "home", "project", "deck", "reno", "stone",
-    "cement", "repair", "bwall", "point", "flag", "concrete"
-  ];
+/* ✅ Allowed prefixes */
+const PREFIXES = [
+  "job", "paver", "masonry", "sidewalk", "stoop", "kitchen",
+  "bath", "yard", "home", "project", "deck", "reno", "stone",
+  "cement", "repair", "bwall", "point", "flag", "concrete"
+];
 
-  let names = [];
+/* ✅ Generate list of possible file names */
+function generatePossibleNames() {
+  const names = [];
+  const endings = ["-before", "_before", "-after", "_after"];
+  const exts = [".jpg", ".jpeg", ".png"];
+
   for (let i = 1; i <= 200; i++) {
-    prefixes.forEach(pre => {
-      names.push(`${pre}${i}-before.jpg`);
-      names.push(`${pre}${i}-after.jpg`);
-      names.push(`${pre}${i}-before.png`);
-      names.push(`${pre}${i}-after.png`);
-      names.push(`${pre}${i}-before.jpeg`);
-      names.push(`${pre}${i}-after.jpeg`);
+    PREFIXES.forEach(pre => {
+      endings.forEach(end => {
+        exts.forEach(ext => {
+          names.push(`${pre}${i}${end}${ext}`);
+        });
+      });
     });
   }
+
   return names;
 }
 
-/* ✅ Fetch image list by brute request ping (fast + reliable) */
+/* ✅ Detect which files exist */
 async function detectImages() {
   const candidates = generatePossibleNames();
   const found = [];
@@ -170,15 +175,26 @@ async function detectImages() {
   return found;
 }
 
-/* ✅ Convert found files into usable before/after pairs */
+/* ✅ Build usable BEFORE/AFTER pairs */
+function normalizeName(name) {
+  return name
+    .replace("_before", "-before")
+    .replace("_after", "-after");
+}
+
 function buildPairs(files) {
+  const norm = files.map(f => normalizeName(f));
   const pairs = [];
 
-  files.forEach(file => {
+  norm.forEach(file => {
     if (file.includes("-before")) {
       const after = file.replace("-before", "-after");
-      if (files.includes(after)) {
-        pairs.push({ before: file, after: after });
+
+      if (norm.includes(after)) {
+        const realBefore = files[norm.indexOf(file)];
+        const realAfter = files[norm.indexOf(after)];
+
+        pairs.push({ before: realBefore, after: realAfter });
       }
     }
   });
@@ -186,12 +202,12 @@ function buildPairs(files) {
   return pairs;
 }
 
-/* ✅ Shuffle array */
+/* ✅ Shuffle */
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
-/* ✅ Render 6 cards at a time */
+/* ✅ Render 6 cards */
 function renderNextSix() {
   const slice = allPairs.slice(baIndex, baIndex + 6);
 
@@ -200,14 +216,16 @@ function renderNextSix() {
     card.querySelector('.ba-before').src = 'images/' + pair.before;
     card.querySelector('.ba-after').src = 'images/' + pair.after;
 
-    const caption = pair.before.split('-before')[0];
-    card.querySelector('.ba-caption').textContent = caption.replace(/[\d]+$/, "");
+    const caption = pair.before
+      .replace(/[-_](before|after).*$/i, "")
+      .replace(/[0-9]+$/, "");
 
-    const frame = card.querySelector('.ba-frame');
+    card.querySelector('.ba-caption').textContent = caption;
+
     const slider = card.querySelector('.ba-slider');
-
     slider.addEventListener('input', () => {
-      card.querySelector('.ba-after-wrap').style.width = slider.value + '%';
+      card.querySelector('.ba-after-wrap').style.width =
+        slider.value + '%';
     });
 
     BA_GRID.appendChild(card);
@@ -215,14 +233,12 @@ function renderNextSix() {
 
   baIndex += slice.length;
 
-  if (baIndex >= allPairs.length) {
-    BA_LOADMORE.style.display = "none";
-  }
+  if (baIndex >= allPairs.length) BA_LOADMORE.style.display = "none";
 }
 
-/* ✅ Homepage initializer */
+/* ✅ Init homepage */
 async function initHomepageBA() {
-  if (!BA_GRID) return; // Not homepage
+  if (!BA_GRID) return;
 
   const files = await detectImages();
   allPairs = shuffle(buildPairs(files));
@@ -238,10 +254,9 @@ async function initHomepageBA() {
 }
 
 /* ============================================================
-   ✅ MASTER INIT — Runs both systems as needed
+   ✅ MASTER INIT
 =============================================================== */
 document.addEventListener('DOMContentLoaded', () => {
-  loadGalleryPage();     // gallery page only
-  initHomepageBA();      // homepage only
+  loadGalleryPage();
+  initHomepageBA();
 });
-
