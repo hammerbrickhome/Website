@@ -150,6 +150,43 @@ body{
   }
 }
 
+/* SAFARI DESKTOP FIXES */
+@supports (-webkit-touch-callout: none) {
+  
+  /* Fix hero alignment Safari pushes content left */
+  .hero-home, .hero-inner, .hero {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  /* Prevent Safari from shrinking text column */
+  .hero-content {
+    flex: 1 1 50%;
+    max-width: 50%;
+  }
+
+  /* Prevent Safari from blowing up the hero image */
+  .hero-badge img {
+    max-width: 420px;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Fix grid spacing Safari miscalculates */
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  /* Fix button overflow Safari bug */
+  .btn, .pill, .card {
+    -webkit-transform: translateZ(0);
+  }
+}
 
 
 
