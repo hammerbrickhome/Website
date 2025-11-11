@@ -26,7 +26,6 @@
       "label": "job"
     },
 
-    /* ✅ BELOW ARE SELF-PAIRED IMAGES SO EVERYTHING LOADS */
     { "before": "after1.jpg", "after": "after1.jpg", "label": "after1" },
     { "before": "after2.jpg", "after": "after2.jpg", "label": "after2" },
     { "before": "after5.png", "after": "after5.png", "label": "after5" },
@@ -39,10 +38,13 @@
     { "before": "hero.jpg", "after": "hero.jpg", "label": "hero" },
     { "before": "herohome.png", "after": "herohome.png", "label": "herohome" },
 
-    { "before": "qr-hammerbrick-membership.png",
+    {
+      "before": "qr-hammerbrick-membership.png",
       "after": "qr-hammerbrick-membership.png",
-      "label": "qr" }
+      "label": "qr"
+    }
   ]
 }
+
 
 
