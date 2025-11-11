@@ -9,35 +9,13 @@
     "Neonhammer.png",
     "qr-hammerbrick-membership.png"
   ],
-
   "pairs": [
-    {
-      "before": "before1.jpg",
-      "after": "after1.jpg",
-      "label": "Front Steps Repair"
-    },
-    {
-      "before": "before2.jpg",
-      "after": "after2.jpg",
-      "label": "Backyard Patio"
-    },
-    {
-      "before": "before-test.png",
-      "after": "after-test.png",
-      "label": "Test Project"
-    },
-    {
-      "before": "before5.png",
-      "after": "after5.png",
-      "label": "Entry Steps Rebuild"
-    },
-    {
-      "before": "before6.png",
-      "after": "after6.png",
-      "label": "Sidewalk Refresh"
-    }
+    { "before": "before-test.png", "after": "after-test.png", "label": "Test Project" },
+    { "before": "before5.png",  "after": "after5.png",  "label": "Entry Steps Rebuild" },
+    { "before": "before6.png",  "after": "after6.png",  "label": "Sidewalk Refresh" }
   ]
 }
+
 
 
 
