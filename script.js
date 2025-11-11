@@ -51,7 +51,6 @@ async function loadGalleryPage() {
     const data = await res.json();
     const files = data.images || [];
 
-    /* ✅ GALLERY PAGE — BEFORE/AFTER STATIC PAIRS */
     if (compareRow) {
       const pairs = [
         { before: 'before1.jpg', after: 'after1.jpg' },
@@ -89,7 +88,6 @@ async function loadGalleryPage() {
       });
     }
 
-    /* ✅ REGULAR GALLERY IMAGES */
     if (galleryContainer) {
       files.forEach(name => {
         const img = document.createElement('img');
@@ -124,8 +122,7 @@ document.addEventListener('click', e => {
 
 /* ============================================================
    ✅ HOMEPAGE — AUTO BEFORE & AFTER
-   ✅ Supports BOTH hyphens AND underscores
-   ✅ Supports numbered AND non-numbered filenames
+   ✅ Now supports uppercase PNG / JPG
 =============================================================== */
 const BA_GRID = document.getElementById('ba-grid');
 const BA_LOADMORE = document.getElementById('ba-loadmore');
@@ -134,33 +131,26 @@ const BA_TEMPLATE = document.getElementById('ba-card');
 let allPairs = [];
 let baIndex = 0;
 
-/* ✅ Allowed prefixes for your contractor work */
 const PREFIXES = [
   "job", "paver", "masonry", "sidewalk", "stoop", "kitchen",
   "bath", "yard", "home", "project", "deck", "reno", "stone",
   "cement", "repair", "bwall", "point", "flag", "concrete"
 ];
 
-/* ✅ Generate list of possible file names */
+/* ✅ EXTENSIONS — now includes uppercase */
 function generatePossibleNames() {
   const names = [];
   const endings = ["-before", "_before", "-after", "_after"];
-  const exts = [".jpg", ".jpeg", ".png"];
+  const exts = [".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG"];
 
   PREFIXES.forEach(pre => {
-    /* ✅ Non-numbered (repair_before.png) */
     endings.forEach(end => {
-      exts.forEach(ext => {
-        names.push(`${pre}${end}${ext}`);
-      });
+      exts.forEach(ext => names.push(`${pre}${end}${ext}`));
     });
 
-    /* ✅ Numbered (repair1_before.png) */
     for (let i = 1; i <= 200; i++) {
       endings.forEach(end => {
-        exts.forEach(ext => {
-          names.push(`${pre}${i}${end}${ext}`);
-        });
+        exts.forEach(ext => names.push(`${pre}${i}${end}${ext}`));
       });
     }
   });
@@ -168,16 +158,15 @@ function generatePossibleNames() {
   return names;
 }
 
-/* ✅ Detect which files actually exist */
+/* ✅ Detect existing images */
 async function detectImages() {
   const candidates = generatePossibleNames();
   const found = [];
 
   const checks = candidates.map(async file => {
     try {
-     const res = await fetch(`images/${file}`, { method: 'GET' });
-if (res.ok) found.push(file);
-
+      const res = await fetch(`images/${file}`, { method: 'HEAD' });
+      if (res.ok) found.push(file);
     } catch (e) {}
   });
 
@@ -185,14 +174,12 @@ if (res.ok) found.push(file);
   return found;
 }
 
-/* ✅ Normalize naming (underscore → hyphen) */
 function normalizeName(name) {
   return name
     .replace("_before", "-before")
     .replace("_after", "-after");
 }
 
-/* ✅ Build usable BEFORE/AFTER pairs */
 function buildPairs(files) {
   const norm = files.map(f => normalizeName(f));
   const pairs = [];
@@ -200,12 +187,11 @@ function buildPairs(files) {
   norm.forEach(file => {
     if (file.includes("-before")) {
       const after = file.replace("-before", "-after");
-
       if (norm.includes(after)) {
-        const realBefore = files[norm.indexOf(file)];
-        const realAfter = files[norm.indexOf(after)];
-
-        pairs.push({ before: realBefore, after: realAfter });
+        pairs.push({
+          before: files[norm.indexOf(file)],
+          after: files[norm.indexOf(after)]
+        });
       }
     }
   });
@@ -213,12 +199,10 @@ function buildPairs(files) {
   return pairs;
 }
 
-/* ✅ Shuffle pairs randomly */
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
-/* ✅ Render 6 cards at a time */
 function renderNextSix() {
   const slice = allPairs.slice(baIndex, baIndex + 6);
 
@@ -242,11 +226,9 @@ function renderNextSix() {
   });
 
   baIndex += slice.length;
-
   if (baIndex >= allPairs.length) BA_LOADMORE.style.display = "none";
 }
 
-/* ✅ Initialize homepage before/after */
 async function initHomepageBA() {
   if (!BA_GRID) return;
 
@@ -263,11 +245,7 @@ async function initHomepageBA() {
   BA_LOADMORE.addEventListener("click", renderNextSix);
 }
 
-/* ============================================================
-   ✅ MASTER INIT
-=============================================================== */
 document.addEventListener('DOMContentLoaded', () => {
   loadGalleryPage();
   initHomepageBA();
 });
-
