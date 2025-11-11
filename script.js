@@ -37,7 +37,7 @@ function filterServices() {
 window.filterServices = filterServices;
 
 /* ============================================================
-   ✅ GALLERY PAGE — LOAD gallery.json
+   ✅ GALLERY PAGE — LOAD gallery.json (UPDATED)
 =============================================================== */
 async function loadGalleryPage() {
   const galleryContainer = document.getElementById('galleryContainer');
@@ -49,47 +49,54 @@ async function loadGalleryPage() {
     const res = await fetch('gallery.json', { cache: 'no-store' });
     if (!res.ok) return;
     const data = await res.json();
-    const files = data.images || [];
 
-    if (compareRow) {
-      const pairs = [
-        { before: 'before1.jpg', after: 'after1.jpg' },
-        { before: 'before2.jpg', after: 'after2.jpg' },
-        { before: 'before5.png', after: 'after5.png' },
-        { before: 'before6.png', after: 'after6.png' },
-        { before: 'before-test.png', after: 'after-test.png' }
-      ];
+    // ✅ NEW STRUCTURE SUPPORT
+    const grid = data.grid || data.images || [];
+    const pairs = data.pairs || [];
 
+    /* ✅ BEFORE & AFTER SECTION */
+    if (compareRow && pairs.length > 0) {
       pairs.forEach(p => {
-        if (files.includes(p.before) && files.includes(p.after)) {
-          const wrap = document.createElement('div');
-          wrap.className = 'compare-item';
+        if (!p.before || !p.after) return;
 
-          const b = document.createElement('img');
-          b.src = 'images/' + p.before;
+        const wrap = document.createElement('div');
+        wrap.className = 'compare-item';
 
-          const a = document.createElement('img');
-          a.src = 'images/' + p.after;
+        const b = document.createElement('img');
+        b.src = 'images/' + p.before;
+        b.alt = p.label ? p.label + " — Before" : "Before";
 
-          const lb1 = document.createElement('div');
-          lb1.className = 'compare-label';
-          lb1.textContent = 'Before';
+        const a = document.createElement('img');
+        a.src = 'images/' + p.after;
+        a.alt = p.label ? p.label + " — After" : "After";
 
-          const lb2 = document.createElement('div');
-          lb2.className = 'compare-label right';
-          lb2.textContent = 'After';
+        const lb1 = document.createElement('div');
+        lb1.className = 'compare-label';
+        lb1.textContent = 'Before';
 
-          wrap.appendChild(b);
-          wrap.appendChild(a);
-          wrap.appendChild(lb1);
-          wrap.appendChild(lb2);
-          compareRow.appendChild(wrap);
+        const lb2 = document.createElement('div');
+        lb2.className = 'compare-label right';
+        lb2.textContent = 'After';
+
+        wrap.appendChild(b);
+        wrap.appendChild(a);
+        wrap.appendChild(lb1);
+        wrap.appendChild(lb2);
+
+        if (p.label) {
+          const caption = document.createElement('div');
+          caption.className = 'compare-caption';
+          caption.textContent = p.label;
+          wrap.appendChild(caption);
         }
+
+        compareRow.appendChild(wrap);
       });
     }
 
-    if (galleryContainer) {
-      files.forEach(name => {
+    /* ✅ PHOTO GRID */
+    if (galleryContainer && grid.length > 0) {
+      grid.forEach(name => {
         const img = document.createElement('img');
         img.loading = 'lazy';
         img.src = 'images/' + name;
@@ -98,6 +105,7 @@ async function loadGalleryPage() {
         galleryContainer.appendChild(img);
       });
     }
+
   } catch (e) {
     console.error('Gallery load error', e);
   }
@@ -192,4 +200,5 @@ document.addEventListener('DOMContentLoaded', () => {
   loadGalleryPage();
   initHomepageBA();
 });
+
 
