@@ -111,3 +111,40 @@ body{
   .split,.rules-join-grid{grid-template-columns:1fr}
   .hero-badge{display:flex;justify-content:center}
 }
+/* === FIX MEMBERSHIP PAGE TEXT SIZE OVERRIDES === */
+
+.rules-scroll {
+  max-height: 520px !important;
+  padding: 18px !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+.rules-scroll ol li,
+.rules-scroll ul li {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+.bullets,
+.bullets li {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+.rules-join-grid li {
+  font-size: 16px !important;
+}
+
+.section h2 {
+  font-size: 29px !important;
+}
+
+.qr-block h3 {
+  font-size: 22px !important;
+}
+
+.muted {
+  font-size: 14px !important;
+}
+
