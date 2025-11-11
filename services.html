@@ -4,181 +4,218 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Services — Hammer Brick & Home LLC</title>
-<meta name="description" content="Full list of services: masonry, pavers, kitchens, baths, painting, exterior care, seasonal plans.">
+<meta name="description" content="Luxury remodeling, masonry, concrete, pavers, painting, and seasonal home care services.">
 <link rel="icon" href="images/hero.PNG">
-<link rel="preload" as="image" href="images/hero.PNG">
 <link rel="stylesheet" href="style.css">
-<!-- Open Graph -->
-<meta property="og:title" content="Services — Hammer Brick & Home LLC">
-<meta property="og:description" content="Full list of services: masonry, pavers, kitchens, baths, painting, exterior care, seasonal plans.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.hammerbrickhome.com/">
-<meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Services — Hammer Brick & Home LLC">
-<meta name="twitter:description" content="Full list of services: masonry, pavers, kitchens, baths, painting, exterior care, seasonal plans.">
-<meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "HomeAndConstructionBusiness",
-  "name": "Hammer Brick & Home LLC",
-  "url": "https://www.hammerbrickhome.com/",
-  "image": "https://www.hammerbrickhome.com/images/hero.PNG",
-  "telephone": "+1-929-595-5300",
-  "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Staten Island",
-    "addressRegion": "NY",
-    "addressCountry": "US"
-  },
-  "areaServed": [
-    "Staten Island",
-    "Brooklyn",
-    "Queens",
-    "Manhattan",
-    "NJ (select)"
-  ],
-  "description": "Full list of services: masonry, pavers, kitchens, baths, painting, exterior care, seasonal plans.",
-  "foundingDate": "2024",
-  "openingHours": "Mo-Su 08:00-20:00",
-  "knowsAbout": [
-    "masonry",
-    "pavers",
-    "remodeling",
-    "painting",
-    "power washing"
-  ],
-  "additionalProperty": [
-    {
-      "@type": "PropertyValue",
-      "name": "NYC HIC",
-      "value": "21311291"
-    }
-  ]
+
+<style>
+/* ----------------------------------
+   LUXURY SERVICE BUTTON GRID (NEW)
+----------------------------------- */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.service-button {
+  padding: 16px 20px;
+  text-align: center;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(245,216,155,0.16), rgba(10,15,25,0.96));
+  border: 1px solid rgba(255,255,255,0.12);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  color: var(--gold-soft);
+  text-shadow: 0 2px 6px rgba(0,0,0,.6);
+  cursor: pointer;
+  transition: .25s;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.6);
+}
+.service-button:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+  color: #151515;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.75);
+}
+
+/* Search bar */
+.search-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(5,10,18,.85);
+  color: var(--ink);
+  margin-top: 6px;
+}
+.search-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+</style>
+
+<script>
+// -------------------------------
+// ✅ Search Filter
+// -------------------------------
+function filterServices() {
+  const input = document.getElementById("serviceSearch").value.toLowerCase();
+  const buttons = document.querySelectorAll(".service-button");
+  buttons.forEach(btn => {
+    const txt = btn.textContent.toLowerCase();
+    btn.style.display = txt.includes(input) ? "block" : "none";
+  });
 }
 </script>
+
 </head>
+
 <body>
-<header class="topbar" role="banner">
+
+<header class="topbar">
   <div class="topbar-inner">
-    <a class="brand-lockup" href="index.html" aria-label="Hammer Brick & Home LLC — Home">
-      <img class="brand-logo" src="images/hero.PNG" alt="Hammer Brick & Home LLC logo">
+    <a class="brand-lockup" href="index.html">
+      <img class="brand-logo" src="images/hero.PNG" alt="Hammer Brick & Home LLC">
       <div class="brand-text">
-        <div class="brand-name">Hammer Brick &amp; Home LLC</div>
-        <div class="brand-sub">Luxury Remodeling &amp; Masonry · HIC #21311291 · Licensed &amp; Insured</div>
+        <div class="brand-name">Hammer Brick & Home LLC</div>
+        <div class="brand-sub">Luxury Remodeling & Masonry · HIC #21311291 · Licensed & Insured</div>
       </div>
     </a>
-    <button class="nav-toggle" aria-label="Open menu">☰</button>
-    <nav class="main-nav" aria-label="Primary">
+    <button class="nav-toggle">☰</button>
+    <nav class="main-nav">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
-      <a href="services.html">Services</a>
+      <a href="services.html" aria-current="page">Services</a>
       <a href="gallery.html">Gallery</a>
       <a href="pricing.html">Pricing</a>
-      <a href="membership.html">Perks &amp; Rules</a>
+      <a href="membership.html">Perks & Rules</a>
       <a href="contact.html">Contact</a>
       <a class="nav-call" href="tel:+19295955300">📞 929-595-5300</a>
     </nav>
   </div>
 </header>
+
 <a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
+
 <main class="page">
+
+<!-- HERO -->
 <section class="hero hero-inner fade-up">
   <div class="hero-content">
     <h1>Services</h1>
-    <p>Comprehensive remodeling, masonry, and exterior care — organized clearly so you know exactly what we do.</p>
+    <p>Premium masonry, remodeling, painting, exterior care & seasonal maintenance for NYC homeowners.</p>
   </div>
 </section>
 
+<!-- SEARCH -->
 <section class="section fade-up">
-  <label class="search-label" for="serviceSearch">Search services</label>
-  <input id="serviceSearch" class="search-input" placeholder="Type to filter (e.g., pavers, bathroom, fence)..." oninput="filterServices()" autocomplete="off">
+  <label class="search-label" for="serviceSearch">Search Services</label>
+  <input id="serviceSearch" class="search-input" placeholder="Type to filter (e.g., pavers, bathroom, sidewalk)..." oninput="filterServices()">
 </section>
 
+<!-- ============================================
+     CATEGORY 1 — MASONRY & CONCRETE
+=============================================== -->
 <section class="section fade-up">
-  <h2>Masonry &amp; Concrete</h2>
-  <div class="service-grid" data-cat="masonry">
-    <div class="card">Brickwork &amp; Repointing</div>
-    <div class="card">Block &amp; CMU Walls</div>
-    <div class="card">Concrete Sidewalks</div>
-    <div class="card">DOT Sidewalk Violation Repairs</div>
-    <div class="card">Driveways (Concrete/Asphalt)</div>
-    <div class="card">Pavers &amp; Walkways</div>
-    <div class="card">Steps &amp; Stoops</div>
-    <div class="card">Retaining Walls</div>
-    <div class="card">Stone Veneer / Cultured Stone</div>
-    <div class="card">Bluestone / Flagstone</div>
-    <div class="card">Chimney Repair</div>
-    <div class="card">Masonry Waterproofing / Sealing</div>
-    <div class="card">Foundation Crack Repair</div>
+  <h2>Masonry & Concrete</h2>
+  <div class="service-grid">
+    <div class="service-button">Brickwork & Repointing</div>
+    <div class="service-button">Block & CMU Walls</div>
+    <div class="service-button">Concrete Sidewalks</div>
+    <div class="service-button">DOT Violation Repairs</div>
+    <div class="service-button">Driveways (Concrete/Asphalt)</div>
+    <div class="service-button">Pavers & Walkways</div>
+    <div class="service-button">Steps & Stoops</div>
+    <div class="service-button">Retaining Walls</div>
+    <div class="service-button">Stone Veneer</div>
+    <div class="service-button">Bluestone / Flagstone</div>
+    <div class="service-button">Chimney Repair</div>
+    <div class="service-button">Masonry Waterproofing</div>
+    <div class="service-button">Foundation Crack Repair</div>
   </div>
 </section>
 
+<!-- ============================================
+     CATEGORY 2 — REMODELING & CARPENTRY
+=============================================== -->
 <section class="section fade-up">
-  <h2>Carpentry &amp; Remodeling</h2>
-  <div class="service-grid" data-cat="remodel">
-    <div class="card">Kitchen Remodels</div>
-    <div class="card">Bathroom Remodels</div>
-    <div class="card">Basement Finishing</div>
-    <div class="card">Open Concept / Framing</div>
-    <div class="card">Sheetrock &amp; Spackle</div>
-    <div class="card">Doors &amp; Trim</div>
-    <div class="card">Built‑ins &amp; Custom Storage</div>
-    <div class="card">Decks &amp; Fences</div>
-    <div class="card">Flooring (Tile/LVP/Engineered)</div>
-    <div class="card">Backsplashes</div>
-    <div class="card">Window &amp; Door Replacement</div>
+  <h2>Carpentry & Remodeling</h2>
+  <div class="service-grid">
+    <div class="service-button">Kitchen Remodels</div>
+    <div class="service-button">Bathroom Remodels</div>
+    <div class="service-button">Basement Finishing</div>
+    <div class="service-button">Open Concept Framing</div>
+    <div class="service-button">Sheetrock & Spackle</div>
+    <div class="service-button">Doors & Trim</div>
+    <div class="service-button">Built-Ins & Storage</div>
+    <div class="service-button">Decks & Fences</div>
+    <div class="service-button">Flooring (Tile/LVP)</div>
+    <div class="service-button">Backsplashes</div>
+    <div class="service-button">Window & Door Replacement</div>
   </div>
 </section>
 
+<!-- ============================================
+     CATEGORY 3 — PAINTING & FINISHES
+=============================================== -->
 <section class="section fade-up">
-  <h2>Painting &amp; Finishes</h2>
-  <div class="service-grid" data-cat="paint">
-    <div class="card">Interior Painting</div>
-    <div class="card">Exterior Painting</div>
-    <div class="card">Plaster &amp; Patch</div>
-    <div class="card">Stucco / EIFS Repair</div>
-    <div class="card">Trim Enamel &amp; Fine Finish</div>
-    <div class="card">Epoxy Garage Floors</div>
-    <div class="card">Wallpaper Removal</div>
+  <h2>Painting & Finishes</h2>
+  <div class="service-grid">
+    <div class="service-button">Interior Painting</div>
+    <div class="service-button">Exterior Painting</div>
+    <div class="service-button">Plaster & Patch</div>
+    <div class="service-button">Stucco / EIFS Repair</div>
+    <div class="service-button">Trim Enamel</div>
+    <div class="service-button">Epoxy Garage Floors</div>
+    <div class="service-button">Wallpaper Removal</div>
   </div>
 </section>
 
+<!-- ============================================
+     CATEGORY 4 — EXTERIOR CARE & SEASONAL
+=============================================== -->
 <section class="section fade-up">
-  <h2>Exterior Care &amp; Seasonal</h2>
-  <div class="service-grid" data-cat="exterior">
-    <div class="card">Soft‑Wash House Cleaning</div>
-    <div class="card">Concrete &amp; Paver Wash</div>
-    <div class="card">Deck Wash &amp; Stain</div>
-    <div class="card">Gutter Cleaning</div>
-    <div class="card">Lawn &amp; Landscape Touch‑Ups</div>
-    <div class="card">Seasonal Checklists</div>
+  <h2>Exterior Care & Seasonal</h2>
+  <div class="service-grid">
+    <div class="service-button">Soft-Wash House Cleaning</div>
+    <div class="service-button">Concrete & Paver Wash</div>
+    <div class="service-button">Deck Wash & Stain</div>
+    <div class="service-button">Gutter Cleaning</div>
+    <div class="service-button">Lawn & Landscape Touch-Ups</div>
+    <div class="service-button">Seasonal Safety Checklists</div>
   </div>
 </section>
 
+<!-- ROOFING POLICY -->
 <section class="section note-box fade-up">
   <h2>Roofing Policy</h2>
-  <p>We perform <strong>select, safe roofing repairs only</strong>: leak tracing, shingle patching in accessible areas, flashing and sealant touch‑ups. Full roof replacements are referred to partners.</p>
+  <p>We perform <strong>safe, accessible roof repairs only</strong>: small shingle fixes, flashing adjustments, and leak tracing. Full roof installations are referred to trusted partners.</p>
 </section>
 
 </main>
+
 <footer class="site-footer">
-  <div>© <span id="yr"></span> Hammer Brick &amp; Home LLC · NYC HIC #21311291</div>
-  <div>Staten Island · NYC · Licensed &amp; Insured · EPA RRP Lead-Safe Certified</div>
+  <div>© <span id="yr"></span> Hammer Brick & Home LLC · NYC HIC #21311291</div>
+  <div>Staten Island · NYC · Licensed & Insured · EPA RRP Lead-Safe Certified</div>
 </footer>
+
 <div class="chat-bubble">
   <button class="chat-toggle">💬 Chat</button>
   <div class="chat-modal">
-    <div class="chat-title">Talk to Hammer Brick &amp; Home</div>
+    <div class="chat-title">Talk to Hammer Brick & Home</div>
     <a class="btn" target="_blank" href="https://wa.me/19295955300">WhatsApp</a>
     <a class="btn ghost" href="sms:+19295955300">Text Message</a>
     <a class="btn ghost" href="mailto:Hammerbrickhome@gmail.com">Email</a>
   </div>
 </div>
+
 <script src="script.js"></script>
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>
 </html>
