@@ -73,30 +73,8 @@
 
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand-lockup" href="index.html">
-      <img class="brand-logo" src="images/hero.PNG" alt="Hammer Brick & Home LLC">
-      <div class="brand-text">
-        <div class="brand-name">Hammer Brick & Home LLC</div>
-        <div class="brand-sub">Luxury Remodeling & Masonry · HIC #21311291 · Licensed & Insured</div>
-      </div>
-    </a>
-    <button class="nav-toggle">☰</button>
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html" aria-current="page">Services</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="membership.html">Perks & Rules</a>
-      <a href="contact.html">Contact</a>
-      <a class="nav-call" href="tel:+19295955300">📞 929-595-5300</a>
-    </nav>
-  </div>
-</header>
-
-<a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
+<!-- ✅ Include Header -->
+<div id="header-include"></div>
 
 <main class="page">
 
@@ -131,9 +109,7 @@
   </div>
 </section>
 
-<!-- ============================================
-     CATEGORY 1 — MASONRY & CONCRETE
-=============================================== -->
+<!-- CATEGORY 1 — MASONRY & CONCRETE -->
 <section class="section fade-up">
   <h2>Masonry & Concrete</h2>
   <div class="service-grid">
@@ -150,8 +126,6 @@
     <div class="service-button">Chimney Repair</div>
     <div class="service-button">Masonry Waterproofing</div>
     <div class="service-button">Foundation Crack Repair</div>
-
-    <!-- New masonry add-ons -->
     <div class="service-button">Lintel/Angle Iron Replacement & Flashing</div>
     <div class="service-button">Parapet Wall Rebuilds & Coping Reset</div>
     <div class="service-button">Paver Lift-Relay, Polymeric Re-Sand & Seal</div>
@@ -159,9 +133,7 @@
   </div>
 </section>
 
-<!-- ============================================
-     CATEGORY 2 — REMODELING & CARPENTRY
-=============================================== -->
+<!-- CATEGORY 2 — REMODELING & CARPENTRY -->
 <section class="section fade-up">
   <h2>Carpentry & Remodeling</h2>
   <div class="service-grid">
@@ -179,9 +151,7 @@
   </div>
 </section>
 
-<!-- ============================================
-     CATEGORY 3 — PAINTING & FINISHES
-=============================================== -->
+<!-- CATEGORY 3 — PAINTING & FINISHES -->
 <section class="section fade-up">
   <h2>Painting & Finishes</h2>
   <div class="service-grid">
@@ -195,9 +165,7 @@
   </div>
 </section>
 
-<!-- ============================================
-     CATEGORY 4 — EXTERIOR CARE & SEASONAL
-=============================================== -->
+<!-- CATEGORY 4 — EXTERIOR CARE & SEASONAL -->
 <section class="section fade-up">
   <h2>Exterior Care & Seasonal</h2>
   <div class="service-grid">
@@ -215,62 +183,47 @@
   <h2>Roofing Policy</h2>
   <p>We perform <strong>safe, accessible roof repairs only</strong>: small shingle fixes, flashing adjustments, and leak tracing. Full roof installations are referred to trusted partners.</p>
 </section>
-
 </main>
 
-<footer class="site-footer">
-  <div>© <span id="yr"></span> Hammer Brick & Home LLC · NYC HIC #21311291</div>
-  <div>Staten Island · NYC · Licensed & Insured · EPA RRP Lead-Safe Certified</div>
-</footer>
+<!-- ✅ Include Footer -->
+<div id="footer-include"></div>
 
-<div class="chat-bubble">
-  <button class="chat-toggle">💬 Chat</button>
-  <div class="chat-modal">
-    <div class="chat-title">Talk to Hammer Brick & Home</div>
-    <a class="btn" target="_blank" href="https://wa.me/19295955300">WhatsApp</a>
-    <a class="btn ghost" href="sms:+19295955300">Text Message</a>
-    <a class="btn ghost" href="mailto:Hammerbrickhome@gmail.com">Email</a>
-  </div>
-</div>
-
-<script src="script.js"></script>
+<!-- ✅ Includes Loader -->
 <script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-</script>
-
-<!-- FINAL SEARCH SCRIPT: placed at bottom for reliable init -->
-<script>
-// ---------------------------------------------------
-// ✅ FINAL WORKING SEARCH FILTER FOR SERVICES PAGE
-// ---------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("serviceSearch");
-  const noResults = document.getElementById("noResults");
-  const buttons = document.querySelectorAll(".service-button");
+  Promise.all([
+    fetch("header.html").then(r => r.text()),
+    fetch("footer.html").then(r => r.text())
+  ]).then(([header, footer]) => {
+    document.getElementById("header-include").innerHTML = header;
+    document.getElementById("footer-include").innerHTML = footer;
+    const yr = document.getElementById("yr");
+    if (yr) yr.textContent = new Date().getFullYear();
 
-  if (!input || buttons.length === 0) {
-    console.warn("Service search not initialized: elements missing.");
-    return;
-  }
+    // Initialize search filter after header/footer load
+    const input = document.getElementById("serviceSearch");
+    const noResults = document.getElementById("noResults");
+    const buttons = document.querySelectorAll(".service-button");
 
-  function filterServices() {
-    const query = input.value.toLowerCase().trim();
-    let visibleCount = 0;
-
-    buttons.forEach(btn => {
-      const text = btn.textContent.toLowerCase();
-      const show = text.includes(query);
-      btn.style.display = show ? "" : "none";
-      if (show) visibleCount++;
-    });
-
-    if (noResults) noResults.style.display = visibleCount ? "none" : "block";
-  }
-
-  input.addEventListener("input", filterServices);
+    if (input && buttons.length) {
+      input.addEventListener("input", () => {
+        const q = input.value.toLowerCase().trim();
+        let visible = 0;
+        buttons.forEach(btn => {
+          const show = btn.textContent.toLowerCase().includes(q);
+          btn.style.display = show ? "" : "none";
+          if (show) visible++;
+        });
+        if (noResults) noResults.style.display = visible ? "none" : "block";
+      });
+    }
+  }).catch(err => console.error("Include load error", err));
 });
 </script>
+
+<script src="script.js"></script>
 </body>
 </html>
+
 
 
