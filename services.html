@@ -58,20 +58,45 @@
   font-size: 14px;
   color: var(--muted);
 }
+
+/* "No results" message */
+#noResults {
+  display: none;
+  margin-top: 10px;
+  text-align: center;
+  color: var(--gold-soft);
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
 </style>
 
 <script>
-// -------------------------------
-// ✅ Search Filter
-// -------------------------------
-function filterServices() {
-  const input = document.getElementById("serviceSearch").value.toLowerCase();
+// -------------------------------------
+// ✅ Service Search Filter (Final Version)
+// -------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("serviceSearch");
+  const noResults = document.getElementById("noResults");
   const buttons = document.querySelectorAll(".service-button");
-  buttons.forEach(btn => {
-    const txt = btn.textContent.toLowerCase();
-    btn.style.display = txt.includes(input) ? "block" : "none";
-  });
-}
+
+  function filterServices() {
+    const query = input.value.toLowerCase().trim();
+    let visibleCount = 0;
+
+    buttons.forEach(btn => {
+      const text = btn.textContent.toLowerCase();
+      const show = text.includes(query);
+      btn.style.display = show ? "" : "none";
+      if (show) visibleCount++;
+    });
+
+    // Show or hide "No Results" message
+    if (noResults) noResults.style.display = visibleCount ? "none" : "block";
+  }
+
+  // Listen for typing
+  if (input) input.addEventListener("input", filterServices);
+});
 </script>
 
 </head>
@@ -116,7 +141,8 @@ function filterServices() {
 <!-- SEARCH -->
 <section class="section fade-up">
   <label class="search-label" for="serviceSearch">Search Services</label>
-  <input id="serviceSearch" class="search-input" placeholder="Type to filter (e.g., pavers, bathroom, sidewalk)..." oninput="filterServices()">
+  <input id="serviceSearch" class="search-input" placeholder="Type to filter (e.g., pavers, bathroom, sidewalk)...">
+  <p id="noResults">No matching services found.</p>
 </section>
 
 <!-- ============================================
@@ -219,3 +245,4 @@ function filterServices() {
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>
 </html>
+
