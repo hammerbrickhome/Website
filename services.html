@@ -10,7 +10,7 @@
 
 <style>
 /* ----------------------------------
-   LUXURY SERVICE BUTTON GRID (NEW)
+   LUXURY SERVICE BUTTON GRID
 ----------------------------------- */
 .service-grid {
   display: grid;
@@ -69,36 +69,6 @@
   letter-spacing: 0.4px;
 }
 </style>
-
-<script>
-// -------------------------------------
-// ✅ Service Search Filter (Final Version)
-// -------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("serviceSearch");
-  const noResults = document.getElementById("noResults");
-  const buttons = document.querySelectorAll(".service-button");
-
-  function filterServices() {
-    const query = input.value.toLowerCase().trim();
-    let visibleCount = 0;
-
-    buttons.forEach(btn => {
-      const text = btn.textContent.toLowerCase();
-      const show = text.includes(query);
-      btn.style.display = show ? "" : "none";
-      if (show) visibleCount++;
-    });
-
-    // Show or hide "No Results" message
-    if (noResults) noResults.style.display = visibleCount ? "none" : "block";
-  }
-
-  // Listen for typing
-  if (input) input.addEventListener("input", filterServices);
-});
-</script>
-
 </head>
 
 <body>
@@ -146,6 +116,22 @@ document.addEventListener("DOMContentLoaded", () => {
 </section>
 
 <!-- ============================================
+     NEW CATEGORY — LEAD-SAFE RENOVATION (RRP)
+=============================================== -->
+<section class="section fade-up">
+  <h2>Lead-Safe Renovation (Pre-1978 Homes)</h2>
+  <div class="service-grid">
+    <div class="service-button">Lead-Safe Kitchen & Bath Renovations</div>
+    <div class="service-button">Lead-Safe Window & Door Work (Friction Fixes)</div>
+    <div class="service-button">Paint Stabilization & Encapsulation</div>
+    <div class="service-button">Exterior Lead-Safe Work & Vertical Containment</div>
+    <div class="service-button">EPA Test-Kit Screening of Components</div>
+    <div class="service-button">Cleaning Verification & Clearance Coordination</div>
+    <div class="service-button">RRP Compliance Pack (Pamphlet + Records)</div>
+  </div>
+</section>
+
+<!-- ============================================
      CATEGORY 1 — MASONRY & CONCRETE
 =============================================== -->
 <section class="section fade-up">
@@ -164,6 +150,12 @@ document.addEventListener("DOMContentLoaded", () => {
     <div class="service-button">Chimney Repair</div>
     <div class="service-button">Masonry Waterproofing</div>
     <div class="service-button">Foundation Crack Repair</div>
+
+    <!-- New masonry add-ons -->
+    <div class="service-button">Lintel/Angle Iron Replacement & Flashing</div>
+    <div class="service-button">Parapet Wall Rebuilds & Coping Reset</div>
+    <div class="service-button">Paver Lift-Relay, Polymeric Re-Sand & Seal</div>
+    <div class="service-button">DOT Sidewalk Permit & Violation Dismissal</div>
   </div>
 </section>
 
@@ -242,7 +234,43 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 
 <script src="script.js"></script>
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+
+<!-- FINAL SEARCH SCRIPT: placed at bottom for reliable init -->
+<script>
+// ---------------------------------------------------
+// ✅ FINAL WORKING SEARCH FILTER FOR SERVICES PAGE
+// ---------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("serviceSearch");
+  const noResults = document.getElementById("noResults");
+  const buttons = document.querySelectorAll(".service-button");
+
+  if (!input || buttons.length === 0) {
+    console.warn("Service search not initialized: elements missing.");
+    return;
+  }
+
+  function filterServices() {
+    const query = input.value.toLowerCase().trim();
+    let visibleCount = 0;
+
+    buttons.forEach(btn => {
+      const text = btn.textContent.toLowerCase();
+      const show = text.includes(query);
+      btn.style.display = show ? "" : "none";
+      if (show) visibleCount++;
+    });
+
+    if (noResults) noResults.style.display = visibleCount ? "none" : "block";
+  }
+
+  input.addEventListener("input", filterServices);
+});
+</script>
 </body>
 </html>
+
 
