@@ -293,7 +293,7 @@ async function initHomepageBA() {
 document.addEventListener('DOMContentLoaded', () => {
   loadGalleryPage();
   initHomepageBA();
-}); this is the old working one
+});
 
 
 
