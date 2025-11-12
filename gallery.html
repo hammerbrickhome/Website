@@ -13,7 +13,7 @@
 <meta property="og:title" content="Gallery — Hammer Brick & Home LLC">
 <meta property="og:description" content="Before & after projects, masonry details, interiors, and exterior care. Auto-loads from gallery.json.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.hammerbrickhome.com/">
+<meta property="og:url" content="https://www.hammerbrickhome.com/gallery.html">
 <meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
 
 <!-- Twitter -->
@@ -21,75 +21,12 @@
 <meta name="twitter:title" content="Gallery — Hammer Brick & Home LLC">
 <meta name="twitter:description" content="Before & after projects, masonry details, interiors, and exterior care. Auto-loads from gallery.json.">
 <meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "HomeAndConstructionBusiness",
-  "name": "Hammer Brick & Home LLC",
-  "url": "https://www.hammerbrickhome.com/",
-  "image": "https://www.hammerbrickhome.com/images/hero.PNG",
-  "telephone": "+1-929-595-5300",
-  "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Staten Island",
-    "addressRegion": "NY",
-    "addressCountry": "US"
-  },
-  "areaServed": [
-    "Staten Island",
-    "Brooklyn",
-    "Queens",
-    "Manhattan",
-    "NJ (select)"
-  ],
-  "description": "Before & after projects, masonry details, interiors, and exterior care. Auto-loads from gallery.json.",
-  "foundingDate": "2024",
-  "openingHours": "Mo-Su 08:00-20:00",
-  "knowsAbout": [
-    "masonry",
-    "pavers",
-    "remodeling",
-    "painting",
-    "power washing"
-  ],
-  "additionalProperty": [
-    {
-      "@type": "PropertyValue",
-      "name": "NYC HIC",
-      "value": "21311291"
-    }
-  ]
-}
-</script>
 </head>
 
 <body>
-<header class="topbar" role="banner">
-  <div class="topbar-inner">
-    <a class="brand-lockup" href="index.html" aria-label="Hammer Brick & Home LLC — Home">
-      <img class="brand-logo" src="images/hero.PNG" alt="Hammer Brick & Home LLC logo">
-      <div class="brand-text">
-        <div class="brand-name">Hammer Brick &amp; Home LLC</div>
-        <div class="brand-sub">Luxury Remodeling &amp; Masonry · HIC #21311291 · Licensed &amp; Insured</div>
-      </div>
-    </a>
-    <button class="nav-toggle" aria-label="Open menu">☰</button>
-    <nav class="main-nav" aria-label="Primary">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="membership.html">Perks &amp; Rules</a>
-      <a href="contact.html">Contact</a>
-      <a class="nav-call" href="tel:+19295955300">📞 929-595-5300</a>
-    </nav>
-  </div>
-</header>
 
-<a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
+<!-- ✅ Include Header -->
+<div id="header-include"></div>
 
 <main class="page">
 
@@ -104,8 +41,6 @@
 <section class="section fade-up">
   <h2>Featured Before &amp; After</h2>
   <div id="compareRow" class="compare-grid"></div>
-
-  <!-- ✅ GOLD LOAD MORE BUTTON FOR B&A -->
   <button id="loadMoreBA" class="gold-btn">Load 8 More</button>
 </section>
 
@@ -113,10 +48,7 @@
 <section class="section fade-up">
   <h2>Photo Grid</h2>
   <div id="galleryContainer" class="gallery-grid"></div>
-
-  <!-- ✅ GOLD LOAD MORE BUTTON FOR GRID -->
   <button id="loadMoreGrid" class="gold-btn">Load 8 More</button>
-
   <p class="section-note">Images load automatically from <code>gallery.json</code> so you can update photos without touching HTML.</p>
 </section>
 
@@ -127,24 +59,32 @@
 
 </main>
 
-<footer class="site-footer">
-  <div>© <span id="yr"></span> Hammer Brick &amp; Home LLC · NYC HIC #21311291</div>
-  <div>Staten Island · NYC · Licensed &amp; Insured · EPA RRP Lead-Safe Certified</div>
-</footer>
+<!-- ✅ Include Footer -->
+<div id="footer-include"></div>
 
-<div class="chat-bubble">
-  <button class="chat-toggle">💬 Chat</button>
-  <div class="chat-modal">
-    <div class="chat-title">Talk to Hammer Brick &amp; Home</div>
-    <a class="btn" target="_blank" href="https://wa.me/19295955300">WhatsApp</a>
-    <a class="btn ghost" href="sms:+19295955300">Text Message</a>
-    <a class="btn ghost" href="mailto:Hammerbrickhome@gmail.com">Email</a>
-  </div>
-</div>
+<!-- ✅ Include Loader -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("header.html").then(r => r.text()),
+    fetch("footer.html").then(r => r.text())
+  ])
+  .then(([header, footer]) => {
+    document.getElementById("header-include").innerHTML = header;
+    document.getElementById("footer-include").innerHTML = footer;
+
+    const yr = document.getElementById("yr");
+    if (yr) yr.textContent = new Date().getFullYear();
+
+    // Initialize gallery once header/footer are loaded
+    if (typeof loadGalleryPage === "function") loadGalleryPage();
+  })
+  .catch(err => console.error("Include load error", err));
+});
+</script>
 
 <script src="script.js"></script>
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
-
 </body>
 </html>
+
 
