@@ -3,11 +3,67 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Services — Hammer Brick & Home LLC</title>
-<meta name="description" content="Luxury remodeling, masonry, concrete, pavers, painting, and seasonal home care services.">
+
+<!-- ✅ Optimized SEO -->
+<title>Services | Hammer Brick & Home LLC — Masonry, Remodeling, Painting & More in Staten Island & NYC</title>
+<meta name="description" content="Full-service licensed contractor in Staten Island & NYC. Expert masonry, concrete, remodeling, painting, and seasonal home care by Hammer Brick & Home LLC. HIC #21311291.">
+<link rel="canonical" href="https://www.hammerbrickhome.com/services.html">
 <link rel="icon" href="images/hero.PNG">
 <link rel="stylesheet" href="style.css">
 
+<!-- ✅ Open Graph -->
+<meta property="og:title" content="Services | Hammer Brick & Home LLC — Masonry, Remodeling, Painting & More in Staten Island & NYC">
+<meta property="og:description" content="Licensed NYC contractor offering masonry, concrete, remodeling, painting, and seasonal care services. Clean, insured, and detail-driven. HIC #21311291.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.hammerbrickhome.com/services.html">
+<meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
+
+<!-- ✅ Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Services | Hammer Brick & Home LLC — Masonry, Remodeling, Painting & More">
+<meta name="twitter:description" content="Licensed remodeling and masonry services across Staten Island & NYC. HIC #21311291. Masonry, remodeling, painting, power washing, and more.">
+<meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
+
+<!-- ✅ Service Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Home Improvement and Masonry Services",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Hammer Brick & Home LLC",
+    "url": "https://www.hammerbrickhome.com/",
+    "telephone": "+1-929-595-5300",
+    "areaServed": ["Staten Island NY", "Brooklyn NY", "Queens NY", "Manhattan NY", "New Jersey"],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Staten Island",
+      "addressRegion": "NY",
+      "postalCode": "10305",
+      "addressCountry": "US"
+    },
+    "sameAs": [
+      "https://www.instagram.com/hammerbrickhome",
+      "https://www.facebook.com/hammerbrickhome",
+      "https://www.tiktok.com/@hammerbrickhome"
+    ]
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Hammer Brick & Home LLC Service Catalog",
+    "itemListElement": [
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Masonry & Concrete — sidewalks, pavers, brickwork, retaining walls"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Remodeling & Carpentry — kitchens, bathrooms, basements, framing"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Painting & Finishes — interior, exterior, stucco, epoxy floors"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Exterior Care & Seasonal Maintenance — power washing, gutters, deck stain, lawn"}}
+    ]
+  },
+  "description": "Licensed NYC Home Improvement Contractor HIC #21311291 offering professional masonry, remodeling, painting, and seasonal home services across Staten Island and NYC."
+}
+</script>
+
+<!-- ✅ Inline Styles -->
 <style>
 /* ----------------------------------
    LUXURY SERVICE BUTTON GRID (NEW)
@@ -18,7 +74,6 @@
   gap: 16px;
   margin-top: 12px;
 }
-
 .service-button {
   padding: 16px 20px;
   text-align: center;
@@ -40,8 +95,6 @@
   color: #151515;
   box-shadow: 0 10px 28px rgba(0,0,0,0.75);
 }
-
-/* Search bar */
 .search-input {
   width: 100%;
   padding: 12px 16px;
@@ -61,9 +114,7 @@
 </style>
 
 <script>
-// -------------------------------
 // ✅ Search Filter
-// -------------------------------
 function filterServices() {
   const input = document.getElementById("serviceSearch").value.toLowerCase();
   const buttons = document.querySelectorAll(".service-button");
@@ -73,7 +124,6 @@ function filterServices() {
   });
 }
 </script>
-
 </head>
 
 <body>
@@ -108,8 +158,8 @@ function filterServices() {
 <!-- HERO -->
 <section class="hero hero-inner fade-up">
   <div class="hero-content">
-    <h1>Services</h1>
-    <p>Premium masonry, remodeling, painting, exterior care & seasonal maintenance for NYC homeowners.</p>
+    <h1>Our Licensed Services</h1>
+    <p>Premium masonry, remodeling, painting, exterior care, and seasonal maintenance for NYC homeowners. All work by licensed & insured professionals.</p>
   </div>
 </section>
 
@@ -119,9 +169,7 @@ function filterServices() {
   <input id="serviceSearch" class="search-input" placeholder="Type to filter (e.g., pavers, bathroom, sidewalk)..." oninput="filterServices()">
 </section>
 
-<!-- ============================================
-     CATEGORY 1 — MASONRY & CONCRETE
-=============================================== -->
+<!-- MASONRY -->
 <section class="section fade-up">
   <h2>Masonry & Concrete</h2>
   <div class="service-grid">
@@ -141,9 +189,7 @@ function filterServices() {
   </div>
 </section>
 
-<!-- ============================================
-     CATEGORY 2 — REMODELING & CARPENTRY
-=============================================== -->
+<!-- REMODELING -->
 <section class="section fade-up">
   <h2>Carpentry & Remodeling</h2>
   <div class="service-grid">
@@ -161,9 +207,7 @@ function filterServices() {
   </div>
 </section>
 
-<!-- ============================================
-     CATEGORY 3 — PAINTING & FINISHES
-=============================================== -->
+<!-- PAINTING -->
 <section class="section fade-up">
   <h2>Painting & Finishes</h2>
   <div class="service-grid">
@@ -177,9 +221,7 @@ function filterServices() {
   </div>
 </section>
 
-<!-- ============================================
-     CATEGORY 4 — EXTERIOR CARE & SEASONAL
-=============================================== -->
+<!-- EXTERIOR CARE -->
 <section class="section fade-up">
   <h2>Exterior Care & Seasonal</h2>
   <div class="service-grid">
@@ -203,6 +245,7 @@ function filterServices() {
 <footer class="site-footer">
   <div>© <span id="yr"></span> Hammer Brick & Home LLC · NYC HIC #21311291</div>
   <div>Staten Island · NYC · Licensed & Insured · EPA RRP Lead-Safe Certified</div>
+  <div>Email: <a href="mailto:hammerbrickhome@gmail.com">hammerbrickhome@gmail.com</a> · Phone: <a href="tel:+19295955300">(929) 595-5300</a></div>
 </footer>
 
 <div class="chat-bubble">
@@ -219,3 +262,4 @@ function filterServices() {
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>
 </html>
+
