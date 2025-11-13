@@ -1,3 +1,8 @@
+
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,24 +10,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Gallery — Hammer Brick & Home LLC</title>
-<meta name="description" content="Before & after projects, masonry details, interiors, and exterior care. Auto-loads from gallery.json.">
+<meta name="description" content="Before & after projects, masonry details, interiors, and exterior masonry.">
 
 <link rel="icon" href="images/hero.PNG">
-<link rel="preload" as="image" href="images/hero.PNG">
 <link rel="stylesheet" href="style.css">
 
-<!-- Open Graph -->
+<!-- OG -->
 <meta property="og:title" content="Gallery — Hammer Brick & Home LLC">
-<meta property="og:description" content="Before & after projects, masonry details, interiors, and exterior care. Auto-loads from gallery.json.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.hammerbrickhome.com/gallery.html">
+<meta property="og:description" content="Before & After masonry and remodeling projects.">
 <meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Gallery — Hammer Brick & Home LLC">
-<meta name="twitter:description" content="Before & after projects, masonry details, interiors, and exterior care. Auto-loads from gallery.json.">
-<meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
 </head>
 
 <body>
@@ -32,11 +28,10 @@
 
 <main class="page">
 
-<!-- HERO -->
 <section class="hero hero-inner fade-up">
   <div class="hero-content">
     <h1>Project Gallery</h1>
-    <p>Real work. Real properties. Before & After shots that show the difference clean prep and true masonry make.</p>
+    <p>Real work. Real properties. Before & After shots that show true masonry craftsmanship.</p>
   </div>
 </section>
 
@@ -57,11 +52,11 @@
   <h2>Photo Grid</h2>
   <div id="galleryContainer" class="gallery-grid"></div>
   <button id="loadMoreGrid" class="gold-btn">Load 10 More</button>
-  <p class="section-note">Images load automatically from <code>gallery.json</code> so you can update photos without touching HTML.</p>
+  <p class="section-note">Images load automatically from <code>gallery.json</code>.</p>
 </section>
 
 <!-- LIGHTBOX -->
-<div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+<div id="lightbox" class="lightbox">
   <img alt="Preview">
 </div>
 
@@ -70,34 +65,23 @@
 <!-- FOOTER -->
 <div id="footer-include"></div>
 
-<!-- HEADER + FOOTER LOADER -->
+<!-- HEADER & FOOTER LOADER -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   Promise.all([
     fetch("header.html").then(r => r.text()),
     fetch("footer.html").then(r => r.text())
-  ])
-  .then(([header, footer]) => {
+  ]).then(([header, footer]) => {
     document.getElementById("header-include").innerHTML = header;
     document.getElementById("footer-include").innerHTML = footer;
 
-    const yr = document.getElementById("yr");
-    if (yr) yr.textContent = new Date().getFullYear();
-
-    // LOAD PAGE FEATURES FROM script.js
     if (typeof loadGalleryPage === "function") loadGalleryPage();
     if (typeof initGallerySearch === "function") initGallerySearch();
-  })
-  .catch(err => console.error("Include load error", err));
+  });
 });
 </script>
 
-<!-- MAIN JS -->
 <script src="script.js"></script>
 
 </body>
 </html>
-
-
-
-
