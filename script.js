@@ -1,7 +1,8 @@
 /* ============================================================
-   HEADER + FOOTER INTERACTIONS
+   ✅ HEADER + FOOTER INTERACTIONS
 =============================================================== */
 function initHeaderInteractions() {
+  /* --- Mobile nav toggle --- */
   const navToggle = document.querySelector('.nav-toggle');
   const mainNav = document.querySelector('.main-nav');
   if (navToggle && mainNav) {
@@ -10,6 +11,7 @@ function initHeaderInteractions() {
     });
   }
 
+  /* --- Dropdown (Service Areas) toggle --- */
   const dropbtn = document.querySelector('.dropbtn');
   const dropdown = document.querySelector('.dropdown');
   if (dropbtn && dropdown) {
@@ -17,17 +19,20 @@ function initHeaderInteractions() {
       e.preventDefault();
       dropdown.classList.toggle('show');
     });
-    document.addEventListener('click', (event) => {
-      if (!dropdown.contains(event.target)) dropdown.classList.remove('show');
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('show');
+      }
     });
   }
 
+  /* --- Chat bubble toggle --- */
   const chatToggle = document.querySelector('.chat-toggle');
   const chatModal = document.querySelector('.chat-modal');
   if (chatToggle && chatModal) {
     chatToggle.addEventListener('click', () => {
       chatModal.style.display =
-        chatModal.style.display === "flex" ? "none" : "flex";
+        chatModal.style.display === 'flex' ? 'none' : 'flex';
     });
   }
 }
@@ -36,35 +41,22 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(initHeaderInteractions, 500);
 });
 
+
 /* ============================================================
-   UTIL — Shuffle
+   🔧 UTILITIES
 =============================================================== */
 function shuffle(arr) {
-  return arr
-    .map(x => ({ value: x, sort: Math.random() }))
-    .sort((a,b) => a.sort - b.sort)
-    .map(x => x.value);
-}
-
-/* ============================================================
-   LIGHTBOX
-=============================================================== */
-function openLightbox(src) {
-  const lb = document.getElementById("lightbox");
-  if (!lb) return;
-  lb.querySelector("img").src = src;
-  lb.classList.add("show");
-}
-
-document.addEventListener("click", e => {
-  const lb = document.getElementById("lightbox");
-  if (lb && e.target === lb) {
-    lb.classList.remove("show");
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
-});
+  return a;
+}
+
 
 /* ============================================================
-   GALLERY SEARCH
+   🔍 GALLERY SEARCH
 =============================================================== */
 function initGallerySearch() {
   const input = document.getElementById("gallerySearch");
@@ -73,203 +65,162 @@ function initGallerySearch() {
   input.addEventListener("input", () => {
     const q = input.value.toLowerCase();
 
+    // Filter grid photos
     document.querySelectorAll(".grid-photo").forEach(img => {
       img.style.display = img.alt.toLowerCase().includes(q) ? "" : "none";
     });
 
+    // Filter Before/After captions
     document.querySelectorAll(".compare-caption").forEach(cap => {
       const card = cap.parentElement;
-      const show = cap.textContent.toLowerCase().includes(q);
-      card.style.display = show ? "" : "none";
+      const match = cap.textContent.toLowerCase().includes(q);
+      card.style.display = match ? "" : "none";
     });
   });
 }
 
+
 /* ============================================================
-   GALLERY PAGE - USE gallery.html BUTTONS (NO DUPLICATES)
+   🖼️ LIGHTBOX
+=============================================================== */
+function openLightbox(src) {
+  const lb = document.getElementById("lightbox");
+  lb.querySelector("img").src = src;
+  lb.classList.add("show");
+}
+
+document.addEventListener("click", (e) => {
+  const lb = document.getElementById("lightbox");
+  if (e.target === lb) lb.classList.remove("show");
+});
+
+
+/* ============================================================
+   🖼️ GALLERY PAGE LOADER
 =============================================================== */
 async function loadGalleryPage() {
-  const gridEl = document.getElementById("galleryContainer");
-  const pairEl = document.getElementById("compareRow");
-  if (!gridEl && !pairEl) return;
+  const galleryContainer = document.getElementById("galleryContainer");
+  const compareRow = document.getElementById("compareRow");
 
-  const loadMoreGridBtn = document.getElementById("galleryLoadMore");
-  const loadMorePairsBtn = document.getElementById("compareLoadMore");
+  if (!galleryContainer && !compareRow) return;
+
+  const btnGrid = document.getElementById("loadMoreGrid");  // HTML button
+  const btnPairs = document.getElementById("loadMoreBA");    // HTML button
 
   const res = await fetch("gallery.json", { cache: "no-store" });
-  if (!res.ok) return console.error("Cannot load gallery.json");
-
+  if (!res.ok) return console.error("❌ gallery.json failed to load");
   const data = await res.json();
 
-  const grid = shuffle(data.galleryGrid || []);
-  const pairs = shuffle(data.galleryPairs || []);
+  const gridArr = shuffle(data.galleryGrid || []);
+  const pairArr = shuffle(data.galleryPairs || []);
 
   let gridIndex = 0;
   let pairIndex = 0;
   const BATCH = 8;
 
-  /* ---- GRID ---- */
-  function loadMoreGrid() {
-    const slice = grid.slice(gridIndex, gridIndex + BATCH);
-
+  /* ------------------------------------------
+     GRID PHOTOS
+  ------------------------------------------ */
+  function renderGrid() {
+    const slice = gridArr.slice(gridIndex, gridIndex + BATCH);
     slice.forEach(name => {
-      const ph = document.createElement("div");
-      ph.className = "skeleton";
-      ph.style.height = "160px";
-      gridEl.appendChild(ph);
-
-      const img = new Image();
+      const img = document.createElement("img");
       img.src = "images/" + name;
       img.alt = name;
       img.className = "grid-photo";
       img.loading = "lazy";
-      img.onload = () => ph.replaceWith(img);
       img.onclick = () => openLightbox(img.src);
+      galleryContainer.appendChild(img);
     });
 
     gridIndex += slice.length;
-    if (gridIndex >= grid.length) loadMoreGridBtn.style.display = "none";
+    if (gridIndex >= gridArr.length) btnGrid.style.display = "none";
   }
 
-  /* ---- BEFORE/AFTER ---- */
-  function buildPairCard(p) {
-    const outer = document.createElement("div");
+  /* ------------------------------------------
+     BEFORE / AFTER CARDS
+  ------------------------------------------ */
+  function renderPairs() {
+    const slice = pairArr.slice(pairIndex, pairIndex + BATCH);
+    slice.forEach(item => {
+      if (!item.before || !item.after) return;
 
-    const wrap = document.createElement("div");
-    wrap.className = "compare-item";
+      const wrapper = document.createElement("div");
 
-    const before = document.createElement("img");
-    before.src = "images/" + p.before;
-    before.className = "before-img";
+      const card = document.createElement("div");
+      card.className = "compare-item";
 
-    const afterWrap = document.createElement("div");
-    afterWrap.className = "after-wrap";
+      // Before
+      const before = document.createElement("img");
+      before.src = "images/" + item.before;
+      before.className = "before-img";
 
-    const after = document.createElement("img");
-    after.src = "images/" + p.after;
-    after.className = "after-img";
+      // After
+      const afterWrap = document.createElement("div");
+      afterWrap.className = "after-wrap";
+      const after = document.createElement("img");
+      after.src = "images/" + item.after;
+      after.className = "after-img";
+      afterWrap.appendChild(after);
 
-    afterWrap.appendChild(after);
+      // Labels
+      const labelB = document.createElement("div");
+      labelB.className = "compare-label";
+      labelB.textContent = "Before";
 
-    const slider = document.createElement("input");
-    slider.type = "range";
-    slider.min = 0;
-    slider.max = 100;
-    slider.value = 50;
-    slider.className = "slider-control";
-    slider.addEventListener("input", () => {
-      afterWrap.style.width = slider.value + "%";
-    });
+      const labelA = document.createElement("div");
+      labelA.className = "compare-label right";
+      labelA.textContent = "After";
 
-    const lb1 = document.createElement("div");
-    lb1.className = "compare-label";
-    lb1.textContent = "Before";
+      // Slider
+      const slider = document.createElement("input");
+      slider.type = "range";
+      slider.min = 0;
+      slider.max = 100;
+      slider.value = 50;
+      slider.className = "slider-control";
+      slider.addEventListener("input", () => {
+        afterWrap.style.width = slider.value + "%";
+      });
 
-    const lb2 = document.createElement("div");
-    lb2.className = "compare-label right";
-    lb2.textContent = "After";
+      card.appendChild(before);
+      card.appendChild(afterWrap);
+      card.appendChild(labelB);
+      card.appendChild(labelA);
+      card.appendChild(slider);
 
-    wrap.appendChild(before);
-    wrap.appendChild(afterWrap);
-    wrap.appendChild(lb1);
-    wrap.appendChild(lb2);
-    wrap.appendChild(slider);
+      // Caption
+      if (item.label) {
+        const caption = document.createElement("div");
+        caption.className = "compare-caption";
+        caption.textContent = item.label;
 
-    const caption = document.createElement("div");
-    caption.className = "compare-caption";
-    caption.textContent = p.label || "";
-
-    outer.appendChild(wrap);
-    outer.appendChild(caption);
-
-    return outer;
-  }
-
-  function loadMorePairs() {
-    const slice = pairs.slice(pairIndex, pairIndex + BATCH);
-
-    slice.forEach(p => {
-      const ph = document.createElement("div");
-      ph.className = "skeleton";
-      ph.style.height = "250px";
-      pairEl.appendChild(ph);
-
-      setTimeout(() => ph.replaceWith(buildPairCard(p)), 250);
+        wrapper.appendChild(card);
+        wrapper.appendChild(caption);
+        compareRow.appendChild(wrapper);
+      } else {
+        compareRow.appendChild(card);
+      }
     });
 
     pairIndex += slice.length;
-    if (pairIndex >= pairs.length) loadMorePairsBtn.style.display = "none";
+    if (pairIndex >= pairArr.length) btnPairs.style.display = "none";
   }
 
-  loadMoreGrid();
-  loadMorePairs();
+  /* Initial load */
+  renderGrid();
+  renderPairs();
 
-  loadMoreGridBtn.addEventListener("click", loadMoreGrid);
-  loadMorePairsBtn.addEventListener("click", loadMorePairs);
+  /* Button events */
+  btnGrid.addEventListener("click", renderGrid);
+  btnPairs.addEventListener("click", renderPairs);
 }
 
-/* ============================================================
-   HOMEPAGE BEFORE/AFTER
-=============================================================== */
-async function initHomepageBA() {
-  const grid = document.getElementById("ba-grid");
-  const btn = document.getElementById("ba-loadmore");
-  const tpl = document.getElementById("ba-card");
-  if (!grid || !tpl) return;
-
-  const res = await fetch("gallery.json", { cache: "no-store" });
-  if (!res.ok) return;
-
-  const data = await res.json();
-  const pairs = data.homePairs || [];
-
-  let index = 0;
-  const BATCH = 6;
-
-  function loadMore() {
-    const slice = pairs.slice(index, index + BATCH);
-
-    slice.forEach(p => {
-      const card = tpl.content.cloneNode(true);
-      const b = card.querySelector(".ba-before");
-      const a = card.querySelector(".ba-after");
-      const wrap = card.querySelector(".ba-after-wrap");
-      const cap = card.querySelector(".ba-caption");
-      const slider = card.querySelector(".ba-slider");
-
-      b.src = "images/" + p.before;
-      a.src = "images/" + p.after;
-      cap.textContent = p.label || "";
-
-      slider.addEventListener("input", () => {
-        wrap.style.width = slider.value + "%";
-      });
-
-      grid.appendChild(card);
-    });
-
-    index += slice.length;
-    if (index >= pairs.length) btn.style.display = "none";
-  }
-
-  loadMore();
-  btn.addEventListener("click", loadMore);
-}
 
 /* ============================================================
-   MASTER INIT
+   🚀 MASTER INIT
 =============================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-  loadGalleryPage();
   initGallerySearch();
-  initHomepageBA();
+  loadGalleryPage();
 });
-
-
-
-
-
-
-
-
-
