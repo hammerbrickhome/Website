@@ -961,6 +961,12 @@ body::before {
     0 0 8px rgba(212,175,55,0.45),
     inset 0 0 6px rgba(212,175,55,0.4);
 }
+.gold-pill:hover {
+  filter: brightness(1.25);
+  box-shadow:
+    0 0 12px rgba(212,175,55,0.75),
+    inset 0 0 8px rgba(212,175,55,0.55);
+}
 
 
 
