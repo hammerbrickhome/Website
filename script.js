@@ -123,7 +123,7 @@ async function loadGalleryPage() {
 
     const data = await res.json();
 
-    // 🔥 NEW JSON structure
+    // JSON structure
     const grid = Array.isArray(data.galleryGrid) ? data.galleryGrid : [];
     const pairs = Array.isArray(data.galleryPairs) ? data.galleryPairs : [];
 
@@ -147,7 +147,8 @@ async function loadGalleryPage() {
       });
       gridIndex += slice.length;
       if (galleryMoreBtn) {
-        galleryMoreBtn.style.display = (gridIndex >= shuffledGrid.length) ? 'none' : 'inline-block';
+        galleryMoreBtn.style.display =
+          (gridIndex >= shuffledGrid.length) ? 'none' : 'inline-block';
       }
     }
 
@@ -216,7 +217,8 @@ async function loadGalleryPage() {
       });
       pairsIndex += slice.length;
       if (compareMoreBtn) {
-        compareMoreBtn.style.display = (pairsIndex >= shuffledPairs.length) ? 'none' : 'inline-block';
+        compareMoreBtn.style.display =
+          (pairsIndex >= shuffledPairs.length) ? 'none' : 'inline-block';
       }
     }
 
@@ -252,6 +254,32 @@ document.addEventListener('click', e => {
 
 
 /* ============================================================
+   ✅ GALLERY SEARCH (NEW)
+=============================================================== */
+function initGallerySearch() {
+  const input = document.getElementById('gallerySearch');
+  if (!input) return;
+
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase();
+
+    // Filter grid photos
+    document.querySelectorAll('.grid-photo').forEach(img => {
+      const text = (img.alt || '').toLowerCase();
+      img.style.display = text.includes(q) ? '' : 'none';
+    });
+
+    // Filter before/after cards by caption text
+    document.querySelectorAll('#compareRow .compare-caption').forEach(cap => {
+      const card = cap.parentElement; // wrapper created in buildCompareCard
+      const text = cap.textContent.toLowerCase();
+      card.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+}
+
+
+/* ============================================================
    ✅ HOMEPAGE — BEFORE & AFTER FROM gallery.json → homePairs
 =============================================================== */
 const BA_GRID = document.getElementById('ba-grid');
@@ -266,8 +294,7 @@ async function loadPairsFromJSON() {
     const res = await fetch("gallery.json", { cache: "no-store" });
     if (!res.ok) return [];
     const data = await res.json();
-
-    // 🔥 Homepage now uses "homePairs"
+    // Homepage uses homePairs
     return data.homePairs || [];
   } catch (e) {
     console.error("JSON load error", e);
@@ -312,7 +339,9 @@ async function initHomepageBA() {
 document.addEventListener('DOMContentLoaded', () => {
   loadGalleryPage();
   initHomepageBA();
+  initGallerySearch();
 });
+
 
 
 
