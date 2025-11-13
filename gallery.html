@@ -4,16 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Gallery — Hammer Brick & Home LLC</title>
-
+<meta name="description" content="Before & after projects, masonry details, interiors, and exterior care. Auto-loads from gallery.json.">
 <link rel="icon" href="images/hero.PNG">
 <link rel="preload" as="image" href="images/hero.PNG">
 <link rel="stylesheet" href="style.css">
 
+<!-- Open Graph -->
+<meta property="og:title" content="Gallery — Hammer Brick & Home LLC">
+<meta property="og:description" content="Before & after projects, masonry details, interiors, and exterior care. Auto-loads from gallery.json.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.hammerbrickhome.com/gallery.html">
+<meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gallery — Hammer Brick & Home LLC">
+<meta name="twitter:description" content="Before & after projects, masonry details, interiors, and exterior care. Auto-loads from gallery.json.">
+<meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
 </head>
 
 <body>
 
-<!-- HEADER -->
+<!-- Header include -->
 <div id="header-include"></div>
 
 <main class="page">
@@ -22,59 +34,72 @@
 <section class="hero hero-inner fade-up">
   <div class="hero-content">
     <h1>Project Gallery</h1>
-    <p>Real work. Real results. Explore professional masonry and remodeling transformations.</p>
+    <p>Real work. Real properties. Before &amp; After transformations.</p>
   </div>
 </section>
 
-<!-- SEARCH BAR (60% WIDTH, CENTERED) -->
-<section class="section fade-up" style="text-align:center;">
-  <input id="gallerySearch" class="gallery-search" 
-         style="max-width:600px;width:60%;margin:auto;display:block;" 
-         type="text" placeholder="Search projects…">
+<!-- SEARCH -->
+<section class="section fade-up" style="max-width:600px;margin:0 auto 40px auto;">
+  <input id="gallerySearch" class="gallery-search" type="text" placeholder="Search projects…">
 </section>
 
 <!-- BEFORE & AFTER -->
 <section class="section fade-up">
-  <h2>Featured Before & After</h2>
+  <h2>Featured Before &amp; After</h2>
+
   <div id="compareRow" class="compare-grid"></div>
-  <button id="loadMoreBA" class="gold-btn">Load 8 More</button>
+
+  <div class="loadmore-row">
+    <button id="loadMoreBA" class="gold-btn">Load 8 More</button>
+  </div>
 </section>
 
 <!-- PHOTO GRID -->
 <section class="section fade-up">
   <h2>Photo Grid</h2>
+
   <div id="galleryContainer" class="gallery-grid"></div>
-  <button id="loadMoreGrid" class="gold-btn">Load 8 More</button>
-  <p class="section-note">Images load automatically from gallery.json.</p>
+
+  <div class="loadmore-row">
+    <button id="loadMoreGrid" class="gold-btn">Load 8 More</button>
+  </div>
+
+  <p class="section-note">Images load automatically from <code>gallery.json</code>.</p>
 </section>
 
 <!-- LIGHTBOX -->
-<div id="lightbox" class="lightbox"><img alt=""></div>
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+  <img alt="Preview">
+</div>
 
 </main>
 
-<!-- FOOTER -->
+<!-- Footer include -->
 <div id="footer-include"></div>
 
-<!-- HEADER/FOOTER LOADER -->
+<!-- Load Header + Footer -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   Promise.all([
     fetch("header.html").then(r => r.text()),
     fetch("footer.html").then(r => r.text())
-  ]).then(([header, footer]) => {
+  ])
+  .then(([header, footer]) => {
     document.getElementById("header-include").innerHTML = header;
     document.getElementById("footer-include").innerHTML = footer;
 
-    if (typeof loadGalleryPage === "function") loadGalleryPage();
-  });
+    const yr = document.getElementById("yr");
+    if (yr) yr.textContent = new Date().getFullYear();
+  })
 });
 </script>
 
+<!-- Your main JS -->
 <script src="script.js"></script>
 
 </body>
 </html>
+
 
 
 
