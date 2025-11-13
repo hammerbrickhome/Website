@@ -1,27 +1,32 @@
-
-
 /* ============================================================
-   HEADER + FOOTER INTERACTIONS
+   ✅ HEADER + FOOTER READY HOOKS (works with dynamic include)
 =============================================================== */
 function initHeaderInteractions() {
+  // --- Mobile nav toggle ---
   const navToggle = document.querySelector('.nav-toggle');
   const mainNav = document.querySelector('.main-nav');
   if (navToggle && mainNav) {
-    navToggle.addEventListener('click', () => mainNav.classList.toggle('show'));
+    navToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('show');
+    });
   }
 
+  // --- Dropdown (Service Areas) toggle ---
   const dropbtn = document.querySelector('.dropbtn');
   const dropdown = document.querySelector('.dropdown');
   if (dropbtn && dropdown) {
-    dropbtn.addEventListener('click', e => {
+    dropbtn.addEventListener('click', (e) => {
       e.preventDefault();
       dropdown.classList.toggle('show');
     });
-    document.addEventListener('click', evt => {
-      if (!dropdown.contains(evt.target)) dropdown.classList.remove('show');
+    document.addEventListener('click', (event) => {
+      if (!dropdown.contains(event.target) && event.target !== dropbtn) {
+        dropdown.classList.remove('show');
+      }
     });
   }
 
+  // --- Chat bubble toggle ---
   const chatToggle = document.querySelector('.chat-toggle');
   const chatModal = document.querySelector('.chat-modal');
   if (chatToggle && chatModal) {
@@ -32,12 +37,26 @@ function initHeaderInteractions() {
   }
 }
 
+// Fallback for pages that don't use header.html/footer.html includes
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(initHeaderInteractions, 500);
 });
 
+/* ---------------------------
+   ✅ Service Filter (Services page)
+---------------------------- */
+function filterServices() {
+  const q =
+    (document.getElementById('serviceSearch')?.value || '').toLowerCase();
+  document.querySelectorAll('.service-grid .card').forEach(card => {
+    const show = card.textContent.toLowerCase().includes(q);
+    card.style.display = show ? '' : 'none';
+  });
+}
+window.filterServices = filterServices;
+
 /* ============================================================
-   UTIL — Shuffle
+   ✅ UTIL: shuffle
 =============================================================== */
 function shuffle(arr) {
   const a = arr.slice();
@@ -49,122 +68,195 @@ function shuffle(arr) {
 }
 
 /* ============================================================
-   GALLERY PAGE — LOAD IMAGES
+   ✅ GALLERY PAGE — galleryPairs + galleryGrid
 =============================================================== */
-async function loadGalleryPage() {
-  const gridContainer = document.getElementById('galleryContainer');
-  const baContainer = document.getElementById('compareRow');
+let galleryInitialized = false;
 
-  if (!gridContainer && !baContainer) return;
+async function loadGalleryPage() {
+  // Prevent double-init if something calls this twice
+  if (galleryInitialized) return;
+  galleryInitialized = true;
+
+  const galleryContainer = document.getElementById('galleryContainer');
+  const compareRow = document.getElementById('compareRow');
+  const baBtn = document.getElementById('loadMoreBA');
+  const gridBtn = document.getElementById('loadMoreGrid');
+
+  // If we're not on the gallery page, just exit
+  if (!galleryContainer && !compareRow) return;
 
   try {
     const res = await fetch('gallery.json', { cache: 'no-store' });
+    if (!res.ok) {
+      console.error('gallery.json failed to load');
+      return;
+    }
     const data = await res.json();
 
-    const grid = shuffle(data.galleryGrid || []);
-    const pairs = shuffle(data.galleryPairs || []);
+    const rawGrid = Array.isArray(data.galleryGrid) ? data.galleryGrid : [];
+    const rawPairs = Array.isArray(data.galleryPairs) ? data.galleryPairs : [];
 
+    const grid = shuffle(rawGrid);
+    const pairs = shuffle(rawPairs);
+
+    const PAGE = 8;
     let gridIndex = 0;
     let pairIndex = 0;
-    const BATCH = 8;
 
-    /* ---------------- GRID LOADER ---------------- */
-    function loadMoreGrid() {
-      const slice = grid.slice(gridIndex, gridIndex + BATCH);
-      slice.forEach(name => {
-        const img = document.createElement('img');
-        img.src = 'images/' + name;
-        img.alt = name;
-        img.className = 'grid-photo';
-        img.onclick = () => openLightbox(img.src);
-        gridContainer.appendChild(img);
-      });
-      gridIndex += slice.length;
-
-      if (gridIndex >= grid.length) {
-        document.getElementById('loadMoreGrid').style.display = 'none';
-      }
+    // ---- Helper: gold skeleton shim (luxury shimmer) ----
+    function makeSkeleton(heightPx) {
+      const sk = document.createElement('div');
+      sk.className = 'skeleton';
+      sk.style.height = heightPx + 'px';
+      return sk;
     }
 
-    /* ---------------- BEFORE/AFTER LOADER ---------------- */
+    // ---- BEFORE/AFTER cards (using homepage style) ----
     function buildCompareCard(pair) {
-      const outer = document.createElement('div');
+      const card = document.createElement('div');
+      card.className = 'ba-card fade-in';
 
-      const wrap = document.createElement('div');
-      wrap.className = 'compare-item fade-in';
+      const frame = document.createElement('div');
+      frame.className = 'ba-frame';
 
       const before = document.createElement('img');
-      before.className = 'before-img';
+      before.className = 'ba-before';
       before.src = 'images/' + pair.before;
+      before.loading = 'lazy';
+      before.alt = (pair.label || 'Before project') + ' — before';
 
       const afterWrap = document.createElement('div');
-      afterWrap.className = 'after-wrap';
+      afterWrap.className = 'ba-after-wrap';
 
       const after = document.createElement('img');
-      after.className = 'after-img';
+      after.className = 'ba-after';
       after.src = 'images/' + pair.after;
+      after.loading = 'lazy';
+      after.alt = (pair.label || 'After project') + ' — after';
 
       afterWrap.appendChild(after);
 
-      const lbL = document.createElement('div');
-      lbL.className = 'compare-label';
-      lbL.textContent = 'Before';
+      const lbBefore = document.createElement('div');
+      lbBefore.className = 'ba-label ba-label-left';
+      lbBefore.textContent = 'Before';
 
-      const lbR = document.createElement('div');
-      lbR.className = 'compare-label right';
-      lbR.textContent = 'After';
+      const lbAfter = document.createElement('div');
+      lbAfter.className = 'ba-label ba-label-right';
+      lbAfter.textContent = 'After';
 
       const slider = document.createElement('input');
       slider.type = 'range';
       slider.min = '0';
       slider.max = '100';
       slider.value = '50';
-      slider.className = 'slider-control';
+      slider.className = 'ba-slider';
       slider.addEventListener('input', () => {
         afterWrap.style.width = slider.value + '%';
       });
 
-      wrap.appendChild(before);
-      wrap.appendChild(afterWrap);
-      wrap.appendChild(lbL);
-      wrap.appendChild(lbR);
-      wrap.appendChild(slider);
+      frame.appendChild(before);
+      frame.appendChild(afterWrap);
+      frame.appendChild(lbBefore);
+      frame.appendChild(lbAfter);
+      frame.appendChild(slider);
 
       const caption = document.createElement('div');
-      caption.className = 'compare-caption';
-      caption.textContent = pair.label;
+      caption.className = 'ba-caption compare-caption';
+      caption.textContent = pair.label || '';
 
-      outer.appendChild(wrap);
-      outer.appendChild(caption);
-
-      return outer;
+      card.appendChild(frame);
+      card.appendChild(caption);
+      return card;
     }
 
-    function loadMorePairs() {
-      const slice = pairs.slice(pairIndex, pairIndex + BATCH);
-      slice.forEach(p => baContainer.appendChild(buildCompareCard(p)));
-      pairIndex += slice.length;
+    function renderMorePairs() {
+      if (!compareRow) return;
+      const slice = pairs.slice(pairIndex, pairIndex + PAGE);
 
-      if (pairIndex >= pairs.length) {
-        document.getElementById('loadMoreBA').style.display = 'none';
+      slice.forEach(pair => {
+        if (!pair.before || !pair.after) return;
+
+        // Skeleton placeholder while images settle
+        const sk = makeSkeleton(230);
+        compareRow.appendChild(sk);
+
+        const card = buildCompareCard(pair);
+
+        // Quick swap to feel responsive but still show shimmer
+        setTimeout(() => {
+          sk.replaceWith(card);
+        }, 220);
+      });
+
+      pairIndex += slice.length;
+      if (baBtn) {
+        baBtn.style.display =
+          pairIndex >= pairs.length ? 'none' : 'inline-block';
       }
     }
 
-    /* INITIAL LOAD */
-    loadMoreGrid();
-    loadMorePairs();
+    // ---- PHOTO GRID ----
+    function renderMoreGrid() {
+      if (!galleryContainer) return;
+      const slice = grid.slice(gridIndex, gridIndex + PAGE);
 
-    /* BUTTONS */
-    document.getElementById('loadMoreGrid').onclick = loadMoreGrid;
-    document.getElementById('loadMoreBA').onclick = loadMorePairs;
+      slice.forEach(name => {
+        const sk = makeSkeleton(180);
+        galleryContainer.appendChild(sk);
+
+        const img = new Image();
+        img.src = 'images/' + name;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.alt = name;
+        img.className = 'grid-photo';
+        img.addEventListener('click', () => openLightbox(img.src));
+        img.addEventListener('load', () => {
+          img.classList.add('lazyloaded');
+          sk.replaceWith(img);
+        });
+      });
+
+      gridIndex += slice.length;
+      if (gridBtn) {
+        gridBtn.style.display =
+          gridIndex >= grid.length ? 'none' : 'inline-block';
+      }
+    }
+
+    // First batch
+    if (compareRow && pairs.length) renderMorePairs();
+    if (galleryContainer && grid.length) renderMoreGrid();
+
+    // Button hooks
+    if (baBtn) baBtn.addEventListener('click', renderMorePairs);
+    if (gridBtn) gridBtn.addEventListener('click', renderMoreGrid);
 
   } catch (err) {
-    console.log('Gallery load error:', err);
+    console.error('Gallery load error:', err);
   }
 }
 
 /* ============================================================
-   GALLERY SEARCH
+   ✅ LIGHTBOX
+=============================================================== */
+function openLightbox(src) {
+  const lightbox = document.getElementById('lightbox');
+  if (!lightbox) return;
+  const img = lightbox.querySelector('img');
+  if (img) img.src = src;
+  lightbox.classList.add('show');
+}
+
+document.addEventListener('click', e => {
+  const lightbox = document.getElementById('lightbox');
+  if (lightbox && e.target === lightbox) {
+    lightbox.classList.remove('show');
+  }
+});
+
+/* ============================================================
+   ✅ GALLERY SEARCH
 =============================================================== */
 function initGallerySearch() {
   const input = document.getElementById('gallerySearch');
@@ -173,36 +265,100 @@ function initGallerySearch() {
   input.addEventListener('input', () => {
     const q = input.value.toLowerCase();
 
+    // Filter grid photos
     document.querySelectorAll('.grid-photo').forEach(img => {
-      img.style.display = img.alt.toLowerCase().includes(q) ? '' : 'none';
+      const text = (img.alt || '').toLowerCase();
+      img.style.display = text.includes(q) ? '' : 'none';
     });
 
-    document.querySelectorAll('.compare-caption').forEach(cap => {
-      const row = cap.parentElement;
-      row.style.display = cap.textContent.toLowerCase().includes(q) ? '' : 'none';
+    // Filter before/after cards by caption text
+    document.querySelectorAll('#compareRow .compare-caption').forEach(cap => {
+      const card = cap.closest('.ba-card') || cap.parentElement;
+      const text = cap.textContent.toLowerCase();
+      if (!card) return;
+      card.style.display = text.includes(q) ? '' : 'none';
     });
   });
 }
 
 /* ============================================================
-   LIGHTBOX
+   ✅ HOMEPAGE — BEFORE & AFTER FROM gallery.json → homePairs
 =============================================================== */
-function openLightbox(src) {
-  const lb = document.getElementById('lightbox');
-  if (!lb) return;
-  lb.querySelector('img').src = src;
-  lb.classList.add('show');
-}
-document.addEventListener('click', e => {
-  if (e.target.id === 'lightbox') {
-    document.getElementById('lightbox').classList.remove('show');
+async function initHomepageBA() {
+  const grid = document.getElementById('ba-grid');
+  const loadMoreBtn = document.getElementById('ba-loadmore');
+  const template = document.getElementById('ba-card');
+
+  // Not on homepage
+  if (!grid || !template) return;
+
+  let allPairs = [];
+  let index = 0;
+  const BATCH = 6;
+
+  async function loadPairsFromJSON() {
+    try {
+      const res = await fetch('gallery.json', { cache: 'no-store' });
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data.homePairs) ? data.homePairs : [];
+    } catch (e) {
+      console.error('JSON load error', e);
+      return [];
+    }
   }
-});
+
+  function renderNextSix() {
+    const slice = allPairs.slice(index, index + BATCH);
+    slice.forEach(pair => {
+      const card = template.content.cloneNode(true);
+      const before = card.querySelector('.ba-before');
+      const after = card.querySelector('.ba-after');
+      const caption = card.querySelector('.ba-caption');
+      const slider = card.querySelector('.ba-slider');
+      const wrap = card.querySelector('.ba-after-wrap');
+
+      if (before) {
+        before.src = 'images/' + pair.before;
+        before.loading = 'lazy';
+      }
+      if (after) {
+        after.src = 'images/' + pair.after;
+        after.loading = 'lazy';
+      }
+      if (caption) caption.textContent = pair.label || '';
+      if (slider && wrap) {
+        slider.addEventListener('input', () => {
+          wrap.style.width = slider.value + '%';
+        });
+      }
+      grid.appendChild(card);
+    });
+    index += slice.length;
+    if (loadMoreBtn && index >= allPairs.length) {
+      loadMoreBtn.style.display = 'none';
+    }
+  }
+
+  allPairs = await loadPairsFromJSON();
+  if (!allPairs.length) {
+    grid.innerHTML = '<p>No before/after pairs found.</p>';
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+    return;
+  }
+
+  renderNextSix();
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', renderNextSix);
+  }
+}
 
 /* ============================================================
-   INIT
+   ✅ MASTER INIT
 =============================================================== */
 document.addEventListener('DOMContentLoaded', () => {
-  loadGalleryPage();
-  initGallerySearch();
+  loadGalleryPage();    // only does anything on /gallery
+  initHomepageBA();     // only does anything on homepage
+  initGallerySearch();  // only does anything if #gallerySearch exists
 });
+
