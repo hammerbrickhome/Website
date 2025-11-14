@@ -1108,3 +1108,189 @@ input.gallery-search-box,
   text-shadow: 0 0 8px rgba(212,175,55,0.35);
 }
 
+
+/* ============================================================
+   FAQ — LUXURY DARK + GOLD UI (FINAL VERSION)
+   Hammer Brick & Home LLC
+=============================================================== */
+
+.faq-section {
+  max-width: 980px;
+  margin: 60px auto;
+  padding: 28px 26px;
+  background: rgba(6,12,23,0.88);
+  border: 1px solid rgba(231,191,99,0.25);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 18px rgba(212,175,55,0.18);
+  animation: fadeUp .8s ease forwards;
+}
+
+/* Category Titles */
+.faq-section h2 {
+  margin-top: 35px;
+  margin-bottom: 14px;
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: var(--gold-soft);
+  text-shadow: 0 0 14px rgba(212,175,55,0.45);
+  border-left: 4px solid rgba(231,191,99,0.55);
+  padding-left: 12px;
+}
+
+/* Each FAQ item container */
+.faq-section details {
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: rgba(10,20,35,0.92);
+  border: 1px solid rgba(231,191,99,0.25);
+  box-shadow: 0 0 12px rgba(212,175,55,0.15);
+  overflow: hidden;
+  transition: .25s ease;
+}
+
+/* Hover glow */
+.faq-section details:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 18px rgba(212,175,55,0.65);
+  transform: translateY(-1px);
+}
+
+/* FAQ Question */
+.faq-section summary {
+  padding: 16px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gold-soft);
+  list-style: none;
+  user-select: none;
+  position: relative;
+  transition: .25s ease;
+}
+
+/* Remove default marker */
+.faq-section summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Gold arrow */
+.faq-section summary::after {
+  content: "›";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-size: 20px;
+  color: var(--gold-soft);
+  transition: transform .28s ease, color .28s ease;
+}
+
+/* Rotate on open */
+.faq-section details[open] summary::after {
+  transform: translateY(-50%) rotate(-90deg);
+  color: #fff;
+  text-shadow: 0 0 12px rgba(212,175,55,0.95);
+}
+
+/* SHIMMER underline animation */
+.faq-section summary:hover {
+  color: #fff;
+  text-shadow: 0 0 12px rgba(245,196,0,0.85);
+}
+
+.faq-section summary:hover::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  right: 40px;
+  bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  animation: shimmerScan 1s ease-out forwards;
+}
+
+@keyframes shimmerScan {
+  0% { opacity: 0; transform: translateX(-40%); }
+  40% { opacity: 1; transform: translateX(0%); }
+  100% { opacity: 0; transform: translateX(40%); }
+}
+
+/* ANSWER TEXT */
+.faq-section details p {
+  padding: 0 20px 18px 20px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.55;
+  animation: fadeAnswer .35s ease;
+}
+
+@keyframes fadeAnswer {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Smooth slide-open effect */
+.faq-section details[open] > *:not(summary) {
+  animation: slideDown .28s ease-out;
+}
+
+@keyframes slideDown {
+  0% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   CONTACT BOX — FINAL GOLD VERSION
+=============================================================== */
+
+.contact-box {
+  max-width: 980px;
+  margin: 55px auto 90px;
+  text-align: center;
+  padding: 34px 26px;
+  background: rgba(8,16,28,0.92);
+  border: 1px solid rgba(231,191,99,0.35);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 22px rgba(212,175,55,0.28);
+  animation: fadeUp .9s ease forwards;
+}
+
+.contact-box h3 {
+  font-size: 24px;
+  color: var(--gold-soft);
+  margin-bottom: 12px;
+  text-shadow: 0 0 14px rgba(212,175,55,0.55);
+}
+
+.contact-box p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 12px 0;
+}
+
+.contact-box a {
+  color: var(--gold-soft);
+  font-weight: 800;
+  text-decoration: none;
+  display: inline-block;
+  margin: 6px 12px;
+  transition: .25s ease;
+}
+
+/* Hover effects */
+.contact-box a:hover {
+  color: #fff;
+  text-shadow: 0 0 18px rgba(212,175,55,1);
+  transform: scale(1.12);
+}
+
+/* Mobile fixes */
+@media (max-width: 600px) {
+  .faq-section, .contact-box {
+    padding: 20px 16px;
+  }
+  .faq-section summary {
+    font-size: 14px;
+  }
+}
+
