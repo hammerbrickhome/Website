@@ -1,6 +1,7 @@
 <header class="topbar" role="banner">
   <div class="topbar-inner">
 
+    <!-- Brand -->
     <a class="brand-lockup" href="index.html">
       <img class="brand-logo" src="images/hero.PNG" alt="">
       <div class="brand-text">
@@ -11,8 +12,10 @@
       </div>
     </a>
 
+    <!-- Mobile Menu Button -->
     <button class="nav-toggle" aria-label="Open menu">☰</button>
 
+    <!-- Navigation -->
     <nav class="main-nav" aria-label="Primary">
 
       <a href="index.html">Home</a>
@@ -20,11 +23,20 @@
       <a href="services.html">Services</a>
       <a href="gallery.html">Gallery</a>
       <a href="reviews.html">Reviews</a>
-      <a href="pricing.html">Pricing</a>
+
+      <!-- Pricing Dropdown -->
+      <div class="dropdown">
+        <a href="pricing.html" class="nav-link dropbtn">Pricing ▾</a>
+        <div class="dropdown-content">
+          <a href="pricing.html">Pricing & Packages</a>
+          <a href="project-estimator.html">Project Estimator</a>
+        </div>
+      </div>
+
       <a href="membership.html">Perks & Rules</a>
       <a href="faq.html">FAQ</a>
 
-      <!-- Dropdown -->
+      <!-- Service Areas Dropdown -->
       <div class="dropdown">
         <a href="#" class="nav-link dropbtn">Service Areas ▾</a>
         <div class="dropdown-content">
@@ -37,9 +49,10 @@
         </div>
       </div>
 
+      <!-- Contact -->
       <a href="contact.html">Contact</a>
 
-      <!-- Call button stays gold -->
+      <!-- Call Link -->
       <a class="nav-call" href="tel:+19295955300">📞 929-595-5300</a>
 
     </nav>
@@ -47,5 +60,7 @@
   </div>
 </header>
 
+<!-- Sticky Call (Mobile) -->
 <a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
+
 
