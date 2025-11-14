@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Project Estimator — Hammer Brick & Home LLC</title>
+  <meta name="description" content="NYC & NJ home improvement estimate calculator for transparent ballpark pricing.">
+  <link rel="icon" href="images/hero.PNG">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .estimator-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+      gap:18px;
+      max-width:980px;
+      margin:18px auto 0;
+      align-items:flex-start;
+    }
+    @media (max-width:840px){
+      .estimator-grid{grid-template-columns:1fr;}
+    }
+    .est-card{
+      border:1px solid rgba(231,191,99,.35);
+      border-radius:8px;
+      padding:16px 18px 18px;
+      background:rgba(5,12,25,.9);
+      box-shadow:0 14px 36px rgba(0,0,0,.55);
+    }
+    .field-row{margin-bottom:12px;}
+    .field-row label{
+      display:block;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.2px;
+      margin-bottom:4px;
+      color:#ccc;
+    }
+    .field-row input,
+    .field-row select{
+      width:100%;
+      padding:8px 10px;
+      border-radius:8px;
+      border:1px solid rgba(231,191,99,.4);
+      background:rgba(6,12,24,.95);
+      color:#fff;
+      font-size:14px;
+    }
+    .field-row.two-col{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      gap:10px;
+    }
+    .tiny-note{
+      font-size:11px;
+      margin-top:6px;
+      color:#aaa;
+    }
+    .est-main{
+      font-size:24px;
+      font-weight:800;
+      color:#e7bf63;
+    }
+    .est-note{
+      font-size:13px;
+      color:#ccc;
+      margin-bottom:10px;
+    }
+    .est-legal{
+      margin-top:12px;
+      font-size:11px;
+      color:#bbb;
+      line-height:1.5;
+    }
+    .btn-email-est{
+      display:inline-block;
+      margin-top:10px;
+      padding:10px 14px;
+      border-radius:10px;
+      background:#e7bf63;
+      color:#000;
+      font-weight:700;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+<div id="header-include"></div>
+
+<main class="page">
+  <section class="hero hero-inner fade-up">
+    <div class="hero-content">
+      <h1>Project Estimator</h1>
+      <p>Get an NYC/NJ ballpark range in seconds. A final quote is only issued after an on-site walkthrough.</p>
+    </div>
+  </section>
+
+  <section class="section fade-up" id="estimator">
+    <h2>NYC &amp; NJ Project Estimator</h2>
+    <p class="muted" style="max-width:800px;margin:auto;">
+      This tool gives a rough NYC-area ballpark range based on typical rates.
+      Final pricing is only provided in a written estimate after we inspect access, existing conditions, and finish selections.
+    </p>
+
+    <div class="estimator-grid">
+
+      <form id="est-form" class="est-card">
+        <div class="field-row">
+          <label style="font-size:12px; font-weight:500;">
+            <input type="checkbox" id="est-consent" style="margin-right:6px;">
+            I understand this tool provides a rough ballpark only and is <strong>not</strong> a formal quote.
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label for="est-service">Project Type</label>
+          <select id="est-service" required>
+            <option value="masonry">Masonry / Pavers / Concrete</option>
+            <option value="interior-paint">Interior Painting</option>
+            <option value="exterior-paint">Exterior Facade / Painting</option>
+            <option value="bathroom">Bathroom Remodel</option>
+            <option value="kitchen">Kitchen Remodel</option>
+            <option value="basement">Basement Finishing</option>
+            <option value="handyman">Small Repairs / Handyman Visit</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="est-borough">Project Location</label>
+          <select id="est-borough" required>
+            <option value="staten-island" selected>Staten Island</option>
+            <option value="brooklyn">Brooklyn</option>
+            <option value="queens">Queens</option>
+            <option value="manhattan">Manhattan</option>
+            <option value="bronx">Bronx</option>
+            <option value="nj">New Jersey (select towns)</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="est-building">Building Type</label>
+          <select id="est-building" required>
+            <option value="house" selected>1–2 Family House / Townhouse</option>
+            <option value="small-multi">Small Multi-Family (2–4 units)</option>
+            <option value="coop-condo">Co-op / Condo</option>
+            <option value="mixed">Mixed-Use / Commercial</option>
+          </select>
+        </div>
+
+        <div class="field-row" id="est-size-row">
+          <label for="est-size" id="est-size-label">Approx. size (sq. ft.)</label>
+          <input id="est-size" type="number" placeholder="e.g., 350">
+        </div>
+
+        <div class="field-row" id="est-scope-row">
+          <label for="est-scope">Scope Level</label>
+          <select id="est-scope">
+            <option value="">Select scope…</option>
+          </select>
+        </div>
+
+        <div class="field-row two-col">
+          <div>
+            <label for="est-finish">Finish Level</label>
+            <select id="est-finish">
+              <option value="standard">Standard</option>
+              <option value="premium" selected>Premium</option>
+              <option value="luxury">Luxury</option>
+            </select>
+          </div>
+          <div>
+            <label for="est-urgency">Timeline</label>
+            <select id="est-urgency">
+              <option value="flex">Flexible (2–3+ months)</option>
+              <option value="soon" selected>Soon (4–8 weeks)</option>
+              <option value="rush">Rush (&lt; 4 weeks)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label for="est-lead">Pre-1978 / lead-sensitive?</label>
+          <select id="est-lead">
+            <option value="no" selected>No / Tested Negative</option>
+            <option value="yes">Yes / Unsure</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="est-complexity">Site Conditions</label>
+          <select id="est-complexity">
+            <option value="standard" selected>Standard access</option>
+            <option value="tight">Tight access</option>
+            <option value="high">High-complexity</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="est-hours">Work Schedule</label>
+          <select id="est-hours">
+            <option value="normal" selected>Normal weekday hours</option>
+            <option value="restricted">Restricted hours</option>
+            <option value="offhours">Evenings / weekends</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="est-materials">Materials / Fixtures</label>
+          <select id="est-materials">
+            <option value="contractor" selected>Contractor supplies materials</option>
+            <option value="mixed">Client supplies finishes</option>
+            <option value="client">Client supplies most finishes</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="est-dumpster">Dumpster Needed?</label>
+          <select id="est-dumpster">
+            <option value="0">No</option>
+            <option value="500">Small (10 yd) — $500</option>
+            <option value="800">Medium (15 yd) — $800</option>
+            <option value="1200">Large (20 yd) — $1,200</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="est-demo">Demolition Level</label>
+          <select id="est-demo">
+            <option value="0">None</option>
+            <option value="650">Light — $650</option>
+            <option value="1200">Medium — $1,200</option>
+            <option value="2200">Heavy — $2,200</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="est-permit">DOB Permit / Filing</label>
+          <select id="est-permit">
+            <option value="0">None</option>
+            <option value="850">Minor Work Permit — $850</option>
+            <option value="1600">Alteration Filing — $1,600</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn">Calculate Ballpark Range</button>
+      </form>
+
+      <aside class="est-card est-result-card">
+        <h3>Ballpark Range (Not a Quote)</h3>
+        <div id="est-result">
+          <p class="muted">Fill out the form to see your approximate pricing range.</p>
+        </div>
+
+        <div class="est-legal">
+          <p><strong>Important:</strong> This is informational only and not a quote or contract.</p>
+          <p>Final pricing is issued only after a walkthrough and written estimate.</p>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+</main>
+
+<div id="footer-include"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("header.html").then(r => r.text()),
+    fetch("footer.html").then(r => r.text())
+  ]).then(([header, footer]) => {
+    document.getElementById("header-include").innerHTML = header;
+    document.getElementById("footer-include").innerHTML = footer;
+  });
+});
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
