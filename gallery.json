@@ -68,6 +68,47 @@
       "after": "after5.png",
       "label": "Entry Steps Rebuild"
     },
+    
+    {
+      "before": "stone2-before.png",
+      "after": "stone2-after.png",
+      "label": "Stone Project 2"
+    },
+    {
+      "before": "stone3-before.png",
+      "after": "stone3-after.png",
+      "label": "Stone Project 3"
+    },
+    {
+      "before": "job_before.jpg",
+      "after": "job_after.jpg",
+      "label": "Full Job"
+    },
+    {
+      "before": "before5.png",
+      "after": "after5.png",
+      "label": "Entry Steps Rebuild"
+    },
+    {
+      "before": "stone2-before.png",
+      "after": "stone2-after.png",
+      "label": "Stone Project 2"
+    },
+    {
+      "before": "stone3-before.png",
+      "after": "stone3-after.png",
+      "label": "Stone Project 3"
+    },
+    {
+      "before": "job_before.jpg",
+      "after": "job_after.jpg",
+      "label": "Full Job"
+    },
+    {
+      "before": "before5.png",
+      "after": "after5.png",
+      "label": "Entry Steps Rebuild"
+    },
     {
       "before": "before6.png",
       "after": "after6.png",
@@ -81,6 +122,15 @@
     "hero.jpg",
     "Homehero.png",
     "Neonhammer.png",
+    "after2.jpg",
+    "hero.jpg",
+    "Homehero.png",
+    "Neonhammer.png",
+     "hero.jpg",
+    "Homehero.png",
+    "Neonhammer.png",
+    "after2.jpg",
+    "hero.jpg",
     "qr-hammerbrick-membership.png"
   ]
 }
