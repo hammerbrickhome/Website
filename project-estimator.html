@@ -173,7 +173,11 @@
               <option value="manhattan">Manhattan</option>
               <option value="bronx">Bronx</option>
               <option value="nj">New Jersey (select towns)</option>
+              <option value="outside">Outside NYC/NJ (Other Areas)</option>
             </select>
+            <div class="tiny-note" id="region-note" style="display:none;">
+              Pricing may vary by region. We will confirm exact rates after reviewing your address.
+            </div>
           </div>
 
           <div class="field-row">
@@ -265,36 +269,8 @@
                 <option value="tight">Tight access / alley</option>
                 <option value="cityrow">City row-house / limited parking</option>
               </select>
-
-              <label for="drive-surface" style="margin-top:8px;">Surface material</label>
-              <select id="drive-surface">
-                <option value="concrete-standard">Standard broom-finish concrete</option>
-                <option value="concrete-stamped">Stamped / decorative concrete</option>
-                <option value="paver-standard">Standard pavers (Cambridge / Nicolock)</option>
-                <option value="paver-premium">Premium pavers (Techo-Bloc / Unilock / MSI)</option>
-                <option value="asphalt">Asphalt</option>
-              </select>
-
-              <label for="drive-base" style="margin-top:8px;">Base build</label>
-              <select id="drive-base">
-                <option value="standard-4">4&quot; concrete or standard base</option>
-                <option value="heavy-6">6&quot;+ heavy-duty base</option>
-                <option value="paver-system">Full paver system (QP + sand)</option>
-                <option value="permeable">Permeable / drainage system</option>
-              </select>
-
-              <label for="drive-brand" style="margin-top:8px;">Preferred paver brand (if pavers)</label>
-              <select id="drive-brand">
-                <option value="">No preference / concrete or asphalt</option>
-                <option value="cambridge">Cambridge</option>
-                <option value="techo">Techo-Bloc</option>
-                <option value="nicolock">Nicolock</option>
-                <option value="msi">MSI</option>
-                <option value="unilock">Unilock</option>
-              </select>
-
               <p class="adv-subnote">
-                Driveway demo, premium pavers, thicker bases, and drainage/permeable systems increase cost for materials, labor, machinery, and carting.
+                Driveway demo + disposal and tight access can add significant cost for machinery, labor, and carting.
               </p>
             </div>
           </div>
@@ -382,92 +358,6 @@
             <p class="adv-subnote">
               Italian luxury and high-end European finishes usually require higher budgets for tile, fixtures, and millwork.
             </p>
-
-            <!-- KITCHEN DETAILS -->
-            <div id="adv-kitchen-extra" style="margin-top:10px;display:none;">
-              <div class="adv-label">Kitchen Details</div>
-
-              <label for="kitchen-size">Approx. kitchen size</label>
-              <select id="kitchen-size">
-                <option value="">Select size…</option>
-                <option value="small">Small (up to 8–10 ft run)</option>
-                <option value="medium">Medium (L-shape / 10–18 ft)</option>
-                <option value="large">Large / open concept</option>
-              </select>
-
-              <label for="kitchen-counter" style="margin-top:8px;">Countertop material</label>
-              <select id="kitchen-counter">
-                <option value="std-quartz">Standard quartz</option>
-                <option value="prem-quartz">Premium quartz / porcelain</option>
-                <option value="granite">Granite</option>
-                <option value="marble">Marble</option>
-                <option value="laminate">Laminate / economy</option>
-                <option value="butcher">Butcher block</option>
-              </select>
-
-              <label for="kitchen-backsplash" style="margin-top:8px;">Backsplash</label>
-              <select id="kitchen-backsplash">
-                <option value="standard-tile">Standard tile backsplash</option>
-                <option value="full-height-tile">Full-height tile to ceiling</option>
-                <option value="slab">Slab / stone backsplash</option>
-                <option value="paint-only">Paint only behind counters</option>
-              </select>
-
-              <label for="kitchen-cabinets" style="margin-top:8px;">Cabinet level</label>
-              <select id="kitchen-cabinets">
-                <option value="stock">Stock / semi-custom</option>
-                <option value="upgrade">Upgraded semi-custom</option>
-                <option value="custom">Full custom</option>
-              </select>
-
-              <label for="kitchen-faucet" style="margin-top:8px;">Sink &amp; faucet level</label>
-              <select id="kitchen-faucet">
-                <option value="standard">Standard</option>
-                <option value="premium">Premium</option>
-                <option value="luxury">Luxury designer</option>
-              </select>
-            </div>
-
-            <!-- BATHROOM DETAILS -->
-            <div id="adv-bath-extra" style="margin-top:10px;display:none;">
-              <div class="adv-label">Bathroom Details</div>
-
-              <label for="bath-size">Approx. bathroom size</label>
-              <select id="bath-size">
-                <option value="">Select size…</option>
-                <option value="powder">Small / powder room</option>
-                <option value="standard">Standard full bath</option>
-                <option value="primary">Large primary / spa bath</option>
-              </select>
-
-              <label for="bath-shower" style="margin-top:8px;">Shower / tub type</label>
-              <select id="bath-shower">
-                <option value="tub-shower">Standard tub/shower combo</option>
-                <option value="walk-in">Walk-in tiled shower</option>
-                <option value="curbless">Curbless / wet room</option>
-              </select>
-
-              <label for="bath-tile" style="margin-top:8px;">Tile coverage</label>
-              <select id="bath-tile">
-                <option value="tub-walls">Tub/shower walls only</option>
-                <option value="floor-walls">Floor + shower walls</option>
-                <option value="full-wet">Full wet room / ceiling areas</option>
-              </select>
-
-              <label for="bath-vanity" style="margin-top:8px;">Vanity &amp; fixtures level</label>
-              <select id="bath-vanity">
-                <option value="standard">Standard</option>
-                <option value="premium">Premium</option>
-                <option value="luxury">Luxury (designer)</option>
-              </select>
-
-              <label for="bath-glass" style="margin-top:8px;">Glass / enclosure</label>
-              <select id="bath-glass">
-                <option value="curtain">Curtain / rod</option>
-                <option value="standard-glass">Standard framed / semi-frameless glass</option>
-                <option value="frameless">Heavy frameless glass</option>
-              </select>
-            </div>
           </div>
 
           <!-- ADD-ONS -->
@@ -648,6 +538,7 @@
       const permitEl    = document.getElementById("est-permit");
       const resultBox   = document.getElementById("est-result");
       const permitBox   = document.getElementById("permit-helper");
+      const regionNoteEl= document.getElementById("region-note");
 
       // Brand elements
       const brandRow    = document.getElementById("brand-row");
@@ -655,22 +546,16 @@
       const brandLabel  = document.getElementById("est-brand-label");
 
       // Advanced groups
-      const advMasonry      = document.getElementById("adv-masonry");
-      const advDrivewayExtra= document.getElementById("adv-driveway-extra");
-      const advRoof         = document.getElementById("adv-roof");
-      const advSiding       = document.getElementById("adv-siding");
-      const advWindows      = document.getElementById("adv-windows");
-      const advStyle        = document.getElementById("adv-style");
-      const advKitchenExtra = document.getElementById("adv-kitchen-extra");
-      const advBathExtra    = document.getElementById("adv-bath-extra");
+      const advMasonry  = document.getElementById("adv-masonry");
+      const advRoof     = document.getElementById("adv-roof");
+      const advSiding   = document.getElementById("adv-siding");
+      const advWindows  = document.getElementById("adv-windows");
+      const advStyle    = document.getElementById("adv-style");
 
-      const masonryFocusEl  = document.getElementById("masonry-focus");
+      const masonryFocusEl = document.getElementById("masonry-focus");
       const driveExistingEl = document.getElementById("drive-existing");
       const driveRemoveEl   = document.getElementById("drive-remove");
       const driveAccessEl   = document.getElementById("drive-access");
-      const driveSurfaceEl  = document.getElementById("drive-surface");
-      const driveBaseEl     = document.getElementById("drive-base");
-      const driveBrandEl    = document.getElementById("drive-brand");
 
       const roofTearoffEl = document.getElementById("roof-tearoff");
       const roofPitchEl   = document.getElementById("roof-pitch");
@@ -684,21 +569,7 @@
 
       const designStyleEl  = document.getElementById("design-style");
 
-      // Kitchen detail elements
-      const kitchenSizeEl       = document.getElementById("kitchen-size");
-      const kitchenCounterEl    = document.getElementById("kitchen-counter");
-      const kitchenBacksplashEl = document.getElementById("kitchen-backsplash");
-      const kitchenCabinetsEl   = document.getElementById("kitchen-cabinets");
-      const kitchenFaucetEl     = document.getElementById("kitchen-faucet");
-
-      // Bathroom detail elements
-      const bathSizeEl   = document.getElementById("bath-size");
-      const bathShowerEl = document.getElementById("bath-shower");
-      const bathTileEl   = document.getElementById("bath-tile");
-      const bathVanityEl = document.getElementById("bath-vanity");
-      const bathGlassEl  = document.getElementById("bath-glass");
-
-      // NYC-leaning ranges based on recent cost guides (corrected Option A)
+      // NYC-leaning ranges based on recent cost guides
       const SERVICE_CONFIG = {
         "masonry": {
           mode: "area",
@@ -1161,7 +1032,8 @@
         "queens": 1.05,
         "bronx": 1.03,
         "manhattan": 1.18,
-        "nj": 0.96
+        "nj": 0.96,
+        "outside": 1.00
       };
 
       const BUILDING_FACTOR = {
@@ -1227,61 +1099,177 @@
         "moisture-control": "Mold / Moisture Prevention (non-remediation)"
       };
 
-      // Per-service brand sets. Luxury finish will only show luxury brands.
+      // Per-service brand sets with HD/Lowe's notes.
       const BRAND_CONFIG = {
         "windows": {
           label: "Preferred Window / Door Brand",
-          budget: ["Alside", "Revere", "Ideal"],
-          standard: ["Pella 250", "Andersen 100", "Jeld-Wen"],
-          luxury: ["Andersen 400 / A-Series", "Marvin Elevate / Ultimate", "Pella Architect"]
+          budget: [
+            "Alside",
+            "Revere",
+            "Ideal",
+            "American Craftsman (Home Depot)",
+            "JELD-WEN (Home Depot)",
+            "ReliaBilt (Lowe's)"
+          ],
+          standard: [
+            "Pella 250",
+            "Andersen 100",
+            "Jeld-Wen",
+            "Pella Lifestyle (Lowe's)"
+          ],
+          luxury: [
+            "Andersen 400 / A-Series",
+            "Marvin Elevate / Ultimate",
+            "Pella Architect",
+            "Marvin Signature"
+          ]
         },
         "roofing": {
           label: "Preferred Roofing Line",
-          budget: ["IKO Cambridge"],
-          standard: ["CertainTeed Landmark"],
-          luxury: ["GAF Timberline HDZ", "Owens Corning Duration"]
+          budget: [
+            "IKO Cambridge",
+            "GAF Royal Sovereign (Home Depot)",
+            "Owens Corning Supreme (Lowe's)"
+          ],
+          standard: [
+            "CertainTeed Landmark",
+            "Owens Corning Oakridge (Lowe's)",
+            "GAF Timberline NS (Home Depot)"
+          ],
+          luxury: [
+            "GAF Timberline HDZ",
+            "Owens Corning Duration",
+            "CertainTeed Landmark Pro"
+          ]
         },
         "siding": {
           label: "Preferred Siding Brand",
-          budget: ["Alside", "Royal"],
-          standard: ["CertainTeed Monogram"],
-          luxury: ["James Hardie"]
+          budget: [
+            "Alside",
+            "Royal",
+            "Georgia-Pacific Vinyl (Home Depot)",
+            "Everlast (Lowe's)"
+          ],
+          standard: [
+            "CertainTeed Monogram",
+            "Mastic",
+            "Ply Gem"
+          ],
+          luxury: [
+            "James Hardie",
+            "CertainTeed Cedar Impressions"
+          ]
         },
         "flooring": {
           label: "Preferred Flooring Brand",
-          budget: ["MSI", "Pergo"],
-          standard: ["Armstrong"],
-          luxury: ["Mohawk", "Shaw", "Cali Bamboo"]
+          budget: [
+            "MSI",
+            "Pergo (Home Depot)",
+            "TrafficMaster (Home Depot)",
+            "Style Selections (Lowe's)"
+          ],
+          standard: [
+            "Armstrong",
+            "Lifeproof (Home Depot)",
+            "Home Decorators Collection (Home Depot)",
+            "Shaw (Lowe's)"
+          ],
+          luxury: [
+            "Mohawk",
+            "Shaw",
+            "Cali Bamboo",
+            "Bruce Hardwood"
+          ]
         },
         "interior-paint": {
           label: "Preferred Paint Line",
-          budget: ["Behr Premium Plus"],
-          standard: ["Sherwin-Williams SuperPaint"],
-          luxury: ["Benjamin Moore Aura"]
+          budget: [
+            "Behr Premium Plus (Home Depot)",
+            "Glidden Essentials (Home Depot)",
+            "Valspar 2000 (Lowe's)"
+          ],
+          standard: [
+            "Sherwin-Williams SuperPaint",
+            "Behr Ultra (Home Depot)",
+            "HGTV Home by Sherwin-Williams (Lowe's)"
+          ],
+          luxury: [
+            "Benjamin Moore Aura",
+            "Sherwin-Williams Emerald"
+          ]
         },
         "kitchen": {
           label: "Preferred Cabinet / Kitchen Line",
-          budget: ["IKEA", "Stock / Builder Grade"],
-          standard: ["Fabuwood", "Wolf Classic"],
-          luxury: ["KraftMaid", "Custom Millwork"]
+          budget: [
+            "IKEA",
+            "Stock / Builder Grade",
+            "Hampton Bay (Home Depot)",
+            "Project Source (Lowe's)"
+          ],
+          standard: [
+            "Fabuwood",
+            "Wolf Classic",
+            "Thomasville (Home Depot)",
+            "Diamond NOW (Lowe's)"
+          ],
+          luxury: [
+            "KraftMaid",
+            "Custom Millwork",
+            "Omega",
+            "Starmark"
+          ]
         },
         "bathroom": {
           label: "Preferred Bath Fixture / Line",
-          budget: ["Standard / Builder Grade"],
-          standard: ["Delta", "Kohler"],
-          luxury: ["Hansgrohe", "DXV / Luxury Collections"]
+          budget: [
+            "Standard / Builder Grade",
+            "Glacier Bay (Home Depot)",
+            "Project Source (Lowe's)"
+          ],
+          standard: [
+            "Delta",
+            "Kohler",
+            "Moen"
+          ],
+          luxury: [
+            "Hansgrohe",
+            "DXV / Luxury Collections",
+            "Brizo"
+          ]
         },
         "deck": {
           label: "Deck / Railing Brand Preference",
-          budget: ["Standard PT Lumber"],
-          standard: ["Trex Enhance"],
-          luxury: ["Trex Transcend", "TimberTech AZEK"]
+          budget: [
+            "Standard PT Lumber",
+            "Severe Weather (Lowe's)",
+            "YellaWood"
+          ],
+          standard: [
+            "Trex Enhance",
+            "Fiberon Good Life (Home Depot)",
+            "TimberTech Edge"
+          ],
+          luxury: [
+            "Trex Transcend",
+            "TimberTech AZEK",
+            "Fiberon Paramount"
+          ]
         },
         "epoxy-garage": {
           label: "Epoxy System Level",
-          budget: ["Standard Epoxy"],
-          standard: ["Flake System"],
-          luxury: ["High-Build Polyaspartic System"]
+          budget: [
+            "Standard Epoxy",
+            "Rust-Oleum EpoxyShield (Home Depot)",
+            "Quikrete Epoxy (Lowe's)"
+          ],
+          standard: [
+            "Flake System",
+            "Polycuramine Kits"
+          ],
+          luxury: [
+            "High-Build Polyaspartic System",
+            "Professional 2-Part Polyurea"
+          ]
         }
       };
 
@@ -1301,14 +1289,20 @@
       }
 
       function resetAdvanced(){
-        advMasonry.style.display      = "none";
-        advDrivewayExtra.style.display= "none";
-        advRoof.style.display         = "none";
-        advSiding.style.display       = "none";
-        advWindows.style.display      = "none";
-        advStyle.style.display        = "none";
-        advKitchenExtra.style.display = "none";
-        advBathExtra.style.display    = "none";
+        advMasonry.style.display = "none";
+        advRoof.style.display    = "none";
+        advSiding.style.display  = "none";
+        advWindows.style.display = "none";
+        advStyle.style.display   = "none";
+      }
+
+      function updateRegionNote(){
+        if (!regionNoteEl) return;
+        if (boroughEl.value === "outside"){
+          regionNoteEl.style.display = "block";
+        } else {
+          regionNoteEl.style.display = "none";
+        }
       }
 
       function updateBrandOptions(){
@@ -1324,7 +1318,15 @@
         brandLabel.textContent = cfg.label || "Preferred Brand / Line";
 
         let names = [];
-        if (finish === "luxury"){
+        if (finish === "standard"){
+          names = []
+            .concat(cfg.budget || [])
+            .concat(cfg.standard || []);
+        } else if (finish === "premium"){
+          names = []
+            .concat(cfg.standard || [])
+            .concat(cfg.luxury || []);
+        } else if (finish === "luxury"){
           names = (cfg.luxury || []).slice();
         } else {
           names = []
@@ -1361,16 +1363,6 @@
         permitBox.style.display = "block";
       }
 
-      function updateMasonryExtras(){
-        const svc   = serviceEl.value;
-        const focus = masonryFocusEl.value;
-        if (svc === "driveway" || focus === "driveway"){
-          advDrivewayExtra.style.display = "";
-        } else {
-          advDrivewayExtra.style.display = "none";
-        }
-      }
-
       function updateVisibility(){
         const svc = serviceEl.value;
         const cfg = SERVICE_CONFIG[svc];
@@ -1402,10 +1394,6 @@
 
         if (svc === "masonry" || svc === "driveway"){
           advMasonry.style.display = "";
-          if (svc === "driveway"){
-            masonryFocusEl.value = "driveway";
-          }
-          updateMasonryExtras();
         }
         if (svc === "roofing"){
           advRoof.style.display = "";
@@ -1418,16 +1406,6 @@
         }
         if (svc === "kitchen" || svc === "bathroom" || svc === "basement"){
           advStyle.style.display = "";
-          if (svc === "kitchen"){
-            advKitchenExtra.style.display = "";
-            advBathExtra.style.display = "none";
-          } else if (svc === "bathroom"){
-            advKitchenExtra.style.display = "none";
-            advBathExtra.style.display = "";
-          } else {
-            advKitchenExtra.style.display = "none";
-            advBathExtra.style.display = "none";
-          }
         }
 
         updateBrandOptions();
@@ -1495,9 +1473,8 @@
           factor *= 1.10;
         }
 
-        // Masonry / Driveway detailed adjustments
         if (svc === "masonry" || svc === "driveway"){
-          const focus    = masonryFocusEl.value;
+          const focus  = masonryFocusEl.value;
           const existing = driveExistingEl.value;
           const remove   = driveRemoveEl.value;
           const access   = driveAccessEl.value;
@@ -1527,37 +1504,8 @@
           } else if (access === "cityrow"){
             factor *= 1.12;
           }
-
-          if (focus === "driveway"){
-            const surface = driveSurfaceEl.value;
-            const base    = driveBaseEl.value;
-            const brand   = driveBrandEl.value;
-
-            if (surface === "asphalt"){
-              factor *= 0.90;
-            } else if (surface === "concrete-stamped"){
-              factor *= 1.08;
-            } else if (surface === "paver-standard"){
-              factor *= 1.12;
-            } else if (surface === "paver-premium"){
-              factor *= 1.18;
-            }
-
-            if (base === "heavy-6"){
-              factor *= 1.07;
-            } else if (base === "paver-system"){
-              factor *= 1.10;
-            } else if (base === "permeable"){
-              factor *= 1.15;
-            }
-
-            if (brand === "techo" || brand === "unilock"){
-              factor *= 1.04;
-            }
-          }
         }
 
-        // Roofing advanced
         if (svc === "roofing"){
           const tear   = parseInt(roofTearoffEl.value,10) || 0;
           const pitch  = roofPitchEl.value;
@@ -1584,7 +1532,6 @@
           }
         }
 
-        // Siding advanced
         if (svc === "siding"){
           const removeType = sidingRemoveEl.value;
           const stories    = sidingStoriesEl.value;
@@ -1600,11 +1547,10 @@
           }
         }
 
-        // Windows advanced
         if (svc === "windows"){
-          const winCount  = parseInt(windowCountEl.value || "0",10);
+          const winCount = parseInt(windowCountEl.value || "0",10);
           const doorCount = parseInt(doorCountEl.value || "0",10);
-          let openingsCount = Math.max(3, (winCount + doorCount) || 0);
+          let openingsCount = Math.max(3, winCount + doorCount || 0);
 
           baseLow  = SERVICE_CONFIG["windows"].perSqLow  * openingsCount;
           baseHigh = SERVICE_CONFIG["windows"].perSqHigh * openingsCount;
@@ -1617,79 +1563,12 @@
           }
         }
 
-        // Kitchen / Bathroom / Basement design style & details
         if (svc === "kitchen" || svc === "bathroom" || svc === "basement"){
           const style = designStyleEl.value;
           if (style === "modern"){
             factor *= 1.06;
           } else if (style === "italian"){
             factor *= 1.16;
-          }
-
-          if (svc === "kitchen"){
-            const counter   = kitchenCounterEl.value;
-            const backspl   = kitchenBacksplashEl.value;
-            const cabinets  = kitchenCabinetsEl.value;
-            const faucet    = kitchenFaucetEl.value;
-
-            if (counter === "prem-quartz" || counter === "marble"){
-              factor *= 1.10;
-            } else if (counter === "granite"){
-              factor *= 1.06;
-            } else if (counter === "laminate"){
-              factor *= 0.95;
-            }
-
-            if (backspl === "full-height-tile"){
-              factor *= 1.04;
-            } else if (backspl === "slab"){
-              factor *= 1.08;
-            } else if (backspl === "paint-only"){
-              factor *= 0.96;
-            }
-
-            if (cabinets === "upgrade"){
-              factor *= 1.06;
-            } else if (cabinets === "custom"){
-              factor *= 1.14;
-            }
-
-            if (faucet === "premium"){
-              factor *= 1.03;
-            } else if (faucet === "luxury"){
-              factor *= 1.06;
-            }
-          }
-
-          if (svc === "bathroom"){
-            const shower = bathShowerEl.value;
-            const tile   = bathTileEl.value;
-            const vanity = bathVanityEl.value;
-            const glass  = bathGlassEl.value;
-
-            if (shower === "walk-in"){
-              factor *= 1.06;
-            } else if (shower === "curbless"){
-              factor *= 1.12;
-            }
-
-            if (tile === "floor-walls"){
-              factor *= 1.06;
-            } else if (tile === "full-wet"){
-              factor *= 1.12;
-            }
-
-            if (vanity === "premium"){
-              factor *= 1.04;
-            } else if (vanity === "luxury"){
-              factor *= 1.08;
-            }
-
-            if (glass === "standard-glass"){
-              factor *= 1.03;
-            } else if (glass === "frameless"){
-              factor *= 1.07;
-            }
           }
         }
 
@@ -1730,88 +1609,7 @@
           "Pre-1978 / Lead-Sensitive: " + (leadRow.style.display !== "none"
             ? (leadValue === "yes" ? "Yes / Unsure" : "No / Tested Negative or 1978+")
             : "Not applicable for this project type"),
-          brandName ? ("Preferred Brand/Line: " + brandName) : ""
-        ];
-
-        // Extra email details for driveway
-        if (svc === "masonry" || svc === "driveway"){
-          const focusText = masonryFocusEl.options[masonryFocusEl.selectedIndex]
-            ? masonryFocusEl.options[masonryFocusEl.selectedIndex].textContent : "";
-          const existingText = driveExistingEl.options[driveExistingEl.selectedIndex]
-            ? driveExistingEl.options[driveExistingEl.selectedIndex].textContent : "";
-          const removeText = driveRemoveEl.options[driveRemoveEl.selectedIndex]
-            ? driveRemoveEl.options[driveRemoveEl.selectedIndex].textContent : "";
-          const accessText = driveAccessEl.options[driveAccessEl.selectedIndex]
-            ? driveAccessEl.options[driveAccessEl.selectedIndex].textContent : "";
-          const surfaceText = driveSurfaceEl.options[driveSurfaceEl.selectedIndex]
-            ? driveSurfaceEl.options[driveSurfaceEl.selectedIndex].textContent : "";
-          const baseText = driveBaseEl.options[driveBaseEl.selectedIndex]
-            ? driveBaseEl.options[driveBaseEl.selectedIndex].textContent : "";
-          const brandText = driveBrandEl.options[driveBrandEl.selectedIndex]
-            ? driveBrandEl.options[driveBrandEl.selectedIndex].textContent : "";
-
-          bodyLines.push(
-            "",
-            "Masonry / Driveway Details:",
-            focusText ? "  Focus: " + focusText : "",
-            existingText ? "  Existing: " + existingText : "",
-            removeText ? "  Demo: " + removeText : "",
-            accessText ? "  Access: " + accessText : "",
-            surfaceText ? "  Surface: " + surfaceText : "",
-            baseText ? "  Base: " + baseText : "",
-            brandText ? "  Paver Brand: " + brandText : ""
-          );
-        }
-
-        // Extra email details for Kitchen
-        if (svc === "kitchen"){
-          const kSizeText = kitchenSizeEl.options[kitchenSizeEl.selectedIndex]
-            ? kitchenSizeEl.options[kitchenSizeEl.selectedIndex].textContent : "";
-          const kCounterText = kitchenCounterEl.options[kitchenCounterEl.selectedIndex]
-            ? kitchenCounterEl.options[kitchenCounterEl.selectedIndex].textContent : "";
-          const kBackText = kitchenBacksplashEl.options[kitchenBacksplashEl.selectedIndex]
-            ? kitchenBacksplashEl.options[kitchenBacksplashEl.selectedIndex].textContent : "";
-          const kCabText = kitchenCabinetsEl.options[kitchenCabinetsEl.selectedIndex]
-            ? kitchenCabinetsEl.options[kitchenCabinetsEl.selectedIndex].textContent : "";
-          const kFaucetText = kitchenFaucetEl.options[kitchenFaucetEl.selectedIndex]
-            ? kitchenFaucetEl.options[kitchenFaucetEl.selectedIndex].textContent : "";
-
-          bodyLines.push(
-            "",
-            "Kitchen Details:",
-            kSizeText ? "  Size: " + kSizeText : "",
-            kCounterText ? "  Countertops: " + kCounterText : "",
-            kBackText ? "  Backsplash: " + kBackText : "",
-            kCabText ? "  Cabinets: " + kCabText : "",
-            kFaucetText ? "  Sink & Faucet: " + kFaucetText : ""
-          );
-        }
-
-        // Extra email details for Bathroom
-        if (svc === "bathroom"){
-          const bSizeText = bathSizeEl.options[bathSizeEl.selectedIndex]
-            ? bathSizeEl.options[bathSizeEl.selectedIndex].textContent : "";
-          const bShowerText = bathShowerEl.options[bathShowerEl.selectedIndex]
-            ? bathShowerEl.options[bathShowerEl.selectedIndex].textContent : "";
-          const bTileText = bathTileEl.options[bathTileEl.selectedIndex]
-            ? bathTileEl.options[bathTileEl.selectedIndex].textContent : "";
-          const bVanityText = bathVanityEl.options[bathVanityEl.selectedIndex]
-            ? bathVanityEl.options[bathVanityEl.selectedIndex].textContent : "";
-          const bGlassText = bathGlassEl.options[bathGlassEl.selectedIndex]
-            ? bathGlassEl.options[bathGlassEl.selectedIndex].textContent : "";
-
-          bodyLines.push(
-            "",
-            "Bathroom Details:",
-            bSizeText ? "  Size: " + bSizeText : "",
-            bShowerText ? "  Shower/Tub: " + bShowerText : "",
-            bTileText ? "  Tile Coverage: " + bTileText : "",
-            bVanityText ? "  Vanity & Fixtures: " + bVanityText : "",
-            bGlassText ? "  Glass/Enclosure: " + bGlassText : ""
-          );
-        }
-
-        bodyLines.push(
+          brandName ? ("Preferred Brand/Line: " + brandName) : "",
           "",
           "Selected Add-Ons:",
           "  Dumpster: $" + dumpsterVal.toLocaleString("en-US"),
@@ -1828,7 +1626,7 @@
           "Email:",
           "",
           "Thank you!"
-        );
+        ];
 
         const mailtoHref = "mailto:Hammerbrickhome@gmail.com"
           + "?subject=" + encodeURIComponent("Estimate Request – Website Tool")
@@ -1863,16 +1661,18 @@
       finishEl.addEventListener("change", () => {
         updateBrandOptions();
       });
-      masonryFocusEl.addEventListener("change", updateMasonryExtras);
+      boroughEl.addEventListener("change", updateRegionNote);
       form.addEventListener("submit", calculateEstimate);
 
       updateVisibility();
+      updateRegionNote();
     });
   </script>
 
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
