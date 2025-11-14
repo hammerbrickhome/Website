@@ -107,30 +107,6 @@ body::before {
   font-size:13px;
 }
 
-.main-nav a{
-  color:var(--muted);
-  text-decoration:none;
-  padding:6px 10px;
-  border-radius:999px;
-  transition:.2s;
-  position:relative;
-}
-
-.main-nav a:hover{
-  color:#f5c400;
-  background:rgba(255,255,255,.06);
-  text-shadow:0 0 8px rgba(245,196,0,0.6);
-}
-
-.main-nav a:hover::after{
-  content:"";
-  position:absolute;
-  left:0; right:0; bottom:-2px;
-  height:2px;
-  background:linear-gradient(90deg, transparent, #f5c400, transparent);
-  box-shadow:0 0 8px rgba(245,196,0,0.7);
-}
-
 .main-nav .nav-call{
   background:linear-gradient(180deg,var(--gold-soft),var(--gold));
   color:#151515;
@@ -141,13 +117,11 @@ body::before {
 /* Dropdown */
 .dropdown{position:relative;display:inline-block;}
 .nav-link.dropbtn{
-  color:#f5c400;
   text-decoration:none;
   padding:10px 15px;
   border-radius:6px;
   transition:.2s;
 }
-.nav-link.dropbtn:hover,
 .dropdown.show .nav-link.dropbtn{
   background:#1b1b1b;
   color:#fff;
@@ -169,7 +143,6 @@ body::before {
 }
 
 .dropdown-content a{
-  color:#f5c400;
   padding:12px 18px;
   text-decoration:none;
   display:block;
@@ -703,8 +676,6 @@ body::before {
   cursor:pointer;
 }
 
-/* Continue in PART 2… */
-
 /* ============================================================
    RULES / MEMBERSHIP / CONTACT
 =============================================================== */
@@ -983,85 +954,6 @@ body::before {
 
 
 /* ============================================================
-   HEADER MENU — GOLD HOVER + SHIMMER (NO PILLS)
-=============================================================== */
-
-/* Remove pill styling completely */
-.main-nav a {
-  color: var(--muted);
-  text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 4px; /* clean, sharp */
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  animation: none !important;
-  text-shadow: none !important;
-  transition: .25s ease-out;
-  position: relative;
-}
-
-/* Hover — GOLD GLOW + SHIMMER UNDERLINE */
-.main-nav a:hover {
-  color: #f5c400;
-  background: rgba(255,255,255,0.05);
-  text-shadow: 0 0 6px rgba(245,196,0,0.6);
-}
-
-/* GOLD SHIMMER UNDERLINE */
-.main-nav a:hover::after {
-  content: "";
-  position: absolute;
-  left: 0; 
-  right: 0; 
-  bottom: -3px;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #f5c400,
-    transparent
-  );
-  box-shadow: 0 0 10px rgba(245,196,0,0.75);
-  animation: shimmer-scan 0.8s ease-out forwards;
-}
-
-/* SHIMMER MOTION */
-@keyframes shimmer-scan {
-  0% { opacity: 0; transform: translateX(-30%); }
-  50% { opacity: 1; transform: translateX(0%); }
-  100% { opacity: 0; transform: translateX(30%); }
-}
-
-/* DROP BUTTON (service areas) — Clean gold hover */
-.nav-link.dropbtn {
-  color: #f5c400 !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  transition: .25s ease-out;
-}
-
-.nav-link.dropbtn:hover {
-  background: rgba(255,255,255,0.06) !important;
-  color: #fff !important;
-  text-shadow: 0 0 6px rgba(245,196,0,0.6) !important;
-}
-
-/* Dropdown items */
-.dropdown-content a {
-  color: #f5c400 !important;
-  border-radius: 0 !important;
-  background: #0a0a0a !important;
-  transition: .25s;
-}
-
-.dropdown-content a:hover {
-  background: #f5c400 !important;
-  color: #0a0a0a !important;
-}
-
-/* ============================================================
    HEADER MENU — LUXURY VERSION (SLIGHT GOLD TINT + SHIMMER)
    Applies ONLY to header <nav> — Does NOT affect hero, pills,
    trust badges, buttons, or gold animations elsewhere.
@@ -1080,6 +972,12 @@ body::before {
   text-shadow: 0 0 3px rgba(212,175,55,0.28); /* subtle luxury glow */
   transition: .28s ease-out;
   position: relative;
+}
+
+/* Keep call button text dark on gold button */
+.main-nav .nav-call {
+  color:#151515;
+  text-shadow:none;
 }
 
 /* HOVER — bright gold + shimmer underline */
@@ -1148,7 +1046,7 @@ body::before {
 
 
 /* ============================================================
-   GALLERY PAGE — Luxury Gold Upgrade
+   GALLERY + SERVICES PAGE — Luxury Gold Search Upgrade
 =============================================================== */
 
 /* Gallery Title */
@@ -1165,10 +1063,12 @@ body::before {
   color: var(--muted) !important;
 }
 
-/* Search Bar (Gallery) */
+/* Search Bar (Gallery + Services) */
 .gallery-search input,
 #gallerySearch,
-input.gallery-search-box {
+#serviceSearch,
+input.gallery-search-box,
+.search-input {
   max-width: 420px;
   width: 100%;
   margin: 0 auto 20px auto;
@@ -1185,7 +1085,9 @@ input.gallery-search-box {
 
 /* Glow on focus */
 .gallery-search input:focus,
-#gallerySearch:focus {
+#gallerySearch:focus,
+#serviceSearch:focus,
+.search-input:focus {
   border-color: var(--gold);
   box-shadow: 0 0 16px rgba(212,175,55,0.45);
   outline: none;
@@ -1205,4 +1107,3 @@ input.gallery-search-box {
   font-weight: 800;
   text-shadow: 0 0 8px rgba(212,175,55,0.35);
 }
-
