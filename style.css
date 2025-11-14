@@ -1146,3 +1146,63 @@ body::before {
   text-shadow: none !important;
 }
 
+
+/* ============================================================
+   GALLERY PAGE — Luxury Gold Upgrade
+=============================================================== */
+
+/* Gallery Title */
+.gallery-page-title,
+.section h1,
+.section h2 {
+  color: var(--gold-soft) !important;
+  text-shadow: 0 0 12px rgba(212,175,55,0.45);
+}
+
+/* Gallery small text (subheading) */
+.gallery-subtext,
+.section p {
+  color: var(--muted) !important;
+}
+
+/* Search Bar (Gallery) */
+.gallery-search input,
+#gallerySearch,
+input.gallery-search-box {
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto 20px auto;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(7,14,26,0.92);
+  border: 1px solid rgba(231,191,99,0.35);
+  color: var(--ink);
+  font-size: 13px;
+  display: block;
+  box-shadow: 0 0 12px rgba(212,175,55,0.12);
+  transition: 0.25s ease;
+}
+
+/* Glow on focus */
+.gallery-search input:focus,
+#gallerySearch:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(212,175,55,0.45);
+  outline: none;
+}
+
+/* Before & After cards gold glow */
+.gallery-card,
+.ba-card {
+  border: 1px solid rgba(231,191,99,0.18) !important;
+  box-shadow: 0 0 12px rgba(212,175,55,0.18) !important;
+}
+
+/* Project Labels */
+.ba-caption,
+.gallery-item-title {
+  color: var(--gold-soft) !important;
+  font-weight: 800;
+  text-shadow: 0 0 8px rgba(212,175,55,0.35);
+}
+
