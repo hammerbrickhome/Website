@@ -1293,4 +1293,72 @@ input.gallery-search-box,
     font-size: 14px;
   }
 }
+/* ============================================================
+   CONTACT PILL BUTTONS — GOLD LUXURY VERSION
+=============================================================== */
+
+.contact-box {
+  text-align: center;
+  margin: 50px auto 70px;
+  max-width: 680px;
+}
+
+.contact-box h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.contact-box p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.contact-pills {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.pill-btn {
+  display: inline-block;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 999px;
+  color: var(--gold-soft);
+  border: 1px solid rgba(231,191,99,0.85);
+  background: rgba(10,20,35,0.9);
+  text-decoration: none;
+  letter-spacing: .3px;
+  transition: .28s ease-out;
+  text-shadow: 0 0 6px rgba(212,175,55,0.55);
+  box-shadow: 
+    0 0 10px rgba(212,175,55,0.35),
+    inset 0 0 8px rgba(212,175,55,0.25);
+}
+
+/* HOVER — bright gold shimmer */
+.pill-btn:hover {
+  color: #fff;
+  border-color: var(--gold);
+  background: rgba(15,30,50,0.95);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:
+    0 0 20px rgba(245,196,0,0.95),
+    inset 0 0 14px rgba(245,196,0,0.65);
+  text-shadow: 0 0 12px rgba(245,196,0,0.95);
+}
+
+/* MOBILE — full-width buttons */
+@media (max-width: 600px) {
+  .pill-btn {
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+  }
+}
 
