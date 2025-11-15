@@ -8,9 +8,10 @@
 
 <meta name="description" content="Licensed Manhattan remodeling & masonry for co-ops, condos, and townhouses. We handle board approvals, protection, elevator bookings, and DOB compliance. Licensed & Insured (NYC HIC #21311291). EPA Lead-Safe Certified Firm.">
 
-<link rel="icon" href="images/hero.PNG">
-<link rel="preload" as="image" href="images/hero.PNG">
-<link rel="stylesheet" href="style.css">
+<!-- ⭐ Correct root paths -->
+<link rel="icon" href="/images/hero.PNG">
+<link rel="preload" as="image" href="/images/hero.PNG">
+<link rel="stylesheet" href="/style.css">
 
 <!-- Open Graph -->
 <meta property="og:title" content="Manhattan Co-op & Condo Remodeling — Licensed & Insured | Hammer Brick & Home LLC">
@@ -57,6 +58,7 @@
 
 <body>
 
+<!-- Header include -->
 <div id="header-include"></div>
 <a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
 
@@ -68,9 +70,9 @@
       <h1>Manhattan — Remodeling & Masonry</h1>
 
       <p>
-        Co-ops, condos & townhouses welcome.  
-        We coordinate with boards, supers & management, including:
-        elevator bookings, protection requirements, insurance paperwork,  
+        Co-ops, condos & townhouses welcome.<br>
+        We coordinate with boards, supers & management, including:<br>
+        elevator bookings, protection requirements, insurance paperwork,<br>
         noise windows, work hours, asbestos/lead rules, and DOB compliance.
       </p>
 
@@ -113,18 +115,19 @@
   <section class="section note-box fade-up">
     <h2>Ready to Start?</h2>
     <p>
-      Text photos, email plans, or request a walkthrough.  
+      Text photos, email plans, or request a walkthrough.<br>
       We’ll prepare a board-ready proposal and coordinate your building rules.
     </p>
 
     <div class="cta-actions">
       <a class="btn" href="tel:+19295955300">📞 Call 929-595-5300</a>
-      <a class="btn ghost" href="contact.html">Request a Quote</a>
+      <a class="btn ghost" href="/contact.html">Request a Quote</a>
     </div>
   </section>
 
 </main>
 
+<!-- CTA & Footer Includes -->
 <div id="cta-include"></div>
 <div id="footer-include"></div>
 
@@ -139,21 +142,31 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script src="/script.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded",()=>{
   Promise.all([
-    fetch("header.html").then(r=>r.text()),
-    fetch("contact-cta.html").then(r=>r.text()),
-    fetch("footer.html").then(r=>r.text())
-  ]).then(([h,c,f])=>{
-    document.getElementById("header-include").innerHTML=h;
-    document.getElementById("cta-include").innerHTML=c;
-    document.getElementById("footer-include").innerHTML=f;
-  }).catch(console.error);
+    fetch("/header.html").then(r=>r.text()),
+    fetch("/contact-cta.html").then(r=>r.text()),
+    fetch("/footer.html").then(r=>r.text())
+  ])
+  .then(([h,c,f])=>{
+    document.getElementById("header-include").innerHTML = h;
+    document.getElementById("cta-include").innerHTML = c;
+    document.getElementById("footer-include").innerHTML = f;
+
+    const yr = document.getElementById("yr");
+    if (yr) yr.textContent = new Date().getFullYear();
+
+    if (typeof initHeaderInteractions === "function") {
+      initHeaderInteractions();
+    }
+  })
+  .catch(console.error);
 });
 </script>
 
 </body>
 </html>
+
