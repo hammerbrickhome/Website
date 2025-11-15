@@ -8,9 +8,9 @@
 
 <meta name="description" content="What homeowners say about our precision, cleanliness, and friendly crew. Licensed & insured (NYC HIC #21311291). EPA Lead-Safe Certified Firm.">
 
-<link rel="icon" href="images/hero.PNG">
-<link rel="preload" as="image" href="images/hero.PNG">
-<link rel="stylesheet" href="style.css">
+<link rel="icon" href="/images/hero.PNG">
+<link rel="preload" as="image" href="/images/hero.PNG">
+<link rel="stylesheet" href="/style.css">
 
 <!-- OG -->
 <meta property="og:title" content="Reviews — Hammer Brick & Home LLC">
@@ -141,7 +141,7 @@
   </div>
 
   <div class="reviews-cta">
-    <a class="btn" href="contact.html">Request a Free Estimate</a>
+    <a class="btn" href="/contact.html">Request a Free Estimate</a>
     <a class="btn ghost" href="mailto:Hammerbrickhome@gmail.com?subject=Hammer%20Brick%20%26%20Home%20Review">Leave a Review</a>
   </div>
 
@@ -164,14 +164,14 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script src="/script.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded",()=>{
   Promise.all([
-    fetch("header.html").then(r=>r.text()),
-    fetch("contact-cta.html").then(r=>r.text()),
-    fetch("footer.html").then(r=>r.text())
+    fetch("/header.html").then(r=>r.text()),
+    fetch("/contact-cta.html").then(r=>r.text()),
+    fetch("/footer.html").then(r=>r.text())
   ]).then(([h,c,f])=>{
     document.getElementById("header-include").innerHTML = h;
     document.getElementById("cta-include").innerHTML = c;
@@ -182,3 +182,4 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 </body>
 </html>
+
