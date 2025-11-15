@@ -12,7 +12,6 @@
 <link rel="preload" as="image" href="/images/hero.PNG">
 <link rel="stylesheet" href="/style.css">
 
-
 <!-- Open Graph -->
 <meta property="og:title" content="Brooklyn Home Improvement — Brownstone Remodeling & Masonry | Hammer Brick & Home LLC">
 <meta property="og:description" content="Precision work for Brooklyn brownstones and row houses: masonry repairs, facades, stoops, pavers, kitchens, baths, painting, and historic restoration. Licensed & Insured.">
@@ -108,7 +107,7 @@
 
     <div class="cta-actions">
       <a class="btn" href="tel:+19295955300">📞 Call 929-595-5300</a>
-      <a class="btn ghost" href="contact.html">Request a Quote</a>
+      <a class="btn ghost" href="/contact.html">Request a Quote</a>
     </div>
   </section>
 
@@ -128,14 +127,14 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script src="/script.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
   Promise.all([
-    fetch("header.html").then(r=>r.text()),
-    fetch("contact-cta.html").then(r=>r.text()),
-    fetch("footer.html").then(r=>r.text())
+    fetch("/header.html").then(r=>r.text()),
+    fetch("/contact-cta.html").then(r=>r.text()),
+    fetch("/footer.html").then(r=>r.text())
   ])
   .then(([h,c,f])=>{
     document.getElementById("header-include").innerHTML = h;
@@ -148,5 +147,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 </body>
 </html>
+
 
 
