@@ -8,9 +8,9 @@
 
 <meta name="description" content="Trusted Staten Island home improvement contractor specializing in masonry, pavers, kitchens, bathrooms, painting, and exterior care. Licensed & Insured (NYC HIC #21311291). EPA Lead-Safe Certified Firm. Free estimates.">
 
-<link rel="icon" href="images/hero.PNG">
-<link rel="preload" as="image" href="images/hero.PNG">
-<link rel="stylesheet" href="style.css">
+<link rel="icon" href="/images/hero.PNG">
+<link rel="preload" as="image" href="/images/hero.PNG">
+<link rel="stylesheet" href="/style.css">
 
 <!-- Open Graph -->
 <meta property="og:title" content="Staten Island Home Improvement | Luxury Remodeling & Masonry">
@@ -120,7 +120,7 @@
   <p>Send photos, call for a walkthrough, or request an in-person estimate. We respond quickly and professionally.</p>
   <div class="cta-actions">
     <a class="btn" href="tel:+19295955300">📞 Call 929-595-5300</a>
-    <a class="btn ghost" href="contact.html">Request a Quote</a>
+    <a class="btn ghost" href="/contact.html">Request a Quote</a>
   </div>
 </section>
 
@@ -135,20 +135,20 @@
   <button class="chat-toggle">💬 Chat</button>
   <div class="chat-modal">
     <div class="chat-title">Talk to Hammer Brick &amp; Home</div>
-    <a class="btn" target="_blank" href="https://wa.me/1929595300">WhatsApp</a>
+    <a class="btn" target="_blank" href="https://wa.me/19295955300">WhatsApp</a>
     <a class="btn ghost" href="sms:+19295955300">Text Message</a>
     <a class="btn ghost" href="mailto:Hammerbrickhome@gmail.com">Email</a>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script src="/script.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   Promise.all([
-    fetch("header.html").then(r => r.text()),
-    fetch("contact-cta.html").then(r => r.text()),
-    fetch("footer.html").then(r => r.text())
+    fetch("/header.html").then(r => r.text()),
+    fetch("/contact-cta.html").then(r => r.text()),
+    fetch("/footer.html").then(r => r.text())
   ])
   .then(([header, cta, footer]) => {
     document.getElementById("header-include").innerHTML = header;
@@ -168,4 +168,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
