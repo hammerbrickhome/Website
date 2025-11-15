@@ -8,9 +8,9 @@
   <!-- ✅ SEO -->
   <meta name="description" content="Hammer Brick & Home LLC provides luxury remodeling and true masonry in NYC. EPA Lead-Safe Certified Firm, licensed & insured HIC #21311291. Staten Island based. Clean, precise, and respectful crew.">
 
-  <link rel="icon" href="images/hero.PNG">
-  <link rel="preload" as="image" href="images/hero.PNG">
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/images/hero.PNG">
+  <link rel="preload" as="image" href="/images/hero.PNG">
+  <link rel="stylesheet" href="/style.css">
 
   <!-- ✅ Open Graph -->
   <meta property="og:title" content="Hammer Brick & Home LLC — Luxury Remodeling & Masonry">
@@ -144,7 +144,7 @@
         <p>Ritz-level craftsmanship with neighborly care — from precision masonry and pavers to spotless interiors and white-glove clean-up.</p>
         <div class="hero-actions">
           <a class="btn" href="tel:+19295955300">📞 Fast Estimate</a>
-          <a class="btn ghost" href="contact.html">Request a Site Visit</a>
+          <a class="btn ghost" href="/contact.html">Request a Site Visit</a>
         </div>
         <ul class="trust-pills" role="list">
           <li class="gold-pill breathing-gold">NYC Licensed &amp; Insured · HIC #21311291</li>
@@ -153,8 +153,10 @@
           <li class="gold-pill breathing-gold">Clean, Respectful Crew</li>
         </ul>
       </div>
+
+      <!-- ⭐ FIXED HERO BADGE PATH -->
       <div class="hero-badge">
-        <img src="images/hero.PNG" alt="Hammer Brick &amp; Home LLC American flag hero badge">
+        <img src="/images/hero.PNG" alt="Hammer Brick &amp; Home LLC American flag hero badge">
       </div>
     </section>
 
@@ -186,12 +188,13 @@
       </div>
     </section>
 
-    <!-- ✅ BEFORE & AFTER -->
+    <!-- BEFORE & AFTER -->
     <section id="before-after" class="section fade-up">
       <div class="ba-head">
         <h2>Before &amp; After</h2>
         <p class="ba-note">Real customer projects — automatically paired from our gallery.</p>
       </div>
+
       <div id="ba-grid" class="ba-grid"></div>
       <div class="ba-actions">
         <button id="ba-loadmore" class="btn">Load 6 More</button>
@@ -219,23 +222,24 @@
         <h2>Ready for a Cleaner, Stronger, Better Looking Home?</h2>
         <p>Text photos, call for a walk-through, or send plans — we’ll respond quickly with a clear, professional proposal.</p>
       </div>
+
       <div class="cta-actions">
         <a class="btn" href="tel:+19295955300">📞 Call 929-595-5300</a>
-        <a class="btn ghost" href="contact.html">Message Us</a>
+        <a class="btn ghost" href="/contact.html">Message Us</a>
       </div>
     </section>
 
   </main>
 
-  <!-- ✅ Footer include -->
+  <!-- Footer include -->
   <div id="footer-include"></div>
 
-  <!-- Loader for header/footer -->
+  <!-- Header/Footer Loader -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       Promise.all([
-        fetch("header.html").then(r => r.text()),
-        fetch("footer.html").then(r => r.text())
+        fetch("/header.html").then(r => r.text()),
+        fetch("/footer.html").then(r => r.text())
       ])
       .then(([header, footer]) => {
         document.getElementById("header-include").innerHTML = header;
@@ -247,10 +251,10 @@
     });
   </script>
 
-  <!-- ⭐ Homepage Before/After Loader using gallery.json → homePairs -->
+  <!-- BEFORE/AFTER Loader -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      fetch("gallery.json")
+      fetch("/gallery.json")
         .then(res => res.json())
         .then(data => {
           const pairs = data.homePairs || [];
@@ -270,11 +274,11 @@
               const caption = card.querySelector(".ba-caption");
 
               if (beforeImg) {
-                beforeImg.src = "images/" + item.before;
+                beforeImg.src = "/images/" + item.before;
                 beforeImg.loading = "lazy";
               }
               if (afterImg) {
-                afterImg.src = "images/" + item.after;
+                afterImg.src = "/images/" + item.after;
                 afterImg.loading = "lazy";
               }
               if (caption) {
@@ -292,10 +296,8 @@
 
           if (pairs.length) {
             loadMore();
-            if (loadMoreBtn) {
-              loadMoreBtn.addEventListener("click", loadMore);
-            }
-          } else if (grid) {
+            if (loadMoreBtn) loadMoreBtn.addEventListener("click", loadMore);
+          } else {
             grid.innerHTML = "<p>No before/after projects found yet.</p>";
             if (loadMoreBtn) loadMoreBtn.style.display = "none";
           }
@@ -304,9 +306,7 @@
     });
   </script>
 
-  <script src="script.js"></script>
+  <script src="/script.js"></script>
 
 </body>
 </html>
-
-
