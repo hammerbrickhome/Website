@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>Queens Home Improvement — Remodeling & Masonry | Hammer Brick & Home LLC</title>
-
 <meta name="description" content="Serving Queens homeowners with licensed remodeling, masonry, painting, pavers, and repairs. NYC Licensed & Insured (HIC #21311291). EPA Lead-Safe Certified Firm. Fast estimates." />
 
 <link rel="icon" href="/images/hero.PNG" />
@@ -57,66 +56,68 @@
 
 <body>
 
-<!-- HEADER -->
+<!-- Header -->
 <div id="header-include"></div>
+
+<!-- Mobile sticky call -->
 <a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
 
 <main class="page">
 
-<!-- HERO -->
-<section class="hero hero-inner fade-up">
-  <div class="hero-content">
-    <h1>Queens — Remodeling & Masonry</h1>
-    <p>We work across Queens — from single-family homes to multi-family and mixed-use buildings. Clean, careful work with clear scheduling, protection, and communication.</p>
+  <!-- HERO -->
+  <section class="hero hero-inner fade-up">
+    <div class="hero-content">
+      <h1>Queens — Remodeling & Masonry</h1>
+      <p>We work across Queens — from single-family homes to multi-family and mixed-use buildings. Clean, careful work with clear scheduling, protection, and communication.</p>
 
-    <ul class="trust-pills" role="list" style="margin-top:10px;">
-      <li>Licensed & Insured · NYC HIC #21311291</li>
-      <li>EPA Lead-Safe Certified Firm (Pre-1978 Homes)</li>
-      <li>Line-item estimates · Transparent timelines</li>
-    </ul>
-  </div>
-</section>
+      <ul class="trust-pills" role="list" style="margin-top:10px;">
+        <li>Licensed & Insured · NYC HIC #21311291</li>
+        <li>EPA Lead-Safe Certified Firm (Pre-1978 Homes)</li>
+        <li>Line-item estimates · Transparent timelines</li>
+      </ul>
+    </div>
+  </section>
 
-<!-- MAIN CONTENT -->
-<section class="section split fade-up">
-  <div>
-    <h2>Popular Services in Queens</h2>
-    <ul class="bullets">
-      <li><strong>Masonry & Concrete:</strong> sidewalks · pavers · stoops · retaining walls · pointing</li>
-      <li><strong>Remodeling & Carpentry:</strong> kitchens · baths · basements · decks · fences</li>
-      <li><strong>Painting & Finishes:</strong> interior & exterior paint · patching · stucco repair</li>
-      <li><strong>Exterior Care:</strong> soft-wash · gutter cleaning · seasonal maintenance</li>
-    </ul>
-  </div>
+  <!-- Services Section -->
+  <section class="section split fade-up">
+    <div>
+      <h2>Popular Services in Queens</h2>
+      <ul class="bullets">
+        <li><strong>Masonry & Concrete:</strong> sidewalks · pavers · stoops · retaining walls · pointing</li>
+        <li><strong>Remodeling & Carpentry:</strong> kitchens · baths · basements · decks · fences</li>
+        <li><strong>Painting & Finishes:</strong> interior & exterior paint · patching · stucco repair</li>
+        <li><strong>Exterior Care:</strong> soft-wash · gutter cleaning · seasonal maintenance</li>
+      </ul>
+    </div>
 
-  <div class="accent-card">
-    <h3>Why Queens Chooses Us</h3>
-    <ul class="bullets">
-      <li>Fast scheduling with clean daily prep</li>
-      <li>White-glove cleanup on every project</li>
-      <li>Respectful, background-checked crew</li>
-      <li>Permit guidance & building rules compliance</li>
-    </ul>
-  </div>
-</section>
+    <div class="accent-card">
+      <h3>Why Queens Chooses Us</h3>
+      <ul class="bullets">
+        <li>Fast scheduling with clean daily prep</li>
+        <li>White-glove cleanup on every project</li>
+        <li>Respectful, background-checked crew</li>
+        <li>Permit guidance & building rules compliance</li>
+      </ul>
+    </div>
+  </section>
 
-<!-- CTA -->
-<section class="section note-box fade-up">
-  <h2>Ready to Start?</h2>
-  <p>Text photos, call for a walkthrough, or send plans — we’ll reply quickly with a clear, professional proposal.</p>
-  <div class="cta-actions">
-    <a class="btn" href="tel:+19295955300">📞 Call 929-595-5300</a>
-    <a class="btn ghost" href="/contact.html">Request a Quote</a>
-  </div>
-</section>
+  <!-- CTA -->
+  <section class="section note-box fade-up">
+    <h2>Ready to Start?</h2>
+    <p>Text photos, call for a walkthrough, or send plans — we’ll reply quickly with a clear, professional proposal.</p>
+    <div class="cta-actions">
+      <a class="btn" href="tel:+19295955300">📞 Call 929-595-5300</a>
+      <a class="btn ghost" href="/contact.html">Request a Quote</a>
+    </div>
+  </section>
 
 </main>
 
-<!-- CTA + FOOTER -->
+<!-- CTA & Footer Includes -->
 <div id="cta-include"></div>
 <div id="footer-include"></div>
 
-<!-- CHAT -->
+<!-- Chat Widget -->
 <div class="chat-bubble">
   <button class="chat-toggle">💬 Chat</button>
   <div class="chat-modal">
@@ -127,9 +128,8 @@
   </div>
 </div>
 
-<!-- JS -->
+<!-- Scripts -->
 <script src="/script.js"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   Promise.all([
@@ -141,6 +141,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("header-include").innerHTML = h;
     document.getElementById("cta-include").innerHTML = c;
     document.getElementById("footer-include").innerHTML = f;
+
+    const yr = document.getElementById("yr");
+    if (yr) yr.textContent = new Date().getFullYear();
   })
   .catch(console.error);
 });
@@ -148,5 +151,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
