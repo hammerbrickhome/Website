@@ -1,55 +1,55 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>Queens Home Improvement — Remodeling & Masonry | Hammer Brick & Home LLC</title>
 
-<meta name="description" content="Serving Queens homeowners with licensed remodeling, masonry, painting, pavers, and repairs. NYC Licensed & Insured (HIC #21311291). EPA Lead-Safe Certified Firm. Fast estimates.">
+<meta name="description" content="Serving Queens homeowners with licensed remodeling, masonry, painting, pavers, and repairs. NYC Licensed & Insured (HIC #21311291). EPA Lead-Safe Certified Firm. Fast estimates." />
 
-<link rel="icon" href="images/hero.PNG">
-<link rel="preload" as="image" href="images/hero.PNG">
-<link rel="stylesheet" href="style.css">
+<link rel="icon" href="/images/hero.PNG" />
+<link rel="preload" as="image" href="/images/hero.PNG" />
+<link rel="stylesheet" href="/style.css" />
 
 <!-- Open Graph -->
-<meta property="og:title" content="Queens Home Improvement — Remodeling & Masonry | Hammer Brick & Home LLC">
-<meta property="og:description" content="Queens remodeling, masonry, painting, pavers, and exterior upgrades. Licensed & Insured. EPA Lead-Safe Certified Firm.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.hammerbrickhome.com/queens.html">
-<meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
+<meta property="og:title" content="Queens Home Improvement — Remodeling & Masonry | Hammer Brick & Home LLC" />
+<meta property="og:description" content="Queens remodeling, masonry, painting, pavers, and exterior upgrades. Licensed & Insured. EPA Lead-Safe Certified Firm." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.hammerbrickhome.com/queens.html" />
+<meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG" />
 
 <!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Queens Home Improvement — Hammer Brick & Home LLC">
-<meta name="twitter:description" content="Professional remodeling & masonry for Queens homeowners.">
-<meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Queens Home Improvement — Hammer Brick & Home LLC" />
+<meta name="twitter:description" content="Professional remodeling & masonry for Queens homeowners." />
+<meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG" />
 
 <!-- JSON-LD -->
 <script type="application/ld+json">
 {
-  "@context":"https://schema.org",
-  "@type":"HomeAndConstructionBusiness",
-  "name":"Hammer Brick & Home LLC",
-  "url":"https://www.hammerbrickhome.com/",
-  "image":"https://www.hammerbrickhome.com/images/hero.PNG",
-  "telephone":"+1-929-595-5300",
-  "priceRange":"$$",
-  "areaServed":["Queens"],
-  "address":{
-    "@type":"PostalAddress",
-    "addressLocality":"Staten Island",
-    "addressRegion":"NY",
-    "addressCountry":"US"
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Hammer Brick & Home LLC",
+  "url": "https://www.hammerbrickhome.com/",
+  "image": "https://www.hammerbrickhome.com/images/hero.PNG",
+  "telephone": "+1-929-595-5300",
+  "priceRange": "$$",
+  "areaServed": ["Queens"],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Staten Island",
+    "addressRegion": "NY",
+    "addressCountry": "US"
   },
-  "identifier":{
-    "@type":"PropertyValue",
-    "name":"NYC HIC",
-    "value":"21311291"
+  "identifier": {
+    "@type": "PropertyValue",
+    "name": "NYC HIC",
+    "value": "21311291"
   },
-  "hasCredential":{
-    "@type":"EducationalOccupationalCredential",
-    "credentialCategory":"EPA Lead-Safe Certified Firm"
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "credentialCategory": "EPA Lead-Safe Certified Firm"
   }
 }
 </script>
@@ -57,7 +57,7 @@
 
 <body>
 
-<!-- Header include -->
+<!-- HEADER -->
 <div id="header-include"></div>
 <a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
 
@@ -69,7 +69,7 @@
     <h1>Queens — Remodeling & Masonry</h1>
     <p>We work across Queens — from single-family homes to multi-family and mixed-use buildings. Clean, careful work with clear scheduling, protection, and communication.</p>
 
-    <ul class="trust-pills" role="list" style="margin-top:10px">
+    <ul class="trust-pills" role="list" style="margin-top:10px;">
       <li>Licensed & Insured · NYC HIC #21311291</li>
       <li>EPA Lead-Safe Certified Firm (Pre-1978 Homes)</li>
       <li>Line-item estimates · Transparent timelines</li>
@@ -106,7 +106,7 @@
   <p>Text photos, call for a walkthrough, or send plans — we’ll reply quickly with a clear, professional proposal.</p>
   <div class="cta-actions">
     <a class="btn" href="tel:+19295955300">📞 Call 929-595-5300</a>
-    <a class="btn ghost" href="contact.html">Request a Quote</a>
+    <a class="btn ghost" href="/contact.html">Request a Quote</a>
   </div>
 </section>
 
@@ -127,23 +127,26 @@
   </div>
 </div>
 
-<!-- Scripts -->
-<script src="script.js"></script>
+<!-- JS -->
+<script src="/script.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
   Promise.all([
-    fetch("header.html").then(r=>r.text()),
-    fetch("contact-cta.html").then(r=>r.text()),
-    fetch("footer.html").then(r=>r.text())
-  ]).then(([h,c,f])=>{
+    fetch("/header.html").then(r => r.text()),
+    fetch("/contact-cta.html").then(r => r.text()),
+    fetch("/footer.html").then(r => r.text())
+  ])
+  .then(([h, c, f]) => {
     document.getElementById("header-include").innerHTML = h;
     document.getElementById("cta-include").innerHTML = c;
     document.getElementById("footer-include").innerHTML = f;
-  }).catch(console.error);
+  })
+  .catch(console.error);
 });
 </script>
 
 </body>
 </html>
+
 
