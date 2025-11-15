@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Clear answers for NYC & NJ homeowners about remodeling, masonry, and safety.">
 <meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
 
-<!-- FAQPage JSON-LD -->
+<!-- FAQPage JSON-LD (DYNAMICALLY FILLED BY JS BELOW) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -68,7 +68,7 @@
 <section class="section fade-up">
   <div class="faq-accordion" id="faqList">
 
-    <!-- All your FAQ items (unchanged) -->
+    <!-- Your FAQ items exactly as written -->
 
     <div class="faq-item">
       <button class="faq-q">Do you serve all five NYC boroughs and New Jersey?</button>
@@ -80,7 +80,7 @@
       <div class="faq-a"><p>Yes. NYC HIC #21311291 · Fully insured · EPA Lead-Safe Certified Firm.</p></div>
     </div>
 
-    <!-- (Your full list continues exactly as you posted it; unchanged) -->
+    <!-- (Your full list continues here exactly as you posted it) -->
 
   </div>
 
@@ -128,9 +128,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<!-- Accordion -->
+<!-- Accordion + Dynamic FAQ Schema -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+
+  // Accordion animation
   const items = document.querySelectorAll(".faq-item");
   items.forEach(it => {
     const q = it.querySelector(".faq-q");
@@ -141,6 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Dynamic Schema injection
   try {
     const entities = [];
     items.forEach(it => {
@@ -149,18 +152,27 @@ document.addEventListener("DOMContentLoaded", () => {
       entities.push({
         "@type": "Question",
         "name": q,
-        "acceptedAnswer": { "@type": "Answer", "text": a }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": a
+        }
       });
     });
+
     const node = document.querySelector('script[type="application/ld+json"]');
-    const base = JSON.parse(node.textContent);
+    const base = JSON.parse(node.textContent || "{}");
     base.mainEntity = entities;
     node.textContent = JSON.stringify(base);
-  } catch(e) {}
+
+  } catch (e) {
+    console.error("FAQ schema error:", e);
+  }
+
 });
 </script>
 
 <script src="/script.js"></script>
 </body>
 </html>
+
 
