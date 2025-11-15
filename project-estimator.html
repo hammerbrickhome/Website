@@ -494,27 +494,7 @@
     </section>
   </main>
 
-  <!-- FOOTER INCLUDE -->
-  <div id="footer-include"></div>
-
-  <!-- HEADER/FOOTER LOADER -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      Promise.all([
-        fetch("header.html").then(r => r.text()),
-        fetch("footer.html").then(r => r.text())
-      ])
-      .then(([header, footer]) => {
-        document.getElementById("header-include").innerHTML = header;
-        document.getElementById("footer-include").innerHTML = footer;
-
-        const yr = document.getElementById("yr");
-        if (yr) yr.textContent = new Date().getFullYear();
-      })
-      .catch(err => console.error("Include load error", err));
-    });
-  </script>
-
+  
   <!-- ADVANCED ESTIMATOR LOGIC -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -1849,6 +1829,26 @@
 
 
 
+<!-- FOOTER INCLUDE -->
+<div id="footer-include"></div>
+
+<!-- HEADER/FOOTER LOADER -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    Promise.all([
+      fetch("header.html").then(r => r.text()),
+      fetch("footer.html").then(r => r.text())
+    ])
+    .then(([header, footer]) => {
+      document.getElementById("header-include").innerHTML = header;
+      document.getElementById("footer-include").innerHTML = footer;
+
+      const yr = document.getElementById("yr");
+      if (yr) yr.textContent = new Date().getFullYear();
+    })
+    .catch(err => console.error("Include load error", err));
+  });
+</script>
 
 
 
