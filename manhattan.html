@@ -8,7 +8,7 @@
 
 <meta name="description" content="Licensed Manhattan remodeling & masonry for co-ops, condos, and townhouses. We handle board approvals, protection, elevator bookings, and DOB compliance. Licensed & Insured (NYC HIC #21311291). EPA Lead-Safe Certified Firm.">
 
-<!-- ⭐ Correct root paths -->
+<!-- Root paths -->
 <link rel="icon" href="/images/hero.PNG">
 <link rel="preload" as="image" href="/images/hero.PNG">
 <link rel="stylesheet" href="/style.css">
@@ -26,11 +26,11 @@
 <meta name="twitter:description" content="Licensed & insured Manhattan contractor specializing in co-op/condo renovations, masonry, interiors, and DOB compliance.">
 <meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
 
-<!-- JSON-LD -->
+<!-- ✅ Schema -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "HomeAndConstructionBusiness",
+  "@type": "Organization",
   "name": "Hammer Brick & Home LLC",
   "url": "https://www.hammerbrickhome.com/",
   "image": "https://www.hammerbrickhome.com/images/hero.PNG",
@@ -43,22 +43,17 @@
     "addressRegion": "NY",
     "addressCountry": "US"
   },
-  "identifier": {
-    "@type": "PropertyValue",
-    "name": "NYC HIC",
-    "value": "21311291"
-  },
-  "hasCredential": {
-    "@type": "EducationalOccupationalCredential",
-    "credentialCategory": "EPA Lead-Safe Certified Firm"
-  }
+  "identifier": [
+    { "@type": "PropertyValue", "name": "NYC HIC", "value": "21311291" },
+    { "@type": "PropertyValue", "name": "EPA Lead-Safe Certified Firm", "value": "Yes" }
+  ]
 }
 </script>
 </head>
 
 <body>
 
-<!-- Header include -->
+<!-- Header -->
 <div id="header-include"></div>
 <a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
 
@@ -88,7 +83,6 @@
   <section class="section split fade-up">
     <div>
       <h2>Popular Services in Manhattan</h2>
-
       <ul class="bullets">
         <li><strong>Interior Remodeling:</strong> kitchens, baths, flooring, built-ins, layout reconfiguration (as allowed by your building)</li>
         <li><strong>Co-op/Condo Compliance:</strong> board packages, insurance COIs, license verification, protection plans</li>
@@ -169,4 +163,5 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 </body>
 </html>
+
 
