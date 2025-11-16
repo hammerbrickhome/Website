@@ -26,25 +26,27 @@
   <meta name="twitter:description" content="Luxury NYC remodeling and true masonry. EPA Lead-Safe Certified Firm for homes built before 1978. Licensed & insured HIC #21311291. Staten Island based. Clean, precise, and respectful crew.">
   <meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
 
-  <!-- ✅ Structured Data: Organization -->
+  <!-- ⭐⭐⭐ FINAL FIXED STRUCTURED DATA ⭐⭐⭐ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "HomeAndConstructionBusiness",
     "name": "Hammer Brick & Home LLC",
     "url": "https://www.hammerbrickhome.com/",
-    "image": [
-      "https://www.hammerbrickhome.com/images/hero.PNG"
-    ],
+    "image": "https://www.hammerbrickhome.com/images/hero.PNG",
+    "logo": "https://www.hammerbrickhome.com/images/hero.PNG",
     "telephone": "+1-929-595-5300",
     "priceRange": "$$",
     "description": "Luxury NYC remodeling and true masonry. EPA Lead-Safe Certified Firm for homes built before 1978. Licensed & insured HIC #21311291. Staten Island based. Clean, precise, and respectful crew.",
+
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Staten Island",
       "addressRegion": "NY",
+      "postalCode": "10302",
       "addressCountry": "US"
     },
+
     "areaServed": [
       "Staten Island",
       "Brooklyn",
@@ -53,24 +55,42 @@
       "Bronx",
       "New Jersey"
     ],
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
-        ],
-        "opens": "08:00",
-        "closes": "20:00"
-      }
+
+    "sameAs": [
+      "https://www.instagram.com/hammerbrickhome",
+      "https://www.facebook.com/hammerbrickhome",
+      "https://www.tiktok.com/@hammerbrickhome"
     ],
+
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+      ],
+      "opens": "08:00",
+      "closes": "20:00"
+    },
+
     "identifier": [
       { "@type": "PropertyValue", "name": "NYC HIC", "value": "21311291" },
       { "@type": "PropertyValue", "name": "EPA Lead-Safe Certified Firm", "value": "Yes" }
-    ]
+    ],
+
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Home Improvement Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masonry & Concrete" }},
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Carpentry & Remodeling" }},
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Painting & Finishes" }},
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Care & Seasonal Maintenance" }},
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Lead-Safe Renovation (Pre-1978 Homes)" }}
+      ]
+    }
   }
   </script>
 
-  <!-- ✅ Structured Data: WebSite + SearchAction -->
+  <!-- ⭐ WebSite SearchAction -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -84,31 +104,7 @@
     }
   }
   </script>
-
-  <!-- ✅ Structured Data: Services -->
-  <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "serviceType": "Masonry & Concrete",
-      "provider": { "@type": "Organization", "name": "Hammer Brick & Home LLC" },
-      "areaServed": "New York City and nearby New Jersey"
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "serviceType": "Carpentry & Remodeling",
-      "provider": { "@type": "Organization", "name": "Hammer Brick & Home LLC" }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "serviceType": "Painting & Finishes",
-      "provider": { "@type": "Organization", "name": "Hammer Brick & Home LLC" }
-    }
-  ]
-  </script>
+  <!-- END OF SCHEMA -->
 
 </head>
 <body>
@@ -206,7 +202,7 @@
 
   </main>
 
-  <!-- Footer -->
+  <!-- Footer include -->
   <div id="footer-include"></div>
 
   <!-- Header/Footer Loader -->
