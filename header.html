@@ -1,66 +1,337 @@
-<header class="topbar" role="banner">
-  <div class="topbar-inner">
+/* ============================================================
+   ✅ HEADER + FOOTER READY HOOKS (works with dynamic include)
+=============================================================== */
+function initHeaderInteractions() {
 
-    <!-- Brand -->
-    <a class="brand-lockup" href="/index.html">
-      <img class="brand-logo" src="/images/hero.PNG" alt="Hammer Brick & Home LLC Logo">
-      <div class="brand-text">
-        <div class="brand-name">Hammer Brick & Home LLC</div>
-        <div class="brand-sub">
-          Luxury Remodeling & Masonry · HIC #21311291 · Licensed & Insured · EPA Lead-Safe Certified Firm
-        </div>
-      </div>
-    </a>
+  // --- Mobile nav toggle ---
+  const navToggle = document.querySelector('.nav-toggle');
+  const mainNav = document.querySelector('.main-nav');
+  if (navToggle && mainNav) {
+    navToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('show');
+    });
+  }
 
-    <!-- Mobile Menu Button -->
-    <button class="nav-toggle" aria-label="Open menu">☰</button>
+  // --- Dropdowns (ALL dropdowns) ---
+  const dropdowns = function () {
+    const list = document.querySelectorAll('.dropdown');
 
-    <!-- Navigation -->
-    <nav class="main-nav" aria-label="Primary Navigation">
+    list.forEach(drop => {
+      const btn = drop.querySelector('.dropbtn');
+      const menu = drop.querySelector('.dropdown-content');
+      if (!btn || !menu) return;
 
-      <a href="/index.html">Home</a>
-      <a href="/about.html">About</a>
-      <a href="/services.html">Services</a>
-      <a href="/gallery.html">Gallery</a>
-      <a href="/reviews.html">Reviews</a>
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-      <!-- Pricing Dropdown -->
-      <div class="dropdown">
-        <a href="#" class="nav-link dropbtn">Pricing ▾</a>
-        <div class="dropdown-content">
-          <a href="/pricing.html">Pricing & Packages</a>
-          <a href="/project-estimator.html">Project Estimator</a>
-        </div>
-      </div>
+        // Close all other dropdowns
+        list.forEach(d => {
+          if (d !== drop) d.classList.remove('show');
+        });
 
-      <a href="/membership.html">Perks & Rules</a>
-      <a href="/faq.html">FAQ</a>
+        drop.classList.toggle('show');
+      });
+    });
 
-      <!-- Service Areas Dropdown -->
-      <div class="dropdown">
-        <a href="#" class="nav-link dropbtn">Service Areas ▾</a>
-        <div class="dropdown-content">
-          <a href="/staten-island.html">Staten Island</a>
-          <a href="/brooklyn.html">Brooklyn</a>
-          <a href="/manhattan.html">Manhattan</a>
-          <a href="/queens.html">Queens</a>
-          <a href="/bronx.html">Bronx</a>
-          <a href="/new-jersey.html">New Jersey</a>
-        </div>
-      </div>
+    // Click outside — close everything
+    document.addEventListener('click', () => {
+      list.forEach(d => d.classList.remove('show'));
+    });
+  };
 
-      <!-- Contact -->
-      <a href="/contact.html">Contact</a>
+  dropdowns();
 
-      <!-- Call Link -->
-      <a class="nav-call" href="tel:+19295955300">📞 929-595-5300</a>
+  // --- Chat bubble toggle ---
+  const chatToggle = document.querySelector('.chat-toggle');
+  const chatModal = document.querySelector('.chat-modal');
+  if (chatToggle && chatModal) {
+    chatToggle.addEventListener('click', () => {
+      chatModal.style.display =
+        chatModal.style.display === 'flex' ? 'none' : 'flex';
+    });
+  }
+}
 
-    </nav>
+/* ============================================================
+   RUN HEADER INIT
+=============================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(initHeaderInteractions, 500);
+});
 
-  </div>
-</header>
+/* ---------------------------
+   ✅ Service Filter (Services page)
+---------------------------- */
+function filterServices() {
+  const q =
+    (document.getElementById('serviceSearch')?.value || '').toLowerCase();
+  document.querySelectorAll('.service-grid .card').forEach(card => {
+    const show = card.textContent.toLowerCase().includes(q);
+    card.style.display = show ? '' : 'none';
+  });
+}
+window.filterServices = filterServices;
 
-<!-- Sticky Call (Mobile) -->
-<a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
+/* ============================================================
+   UTIL — Shuffle
+=============================================================== */
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ============================================================
+   GALLERY PAGE — grid + compare pairs
+=============================================================== */
+let galleryInitialized = false;
+
+async function loadGalleryPage() {
+  if (galleryInitialized) return;
+  galleryInitialized = true;
+
+  const galleryContainer = document.getElementById('galleryContainer');
+  const compareRow = document.getElementById('compareRow');
+  const baBtn = document.getElementById('loadMoreBA');
+  const gridBtn = document.getElementById('loadMoreGrid');
+
+  if (!galleryContainer && !compareRow) return;
+
+  try {
+    const res = await fetch('/gallery.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+
+    const rawGrid = Array.isArray(data.galleryGrid) ? data.galleryGrid : [];
+    const rawPairs = Array.isArray(data.galleryPairs) ? data.galleryPairs : [];
+
+    const grid = shuffle(rawGrid);
+    const pairs = shuffle(rawPairs);
+
+    const PAGE = 8;
+    let gridIndex = 0;
+    let pairIndex = 0;
+
+    function makeSkeleton(heightPx) {
+      const sk = document.createElement('div');
+      sk.className = 'skeleton';
+      sk.style.height = heightPx + 'px';
+      return sk;
+    }
+
+    function buildCompareCard(pair) {
+      const card = document.createElement('div');
+      card.className = 'ba-card fade-in';
+
+      const frame = document.createElement('div');
+      frame.className = 'ba-frame';
+
+      const before = document.createElement('img');
+      before.className = 'ba-before';
+      before.src = '/images/' + pair.before;
+
+      const afterWrap = document.createElement('div');
+      afterWrap.className = 'ba-after-wrap';
+
+      const after = document.createElement('img');
+      after.className = 'ba-after';
+      after.src = '/images/' + pair.after;
+
+      afterWrap.appendChild(after);
+
+      const lbBefore = document.createElement('div');
+      lbBefore.className = 'ba-label ba-label-left';
+      lbBefore.textContent = 'Before';
+
+      const lbAfter = document.createElement('div');
+      lbAfter.className = 'ba-label ba-label-right';
+      lbAfter.textContent = 'After';
+
+      const slider = document.createElement('input');
+      slider.type = 'range';
+      slider.min = '0';
+      slider.max = '100';
+      slider.value = '50';
+      slider.className = 'ba-slider';
+      slider.addEventListener('input', () => {
+        afterWrap.style.width = slider.value + '%';
+      });
+
+      frame.appendChild(before);
+      frame.appendChild(afterWrap);
+      frame.appendChild(lbBefore);
+      frame.appendChild(lbAfter);
+      frame.appendChild(slider);
+
+      const caption = document.createElement('div');
+      caption.className = 'ba-caption compare-caption';
+      caption.textContent = pair.label || '';
+
+      card.appendChild(frame);
+      card.appendChild(caption);
+      return card;
+    }
+
+    function renderMorePairs() {
+      const slice = pairs.slice(pairIndex, pairIndex + PAGE);
+      slice.forEach(pair => {
+        const sk = makeSkeleton(230);
+        compareRow.appendChild(sk);
+
+        const card = buildCompareCard(pair);
+        setTimeout(() => sk.replaceWith(card), 200);
+      });
+
+      pairIndex += slice.length;
+      if (baBtn) baBtn.style.display = pairIndex >= pairs.length ? 'none' : 'inline-block';
+    }
+
+    function renderMoreGrid() {
+      const slice = grid.slice(gridIndex, gridIndex + PAGE);
+
+      slice.forEach(name => {
+        const sk = makeSkeleton(180);
+        galleryContainer.appendChild(sk);
+
+        const img = new Image();
+        img.src = '/images/' + name;
+        img.className = 'grid-photo';
+        img.alt = name;
+
+        img.addEventListener('load', () => sk.replaceWith(img));
+      });
+
+      gridIndex += slice.length;
+      if (gridBtn) gridBtn.style.display = gridIndex >= grid.length ? 'none' : 'inline-block';
+    }
+
+    if (compareRow && pairs.length) renderMorePairs();
+    if (galleryContainer && grid.length) renderMoreGrid();
+
+    if (baBtn) baBtn.addEventListener('click', renderMorePairs);
+    if (gridBtn) gridBtn.addEventListener('click', renderMoreGrid);
+
+  } catch (err) {
+    console.error('Gallery load error:', err);
+  }
+}
+
+/* ============================================================
+   LIGHTBOX
+=============================================================== */
+function openLightbox(src) {
+  const lightbox = document.getElementById('lightbox');
+  if (!lightbox) return;
+
+  const img = lightbox.querySelector('img');
+  img.src = src;
+
+  lightbox.classList.add('show');
+}
+
+document.addEventListener('click', e => {
+  const lightbox = document.getElementById('lightbox');
+  if (lightbox && e.target === lightbox) {
+    lightbox.classList.remove('show');
+  }
+});
+
+/* ============================================================
+   GALLERY SEARCH
+=============================================================== */
+function initGallerySearch() {
+  const input = document.getElementById('gallerySearch');
+  if (!input) return;
+
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase();
+
+    document.querySelectorAll('.grid-photo').forEach(img => {
+      img.style.display = img.alt.toLowerCase().includes(q) ? '' : 'none';
+    });
+
+    document.querySelectorAll('#compareRow .compare-caption').forEach(cap => {
+      const card = cap.closest('.ba-card');
+      card.style.display = cap.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+}
+
+/* ============================================================
+   HOMEPAGE — BEFORE & AFTER
+=============================================================== */
+async function initHomepageBA() {
+  const grid = document.getElementById('ba-grid');
+  const loadMoreBtn = document.getElementById('ba-loadmore');
+  const template = document.getElementById('ba-card');
+
+  if (!grid || !template) return;
+
+  let allPairs = [];
+  let index = 0;
+  const BATCH = 6;
+
+  async function loadPairsFromJSON() {
+    try {
+      const res = await fetch('/gallery.json', { cache: 'no-store' });
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data.homePairs) ? data.homePairs : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function renderNextSix() {
+    const slice = allPairs.slice(index, index + BATCH);
+
+    slice.forEach(pair => {
+      const card = template.content.cloneNode(true);
+
+      card.querySelector('.ba-before').src = '/images/' + pair.before;
+      card.querySelector('.ba-after').src = '/images/' + pair.after;
+      card.querySelector('.ba-caption').textContent = pair.label || '';
+
+      const slider = card.querySelector('.ba-slider');
+      const wrap = card.querySelector('.ba-after-wrap');
+
+      slider.addEventListener('input', () => {
+        wrap.style.width = slider.value + '%';
+      });
+
+      grid.appendChild(card);
+    });
+
+    index += slice.length;
+
+    if (loadMoreBtn && index >= allPairs.length) {
+      loadMoreBtn.style.display = 'none';
+    }
+  }
+
+  allPairs = await loadPairsFromJSON();
+  if (!allPairs.length) {
+    grid.innerHTML = '<p>No before/after pairs found.</p>';
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+    return;
+  }
+
+  renderNextSix();
+  if (loadMoreBtn) loadMoreBtn.addEventListener('click', renderNextSix);
+}
+
+/* ============================================================
+   MASTER INIT
+=============================================================== */
+window.addEventListener('load', () => {
+  loadGalleryPage();
+  initHomepageBA();
+  initGallerySearch();
+});
+
 
 
