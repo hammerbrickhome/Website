@@ -12,33 +12,38 @@ function initHeaderInteractions() {
   }
 
 // --- Dropdowns (ALL dropdowns) ---
-const dropdowns = document.querySelectorAll('.dropdown');
+const dropdowns = function() {
+  const list = document.querySelectorAll('.dropdown');
 
-dropdowns.forEach(drop => {
-  const btn = drop.querySelector('.dropbtn');
-  const menu = drop.querySelector('.dropdown-content');
+  list.forEach(drop => {
+    const btn = drop.querySelector('.dropbtn');
+    const menu = drop.querySelector('.dropdown-content');
 
-  if (!btn || !menu) return;
+    if (!btn || !menu) return;
 
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    // Close other dropdowns
-    dropdowns.forEach(d => {
-      if (d !== drop) d.classList.remove('show');
+      // Close other dropdowns
+      list.forEach(d => {
+        if (d !== drop) d.classList.remove('show');
+      });
+
+      drop.classList.toggle('show');
     });
-
-    // Toggle current
-    drop.classList.toggle('show');
   });
-});
 
-// Click outside to close ALL
-document.addEventListener('click', () => {
-  dropdowns.forEach(d => d.classList.remove('show'));
-});
+  // Click outside — closes all dropdowns
+  document.addEventListener('click', () => {
+    list.forEach(d => d.classList.remove('show'));
+  });
+};
 
+dropdowns();
+
+ 
+    
 
   // --- Chat bubble toggle ---
   const chatToggle = document.querySelector('.chat-toggle');
