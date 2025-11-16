@@ -1,9 +1,7 @@
-<script>
 /* ============================================================
-   ✅ HEADER + FOOTER READY HOOKS
+   ✅ HEADER + FOOTER READY HOOKS (works with dynamic include)
 =============================================================== */
 function initHeaderInteractions() {
-
   // --- Mobile nav toggle ---
   const navToggle = document.querySelector('.nav-toggle');
   const mainNav = document.querySelector('.main-nav');
@@ -14,30 +12,37 @@ function initHeaderInteractions() {
   }
 
   // --- Dropdowns (ALL dropdowns) ---
-  const list = document.querySelectorAll('.dropdown');
+  const dropdowns = function () {
+    const list = document.querySelectorAll('.dropdown');
 
-  list.forEach(drop => {
-    const btn = drop.querySelector('.dropbtn');
-    const menu = drop.querySelector('.dropdown-content');
-    if (!btn || !menu) return;
+    list.forEach(drop => {
+      const btn = drop.querySelector('.dropbtn');
+      const menu = drop.querySelector('.dropdown-content');
 
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+      if (!btn || !menu) return;
 
-      // close other dropdowns
-      list.forEach(d => {
-        if (d !== drop) d.classList.remove('show');
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Close all other dropdowns
+        list.forEach(d => {
+          if (d !== drop) d.classList.remove('show');
+        });
+
+        // Toggle this one
+        drop.classList.toggle('show');
       });
-
-      drop.classList.toggle('show');
     });
-  });
 
-  // Click outside — close all dropdowns
-  document.addEventListener('click', () => {
-    list.forEach(d => d.classList.remove('show'));
-  });
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', () => {
+      list.forEach(d => d.classList.remove('show'));
+    });
+  };
+
+  // run dropdown hookup
+  dropdowns();
 
   // --- Chat bubble toggle ---
   const chatToggle = document.querySelector('.chat-toggle');
@@ -50,18 +55,17 @@ function initHeaderInteractions() {
   }
 }
 
-/* ============================================================
-   RUN HEADER INIT
-=============================================================== */
+// Fallback for pages that don't use header.html/footer.html includes
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(initHeaderInteractions, 500);
 });
 
-/* ============================================================
-   SERVICE FILTER
-=============================================================== */
+/* ---------------------------
+   ✅ Service Filter (Services page)
+---------------------------- */
 function filterServices() {
-  const q = (document.getElementById('serviceSearch')?.value || '').toLowerCase();
+  const q =
+    (document.getElementById('serviceSearch')?.value || '').toLowerCase();
   document.querySelectorAll('.service-grid .card').forEach(card => {
     const show = card.textContent.toLowerCase().includes(q);
     card.style.display = show ? '' : 'none';
@@ -70,7 +74,7 @@ function filterServices() {
 window.filterServices = filterServices;
 
 /* ============================================================
-   SHUFFLE
+   UTIL — Shuffle
 =============================================================== */
 function shuffle(arr) {
   const a = arr.slice();
@@ -82,7 +86,7 @@ function shuffle(arr) {
 }
 
 /* ============================================================
-   GALLERY PAGE
+   GALLERY PAGE — grid + compare pairs
 =============================================================== */
 let galleryInitialized = false;
 
@@ -100,20 +104,22 @@ async function loadGalleryPage() {
   try {
     const res = await fetch('/gallery.json', { cache: 'no-store' });
     if (!res.ok) return;
-
     const data = await res.json();
 
-    const grid = shuffle(data.galleryGrid || []);
-    const pairs = shuffle(data.galleryPairs || []);
+    const rawGrid = Array.isArray(data.galleryGrid) ? data.galleryGrid : [];
+    const rawPairs = Array.isArray(data.galleryPairs) ? data.galleryPairs : [];
+
+    const grid = shuffle(rawGrid);
+    const pairs = shuffle(rawPairs);
 
     const PAGE = 8;
     let gridIndex = 0;
     let pairIndex = 0;
 
-    function makeSkeleton(h) {
+    function makeSkeleton(heightPx) {
       const sk = document.createElement('div');
       sk.className = 'skeleton';
-      sk.style.height = h + 'px';
+      sk.style.height = heightPx + 'px';
       return sk;
     }
 
@@ -151,7 +157,6 @@ async function loadGalleryPage() {
       slider.max = '100';
       slider.value = '50';
       slider.className = 'ba-slider';
-
       slider.addEventListener('input', () => {
         afterWrap.style.width = slider.value + '%';
       });
@@ -168,36 +173,49 @@ async function loadGalleryPage() {
 
       card.appendChild(frame);
       card.appendChild(caption);
-
       return card;
     }
 
     function renderMorePairs() {
       const slice = pairs.slice(pairIndex, pairIndex + PAGE);
       slice.forEach(pair => {
+        if (!pair.before || !pair.after) return;
+
         const sk = makeSkeleton(230);
         compareRow.appendChild(sk);
+
         const card = buildCompareCard(pair);
+
         setTimeout(() => sk.replaceWith(card), 200);
       });
-      pairIndex += slice.length;
 
+      pairIndex += slice.length;
       if (baBtn) baBtn.style.display = pairIndex >= pairs.length ? 'none' : 'inline-block';
     }
 
     function renderMoreGrid() {
       const slice = grid.slice(gridIndex, gridIndex + PAGE);
+
       slice.forEach(name => {
         const sk = makeSkeleton(180);
         galleryContainer.appendChild(sk);
 
         const img = new Image();
         img.src = '/images/' + name;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.alt = name;
         img.className = 'grid-photo';
-        img.addEventListener('load', () => sk.replaceWith(img));
-      });
-      gridIndex += slice.length;
 
+        img.addEventListener('click', () => openLightbox(img.src));
+
+        img.addEventListener('load', () => {
+          img.classList.add('lazyloaded');
+          sk.replaceWith(img);
+        });
+      });
+
+      gridIndex += slice.length;
       if (gridBtn) gridBtn.style.display = gridIndex >= grid.length ? 'none' : 'inline-block';
     }
 
@@ -216,20 +234,46 @@ async function loadGalleryPage() {
    LIGHTBOX
 =============================================================== */
 function openLightbox(src) {
-  const lb = document.getElementById('lightbox');
-  if (!lb) return;
-
-  lb.querySelector('img').src = src;
-  lb.classList.add('show');
+  const lightbox = document.getElementById('lightbox');
+  if (!lightbox) return;
+  const img = lightbox.querySelector('img');
+  if (img) img.src = src;
+  lightbox.classList.add('show');
 }
 
 document.addEventListener('click', e => {
-  const lb = document.getElementById('lightbox');
-  if (lb && e.target === lb) lb.classList.remove('show');
+  const lightbox = document.getElementById('lightbox');
+  if (lightbox && e.target === lightbox) {
+    lightbox.classList.remove('show');
+  }
 });
 
 /* ============================================================
-   HOMEPAGE BEFORE/AFTER
+   GALLERY SEARCH
+=============================================================== */
+function initGallerySearch() {
+  const input = document.getElementById('gallerySearch');
+  if (!input) return;
+
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase();
+
+    document.querySelectorAll('.grid-photo').forEach(img => {
+      img.style.display = img.alt.toLowerCase().includes(q) ? '' : 'none';
+    });
+
+    document.querySelectorAll('#compareRow .compare-caption').forEach(cap => {
+      const card = cap.closest('.ba-card');
+      if (!card) return;
+      card.style.display = cap.textContent.toLowerCase().includes(q)
+        ? ''
+        : 'none';
+    });
+  });
+}
+
+/* ============================================================
+   HOMEPAGE — BEFORE & AFTER
 =============================================================== */
 async function initHomepageBA() {
   const grid = document.getElementById('ba-grid');
@@ -238,26 +282,35 @@ async function initHomepageBA() {
 
   if (!grid || !template) return;
 
-  const res = await fetch('/gallery.json', { cache: 'no-store' });
-  if (!res.ok) return;
-
-  const data = await res.json();
-  const allPairs = data.homePairs || [];
-
+  let allPairs = [];
   let index = 0;
   const BATCH = 6;
 
-  function renderNext() {
+  async function loadPairsFromJSON() {
+    try {
+      const res = await fetch('/gallery.json', { cache: 'no-store' });
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data.homePairs) ? data.homePairs : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function renderNextSix() {
     const slice = allPairs.slice(index, index + BATCH);
+
     slice.forEach(pair => {
       const card = template.content.cloneNode(true);
-
-      card.querySelector('.ba-before').src = '/images/' + pair.before;
-      card.querySelector('.ba-after').src = '/images/' + pair.after;
-      card.querySelector('.ba-caption').textContent = pair.label || '';
-
+      const before = card.querySelector('.ba-before');
+      const after = card.querySelector('.ba-after');
+      const caption = card.querySelector('.ba-caption');
       const slider = card.querySelector('.ba-slider');
       const wrap = card.querySelector('.ba-after-wrap');
+
+      before.src = '/images/' + pair.before;
+      after.src = '/images/' + pair.after;
+      caption.textContent = pair.label || '';
 
       slider.addEventListener('input', () => {
         wrap.style.width = slider.value + '%';
@@ -272,8 +325,16 @@ async function initHomepageBA() {
     }
   }
 
-  renderNext();
-  if (loadMoreBtn) loadMoreBtn.addEventListener('click', renderNext);
+  allPairs = await loadPairsFromJSON();
+  if (!allPairs.length) {
+    grid.innerHTML = '<p>No before/after pairs found.</p>';
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+    return;
+  }
+
+  renderNextSix();
+
+  if (loadMoreBtn) loadMoreBtn.addEventListener('click', renderNextSix);
 }
 
 /* ============================================================
@@ -284,4 +345,4 @@ window.addEventListener('load', () => {
   initHomepageBA();
   initGallerySearch();
 });
-</script>
+
