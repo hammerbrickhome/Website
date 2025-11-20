@@ -1,7 +1,7 @@
 /* ============================================================
    HAMMER BRICK & HOME LLC
-   Luxury Dark + Gold UI — v3 (Stabilized Edition)
-   SAFE • CLEAN • NON-BREAKING • OPTIMIZED
+   Luxury Dark + Gold UI â€” v3 (Stabilized Edition)
+   SAFE â€¢ CLEAN â€¢ NON-BREAKING â€¢ OPTIMIZED
 =============================================================== */
 
 :root{
@@ -376,7 +376,7 @@ body::before {
 }
 
 .bullets li::before{
-  content:"•";
+  content:"â€¢";
   position:absolute;
   left:0;
   color:var(--gold);
@@ -482,7 +482,7 @@ body::before {
 .lightbox.show{display:flex;}
 
 /* ============================================================
-   BEFORE / AFTER — COMPARE GRID
+   BEFORE / AFTER â€” COMPARE GRID
 =============================================================== */
 
 .compare-grid{
@@ -777,7 +777,7 @@ body::before {
 }
 
 /* ============================================================
-   ANIMATIONS — GOLD EFFECTS
+   ANIMATIONS â€” GOLD EFFECTS
 =============================================================== */
 
 .fade-up{
@@ -857,7 +857,7 @@ body::before {
 }
 
 /* ============================================================
-   SAFARI DESKTOP FIX — SAFE & NON-BREAKING
+   SAFARI DESKTOP FIX â€” SAFE & NON-BREAKING
 =============================================================== */
 
 @media (min-width:900px){
@@ -916,7 +916,7 @@ body::before {
 
 
 /* ============================================================
-   UNIVERSAL GOLD PILL — MENU + HERO (Animated)
+   UNIVERSAL GOLD PILL â€” MENU + HERO (Animated)
 =============================================================== */
 
 .gold-pill {
@@ -954,12 +954,12 @@ body::before {
 
 
 /* ============================================================
-   HEADER MENU — LUXURY VERSION (SLIGHT GOLD TINT + SHIMMER)
-   Applies ONLY to header <nav> — Does NOT affect hero, pills,
+   HEADER MENU â€” LUXURY VERSION (SLIGHT GOLD TINT + SHIMMER)
+   Applies ONLY to header <nav> â€” Does NOT affect hero, pills,
    trust badges, buttons, or gold animations elsewhere.
 =============================================================== */
 
-/* Base menu links — clean, sharp, and lightly gold-tinted */
+/* Base menu links â€” clean, sharp, and lightly gold-tinted */
 .main-nav a {
   color: rgba(245,196,0,0.75); /* slight gold tint ALWAYS */
   text-decoration: none;
@@ -980,7 +980,7 @@ body::before {
   text-shadow:none;
 }
 
-/* HOVER — bright gold + shimmer underline */
+/* HOVER â€” bright gold + shimmer underline */
 .main-nav a:hover {
   color: #f5c400;
   background: rgba(255,255,255,0.05);
@@ -1012,7 +1012,7 @@ body::before {
   100% { opacity: 0; transform: translateX(35%); }
 }
 
-/* DROPDOWN BUTTON — slight gold tint always */
+/* DROPDOWN BUTTON â€” slight gold tint always */
 .nav-link.dropbtn {
   color: rgba(245,196,0,0.8) !important;
   background: transparent !important;
@@ -1046,7 +1046,7 @@ body::before {
 
 
 /* ============================================================
-   GALLERY + SERVICES PAGE — Luxury Gold Search Upgrade
+   GALLERY + SERVICES PAGE â€” Luxury Gold Search Upgrade
 =============================================================== */
 
 /* Gallery Title */
@@ -1110,7 +1110,7 @@ input.gallery-search-box,
 
 
 /* ============================================================
-   FAQ — LUXURY DARK + GOLD UI (FINAL VERSION)
+   FAQ â€” LUXURY DARK + GOLD UI (FINAL VERSION)
    Hammer Brick & Home LLC
 =============================================================== */
 
@@ -1175,7 +1175,7 @@ input.gallery-search-box,
 
 /* Gold arrow */
 .faq-section summary::after {
-  content: "›";
+  content: "â€º";
   position: absolute;
   right: 20px;
   top: 50%;
@@ -1240,7 +1240,7 @@ input.gallery-search-box,
 }
 
 /* ============================================================
-   CONTACT BOX — FINAL GOLD VERSION
+   CONTACT BOX â€” FINAL GOLD VERSION
 =============================================================== */
 
 .contact-box {
@@ -1294,7 +1294,7 @@ input.gallery-search-box,
   }
 }
 /* ============================================================
-   CONTACT PILL BUTTONS — GOLD LUXURY VERSION
+   CONTACT PILL BUTTONS â€” GOLD LUXURY VERSION
 =============================================================== */
 
 .contact-box {
@@ -1341,7 +1341,7 @@ input.gallery-search-box,
     inset 0 0 8px rgba(212,175,55,0.25);
 }
 
-/* HOVER — bright gold shimmer */
+/* HOVER â€” bright gold shimmer */
 .pill-btn:hover {
   color: #fff;
   border-color: var(--gold);
@@ -1353,7 +1353,7 @@ input.gallery-search-box,
   text-shadow: 0 0 12px rgba(245,196,0,0.95);
 }
 
-/* MOBILE — full-width buttons */
+/* MOBILE â€” full-width buttons */
 @media (max-width: 600px) {
   .pill-btn {
     width: 100%;
@@ -1363,7 +1363,7 @@ input.gallery-search-box,
 }
 
 /* ============================================
-   FAQ TITLE — GOLD • SHIMMER • GLOW • HOVER
+   FAQ TITLE â€” GOLD â€¢ SHIMMER â€¢ GLOW â€¢ HOVER
    ============================================ */
 
 .faq-title {
@@ -1440,7 +1440,7 @@ input.gallery-search-box,
   }
 }
 /* ============================================================
-   PROJECT ESTIMATOR — GOLD SHIMMER / HOVER (TWO TITLES ONLY)
+   PROJECT ESTIMATOR â€” GOLD SHIMMER / HOVER (TWO TITLES ONLY)
 =============================================================== */
 
 .shimmer-title {
@@ -1538,11 +1538,8 @@ input.gallery-search-box,
 }
 
 
-/* Dropdown FIX */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+/* MENU CLEANED */
+
 
 .dropdown-content {
   display: none;
@@ -1569,13 +1566,13 @@ input.gallery-search-box,
 .dropdown-content a:hover {
   background-color: rgba(255,255,255,0.08);
 }
+
+
 /* ==========================================
    FINAL SIMPLE GOLD MENU (NO EFFECTS)
    ========================================== */
-
-/* Main nav links */
 .main-nav a {
-  color: #f5c400 !important;          /* solid gold */
+  color: #f5c400 !important;
   background: transparent !important;
   text-decoration: none !important;
   padding: 6px 10px;
@@ -1584,15 +1581,11 @@ input.gallery-search-box,
   text-shadow: none !important;
   transition: none !important;
 }
-
-/* Hover stays exactly the same */
 .main-nav a:hover {
   color: #f5c400 !important;
   background: transparent !important;
   text-shadow: none !important;
 }
-
-/* Dropdown button */
 .nav-link.dropbtn {
   color: #f5c400 !important;
   background: transparent !important;
@@ -1601,14 +1594,10 @@ input.gallery-search-box,
   transition: none !important;
   padding: 6px 10px;
 }
-
-/* Dropdown button hover */
 .nav-link.dropbtn:hover {
   color: #f5c400 !important;
   background: transparent !important;
 }
-
-/* Dropdown panel */
 .dropdown-content {
   background-color: #050a14 !important;
   border: 1px solid rgba(231,191,99,0.25) !important;
@@ -1616,8 +1605,6 @@ input.gallery-search-box,
   padding: 6px 0 !important;
   box-shadow: 0 10px 22px rgba(0,0,0,0.6) !important;
 }
-
-/* Dropdown items */
 .dropdown-content a {
   color: #f5c400 !important;
   background: transparent !important;
@@ -1629,14 +1616,10 @@ input.gallery-search-box,
   transition: none !important;
   display: block;
 }
-
-/* Dropdown hover (NO color change — ONLY tiny neutral background) */
 .dropdown-content a:hover {
   background: rgba(255,255,255,0.03) !important;
   color: #f5c400 !important;
 }
-
-/* Call button stays gold pill */
 .main-nav .nav-call {
   background: linear-gradient(180deg, var(--gold-soft), var(--gold)) !important;
   color: #151515 !important;
