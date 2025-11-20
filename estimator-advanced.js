@@ -2438,6 +2438,8 @@ const addonsPanel = document.getElementById("smart-addons-panel");
     const demoVal     = Number(demoEl.value || 0);
     const permitVal   = Number(permitEl.value || 0);
     const smartAddonsVal = extraAddonsValue || 0;
+    const selectedSmartAddons = getSelectedSmartAddonsList();
+
     const addOnsTotal = dumpsterVal + demoVal + permitVal + smartAddonsVal;
 
     let low  = adjustedLow  + addOnsTotal;
