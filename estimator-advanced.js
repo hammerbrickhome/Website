@@ -2708,7 +2708,8 @@ function getSelectedSmartAddonsList() {
           addOnsTotal,
           dumpsterVal,
           demoVal,
-          permitVal
+          permitVal,
+          selectedSmartAddons
         });
       });
     }
