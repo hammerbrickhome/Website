@@ -1,3 +1,4 @@
+console.log("HEADER JS LOADED");
 /* ============================================================
    ✅ HEADER + FOOTER READY HOOKS (works with dynamic include)
 =============================================================== */
