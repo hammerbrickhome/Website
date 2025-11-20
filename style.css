@@ -1940,5 +1940,116 @@ input.gallery-search-box,
     display: block !important;
   }
 }
+/* ============================================================
+   CLEAN MENU (DESKTOP + MOBILE) — GOLD TEXT — NO HOVER EFFECTS
+=============================================================== */
+
+/* Desktop menu */
+.main-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Links */
+.main-nav a,
+.nav-link.dropbtn {
+  color: #e7bf63 !important;
+  padding: 8px 12px;
+  text-decoration: none;
+  background: transparent !important;
+  border: none !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+/* Dropdown wrapper */
+.dropdown {
+  position: relative;
+}
+
+/* Dropdown content (desktop) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 190px;
+  background: rgba(5,12,22,0.98);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 6px 0;
+  z-index: 9999;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+  color: #e7bf63 !important;
+  background: transparent !important;
+}
+
+/* CLICK TO OPEN */
+.dropdown.show .dropdown-content {
+  display: block !important;
+}
+
+/* Disable hover-open completely */
+.dropdown:hover .dropdown-content {
+  display: none !important;
+}
+
+/* ============================================================
+   MOBILE MENU
+=============================================================== */
+
+.nav-toggle {
+  display: none;
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: #e7bf63;
+  cursor: pointer;
+}
+
+/* Mobile layout */
+@media (max-width:860px) {
+  .nav-toggle {
+    display: block;
+    margin-left: auto;
+    z-index: 100000;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    width: calc(100% - 20px);
+    flex-direction: column;
+    align-items: flex-start;
+    background: rgba(5,12,22,0.97);
+    padding: 18px 16px;
+    border-radius: 14px;
+    z-index: 99999;
+    display: none;
+  }
+
+  .main-nav.show {
+    display: flex;
+  }
+
+  .dropdown-content {
+    position: static;
+    border: none;
+    background: transparent !important;
+    padding-left: 15px;
+  }
+
+  .dropdown.show .dropdown-content {
+    display: block !important;
+  }
+}
 
 
