@@ -953,100 +953,8 @@ body::before {
 }
 
 
-/* ============================================================
-   HEADER MENU â€” LUXURY VERSION (SLIGHT GOLD TINT + SHIMMER)
-   Applies ONLY to header <nav> â€” Does NOT affect hero, pills,
-   trust badges, buttons, or gold animations elsewhere.
-=============================================================== */
-
-/* Base menu links â€” clean, sharp, and lightly gold-tinted */
-.main-nav a {
-  color: rgba(245,196,0,0.75); /* slight gold tint ALWAYS */
-  text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 4px;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  animation: none !important;
-  text-shadow: 0 0 3px rgba(212,175,55,0.28); /* subtle luxury glow */
-  transition: .28s ease-out;
-  position: relative;
-}
-
-/* Keep call button text dark on gold button */
-.main-nav .nav-call {
-  color:#151515;
-  text-shadow:none;
-}
-
-/* HOVER â€” bright gold + shimmer underline */
-.main-nav a:hover {
-  color: #f5c400;
-  background: rgba(255,255,255,0.05);
-  text-shadow: 0 0 8px rgba(245,196,0,0.75);
-}
-
-/* GOLD SHIMMER UNDERLINE */
-.main-nav a:hover::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -3px;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #f5c400,
-    transparent
-  );
-  box-shadow: 0 0 12px rgba(245,196,0,0.85);
-  animation: shimmer-scan 0.9s ease-out forwards;
-}
-
-/* SHIMMER MOTION */
-@keyframes shimmer-scan {
-  0% { opacity: 0; transform: translateX(-35%); }
-  45% { opacity: 1; transform: translateX(0%); }
-  100% { opacity: 0; transform: translateX(35%); }
-}
-
-/* DROPDOWN BUTTON â€” slight gold tint always */
-.nav-link.dropbtn {
-  color: rgba(245,196,0,0.8) !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  text-shadow: 0 0 3px rgba(212,175,55,0.25);
-  transition: .25s ease-out;
-}
-
-/* Dropdown hover */
-.nav-link.dropbtn:hover {
-  background: rgba(255,255,255,0.06) !important;
-  color: #fff !important;
-  text-shadow: 0 0 8px rgba(245,196,0,0.65) !important;
-}
-
-/* Dropdown items */
-.dropdown-content a {
-  color: rgba(245,196,0,0.85) !important;
-  border-radius: 0 !important;
-  background: #0a0a0a !important;
-  text-shadow: none !important;
-  transition: .22s;
-}
-
-.dropdown-content a:hover {
-  background: #f5c400 !important;
-  color: #0a0a0a !important;
-  text-shadow: none !important;
-}
-
-
-/* ============================================================
-   GALLERY + SERVICES PAGE â€” Luxury Gold Search Upgrade
+/* MENU CLEANED */
+ + SERVICES PAGE â€” Luxury Gold Search Upgrade
 =============================================================== */
 
 /* Gallery Title */
@@ -1538,8 +1446,11 @@ input.gallery-search-box,
 }
 
 
-/* MENU CLEANED */
-
+/* Dropdown FIX */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
 
 .dropdown-content {
   display: none;
@@ -1568,66 +1479,23 @@ input.gallery-search-box,
 }
 
 
-/* ==========================================
-   FINAL SIMPLE GOLD MENU (NO EFFECTS)
-   ========================================== */
-.main-nav a {
-  color: #f5c400 !important;
-  background: transparent !important;
-  text-decoration: none !important;
-  padding: 6px 10px;
-  border: none !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-  transition: none !important;
-}
-.main-nav a:hover {
-  color: #f5c400 !important;
-  background: transparent !important;
-  text-shadow: none !important;
-}
-.nav-link.dropbtn {
-  color: #f5c400 !important;
-  background: transparent !important;
-  border: none !important;
-  text-shadow: none !important;
-  transition: none !important;
-  padding: 6px 10px;
-}
-.nav-link.dropbtn:hover {
-  color: #f5c400 !important;
-  background: transparent !important;
-}
-.dropdown-content {
-  background-color: #050a14 !important;
-  border: 1px solid rgba(231,191,99,0.25) !important;
-  border-radius: 10px !important;
-  padding: 6px 0 !important;
-  box-shadow: 0 10px 22px rgba(0,0,0,0.6) !important;
-}
+/* SIMPLE NON-HOVER GOLD MENU */
+.main-nav a,
+.nav-link.dropbtn,
 .dropdown-content a {
   color: #f5c400 !important;
+  text-shadow: none !important;
   background: transparent !important;
-  padding: 8px 16px !important;
-  text-decoration: none !important;
+  box-shadow: none !important;
   border: none !important;
-  text-shadow: none !important;
-  box-shadow: none !important;
   transition: none !important;
-  display: block;
 }
+
+.main-nav a:hover,
+.nav-link.dropbtn:hover,
 .dropdown-content a:hover {
-  background: rgba(255,255,255,0.03) !important;
   color: #f5c400 !important;
-}
-.main-nav .nav-call {
-  background: linear-gradient(180deg, var(--gold-soft), var(--gold)) !important;
-  color: #151515 !important;
-  border-radius: 999px !important;
-  font-weight: 800 !important;
-  padding: 8px 16px !important;
-  box-shadow: none !important;
+  background: transparent !important;
   text-shadow: none !important;
-  transition: none !important;
 }
 
