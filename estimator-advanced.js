@@ -1,12 +1,18 @@
-
-// Advanced Project Estimator Logic — Hammer Brick & Home LLC
-// Keeps original behavior, adds Angi-style: averages, breakdown, complexity, insights, PDF-like view.
+// Hammer Brick & Home LLC — Estimator Super v4
+// Combines:
+//  - Original estimator logic
+//  - National vs NYC averages
+//  - Cost breakdown + complexity score
+//  - Confidence meter + sample monthly
+//  - Basic / Premium / Luxury bands
+//  - Pro Tips per project
+//  - PDF-style printable view
 
 document.addEventListener("DOMContentLoaded", () => {
   const form        = document.getElementById("est-form");
   if (!form) return;
 
-  // Inject some small extra styles (cost breakdown, badges, etc.) without touching main CSS file.
+  // Inject extra styles for advanced UI bits (averages, breakdown, chips, bands, etc.)
   injectEstimatorExtraStyles();
 
   const serviceEl   = document.getElementById("est-service");
@@ -57,7 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const designStyleEl  = document.getElementById("design-style");
 
-  // NYC-leaning ranges based on recent cost guides — unchanged core CONFIG, only extended where helpful.
+  // ==========================
+  // CORE CONFIG (SERVICES)
+  // ==========================
   const SERVICE_CONFIG = {
     "masonry": {
       mode: "area",
@@ -587,7 +595,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "moisture-control": "Mold / Moisture Prevention (non-remediation)"
   };
 
-  // Per-service brand sets — extended with more budget/premium/luxury options.
+  // Brand config (extended)
   const BRAND_CONFIG = {
     "windows": {
       label: "Preferred Window / Door Brand",
@@ -792,7 +800,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "Quartz Broadcast System"
       ]
     },
-    // Added basic brand preferences for services that didn't have them yet.
     "masonry": {
       label: "Preferred Masonry / Paver Brand",
       budget: [
@@ -843,8 +850,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // Scenario bands: Basic / Premium / Luxury
+  const SCENARIO_CONFIG = {
+    basic:  { label: "Basic",   factor: 0.90, desc: "Tighter budget, more standard selections." },
+    premium:{ label: "Premium", factor: 1.00, desc: "Balanced mix of quality and value." },
+    luxury: { label: "Luxury",  factor: 1.25, desc: "Higher-end finishes and options." }
+  };
+
+  // ==========================
+  // HELPERS
+  // ==========================
   function formatMoney(num){
     return "$" + Math.round(num).toLocaleString("en-US");
+  }
+
+  function formatMonthly(num){
+    if (!num || num <= 0) return "$0/mo";
+    return "$" + Math.round(num).toLocaleString("en-US") + "/mo";
   }
 
   function rebuildScopeOptions(cfg){
@@ -859,20 +881,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function resetAdvanced(){
-    advMasonry.style.display = "none";
-    advRoof.style.display    = "none";
-    advSiding.style.display  = "none";
-    advWindows.style.display = "none";
-    advStyle.style.display   = "none";
+    if (advMasonry) advMasonry.style.display = "none";
+    if (advRoof)    advRoof.style.display    = "none";
+    if (advSiding)  advSiding.style.display  = "none";
+    if (advWindows) advWindows.style.display = "none";
+    if (advStyle)   advStyle.style.display   = "none";
   }
 
   function updateRegionNote(){
     if (!regionNoteEl) return;
-    if (boroughEl.value === "outside"){
-      regionNoteEl.style.display = "block";
-    } else {
-      regionNoteEl.style.display = "none";
-    }
+    regionNoteEl.style.display = (boroughEl.value === "outside") ? "block" : "none";
   }
 
   function updateBrandOptions(){
@@ -962,24 +980,119 @@ document.addEventListener("DOMContentLoaded", () => {
 
     resetAdvanced();
 
-    if (svc === "masonry" || svc === "driveway"){
+    if ((svc === "masonry" || svc === "driveway") && advMasonry){
       advMasonry.style.display = "";
     }
-    if (svc === "roofing"){
+    if (svc === "roofing" && advRoof){
       advRoof.style.display = "";
     }
-    if (svc === "siding"){
+    if (svc === "siding" && advSiding){
       advSiding.style.display = "";
     }
-    if (svc === "windows"){
+    if (svc === "windows" && advWindows){
       advWindows.style.display = "";
     }
-    if (svc === "kitchen" || svc === "bathroom" || svc === "basement"){
+    if ((svc === "kitchen" || svc === "bathroom" || svc === "basement") && advStyle){
       advStyle.style.display = "";
     }
 
     updateBrandOptions();
     updatePermitHelper(svc);
+  }
+
+  // Confidence meter based on level of input detail
+  function getConfidenceLevel(svc, cfg, usedArea, hasScope, addOnsTotal){
+    let score = 0;
+
+    if (cfg.mode === "area"){
+      if (usedArea) score += 2;
+      if (usedArea && cfg.minArea && cfg.maxArea){
+        const middle = (cfg.minArea + cfg.maxArea) / 2;
+        const spread = cfg.maxArea - cfg.minArea;
+        if (Math.abs(usedArea - middle) <= spread * 0.25){
+          score += 2; // size is in the “typical” zone
+        }
+      }
+    }
+    if (cfg.mode === "scope" && hasScope){
+      score += 3;
+    }
+
+    if (addOnsTotal > 0) score += 1;
+
+    if (svc === "roofing"){
+      if (roofTearoffEl.value) score += 1;
+      if (roofPitchEl.value)   score += 1;
+      if (roofHeightEl.value)  score += 1;
+    }
+    if (svc === "masonry" || svc === "driveway"){
+      if (driveExistingEl.value) score += 1;
+      if (driveRemoveEl.value)   score += 1;
+      if (driveAccessEl.value)   score += 1;
+    }
+    if (svc === "windows"){
+      if (windowCountEl.value) score += 1;
+      if (doorCountEl.value)   score += 1;
+    }
+
+    if (score >= 7) return { label: "High",    note: "Based on strong inputs and typical NYC ranges." };
+    if (score >= 4) return { label: "Medium", note: "Useful ballpark — final price may shift with details or hidden conditions." };
+    return { label: "Low",   note: "Good starting point only — we recommend a walkthrough or more detail for better accuracy." };
+  }
+
+  // Pro tips per service
+  function getProTipsHtml(svc){
+    switch (svc){
+      case "bathroom":
+        return `
+          <ul class="bullets">
+            <li>Decide early if you’re moving plumbing — that changes permits and cost.</li>
+            <li>Larger tiles mean fewer grout lines and easier cleaning.</li>
+            <li>Curbless showers and niches add cost but feel more “luxury hotel.”</li>
+          </ul>
+        `;
+      case "kitchen":
+        return `
+          <ul class="bullets">
+            <li>Cabinets + counters are usually the biggest drivers of budget.</li>
+            <li>Keeping appliances and plumbing in the same locations saves money.</li>
+            <li>Under-cabinet lighting is a small add-on that looks very high-end.</li>
+          </ul>
+        `;
+      case "masonry":
+      case "driveway":
+        return `
+          <ul class="bullets">
+            <li>Base prep is everything — a thicker, compacted base prevents sinking.</li>
+            <li>Ask about water flow and pitch so puddles don’t form by the house.</li>
+            <li>Pavers cost more upfront than plain concrete but are easier to repair later.</li>
+          </ul>
+        `;
+      case "roofing":
+        return `
+          <ul class="bullets">
+            <li>Full tear-off usually gives a better result than “roof over” a bad base.</li>
+            <li>Upgraded underlayment and flashing protect against NYC wind-driven rain.</li>
+            <li>Check manufacturer warranties — some require certified installers.</li>
+          </ul>
+        `;
+      case "basement":
+        return `
+          <ul class="bullets">
+            <li>Always address moisture before finishing — drains, sump, or waterproofing.</li>
+            <li>Plan outlets, lighting, and emergency egress early in the design.</li>
+            <li>Low ceilings and beams can often be hidden with smart soffit design.</li>
+          </ul>
+        `;
+      default:
+        return `
+          <ul class="bullets">
+            <li>Photos or a short video walk-through always sharpen the estimate.</li>
+            <li>Having a “must-have” vs “nice-to-have” list keeps the project on budget.</li>
+            <li>Tell us your ideal timeline so we can schedule around weather and permits.</li>
+          </ul>
+        `;
+    }
   }
 
   function computeComplexityDetails({
@@ -1054,7 +1167,6 @@ document.addEventListener("DOMContentLoaded", () => {
     urgency,
     addOnsTotal
   }){
-    // Build a generic "NYC metro" factor ~ 1.06 and national factor ~ 0.82 of NYC.
     const buildingFactor = BUILDING_FACTOR[building] || 1;
     const finishFactor   = FINISH_FACTOR[finish] || 1;
     const urgencyFactor  = URGENCY_FACTOR[urgency] || 1;
@@ -1130,6 +1242,19 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  function buildScenarioRow(key, rangeLow, rangeHigh){
+    const s = SCENARIO_CONFIG[key];
+    const sLow  = rangeLow  * s.factor;
+    const sHigh = rangeHigh * s.factor;
+    return `
+      <div class="scenario-row">
+        <div class="scenario-label">${s.label}</div>
+        <div class="scenario-range">${formatMoney(sLow)} – ${formatMoney(sHigh)}</div>
+        <div class="scenario-note">${s.desc}</div>
+      </div>
+    `;
+  }
+
   function openPrintableEstimate(estimateData){
     const w = window.open("", "_blank");
     if (!w) return;
@@ -1177,7 +1302,6 @@ document.addEventListener("DOMContentLoaded", () => {
     p,li{font-size:13px;line-height:1.5;}
     .row{display:flex;flex-wrap:wrap;font-size:13px;margin:8px 0;}
     .row div{flex:1 1 220px;margin-bottom:4px;}
-    .tag{display:inline-block;border-radius:999px;border:1px solid rgba(231,191,99,.5);padding:3px 10px;font-size:11px;margin-right:6px;margin-top:4px;}
     .range{font-size:20px;font-weight:700;margin:8px 0;color:#f5d89b;}
     ul{padding-left:18px;margin:6px 0;}
     .footer-note{font-size:11px;color:#bbb;margin-top:14px;}
@@ -1226,6 +1350,9 @@ document.addEventListener("DOMContentLoaded", () => {
     w.document.close();
   }
 
+  // ==========================
+  // MAIN CALCULATION
+  // ==========================
   function calculateEstimate(evt){
     evt.preventDefault();
 
@@ -1239,8 +1366,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let baseLow, baseHigh;
     let usedArea = null;
     let usedScopeLabel = "";
+    let hasScope = false;
 
-    // Core calculation: keep original logic, just store intermediate values for breakdown/averages.
+    // Core calculation: keep original logic
     if (cfg.mode === "area" || cfg.mode === "both"){
       let areaRaw = (sizeInput.value || "").toString().replace(/,/g,"");
       let area = parseFloat(areaRaw);
@@ -1268,6 +1396,7 @@ document.addEventListener("DOMContentLoaded", () => {
       baseLow  = scopeCfg.low;
       baseHigh = scopeCfg.high;
       usedScopeLabel = scopeCfg.label;
+      hasScope = true;
     }
 
     const borough     = boroughEl.value;
@@ -1292,7 +1421,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let hasCityRowAccess = false;
 
     if (svc === "masonry" || svc === "driveway"){
-      const focus  = masonryFocusEl.value;
+      const focus    = masonryFocusEl.value;
       const existing = driveExistingEl.value;
       const remove   = driveRemoveEl.value;
       const access   = driveAccessEl.value;
@@ -1368,7 +1497,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (svc === "windows"){
-      const winCount = parseInt(windowCountEl.value || "0",10);
+      const winCount  = parseInt(windowCountEl.value || "0",10);
       const doorCount = parseInt(doorCountEl.value || "0",10);
       let openingsCount = winCount + doorCount;
       if (!openingsCount || openingsCount < 3){
@@ -1395,7 +1524,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Core low/high before add-ons:
     let adjustedLow  = baseLow  * factor;
     let adjustedHigh = baseHigh * factor;
 
@@ -1409,6 +1537,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const softLow  = low  * 0.95;
     const softHigh = high * 1.10;
+    const mid      = (softLow + softHigh) / 2;
 
     const svcLabel       = SERVICE_LABEL[svc] || svc;
     const finishLabel    = FINISH_LABEL[finish] || finish;
@@ -1451,6 +1580,20 @@ document.addEventListener("DOMContentLoaded", () => {
       addonPct = 100 - laborPct;
     }
 
+    const confidence = getConfidenceLevel(svc, cfg, usedArea, hasScope, addOnsTotal);
+    const approxMonthly = mid > 0 ? (mid / 120) : 0; // 10-year divide (conversation only)
+
+    const insightsHtml = buildSmartInsightsHtml({
+      svc,
+      svcLabel,
+      complexity,
+      cfg,
+      boroughText,
+      buildingText,
+      finishLabel,
+      urgencyLabel
+    });
+
     const bodyLines = [
       "Hello,",
       "",
@@ -1489,17 +1632,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updatePermitHelper(svc);
 
-    const insightsHtml = buildSmartInsightsHtml({
-      svc,
-      svcLabel,
-      complexity,
-      cfg,
-      boroughText,
-      buildingText,
-      finishLabel,
-      urgencyLabel
-    });
-
     resultBox.innerHTML = `
       <p class="muted">NYC-area ballpark only — not a formal quote.</p>
       <p>Estimated range for this type of project:</p>
@@ -1508,6 +1640,24 @@ document.addEventListener("DOMContentLoaded", () => {
         Most approved projects land somewhere in the middle of this range once we see
         access, existing conditions, and final finish choices.
       </p>
+
+      <div class="advanced-summary">
+        <div class="advanced-chip">
+          <span class="chip-label">Confidence:</span>
+          <span class="chip-value chip-${confidence.label.toLowerCase()}">${confidence.label}</span>
+        </div>
+        <div class="advanced-chip">
+          <span class="chip-label">Sample Monthly (example only):</span>
+          <span class="chip-value">${formatMonthly(approxMonthly)}</span>
+        </div>
+      </div>
+
+      <div class="scenario-grid">
+        <h4 class="scenario-title">Compare bands by finish / budget level</h4>
+        ${buildScenarioRow("basic", softLow, softHigh)}
+        ${buildScenarioRow("premium", softLow, softHigh)}
+        ${buildScenarioRow("luxury", softLow, softHigh)}
+      </div>
 
       <div class="est-avg-box">
         <h4>How this compares</h4>
@@ -1521,7 +1671,15 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="est-avg-value">${formatMoney(averages.nycLow)} – ${formatMoney(averages.nycHigh)}</div>
           </div>
         </div>
-        <p class="est-avg-note">Your home is estimated slightly ${softLow > averages.nycHigh ? "above" : softHigh < averages.nycLow ? "below" : "within"} typical NYC-area ranges for similar projects.</p>
+        <p class="est-avg-note">
+          Your home is estimated slightly ${
+            softLow > averages.nycHigh
+              ? "above"
+              : softHigh < averages.nycLow
+                ? "below"
+                : "within"
+          } typical NYC-area ranges for similar projects.
+        </p>
       </div>
 
       <div class="est-breakdown-box">
@@ -1556,6 +1714,12 @@ document.addEventListener("DOMContentLoaded", () => {
         <li>Does <strong>not</strong> include architect/engineer fees, major structural/MEP changes, or unforeseen conditions.</li>
         <li>Final pricing is only confirmed in a written estimate after a walkthrough.</li>
       </ul>
+
+      <div class="pro-tips-box">
+        <h4>Quick Pro Tips for this type of project</h4>
+        ${getProTipsHtml(svc)}
+      </div>
+
       <div class="est-cta-row">
         <a class="btn-email-est" href="${mailtoHref}">📧 Email me this estimate</a>
         <a class="btn est-cta-alt" href="contact.html">📝 Book a walkthrough</a>
@@ -1587,17 +1751,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // ==========================
+  // EVENTS
+  // ==========================
   serviceEl.addEventListener("change", updateVisibility);
-  finishEl.addEventListener("change", () => {
-    updateBrandOptions();
-  });
+  finishEl.addEventListener("change", updateBrandOptions);
   boroughEl.addEventListener("change", updateRegionNote);
   form.addEventListener("submit", calculateEstimate);
 
+  // Init
   updateVisibility();
   updateRegionNote();
 });
 
+// ==========================
+// STYLE INJECTION
+// ==========================
 function injectEstimatorExtraStyles(){
   const css = `
   .est-avg-box{
@@ -1736,9 +1905,103 @@ function injectEstimatorExtraStyles(){
     border:1px solid rgba(231,191,99,0.8);
     color:#f5e2aa;
   }
+  .advanced-summary{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:10px 0 6px;
+  }
+  .advanced-chip{
+    display:inline-flex;
+    flex-wrap:nowrap;
+    align-items:center;
+    gap:4px;
+    padding:4px 10px;
+    border-radius:999px;
+    border:1px solid rgba(231,191,99,0.7);
+    background:rgba(7,14,26,0.9);
+  }
+  .chip-label{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:#d9c693;
+  }
+  .chip-value{
+    font-size:11px;
+    font-weight:600;
+  }
+  .chip-high{
+    color:#9cffb0;
+  }
+  .chip-medium{
+    color:#ffe8a3;
+  }
+  .chip-low{
+    color:#ffb3b3;
+  }
+  .scenario-grid{
+    border:1px solid rgba(231,191,99,0.4);
+    border-radius:10px;
+    padding:10px 12px;
+    margin:10px 0;
+    background:rgba(8,14,26,0.9);
+  }
+  .scenario-title{
+    font-size:13px;
+    margin:0 0 6px;
+    color:#f0dca0;
+  }
+  .scenario-row{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,1.7fr);
+    gap:6px;
+    align-items:center;
+    font-size:11px;
+    padding:4px 0;
+    border-top:1px solid rgba(255,255,255,0.04);
+  }
+  .scenario-row:first-of-type{
+    border-top:none;
+  }
+  .scenario-label{
+    font-weight:600;
+    color:#f5d89b;
+  }
+  .scenario-range{
+    color:#fff;
+  }
+  .scenario-note{
+    color:#d0d0d0;
+    font-size:10px;
+  }
+  .pro-tips-box{
+    border:1px solid rgba(231,191,99,0.4);
+    border-radius:10px;
+    padding:10px 12px;
+    margin:10px 0;
+    background:rgba(7,14,26,0.9);
+  }
+  .pro-tips-box h4{
+    font-size:13px;
+    margin:0 0 6px;
+    color:#f0dca0;
+  }
+  .pro-tips-box .bullets{
+    margin:0;
+    padding-left:18px;
+  }
+  .pro-tips-box .bullets li{
+    font-size:11px;
+    color:#ddd;
+    margin-bottom:4px;
+  }
   @media (max-width:640px){
     .est-break-row{
       grid-template-columns:minmax(0,1.2fr) minmax(0,1.8fr) auto;
+    }
+    .scenario-row{
+      grid-template-columns:minmax(0,1fr);
     }
   }
   `;
@@ -1747,3 +2010,4 @@ function injectEstimatorExtraStyles(){
   style.textContent = css;
   document.head.appendChild(style);
 }
+
