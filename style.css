@@ -1846,4 +1846,50 @@ input.gallery-search-box,
   }
 }
 
+/* ============================================================
+   🔥 MOBILE MENU FORCE FIX — GUARANTEED
+=============================================================== */
+
+@media (max-width: 860px) {
+
+  /* Make sure main-nav is ABOVE everything */
+  .main-nav {
+    position: fixed !important;
+    top: 60px !important;
+    right: 10px !important;
+    width: calc(100% - 20px) !important;
+    background: rgba(5,12,22,0.98) !important;
+    border-radius: 14px !important;
+    padding: 18px 16px !important;
+    display: none !important;    /* default */
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    z-index: 99999 !important;
+  }
+
+  /* When JS adds .show, menu becomes visible */
+  .main-nav.show {
+    display: flex !important;
+  }
+
+  /* Make the toggle button work on all devices */
+  .nav-toggle {
+    display: block !important;
+    z-index: 100000 !important;
+    font-size: 28px !important;
+  }
+
+  /* Fix dropdown items inside mobile */
+  .dropdown-content {
+    position: relative !important;
+    display: none !important;
+    background: transparent !important;
+    border: none !important;
+    padding-left: 10px !important;
+  }
+
+  .dropdown.show .dropdown-content {
+    display: block !important;
+  }
+}
 
