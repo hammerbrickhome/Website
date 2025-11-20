@@ -2229,12 +2229,17 @@ const addonsPanel = document.getElementById("smart-addons-panel");
     <p>This is a ballpark NYC-area range only. Final pricing is confirmed in a written estimate after an on-site walkthrough.</p>
 
     <h2>Add-Ons Included in This Range</h2>
-    <ul>
-      <li>Dumpster: ${formatMoney(dumpsterVal)}</li>
-      <li>Demolition: ${formatMoney(demoVal)}</li>
-      <li>Permit / Filing (approx): ${formatMoney(permitVal)}</li>
-      <li>Total add-ons included: ${formatMoney(addOnsTotal)}</li>
-    </ul>
+   <ul>
+  <li>Dumpster: ${formatMoney(dumpsterVal)}</li>
+  <li>Demolition: ${formatMoney(demoVal)}</li>
+  <li>Permit / Filing (approx): ${formatMoney(permitVal)}</li>
+  ${
+    selectedSmartAddons.length
+      ? selectedSmartAddons.map(a => `<li>${a}</li>`).join("")
+      : ""
+  }
+  <li><strong>Total add-ons included:</strong> ${formatMoney(addOnsTotal)}</li>
+</ul>
 
     ${sowHtml}
     ${upsellsHtml}
