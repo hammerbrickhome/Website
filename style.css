@@ -1675,4 +1675,175 @@ input.gallery-search-box,
 .dropdown.show .dropdown-content {
   display: block !important;  /* click to open */
 }
+/* ============================================================
+   CLEAN SIMPLE MENU — GOLD TEXT — NO ANIMATIONS
+   Hammer Brick & Home LLC
+=============================================================== */
+
+/* TOPBAR */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  background: rgba(5,12,22,0.95);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* BRAND */
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.brand-logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: 17px;
+}
+
+.brand-sub {
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+/* MOBILE TOGGLE */
+.nav-toggle {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #e7bf63;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+/* MAIN NAV */
+.main-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.main-nav a,
+.nav-link.dropbtn {
+  color: #e7bf63 !important;      /* Gold text */
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 4px;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* No hover effect */
+.main-nav a:hover,
+.nav-link.dropbtn:hover {
+  color: #e7bf63 !important;
+  background: transparent !important;
+}
+
+/* CALL BUTTON */
+.nav-call {
+  background: linear-gradient(180deg, #f5d89b, #e7bf63) !important;
+  color: #111 !important;
+  font-weight: 800;
+  padding: 9px 15px !important;
+  border-radius: 30px;
+}
+
+/* ============================================================
+   DROPDOWN — SIMPLE CLICK OPEN
+=============================================================== */
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none !important;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(8,14,26,0.98);
+  min-width: 190px;
+  padding: 6px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  z-index: 9999;
+}
+
+.dropdown-content a {
+  color: #e7bf63 !important;
+  padding: 10px 16px !important;
+  display: block;
+  background: transparent !important;
+  text-shadow: none !important;
+}
+
+/* CLICK TO OPEN */
+.dropdown.show .dropdown-content {
+  display: block !important;
+}
+
+/* Disable hover-open */
+.dropdown:hover .dropdown-content {
+  display: none !important;
+}
+
+/* MOBILE NAV */
+@media (max-width: 860px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background: rgba(5,12,22,0.98);
+    padding: 12px;
+    border-radius: 14px;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    display: none;
+  }
+
+  .main-nav.show {
+    display: flex;
+  }
+
+  .dropdown-content {
+    position: static;
+    border: none;
+    background: transparent !important;
+  }
+
+  .dropdown-content a {
+    padding-left: 25px !important;
+  }
+}
+
 
