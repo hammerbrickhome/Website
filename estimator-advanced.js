@@ -178,7 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Add-on panel DOM (optional – only used if present in HTML)
-  const addonsPanel = document.getElementById("est-addons-panel");
+const addonsPanel = document.getElementById("smart-addons-panel");
+
   let extraAddonsValue = 0; // running total from selected smart add-ons (average of low/high)
 
   // Brand elements
