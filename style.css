@@ -1,7 +1,7 @@
 /* ============================================================
    HAMMER BRICK & HOME LLC
-   Luxury Dark + Gold UI — v3 (Stabilized Edition)
-   SAFE • CLEAN • NON-BREAKING • OPTIMIZED
+   Luxury Dark + Simple UI — v3 (Fixed Navigation)
+   FIXED • CLEAN • SIMPLE NAVIGATION
 =============================================================== */
 
 :root{
@@ -9,8 +9,8 @@
   --bg-alt:#0d1a2e;
   --ink:#ffffff;
   --muted:rgba(255,255,255,.78);
-  --gold:#e7bf63;
-  --gold-soft:#f5d89b;
+  --gold:#e7bf63; /* Kept for other elements like buttons/titles */
+  --gold-soft:#f5d89b; /* Kept for other elements like buttons/titles */
   --radius-xl:22px;
   --radius:14px;
   --shadow-soft:0 14px 40px rgba(0,0,0,.6);
@@ -33,7 +33,7 @@ body{
 }
 
 /* ============================================================
-   GLOBAL AMBIENT GOLD EFFECT
+   GLOBAL AMBIENT GOLD EFFECT (Retained for site ambiance)
 =============================================================== */
 
 body::before {
@@ -48,7 +48,7 @@ body::before {
 }
 
 /* ============================================================
-   TOPBAR / NAVIGATION
+   TOPBAR / NAVIGATION (FIXED & SIMPLIFIED)
 =============================================================== */
 
 .topbar{
@@ -97,6 +97,11 @@ body::before {
   color:var(--ink);
   font-size:22px;
   cursor:pointer;
+  /* Added transition for smoother look */
+  transition: .25s;
+}
+.nav-toggle:hover {
+  color: var(--gold-soft);
 }
 
 .main-nav{
@@ -107,55 +112,126 @@ body::before {
   font-size:13px;
 }
 
+/* Base Link Styles: Simple White/Ink */
+.main-nav a,
+.nav-link.dropbtn {
+  color: var(--ink);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: .25s;
+  /* Resetting all gold/shimmer effects */
+  text-shadow: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  animation: none !important;
+}
+
+/* Link Hover: Subtle Highlight */
+.main-nav a:hover,
+.nav-link.dropbtn:hover {
+  color: var(--gold-soft); /* Subtle gold text on hover */
+  background: rgba(255,255,255,0.06);
+}
+
+/* Call Button (Retained original gold style) */
 .main-nav .nav-call{
   background:linear-gradient(180deg,var(--gold-soft),var(--gold));
   color:#151515;
   font-weight:800;
   box-shadow:0 6px 18px rgba(0,0,0,.6);
+  padding:10px 18px; /* Added padding for consistency */
+  border-radius: 999px; /* Added radius for consistency */
+}
+.main-nav .nav-call:hover {
+  color: #151515;
+  background:linear-gradient(180deg,var(--gold),var(--gold-soft));
+  transform: translateY(-1px);
 }
 
-/* Dropdown */
-.dropdown{position:relative;display:inline-block;}
-.nav-link.dropbtn{
-  text-decoration:none;
-  padding:10px 15px;
-  border-radius:6px;
-  transition:.2s;
-}
-.dropdown.show .nav-link.dropbtn{
-  background:#1b1b1b;
-  color:#fff;
-  box-shadow:0 0 8px rgba(245,196,0,0.6);
+
+/* Dropdown container */
+.dropdown{
+  position:relative;
+  display:inline-block;
 }
 
+/* Dropdown Content */
 .dropdown-content{
   display:none;
   position:absolute;
-  background-color:#0a0a0a;
-  min-width:200px;
-  border-radius:10px;
+  background-color:var(--bg-alt); /* Dark background */
+  min-width:190px;
+  border-radius:12px;
   overflow:hidden;
-  top:100%;
+  top:calc(100% + 8px); /* Lowered it slightly */
   left:0;
   z-index:9999;
-  border:1px solid rgba(245,196,0,0.3);
-  box-shadow:0 4px 10px rgba(0,0,0,0.5);
+  border:var(--border-soft);
+  box-shadow:0 12px 32px rgba(0,0,0,0.55);
 }
 
+/* Show Dropdown on Desktop Hover */
+.dropdown:hover .dropdown-content {
+  display: block; 
+}
+
+/* Dropdown Links */
 .dropdown-content a{
-  padding:12px 18px;
+  padding:10px 18px;
   text-decoration:none;
   display:block;
   transition:.2s;
+  color: var(--ink); /* Simple white/ink color */
 }
 
+/* Dropdown Link Hover */
 .dropdown-content a:hover{
-  background:#f5c400;
-  color:#0a0a0a;
+  background:rgba(255,255,255,0.06); /* Simple hover background */
+  color: var(--gold-soft);
 }
 
-.dropdown.show .dropdown-content{display:block;}
+/* MOBILE NAV OVERRIDES (Fixed) */
+@media (max-width:860px){
+  /* Show/Hide Toggle */
+  .nav-toggle{display:block;}
 
+  /* Main Nav Menu */
+  .main-nav{
+    position:absolute;
+    right:10px;
+    top:54px;
+    flex-direction:column;
+    align-items:flex-end;
+    background:rgba(4,10,20,.98);
+    padding:10px;
+    border-radius:16px;
+    box-shadow:var(--shadow-soft);
+    display:none; /* HIDDEN BY DEFAULT */
+    min-width: 180px; /* Ensures it has some width for links */
+  }
+  .main-nav.show{display:flex;} /* SHOWN BY JS TOGGLE */
+
+  /* Dropdown in Mobile */
+  .dropdown-content{
+    position:static; /* Stack links vertically in the mobile menu */
+    background:none;
+    border:none;
+    box-shadow:none;
+    min-width:auto;
+    padding: 0;
+  }
+  .dropdown-content a{
+    padding-left:25px; /* Indent sub-links */
+  }
+
+  /* Other mobile layout fixes */
+  .hero{flex-direction:column;}
+  .split,
+  .rules-join-grid{grid-template-columns:1fr;}
+  .hero-badge{display:flex;justify-content:center;}
+}
 @media (max-width:768px){
   .dropdown-content{
     position:static;
@@ -163,10 +239,8 @@ body::before {
     border:none;
     box-shadow:none;
   }
-  .dropdown-content a{
-    padding-left:25px;
-  }
 }
+/* End of Fixed Navigation Styles */
 
 /* ============================================================
    PAGE LAYOUT
@@ -777,7 +851,7 @@ body::before {
 }
 
 /* ============================================================
-   ANIMATIONS — GOLD EFFECTS
+   ANIMATIONS (Retained)
 =============================================================== */
 
 .fade-up{
@@ -829,31 +903,6 @@ body::before {
   0%{opacity:0.05;transform:scale(1);}
   50%{opacity:0.15;transform:scale(1.03);}
   100%{opacity:0.05;transform:scale(1);}
-}
-
-/* ============================================================
-   RESPONSIVE FIXES
-=============================================================== */
-
-@media (max-width:860px){
-  .main-nav{
-    position:absolute;
-    right:10px;
-    top:54px;
-    flex-direction:column;
-    align-items:flex-end;
-    background:rgba(4,10,20,.98);
-    padding:10px;
-    border-radius:16px;
-    box-shadow:var(--shadow-soft);
-    display:none;
-  }
-  .main-nav.show{display:flex;}
-  .nav-toggle{display:block;}
-  .hero{flex-direction:column;}
-  .split,
-  .rules-join-grid{grid-template-columns:1fr;}
-  .hero-badge{display:flex;justify-content:center;}
 }
 
 /* ============================================================
@@ -914,9 +963,8 @@ body::before {
   }
 }
 
-
 /* ============================================================
-   UNIVERSAL GOLD PILL — MENU + HERO (Animated)
+   UNIVERSAL GOLD PILL — (Retained for site pills/badges)
 =============================================================== */
 
 .gold-pill {
@@ -954,99 +1002,7 @@ body::before {
 
 
 /* ============================================================
-   HEADER MENU — LUXURY VERSION (SLIGHT GOLD TINT + SHIMMER)
-   Applies ONLY to header <nav> — Does NOT affect hero, pills,
-   trust badges, buttons, or gold animations elsewhere.
-=============================================================== */
-
-/* Base menu links — clean, sharp, and lightly gold-tinted */
-.main-nav a {
-  color: rgba(245,196,0,0.75); /* slight gold tint ALWAYS */
-  text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 4px;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  animation: none !important;
-  text-shadow: 0 0 3px rgba(212,175,55,0.28); /* subtle luxury glow */
-  transition: .28s ease-out;
-  position: relative;
-}
-
-/* Keep call button text dark on gold button */
-.main-nav .nav-call {
-  color:#151515;
-  text-shadow:none;
-}
-
-/* HOVER — bright gold + shimmer underline */
-.main-nav a:hover {
-  color: #f5c400;
-  background: rgba(255,255,255,0.05);
-  text-shadow: 0 0 8px rgba(245,196,0,0.75);
-}
-
-/* GOLD SHIMMER UNDERLINE */
-.main-nav a:hover::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -3px;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #f5c400,
-    transparent
-  );
-  box-shadow: 0 0 12px rgba(245,196,0,0.85);
-  animation: shimmer-scan 0.9s ease-out forwards;
-}
-
-/* SHIMMER MOTION */
-@keyframes shimmer-scan {
-  0% { opacity: 0; transform: translateX(-35%); }
-  45% { opacity: 1; transform: translateX(0%); }
-  100% { opacity: 0; transform: translateX(35%); }
-}
-
-/* DROPDOWN BUTTON — slight gold tint always */
-.nav-link.dropbtn {
-  color: rgba(245,196,0,0.8) !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  text-shadow: 0 0 3px rgba(212,175,55,0.25);
-  transition: .25s ease-out;
-}
-
-/* Dropdown hover */
-.nav-link.dropbtn:hover {
-  background: rgba(255,255,255,0.06) !important;
-  color: #fff !important;
-  text-shadow: 0 0 8px rgba(245,196,0,0.65) !important;
-}
-
-/* Dropdown items */
-.dropdown-content a {
-  color: rgba(245,196,0,0.85) !important;
-  border-radius: 0 !important;
-  background: #0a0a0a !important;
-  text-shadow: none !important;
-  transition: .22s;
-}
-
-.dropdown-content a:hover {
-  background: #f5c400 !important;
-  color: #0a0a0a !important;
-  text-shadow: none !important;
-}
-
-
-/* ============================================================
-   GALLERY + SERVICES PAGE — Luxury Gold Search Upgrade
+   GALLERY / SERVICES CLEANUP
 =============================================================== */
 
 /* Gallery Title */
@@ -1535,38 +1491,5 @@ input.gallery-search-box,
   0%   { filter: brightness(85%); }
   50%  { filter: brightness(150%); }
   100% { filter: brightness(85%); }
-}
-
-
-/* Dropdown FIX */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #0d1a2e;
-  min-width: 190px;
-  padding: 10px 0;
-  border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.55);
-  z-index: 9999;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 10px 18px;
-  color: #fff;
-  text-decoration: none;
-}
-
-.dropdown-content a:hover {
-  background-color: rgba(255,255,255,0.08);
 }
 
