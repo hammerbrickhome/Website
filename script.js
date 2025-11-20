@@ -2,33 +2,55 @@
    ✅ HEADER + FOOTER READY HOOKS (works with dynamic include)
 =============================================================== */
 function initHeaderInteractions() {
-  // --- Mobile nav toggle ---
+  /* -------------------------------
+     MOBILE NAV TOGGLE
+  -------------------------------- */
   const navToggle = document.querySelector('.nav-toggle');
   const mainNav = document.querySelector('.main-nav');
+
   if (navToggle && mainNav) {
     navToggle.addEventListener('click', () => {
       mainNav.classList.toggle('show');
     });
   }
 
-  // --- Dropdown (Service Areas) toggle ---
-  const dropbtn = document.querySelector('.dropbtn');
-  const dropdown = document.querySelector('.dropdown');
-  if (dropbtn && dropdown) {
-    dropbtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      dropdown.classList.toggle('show');
-    });
-    document.addEventListener('click', (event) => {
-      if (!dropdown.contains(event.target) && event.target !== dropbtn) {
-        dropdown.classList.remove('show');
-      }
-    });
-  }
+  /* -------------------------------
+     UNIVERSAL CLICK DROPDOWN HANDLER
+     (Supports ALL dropdowns)
+  -------------------------------- */
+  const dropdowns = document.querySelectorAll('.dropdown');
 
-  // --- Chat bubble toggle ---
+  dropdowns.forEach(drop => {
+    const btn = drop.querySelector('.dropbtn');
+    if (!btn) return;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      // Close other dropdowns
+      dropdowns.forEach(d => {
+        if (d !== drop) d.classList.remove('show');
+      });
+
+      // Toggle this dropdown
+      drop.classList.toggle('show');
+    });
+  });
+
+  // Close if clicking outside all dropdowns
+  document.addEventListener('click', (e) => {
+    const clickedInside = [...dropdowns].some(d => d.contains(e.target));
+    if (!clickedInside) {
+      dropdowns.forEach(d => d.classList.remove('show'));
+    }
+  });
+
+  /* -------------------------------
+     CHAT BUBBLE TOGGLE
+  -------------------------------- */
   const chatToggle = document.querySelector('.chat-toggle');
   const chatModal = document.querySelector('.chat-modal');
+
   if (chatToggle && chatModal) {
     chatToggle.addEventListener('click', () => {
       chatModal.style.display =
@@ -37,23 +59,26 @@ function initHeaderInteractions() {
   }
 }
 
-// Fallback for pages that don't use header.html/footer.html includes
+/* Fallback for pages missing header/footer includes */
 document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(initHeaderInteractions, 500);
+  initHeaderInteractions();
 });
 
-/* ---------------------------
-   ✅ Service Filter (Services page)
----------------------------- */
+
+/* ============================================================
+   ✅ SERVICE FILTER (Services page)
+=============================================================== */
 function filterServices() {
   const q =
     (document.getElementById('serviceSearch')?.value || '').toLowerCase();
+
   document.querySelectorAll('.service-grid .card').forEach(card => {
-    const show = card.textContent.toLowerCase().includes(q);
-    card.style.display = show ? '' : 'none';
+    const match = card.textContent.toLowerCase().includes(q);
+    card.style.display = match ? '' : 'none';
   });
 }
 window.filterServices = filterServices;
+
 
 /* ============================================================
    ✅ UTIL: shuffle
@@ -66,6 +91,7 @@ function shuffle(arr) {
   }
   return a;
 }
+
 
 /* ============================================================
    ✅ GALLERY PAGE — galleryPairs + galleryGrid
@@ -228,6 +254,7 @@ async function loadGalleryPage() {
   }
 }
 
+
 /* ============================================================
    ✅ LIGHTBOX
 =============================================================== */
@@ -245,6 +272,7 @@ document.addEventListener('click', e => {
     lightbox.classList.remove('show');
   }
 });
+
 
 /* ============================================================
    ✅ GALLERY SEARCH
@@ -269,6 +297,7 @@ function initGallerySearch() {
     });
   });
 }
+
 
 /* ============================================================
    ✅ HOMEPAGE — BEFORE & AFTER
@@ -337,6 +366,7 @@ async function initHomepageBA() {
   }
 }
 
+
 /* ============================================================
    ✅ MASTER INIT
 =============================================================== */
@@ -345,3 +375,4 @@ document.addEventListener('DOMContentLoaded', () => {
   initHomepageBA();
   initGallerySearch();
 });
+
