@@ -11,20 +11,43 @@ function initHeaderInteractions() {
     });
   }
 
-  // --- Dropdown (Service Areas) toggle ---
-  const dropbtn = document.querySelector('.dropbtn');
-  const dropdown = document.querySelector('.dropdown');
-  if (dropbtn && dropdown) {
-    dropbtn.addEventListener('click', (e) => {
+  // --- Dropdowns (ALL dropdown menus: Pricing + Service Areas) ---
+  const dropdowns = document.querySelectorAll('.dropdown');
+
+  dropdowns.forEach(dd => {
+    const btn = dd.querySelector('.dropbtn');
+    if (!btn) return;
+
+    btn.addEventListener('click', (e) => {
       e.preventDefault();
-      dropdown.classList.toggle('show');
-    });
-    document.addEventListener('click', (event) => {
-      if (!dropdown.contains(event.target) && event.target !== dropbtn) {
-        dropdown.classList.remove('show');
+
+      // MOBILE ONLY → disable hover logic
+      const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+      if (isTouch) {
+        // Close any other dropdowns
+        dropdowns.forEach(other => {
+          if (other !== dd) other.classList.remove('show');
+        });
+
+        // Toggle this one
+        dd.classList.toggle('show');
       }
     });
-  }
+  });
+
+  // Close dropdowns if clicking outside (mobile only)
+  document.addEventListener('click', (event) => {
+    const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    if (!isTouch) return;
+
+    dropdowns.forEach(dd => {
+      const btn = dd.querySelector('.dropbtn');
+      if (!dd.contains(event.target) && event.target !== btn) {
+        dd.classList.remove('show');
+      }
+    });
+  });
 
   // --- Chat bubble toggle ---
   const chatToggle = document.querySelector('.chat-toggle');
@@ -37,7 +60,7 @@ function initHeaderInteractions() {
   }
 }
 
-// Fallback for pages that don't use header.html/footer.html includes
+// Fallback for pages that don't use header include
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(initHeaderInteractions, 500);
 });
