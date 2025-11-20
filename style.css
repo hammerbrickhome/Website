@@ -149,10 +149,6 @@ body::before {
   transition:.2s;
 }
 
-.dropdown-content a:hover{
-  background:#f5c400;
-  color:#0a0a0a;
-}
 
 .dropdown.show .dropdown-content{display:block;}
 
@@ -981,29 +977,8 @@ body::before {
 }
 
 /* HOVER â€” bright gold + shimmer underline */
-.main-nav a:hover {
-  color: #f5c400;
-  background: rgba(255,255,255,0.05);
-  text-shadow: 0 0 8px rgba(245,196,0,0.75);
-}
 
 /* GOLD SHIMMER UNDERLINE */
-.main-nav a:hover::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -3px;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #f5c400,
-    transparent
-  );
-  box-shadow: 0 0 12px rgba(245,196,0,0.85);
-  animation: shimmer-scan 0.9s ease-out forwards;
-}
 
 /* SHIMMER MOTION */
 @keyframes shimmer-scan {
@@ -1023,11 +998,6 @@ body::before {
 }
 
 /* Dropdown hover */
-.nav-link.dropbtn:hover {
-  background: rgba(255,255,255,0.06) !important;
-  color: #fff !important;
-  text-shadow: 0 0 8px rgba(245,196,0,0.65) !important;
-}
 
 /* Dropdown items */
 .dropdown-content a {
@@ -1038,11 +1008,6 @@ body::before {
   transition: .22s;
 }
 
-.dropdown-content a:hover {
-  background: #f5c400 !important;
-  color: #0a0a0a !important;
-  text-shadow: none !important;
-}
 
 
 /* ============================================================
@@ -1555,8 +1520,6 @@ input.gallery-search-box,
   z-index: 9999;
 }
 
-  display: block;
-}
 
 .dropdown-content a {
   display: block;
@@ -1565,8 +1528,5 @@ input.gallery-search-box,
   text-decoration: none;
 }
 
-.dropdown-content a:hover {
-  background-color: rgba(255,255,255,0.08);
-}
 
 
