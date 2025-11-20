@@ -1614,4 +1614,128 @@ input.gallery-search-box,
   filter: none !important;
   transform: none !important;
 }
+/* ============================================================
+   CLEAN MENU — NO HOVER, NO SHIMMER, FULL CLICK DROPDOWNS
+=============================================================== */
+
+/* Base menu links */
+.main-nav a,
+.nav-link.dropbtn {
+  color: rgba(245,196,0,0.75);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: none !important;
+  position: relative;
+}
+
+/* Remove hover from menu ONLY */
+.main-nav a:hover,
+.nav-link.dropbtn:hover {
+  background: none !important;
+  color: rgba(245,196,0,0.75) !important;
+  text-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+.main-nav a:hover::after,
+.nav-link.dropbtn:hover::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Call button stays gold */
+.main-nav .nav-call {
+  background: linear-gradient(180deg,var(--gold-soft),var(--gold));
+  color: #151515 !important;
+  font-weight: 800;
+  box-shadow: none !important;
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button active (when clicked) */
+.dropdown.show > .dropbtn {
+  background: rgba(20,20,20,0.9) !important;
+  color: #fff !important;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #0a0a0a;
+  min-width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  top: 100%;
+  left: 0;
+  z-index: 9999;
+  border: 1px solid rgba(245,196,0,0.3);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* Dropdown item hover REMOVED */
+.dropdown-content a {
+  padding: 12px 18px;
+  text-decoration: none;
+  display: block;
+  color: rgba(245,196,0,0.85);
+  background: #0a0a0a !important;
+  text-shadow: none !important;
+}
+.dropdown-content a:hover {
+  background: #0a0a0a !important;
+  color: rgba(245,196,0,0.85) !important;
+}
+
+/* Show dropdown ONLY when JS adds .show */
+.dropdown.show .dropdown-content {
+  display: block !important;
+}
+
+/* Mobile styles */
+@media (max-width:768px){
+  .main-nav {
+    position: absolute;
+    right: 10px;
+    top: 54px;
+    flex-direction: column;
+    align-items: flex-end;
+    background: rgba(4,10,20,.98);
+    padding: 10px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+    display: none;
+  }
+  .main-nav.show {
+    display: flex;
+  }
+
+  .dropdown-content {
+    position: static !important;
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    padding-left: 15px;
+  }
+}
+
+/* Disable ALL hover effects ONLY in menu */
+.topbar *:hover {
+  background: none !important;
+  color: inherit !important;
+  text-shadow: none !important;
+  transform: none !important;
+  filter: none !important;
+}
 
