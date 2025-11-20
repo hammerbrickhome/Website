@@ -1542,26 +1542,6 @@ const addonsPanel = document.getElementById("smart-addons-panel");
   function formatMoney(num){
     return "$" + Math.round(num).toLocaleString("en-US");
   }
-//------------------------------------------------------------
-// SMART ADD-ONS: Get list of selected add-ons with labels & mid-values
-//------------------------------------------------------------
-function getSelectedSmartAddonsList() {
-  const panel = document.getElementById("smart-addons-panel");
-  if (!panel) return [];
-
-  const checks = panel.querySelectorAll(".addon-checkbox:checked");
-  const list = [];
-
-  checks.forEach(cb => {
-    const label = cb.parentElement.querySelector(".addon-label")?.textContent.trim() || "";
-    const low = Number(cb.dataset.addonLow) || 0;
-    const high = Number(cb.dataset.addonHigh) || 0;
-    const mid = Math.round((low + high) / 2);
-    list.push(`${label} (+$${mid.toLocaleString()})`);
-  });
-
-  return list;
-}
 
   function formatMonthly(num){
     if (!num || num <= 0) return "$0/mo";
@@ -1677,7 +1657,7 @@ function getSelectedSmartAddonsList() {
           totalSpan.textContent = formatMoney(extraAddonsValue);
         }
       });
-  
+    });
   }
 
   function updateVisibility(){
@@ -2249,17 +2229,12 @@ function getSelectedSmartAddonsList() {
     <p>This is a ballpark NYC-area range only. Final pricing is confirmed in a written estimate after an on-site walkthrough.</p>
 
     <h2>Add-Ons Included in This Range</h2>
-   <ul>
-  <li>Dumpster: ${formatMoney(dumpsterVal)}</li>
-  <li>Demolition: ${formatMoney(demoVal)}</li>
-  <li>Permit / Filing (approx): ${formatMoney(permitVal)}</li>
-  ${
-    selectedSmartAddons.length
-      ? selectedSmartAddons.map(a => `<li>${a}</li>`).join("")
-      : ""
-  }
-  <li><strong>Total add-ons included:</strong> ${formatMoney(addOnsTotal)}</li>
-</ul>
+    <ul>
+      <li>Dumpster: ${formatMoney(dumpsterVal)}</li>
+      <li>Demolition: ${formatMoney(demoVal)}</li>
+      <li>Permit / Filing (approx): ${formatMoney(permitVal)}</li>
+      <li>Total add-ons included: ${formatMoney(addOnsTotal)}</li>
+    </ul>
 
     ${sowHtml}
     ${upsellsHtml}
@@ -2555,8 +2530,6 @@ function getSelectedSmartAddonsList() {
       "  DOB Permit (approx): $" + permitVal.toLocaleString("en-US"),
       smartAddonsVal ? ("  Smart Add-Ons (approx mid): $" + Math.round(smartAddonsVal).toLocaleString("en-US")) : "",
       "",
-      ...selectedSmartAddons.map(a => "  - " + a),
-
       "Ballpark Range Shown:",
       "  " + formatMoney(softLow) + " – " + formatMoney(softHigh)
     ].filter(Boolean);
@@ -2593,28 +2566,6 @@ function getSelectedSmartAddonsList() {
       + "&body=" + encodeURIComponent(bodyLines.join("\n"));
 
     updatePermitHelper(svc);
-    // ⭐ ADD THIS HERE ⭐
-const estimateData = {
-  svc,
-  svcLabel,
-  softLow,
-  softHigh,
-  boroughText,
-  buildingText,
-  finishLabel,
-  urgencyLabel,
-  leadSummary,
-  usedArea,
-  usedScopeLabel,
-  addOnsTotal,
-  dumpsterVal,
-  demoVal,
-  permitVal,
-  selectedSmartAddons
-};
-
-// DO NOT TOUCH ANYTHING BELOW
-
 
     resultBox.innerHTML = `
       <p class="muted">NYC-area ballpark only — not a formal quote.</p>
@@ -2715,25 +2666,22 @@ const estimateData = {
     const pdfBtn = document.getElementById("btn-est-pdf");
     if (pdfBtn){
       pdfBtn.addEventListener("click", () => {
-  const {
-  svc,
-  svcLabel,
-  softLow,
-  softHigh,
-  boroughText,
-  buildingText,
-  finishLabel,
-  urgencyLabel,
-  leadSummary,
-  usedArea,
-  usedScopeLabel,
-  addOnsTotal,
-  dumpsterVal,
-  demoVal,
-  permitVal,
-  selectedSmartAddons   // ← THIS WAS MISSING
-} = estimateData;
-
+        openPrintableEstimate({
+          svc,
+          svcLabel,
+          softLow,
+          softHigh,
+          boroughText,
+          buildingText,
+          finishLabel,
+          urgencyLabel,
+          leadSummary,
+          usedArea,
+          usedScopeLabel,
+          addOnsTotal,
+          dumpsterVal,
+          demoVal,
+          permitVal
         });
       });
     }
