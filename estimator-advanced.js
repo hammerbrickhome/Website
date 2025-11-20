@@ -1677,7 +1677,7 @@ function getSelectedSmartAddonsList() {
           totalSpan.textContent = formatMoney(extraAddonsValue);
         }
       });
-    });
+  
   }
 
   function updateVisibility(){
