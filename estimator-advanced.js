@@ -893,44 +893,20 @@ document.addEventListener("DOMContentLoaded", () => {
     regionNoteEl.style.display = (boroughEl.value === "outside") ? "block" : "none";
   }
 
-  function updateBrandOptions(){
-    const svc = serviceEl.value;
-    const finish = finishEl.value;
-    const cfg = BRAND_CONFIG[svc];
-    if (!cfg){
-      brandRow.style.display = "none";
-      brandSelect.innerHTML = "";
-      return;
-    }
-    brandRow.style.display = "";
-    brandLabel.textContent = cfg.label || "Preferred Brand / Line";
+  
 
-    let names = [];
-    if (finish === "standard"){
-      names = []
-        .concat(cfg.budget || [])
-        .concat(cfg.standard || []);
-    } else if (finish === "premium"){
-      names = []
-        .concat(cfg.standard || [])
-        .concat(cfg.luxury || []);
-    } else if (finish === "luxury"){
-      names = (cfg.luxury || []).slice();
-    } else {
-      names = []
-        .concat(cfg.budget || [])
-        .concat(cfg.standard || [])
-        .concat(cfg.luxury || []);
-    }
+ 
 
-    brandSelect.innerHTML = "";
-    names.forEach(name => {
-      const opt = document.createElement("option");
-      opt.value = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      opt.textContent = name;
-      brandSelect.appendChild(opt);
-    });
-  }
+  // Rebuild dropdown
+  brandSelect.innerHTML = "";
+  names.forEach(name => {
+    const opt = document.createElement("option");
+    opt.value = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    opt.textContent = name;
+    brandSelect.appendChild(opt);
+  });
+}
+
 
   function updatePermitHelper(svc){
     const cfg = SERVICE_CONFIG[svc];
@@ -1755,7 +1731,42 @@ document.addEventListener("DOMContentLoaded", () => {
   // EVENTS
   // ==========================
   serviceEl.addEventListener("change", updateVisibility);
-  finishEl.addEventListener("change", updateBrandOptions);
+finishEl.addEventListener("change", () => {
+  const svc = serviceEl.value;
+  const cfg = BRAND_CONFIG[svc];
+  if (!cfg) {
+    brandRow.style.display = "none";
+    brandSelect.innerHTML = "";
+    return;
+  }
+
+  brandRow.style.display = "";
+  brandLabel.textContent = cfg.label || "Preferred Brand / Line";
+
+  let names = [];
+
+  // Enforce:
+  // STANDARD → budget
+  // PREMIUM → standard
+  // LUXURY  → luxury
+  if (finishEl.value === "standard") {
+    names = cfg.budget || [];
+  } else if (finishEl.value === "premium") {
+    names = cfg.standard || [];
+  } else if (finishEl.value === "luxury") {
+    names = cfg.luxury || [];
+  }
+
+  // Rebuild dropdown
+  brandSelect.innerHTML = "";
+  names.forEach(name => {
+    const opt = document.createElement("option");
+    opt.value = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    opt.textContent = name;
+    brandSelect.appendChild(opt);
+  });
+});
+
   boroughEl.addEventListener("change", updateRegionNote);
   form.addEventListener("submit", calculateEstimate);
 
