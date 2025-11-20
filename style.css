@@ -1560,3 +1560,58 @@ input.gallery-search-box,
 .dropdown.show > .dropbtn {
   color: var(--gold) !important;
 }
+/* ============================================================
+   REMOVE ALL HOVER, SHIMMER & AUTO-OPEN DROPDOWNS (GLOBAL)
+=============================================================== */
+
+/* 1. Disable ALL hover states on menu links */
+.main-nav a:hover,
+.nav-link.dropbtn:hover,
+.dropdown-content a:hover {
+  background: none !important;
+  color: inherit !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+/* 2. Disable shimmer underline animation */
+.main-nav a:hover::after,
+.nav-link.dropbtn:hover::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* 3. Disable glow / shimmer / gold hover on titles */
+.shimmer-title:hover,
+.hero-inner .hero-content h1:hover,
+.section h2:hover {
+  filter: none !important;
+  transform: none !important;
+  text-shadow: none !important;
+}
+
+/* 4. Disable dropdown hover activation on ALL devices */
+.dropdown:hover .dropdown-content {
+  display: none !important;
+}
+
+/* 5. Only allow dropdowns to open via JS class */
+.dropdown.show .dropdown-content {
+  display: block !important;
+}
+
+/* 6. Kill hover shimmer animations globally */
+@keyframes shimmer-scan { from {opacity:0;} to {opacity:0;} }
+@keyframes shimmerTitle { from {opacity:1;} to {opacity:1;} }
+@keyframes faqShimmer { from {opacity:1;} to {opacity:1;} }
+
+/* 7. Disable hover animations on nav-brand, icons, etc. */
+.topbar *:hover {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
