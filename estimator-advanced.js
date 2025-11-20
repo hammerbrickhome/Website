@@ -7,6 +7,7 @@
 //  - Basic / Premium / Luxury bands
 //  - Pro Tips per project
 //  - PDF-style printable view
+//  - Scope of Work + Upsells + Terms in PDF + Email
 
 document.addEventListener("DOMContentLoaded", () => {
   const form        = document.getElementById("est-form");
@@ -858,6 +859,537 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ==========================
+  // SCOPE OF WORK + UPSELLS CONFIG
+  // ==========================
+  const SOW_CONFIG = {
+    "masonry": {
+      title: "Scope of Work – Masonry · Pavers · Concrete",
+      bullets: [
+        "Review site, elevations, and water flow to confirm pitch and drainage.",
+        "Excavate and dispose of existing material in work area as noted in scope.",
+        "Install compacted aggregate base, bedding layer, and reinforcement (if required).",
+        "Set pavers/stone/concrete to agreed pattern, joints, and border details.",
+        "Tool joints, wash down surfaces, and leave work area broom-clean."
+      ]
+    },
+    "driveway": {
+      title: "Scope of Work – Driveway / Parking Area",
+      bullets: [
+        "Confirm layout, vehicle load, and drainage/curb transitions.",
+        "Demo and cart away existing surface as included in this estimate.",
+        "Install compacted base, forms/edge restraint, and reinforcement (if applicable).",
+        "Place and finish concrete/asphalt/pavers to agreed thickness and pattern.",
+        "Final cleanup of driveway and adjacent walkways."
+      ]
+    },
+    "roofing": {
+      title: "Scope of Work – Roofing",
+      bullets: [
+        "Protect landscaping, siding, and walkways around the home.",
+        "Remove roofing layers as listed in the estimate and inspect deck.",
+        "Install underlayment, flashings, and ventilation per manufacturer standards.",
+        "Install selected shingle/roof system and accessories.",
+        "Clean roof, gutters, and grounds of roofing debris and fasteners."
+      ]
+    },
+    "siding": {
+      title: "Scope of Work – Siding",
+      bullets: [
+        "Confirm wall areas, trim details, and any framing repair needs.",
+        "Remove existing siding materials as specified.",
+        "Install approved housewrap or weather-resistive barrier.",
+        "Install new siding, trims, and accessories per manufacturer guidelines.",
+        "Seal, caulk, and clean up siding work area."
+      ]
+    },
+    "windows": {
+      title: "Scope of Work – Windows & Exterior Doors",
+      bullets: [
+        "Verify window/door counts, swing, clearances, and safety egress where applicable.",
+        "Protect interior/exterior finishes around work areas.",
+        "Remove existing units, install new windows/doors plumb, level, and square.",
+        "Insulate, flash, and seal per manufacturer guidelines.",
+        "Install interior/exterior trim as applicable and clean glass/frames."
+      ]
+    },
+    "exterior-paint": {
+      title: "Scope of Work – Exterior Painting / Facade",
+      bullets: [
+        "Wash, scrape, and sand loose or failing paint in work areas.",
+        "Spot prime bare or repaired substrates with appropriate primer.",
+        "Apply specified number of finish coats to siding, trims, and details.",
+        "Protect roofing, windows, doors, and landscaping during work.",
+        "Remove masking, clean up, and provide basic touch-up kit on request."
+      ]
+    },
+    "deck": {
+      title: "Scope of Work – Deck / Patio Build or Rebuild",
+      bullets: [
+        "Confirm layout, elevation, stairs, and railing locations.",
+        "Install footings and framing per code and approved layout.",
+        "Install decking boards and rail system as specified.",
+        "Install any trims, fascia, and stair details included in scope.",
+        "Clean work area and remove construction debris."
+      ]
+    },
+    "fence": {
+      title: "Scope of Work – Fence Install / Replacement",
+      bullets: [
+        "Verify fence line, property markers, and gate locations with homeowner.",
+        "Remove and dispose of existing fence materials as included in scope.",
+        "Install posts in concrete or per fence system guidelines.",
+        "Install rails, panels, and gates with hardware and latches.",
+        "Clean up site and remove excess materials."
+      ]
+    },
+    "waterproofing": {
+      title: "Scope of Work – Waterproofing & Foundation Sealing",
+      bullets: [
+        "Inspect interior/exterior conditions and identify water entry paths.",
+        "Prepare walls/areas and perform crack repair or joint treatment as specified.",
+        "Install sealers, membranes, or drainage components included in scope.",
+        "Coordinate with sump/drainage components if part of project.",
+        "Clean work area; moisture performance may depend on site conditions."
+      ]
+    },
+    "power-wash": {
+      title: "Scope of Work – Power / Soft Washing",
+      bullets: [
+        "Pre-rinse surfaces and wet sensitive landscaping as needed.",
+        "Apply appropriate cleaning solution to siding, masonry, or flatwork.",
+        "Rinse with controlled pressure/soft-wash techniques per surface type.",
+        "Spot-treat stubborn areas within reason.",
+        "Rinse walkways and leave area tidy."
+      ]
+    },
+    "landscaping": {
+      title: "Scope of Work – Landscaping & Seasonal Care",
+      bullets: [
+        "Perform mowing, trimming, and edging in included areas.",
+        "Remove basic leaves/debris as specified for the visit/season.",
+        "Maintain beds (weeding/pruning) per agreed scope.",
+        "Bag or cart away yard waste as noted.",
+        "Blow off walkways and hard surfaces."
+      ]
+    },
+    "exterior-lighting": {
+      title: "Scope of Work – Exterior Lighting & Smart Security",
+      bullets: [
+        "Confirm fixture locations, light levels, and control methods.",
+        "Mount fixtures and run wiring per code and product guidelines.",
+        "Install transformers, timers, or smart controls as specified.",
+        "Aim and adjust fixtures for safety and appearance.",
+        "Test system operation and review basic use with homeowner."
+      ]
+    },
+    "sidewalk": {
+      title: "Scope of Work – Sidewalk / DOT Concrete",
+      bullets: [
+        "Sawcut and remove existing sidewalk panels as included.",
+        "Prepare subgrade and install compacted base to required thickness.",
+        "Set forms and pour concrete to required thickness and scoring pattern.",
+        "Finish, edge, and broom per NYC / local standards.",
+        "Strip forms, backfill edges, and clean site."
+      ]
+    },
+    "gutters": {
+      title: "Scope of Work – Gutter Install / Repair",
+      bullets: [
+        "Inspect gutter runs, downspout locations, and drainage path.",
+        "Remove existing gutters/guards where included.",
+        "Install new gutters, hangers, and downspouts per layout.",
+        "Seal joints and test basic flow.",
+        "Clean up and remove gutter debris/materials."
+      ]
+    },
+    "interior-paint": {
+      title: "Scope of Work – Interior Painting",
+      bullets: [
+        "Protect floors, furniture, and adjacent finishes in work areas.",
+        "Patch minor nail holes and small surface imperfections.",
+        "Spot prime repairs and apply specified finish coats to walls/ceilings/trims.",
+        "Remove masking and reinstall basic cover plates as applicable.",
+        "Clean work areas and leave space swept/vacuumed."
+      ]
+    },
+    "flooring": {
+      title: "Scope of Work – Flooring (LVP / Tile / Hardwood)",
+      bullets: [
+        "Verify subfloor condition and transitions to adjacent rooms.",
+        "Remove existing flooring as listed in estimate.",
+        "Prepare subfloor (leveling/basic repair) within included scope.",
+        "Install new flooring, trims, and transitions as specified.",
+        "Clean surface and remove packaging/debris."
+      ]
+    },
+    "drywall": {
+      title: "Scope of Work – Drywall / Plaster / Skim Coat",
+      bullets: [
+        "Protect floors and nearby finishes from dust.",
+        "Hang/repair board or lath/plaster surfaces as scoped.",
+        "Tape, mud, and sand to an agreed finish level.",
+        "Spot prime repaired areas once dry.",
+        "Collect demolition dust/debris and remove from site as included."
+      ]
+    },
+    "interior-doors": {
+      title: "Scope of Work – Interior Doors & Trim",
+      bullets: [
+        "Confirm door sizes, swings, and hardware preferences.",
+        "Remove existing doors/trim as included.",
+        "Install new slabs/frames, adjust for smooth operation.",
+        "Install casing, base, and other trim items in scope.",
+        "Patch nail holes and leave ready for paint or touch-up."
+      ]
+    },
+    "closets": {
+      title: "Scope of Work – Closet / Storage Buildouts",
+      bullets: [
+        "Confirm shelving layout, hanging sections, and specialty features.",
+        "Install rails, panels, rods, and shelving per system design.",
+        "Secure fasteners into suitable framing or anchors.",
+        "Adjust doors/fronts if part of scope.",
+        "Clean up and remove packaging."
+      ]
+    },
+    "interior-lighting": {
+      title: "Scope of Work – Interior Lighting / Smart Lighting",
+      bullets: [
+        "Confirm fixture locations, switching, and dimming needs.",
+        "Cut openings and run wiring per code where included.",
+        "Install fixtures, trims, and controls/smart switches.",
+        "Test operation and basic programming if smart devices.",
+        "Patch small access holes as scoped (if applicable)."
+      ]
+    },
+    "bathroom": {
+      title: "Scope of Work – Bathroom Remodel",
+      bullets: [
+        "Protect adjacent rooms and paths to work area.",
+        "Demo fixtures, finishes, and walls/floors as included in scope.",
+        "Rough-in plumbing, electrical, and ventilation per plan.",
+        "Install tile, fixtures, vanity, and accessories per selections.",
+        "Grout, caulk, and clean up bathroom ready for final painting/finishes."
+      ]
+    },
+    "kitchen": {
+      title: "Scope of Work – Kitchen Remodel",
+      bullets: [
+        "Protect floors/adjacent rooms and set up dust control where practical.",
+        "Demo cabinets, tops, appliances, and finishes as listed.",
+        "Rough-in plumbing, electrical, and ventilation to support new layout.",
+        "Install cabinets, countertops, backsplash, and fixtures per selections.",
+        "Coordinate appliance set-in (by others or by us if included) and clean up."
+      ]
+    },
+    "basement": {
+      title: "Scope of Work – Basement Finishing",
+      bullets: [
+        "Review layout, clearances, and egress requirements.",
+        "Frame walls/ceilings and rough-in MEP as scoped.",
+        "Insulate, drywall, and finish surfaces to agreed level.",
+        "Install flooring, trims, and doors included in scope.",
+        "Clean up work areas; final paint or extras per estimate."
+      ]
+    },
+    "garage-conversion": {
+      title: "Scope of Work – Garage Conversion / Remodel",
+      bullets: [
+        "Confirm layout, insulation, and egress requirements.",
+        "Demo existing finishes as necessary for conversion.",
+        "Frame, insulate, and rough-in electrical/MEP per design.",
+        "Install wall/ceiling finishes, flooring, and trims as scoped.",
+        "Clean up and leave space ready for final furnishings."
+      ]
+    },
+    "epoxy-garage": {
+      title: "Scope of Work – Epoxy Garage Floor",
+      bullets: [
+        "Inspect concrete and perform basic crack/spall repair as included.",
+        "Mechanically prep floor (grinding/etching) for coating bond.",
+        "Apply primer, epoxy/flake build, and topcoat per system.",
+        "Allow proper cure time and re-open for light use as directed.",
+        "Clean up and remove dust and masking."
+      ]
+    },
+    "smart-home": {
+      title: "Scope of Work – Smart Home Upgrades",
+      bullets: [
+        "Confirm device locations, Wi-Fi coverage, and app ecosystem.",
+        "Install doorbells, cameras, locks, and hubs per plan.",
+        "Run low-voltage wiring where included and allowed.",
+        "Pair devices to app and perform basic testing.",
+        "Provide simple overview of controls (not full IT support)."
+      ]
+    },
+    "handyman": {
+      title: "Scope of Work – Small Repairs / Handyman Visit",
+      bullets: [
+        "Complete punch-list items agreed for the visit window.",
+        "Provide basic materials (anchors, screws, caulk) within reason.",
+        "Advise if any items require a larger project or separate estimate.",
+        "Clean up work areas at end of visit.",
+        "Time and materials are limited to booked duration."
+      ]
+    },
+    "soundproofing": {
+      title: "Scope of Work – Soundproofing",
+      bullets: [
+        "Identify primary noise paths and target walls/ceilings.",
+        "Install sound-rated assemblies (insulation, channels, board) as scoped.",
+        "Seal perimeter gaps and penetrations with acoustical sealant.",
+        "Finish surfaces to a paint-ready or specified level.",
+        "Clean up and remove construction debris."
+      ]
+    },
+    "moisture-control": {
+      title: "Scope of Work – Mold / Moisture Prevention (Non-Remediation)",
+      bullets: [
+        "Identify moisture sources and targeted treatment areas.",
+        "Apply sealers, coatings, or ventilation strategies as included.",
+        "Address small non-structural cracks or joints within scope.",
+        "Recommend further remediation/engineering if issues exceed scope.",
+        "Clean work areas after treatments."
+      ]
+    }
+  };
+
+  const UPSELL_CONFIG = {
+    "masonry": {
+      title: "Popular Upgrades for Masonry Projects",
+      bullets: [
+        "Upgrade to premium paver or natural stone lines for a richer look.",
+        "Add contrasting borders, inlays, or step lighting for curb appeal.",
+        "Include sealer and joint sand stabilization for longer life."
+      ]
+    },
+    "driveway": {
+      title: "Popular Upgrades for Driveways",
+      bullets: [
+        "Add decorative border or apron at street/front entry.",
+        "Upgrade to stamped or exposed aggregate concrete.",
+        "Include drainage channels or trench drains where needed."
+      ]
+    },
+    "roofing": {
+      title: "Popular Roofing Upgrades",
+      bullets: [
+        "Upgrade to higher-end architectural/composite shingles.",
+        "Add ice/water shield in additional areas for extra protection.",
+        "Improve ventilation with ridge vents or attic fans."
+      ]
+    },
+    "siding": {
+      title: "Popular Siding Upgrades",
+      bullets: [
+        "Upgrade to fiber cement or premium vinyl profiles.",
+        "Add decorative trims, crown details, or accent shakes.",
+        "Include additional insulation or housewrap upgrades."
+      ]
+    },
+    "windows": {
+      title: "Popular Window & Door Upgrades",
+      bullets: [
+        "Upgrade to higher-efficiency glass or premium lines (Andersen, Marvin, etc.).",
+        "Add interior casing/trim packages for a finished look.",
+        "Include exterior aluminum capping or color upgrades."
+      ]
+    },
+    "exterior-paint": {
+      title: "Popular Exterior Paint Upgrades",
+      bullets: [
+        "Upgrade to premium or specialty coatings for longer life.",
+        "Add accent colors to doors, shutters, and trims.",
+        "Include additional prep on heavily weathered areas."
+      ]
+    },
+    "deck": {
+      title: "Popular Deck Upgrades",
+      bullets: [
+        "Upgrade to composite or PVC decking and rail systems.",
+        "Add lighting to steps, posts, or rails.",
+        "Include privacy screens, benches, or planters."
+      ]
+    },
+    "fence": {
+      title: "Popular Fence Upgrades",
+      bullets: [
+        "Upgrade to decorative panels or custom gate designs.",
+        "Add privacy or lattice toppers.",
+        "Include sealing or stain on wood fences."
+      ]
+    },
+    "waterproofing": {
+      title: "Popular Waterproofing Upgrades",
+      bullets: [
+        "Add interior drains or sump pump system where appropriate.",
+        "Upgrade to longer-warranty membranes or coatings.",
+        "Include monitoring or alarm devices for water events."
+      ]
+    },
+    "power-wash": {
+      title: "Popular Power Wash Upgrades",
+      bullets: [
+        "Add surface sealing for concrete, pavers, or stone.",
+        "Include gutter whitening or rust-stain treatments.",
+        "Bundle driveway, walkways, and patio in one visit."
+      ]
+    },
+    "landscaping": {
+      title: "Popular Landscaping Upgrades",
+      bullets: [
+        "Add seasonal color plantings and mulch refresh.",
+        "Include simple lighting around paths and beds.",
+        "Upgrade to a recurring maintenance package."
+      ]
+    },
+    "exterior-lighting": {
+      title: "Popular Exterior Lighting Upgrades",
+      bullets: [
+        "Upgrade fixtures to architectural or smart lines.",
+        "Add path, step, and accent lighting for layered effect.",
+        "Integrate security cameras or smart doorbells."
+      ]
+    },
+    "sidewalk": {
+      title: "Popular Sidewalk Upgrades",
+      bullets: [
+        "Add decorative broom or stamp patterns (where allowed).",
+        "Include transition repairs to stoops or drive entries.",
+        "Add sealer to help with stain resistance."
+      ]
+    },
+    "gutters": {
+      title: "Popular Gutter Upgrades",
+      bullets: [
+        "Add gutter guards to reduce clogging and maintenance.",
+        "Upgrade downspouts and outlets for better flow.",
+        "Tie downspouts into extensions or drainage solutions."
+      ]
+    },
+    "interior-paint": {
+      title: "Popular Interior Paint Upgrades",
+      bullets: [
+        "Upgrade to premium or washable paints for high-use areas.",
+        "Add accent walls, ceilings, or trim colors.",
+        "Include painting of doors, trims, and built-ins."
+      ]
+    },
+    "flooring": {
+      title: "Popular Flooring Upgrades",
+      bullets: [
+        "Upgrade to wider planks or higher-end finishes.",
+        "Add sound underlayment where helpful (multi-family/condos).",
+        "Include stair treads, nosings, and railing touch-ups."
+      ]
+    },
+    "drywall": {
+      title: "Popular Drywall/Finishing Upgrades",
+      bullets: [
+        "Upgrade to a higher smoothness level where feasible.",
+        "Add decorative trims, beams, or panel details.",
+        "Include full-room repainting after skim coat."
+      ]
+    },
+    "interior-doors": {
+      title: "Popular Door & Trim Upgrades",
+      bullets: [
+        "Upgrade to solid-core or specialty doors.",
+        "Add higher profile casings/baseboards.",
+        "Include upgraded hardware (hinges, levers, handles)."
+      ]
+    },
+    "closets": {
+      title: "Popular Closet Upgrades",
+      bullets: [
+        "Upgrade to custom built-ins or drawers.",
+        "Add lighting and mirrors inside closet.",
+        "Include premium finishes or glass doors."
+      ]
+    },
+    "interior-lighting": {
+      title: "Popular Interior Lighting Upgrades",
+      bullets: [
+        "Add dimmers or smart switches for scenes.",
+        "Upgrade to higher-end fixtures or trims.",
+        "Include under-cabinet or cove lighting where applicable."
+      ]
+    },
+    "bathroom": {
+      title: "Popular Bathroom Upgrades",
+      bullets: [
+        "Upgrade to frameless glass, niche shelving, and linear drains.",
+        "Add heated floors or towel warmers.",
+        "Include higher-end fixtures and vanity packages."
+      ]
+    },
+    "kitchen": {
+      title: "Popular Kitchen Upgrades",
+      bullets: [
+        "Upgrade to custom cabinets, pull-outs, and organizers.",
+        "Add under-cabinet lighting and integrated outlets.",
+        "Include higher-end counters, backsplashes, and hardware."
+      ]
+    },
+    "basement": {
+      title: "Popular Basement Upgrades",
+      bullets: [
+        "Add media wall, bar area, or built-ins.",
+        "Upgrade to sound-rated assemblies for theater spaces.",
+        "Include upgraded flooring and lighting packages."
+      ]
+    },
+    "garage-conversion": {
+      title: "Popular Garage Conversion Upgrades",
+      bullets: [
+        "Add mini-split heating/cooling system.",
+        "Include built-in storage or office cabinetry.",
+        "Upgrade doors, windows, and trim packages."
+      ]
+    },
+    "epoxy-garage": {
+      title: "Popular Garage Floor Upgrades",
+      bullets: [
+        "Upgrade to polyaspartic or quartz systems.",
+        "Add more decorative flake or metallic finishes.",
+        "Include stem wall or cove base coating."
+      ]
+    },
+    "smart-home": {
+      title: "Popular Smart Home Upgrades",
+      bullets: [
+        "Expand to whole-home smart lighting.",
+        "Add extra cameras or sensors at key locations.",
+        "Integrate with voice/control systems where available."
+      ]
+    },
+    "handyman": {
+      title: "Popular Small Job Add-Ons",
+      bullets: [
+        "Bundle multiple small repairs into one visit.",
+        "Add minor caulking and touch-up painting.",
+        "Install small accessories (shelves, hooks, rods) while on site."
+      ]
+    },
+    "soundproofing": {
+      title: "Popular Soundproofing Upgrades",
+      bullets: [
+        "Add additional mass layers or specialty boards.",
+        "Include upgraded doors and seals at openings.",
+        "Combine with smart-home white noise solutions."
+      ]
+    },
+    "moisture-control": {
+      title: "Popular Moisture Prevention Upgrades",
+      bullets: [
+        "Add dehumidification or basic ventilation solutions.",
+        "Upgrade to extended-warranty sealers or coatings.",
+        "Combine with waterproofing/drainage improvements where needed."
+      ]
+    }
+  };
+
+  // ==========================
   // HELPERS
   // ==========================
   function formatMoney(num){
@@ -893,15 +1425,8 @@ document.addEventListener("DOMContentLoaded", () => {
     regionNoteEl.style.display = (boroughEl.value === "outside") ? "block" : "none";
   }
 
-  
-
- 
-
-
-
-
   function updatePermitHelper(svc){
-    const cfg = SERVICE_CONFIG[svc]
+    const cfg = SERVICE_CONFIG[svc];
     if (!cfg){
       permitBox.style.display = "none";
       permitBox.innerHTML = "";
@@ -963,9 +1488,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if ((svc === "kitchen" || svc === "bathroom" || svc === "basement") && advStyle){
       advStyle.style.display = "";
     }
-
-   
-  
   }
 
   // Confidence meter based on level of input detail
@@ -1223,11 +1745,97 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  // ==========================
+  // SOW / UPSELL / TERMS HELPERS FOR PDF + EMAIL
+  // ==========================
+  function buildScopeOfWorkHtml(svc, svcLabel){
+    const cfg = SOW_CONFIG[svc];
+    const title = cfg?.title || `Scope of Work – ${svcLabel}`;
+    const bullets = cfg?.bullets || [
+      "Review project area and confirm scope on site.",
+      "Perform work described in the written estimate and contract.",
+      "Protect adjacent surfaces where practical during work.",
+      "Clean up active work areas at the end of the project."
+    ];
+    const items = bullets.map(b => `<li>${b}</li>`).join("");
+    return `
+      <div class="section-box">
+        <h2 class="section-title">${title}</h2>
+        <ul class="section-list">
+          ${items}
+        </ul>
+      </div>
+    `;
+  }
+
+  function buildUpsellsHtml(svc){
+    const cfg = UPSELL_CONFIG[svc];
+    if (!cfg) return "";
+    const items = cfg.bullets.map(b => `<li>${b}</li>`).join("");
+    return `
+      <div class="section-box">
+        <h2 class="section-title">${cfg.title}</h2>
+        <ul class="section-list">
+          ${items}
+        </ul>
+      </div>
+    `;
+  }
+
+  function buildTermsHtml(){
+    const bullets = [
+      "This document is a ballpark estimate only. It is not a formal bid, proposal, or contract.",
+      "Final pricing, scope, and schedule are confirmed only in a written estimate and signed agreement.",
+      "Range assumes typical access, site conditions, and standard building/code requirements.",
+      "Architect/engineer fees, major structural changes, utility upgrades, or hidden conditions are not included unless specifically listed.",
+      "Permits, inspections, and municipal fees are approximate and may change based on final scope and agency review."
+    ];
+    const items = bullets.map(b => `<li>${b}</li>`).join("");
+    return `
+      <div class="section-box">
+        <h2 class="section-title">Key Notes & Conditions</h2>
+        <ul class="section-list">
+          ${items}
+        </ul>
+      </div>
+    `;
+  }
+
+  function buildScopeOfWorkTextLines(svc, svcLabel){
+    const cfg = SOW_CONFIG[svc];
+    const bullets = cfg?.bullets || [
+      "Review project area and confirm final scope on site.",
+      "Perform work described in written estimate and agreement.",
+      "Protect nearby areas where practical and clean up work zone."
+    ];
+    // Keep short for email body
+    return bullets.slice(0, 3).map(b => "- " + b);
+  }
+
+  function buildUpsellsTextLines(svc){
+    const cfg = UPSELL_CONFIG[svc];
+    if (!cfg) return [];
+    return cfg.bullets.slice(0, 3).map(b => "- " + b);
+  }
+
+  function buildTermsTextLines(){
+    const bullets = [
+      "Ballpark only — not a formal contract.",
+      "Final pricing/scope confirmed in written estimate + signed agreement.",
+      "Does not include major hidden conditions or structural/engineering unless listed."
+    ];
+    return bullets.map(b => "- " + b);
+  }
+
+  // ==========================
+  // PDF BUILDER
+  // ==========================
   function openPrintableEstimate(estimateData){
     const w = window.open("", "_blank");
     if (!w) return;
 
     const {
+      svc,
       svcLabel,
       softLow,
       softHigh,
@@ -1243,6 +1851,10 @@ document.addEventListener("DOMContentLoaded", () => {
       demoVal,
       permitVal
     } = estimateData;
+
+    const sowHtml    = buildScopeOfWorkHtml(svc, svcLabel);
+    const upsellsHtml= buildUpsellsHtml(svc);
+    const termsHtml  = buildTermsHtml();
 
     w.document.write(`<!doctype html>
 <html>
@@ -1261,35 +1873,123 @@ document.addEventListener("DOMContentLoaded", () => {
       margin:0 auto;
       border:1px solid rgba(231,191,99,.45);
       border-radius:12px;
-      padding:20px 22px;
+      padding:20px 22px 24px;
       background:#050914;
       box-shadow:0 18px 40px rgba(0,0,0,.7);
     }
-    h1{font-size:22px;margin:0 0 6px;color:#e7bf63;}
-    h2{font-size:17px;margin:18px 0 6px;color:#f0dca0;}
-    p,li{font-size:13px;line-height:1.5;}
-    .row{display:flex;flex-wrap:wrap;font-size:13px;margin:8px 0;}
-    .row div{flex:1 1 220px;margin-bottom:4px;}
-    .range{font-size:20px;font-weight:700;margin:8px 0;color:#f5d89b;}
-    ul{padding-left:18px;margin:6px 0;}
-    .footer-note{font-size:11px;color:#bbb;margin-top:14px;}
+    .brand-block div{
+      font-size:13px;
+      color:#f0dca0;
+    }
+    .brand-name{
+      font-size:22px;
+      font-weight:700;
+      color:#e7bf63;
+    }
+    .gold-divider{
+      width:100%;
+      height:2.5px;
+      background:#e7bf63;
+      border-radius:2px;
+      margin:8px 0 12px;
+    }
+    h1.main-title{
+      font-size:24px;
+      font-weight:800;
+      color:#ff4d4d;
+      margin:6px 0 14px;
+      text-transform:none;
+    }
+    h2{
+      font-size:17px;
+      margin:18px 0 6px;
+      color:#f0dca0;
+    }
+    p,li{
+      font-size:13px;
+      line-height:1.5;
+    }
+    .row{
+      display:flex;
+      flex-wrap:wrap;
+      font-size:13px;
+      margin:8px 0;
+    }
+    .row div{
+      flex:1 1 220px;
+      margin-bottom:4px;
+    }
+    .range{
+      font-size:20px;
+      font-weight:700;
+      margin:8px 0;
+      color:#f5d89b;
+    }
+    ul{
+      padding-left:18px;
+      margin:6px 0;
+    }
+    .footer-note{
+      font-size:11px;
+      color:#bbb;
+      margin-top:14px;
+    }
+    .section-box{
+      border:1px solid rgba(231,191,99,.45);
+      border-radius:10px;
+      padding:10px 12px;
+      margin-top:14px;
+      background:#050a15;
+    }
+    .section-title{
+      font-size:15px;
+      margin:0 0 6px;
+      color:#f0dca0;
+      font-weight:600;
+    }
+    .section-list li{
+      font-size:12px;
+      color:#f5f5f5;
+      margin-bottom:3px;
+    }
+    .sig-block{
+      margin-top:16px;
+      font-size:12px;
+      color:#d5d5d5;
+    }
+    .sig-line{
+      margin-top:10px;
+      border-top:1px solid rgba(255,255,255,.35);
+      width:220px;
+      padding-top:3px;
+    }
+    @media print{
+      body{
+        background:#ffffff;
+      }
+      .box{
+        box-shadow:none;
+        border:1px solid #ccc;
+      }
+      h1.main-title{
+        color:#cc0000;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="box">
-    <h1>Ballpark Estimate (Not a Formal Quote)</h1>
-  <div style="text-align:left;margin-bottom:18px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,system-ui,sans-serif;">
-  <div style="font-size:22px;font-weight:700;color:#e7bf63;">HAMMER BRICK & HOME LLC</div>
-  <div style="font-size:13px;color:#f0dca0;">Precision • Protection • Professionalism</div>
-  <div style="font-size:13px;color:#f0dca0;">Licensed • Insured • Bonded</div>
-  <div style="font-size:13px;color:#f0dca0;">HIC #21311291</div>
-  <div style="font-size:13px;color:#f0dca0;">Call: 929-595-5300</div>
-  <div style="font-size:13px;color:#f0dca0;margin-bottom:6px;">Building trust one brick at a time.</div>
+    <div class="brand-block" style="text-align:left;margin-bottom:12px;">
+      <div class="brand-name">HAMMER BRICK &amp; HOME LLC</div>
+      <div>Precision • Protection • Professionalism</div>
+      <div>Licensed • Insured • Bonded</div>
+      <div>HIC #21311291</div>
+      <div>Call: 929-595-5300</div>
+      <div style="margin-bottom:6px;">Building trust one brick at a time.</div>
+      <div class="gold-divider"></div>
+    </div>
 
-  <!-- heavy gold line -->
-  <div style="width:100%;height:2.5px;background:#e7bf63;border-radius:2px;margin-top:8px;margin-bottom:12px;"></div>
-</div>
-
+    <h1 class="main-title">Ballpark Estimate (Not a Formal Quote)</h1>
 
     <h2>Project Summary</h2>
     <div class="row">
@@ -1316,6 +2016,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <li>Permit / Filing (approx): ${formatMoney(permitVal)}</li>
       <li>Total add-ons included: ${formatMoney(addOnsTotal)}</li>
     </ul>
+
+    ${sowHtml}
+    ${upsellsHtml}
+    ${termsHtml}
+
+    <div class="sig-block">
+      <div>Prepared as a courtesy ballpark by Hammer Brick &amp; Home LLC.</div>
+      <div class="sig-line">Client Signature &amp; Date (for discussion only)</div>
+    </div>
 
     <p class="footer-note">
       Important: This document is for informational purposes only. It is not a bid, proposal, or contract, and does not create
@@ -1573,6 +2282,11 @@ document.addEventListener("DOMContentLoaded", () => {
       urgencyLabel
     });
 
+    // EMAIL BODY LINES (with SOW + UPSELL + TERMS)
+    const sowEmailLines     = buildScopeOfWorkTextLines(svc, svcLabel);
+    const upsellEmailLines  = buildUpsellsTextLines(svc);
+    const termsEmailLines   = buildTermsTextLines();
+
     const bodyLines = [
       "Hello,",
       "",
@@ -1594,16 +2308,35 @@ document.addEventListener("DOMContentLoaded", () => {
       "  DOB Permit (approx): $" + permitVal.toLocaleString("en-US"),
       "",
       "Ballpark Range Shown:",
-      "  " + formatMoney(softLow) + " – " + formatMoney(softHigh),
-      "",
-      "My Contact Info:",
-      "Name:",
-      "Service Address:",
-      "Phone:",
-      "Email:",
-      "",
-      "Thank you!"
+      "  " + formatMoney(softLow) + " – " + formatMoney(softHigh)
     ];
+
+    if (sowEmailLines.length){
+      bodyLines.push("");
+      bodyLines.push("Scope of Work (summary):");
+      bodyLines.push(...sowEmailLines);
+    }
+
+    if (upsellEmailLines.length){
+      bodyLines.push("");
+      bodyLines.push("Popular Upgrades to Consider:");
+      bodyLines.push(...upsellEmailLines);
+    }
+
+    if (termsEmailLines.length){
+      bodyLines.push("");
+      bodyLines.push("Key Notes:");
+      bodyLines.push(...termsEmailLines);
+    }
+
+    bodyLines.push("");
+    bodyLines.push("My Contact Info:");
+    bodyLines.push("Name:");
+    bodyLines.push("Service Address:");
+    bodyLines.push("Phone:");
+    bodyLines.push("Email:");
+    bodyLines.push("");
+    bodyLines.push("Thank you!");
 
     const mailtoHref = "mailto:Hammerbrickhome@gmail.com"
       + "?subject=" + encodeURIComponent("Estimate Request – Website Tool")
@@ -1711,6 +2444,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (pdfBtn){
       pdfBtn.addEventListener("click", () => {
         openPrintableEstimate({
+          svc,
           svcLabel,
           softLow,
           softHigh,
@@ -1730,58 +2464,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-// 🔥 FINAL FIX — Correct service change behavior
-serviceEl.addEventListener("change", () => {
-  updateVisibility();
+  // 🔥 FINAL FIX — Correct service change behavior
+  serviceEl.addEventListener("change", () => {
+    updateVisibility();
 
-  // 1. FULL reset of brand system
-  brandSelect.innerHTML = "";
-  brandRow.style.display = "none";
-
-  // 2. Force finish logic AFTER reset (correct timing)
-  setTimeout(() => {
-    finishEl.dispatchEvent(new Event("change"));
-  }, 0);
-});
-
-
-
-
-finishEl.addEventListener("change", () => {
-  const svc = serviceEl.value;
-  const cfg = BRAND_CONFIG[svc];
-  if (!cfg) {
-    brandRow.style.display = "none";
+    // 1. FULL reset of brand system
     brandSelect.innerHTML = "";
-    return;
-  }
+    brandRow.style.display = "none";
 
-  brandRow.style.display = "";
-  brandLabel.textContent = cfg.label || "Preferred Brand / Line";
-
-  let names = [];
-
-  // Enforce:
-  // STANDARD → budget
-  // PREMIUM → standard
-  // LUXURY  → luxury
-  if (finishEl.value === "standard") {
-    names = cfg.budget || [];
-  } else if (finishEl.value === "premium") {
-    names = cfg.standard || [];
-  } else if (finishEl.value === "luxury") {
-    names = cfg.luxury || [];
-  }
-  // ✅ THIS PART WAS MISSING — ADD IT
-  brandSelect.innerHTML = "";
-  names.forEach(name => {
-    const opt = document.createElement("option");
-    opt.value = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    opt.textContent = name;
-    brandSelect.appendChild(opt);
+    // 2. Force finish logic AFTER reset (correct timing)
+    setTimeout(() => {
+      finishEl.dispatchEvent(new Event("change"));
+    }, 0);
   });
-});
 
+  finishEl.addEventListener("change", () => {
+    const svc = serviceEl.value;
+    const cfg = BRAND_CONFIG[svc];
+    if (!cfg) {
+      brandRow.style.display = "none";
+      brandSelect.innerHTML = "";
+      return;
+    }
+
+    brandRow.style.display = "";
+    brandLabel.textContent = cfg.label || "Preferred Brand / Line";
+
+    let names = [];
+
+    // Enforce:
+    // STANDARD → budget
+    // PREMIUM → standard
+    // LUXURY  → luxury
+    if (finishEl.value === "standard") {
+      names = cfg.budget || [];
+    } else if (finishEl.value === "premium") {
+      names = cfg.standard || [];
+    } else if (finishEl.value === "luxury") {
+      names = cfg.luxury || [];
+    }
+
+    brandSelect.innerHTML = "";
+    names.forEach(name => {
+      const opt = document.createElement("option");
+      opt.value = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      opt.textContent = name;
+      brandSelect.appendChild(opt);
+    });
+  });
 
   boroughEl.addEventListener("change", updateRegionNote);
   form.addEventListener("submit", calculateEstimate);
@@ -2037,4 +2767,5 @@ function injectEstimatorExtraStyles(){
   style.textContent = css;
   document.head.appendChild(style);
 }
+
 
