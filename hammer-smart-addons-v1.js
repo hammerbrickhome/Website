@@ -894,7 +894,7 @@ function applySmartAddonBreakdown() {
    - On form submit → let your original calculateEstimate run, then
      we append the breakdown under the result
 ----------------------------------- */
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
   const serviceSelect = document.getElementById("est-service");
   const form = document.getElementById("est-form");
   const panel = document.getElementById("smart-addons-panel");
