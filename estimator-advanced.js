@@ -1278,7 +1278,18 @@ document.addEventListener("DOMContentLoaded", () => {
 <body>
   <div class="box">
     <h1>Ballpark Estimate (Not a Formal Quote)</h1>
-    <p>Hammer Brick &amp; Home LLC — NYC &amp; NJ Home Improvement</p>
+  <div style="text-align:left;margin-bottom:18px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,system-ui,sans-serif;">
+  <div style="font-size:22px;font-weight:700;color:#e7bf63;">HAMMER BRICK & HOME LLC</div>
+  <div style="font-size:13px;color:#f0dca0;">Precision • Protection • Professionalism</div>
+  <div style="font-size:13px;color:#f0dca0;">Licensed • Insured • Bonded</div>
+  <div style="font-size:13px;color:#f0dca0;">HIC #21311291</div>
+  <div style="font-size:13px;color:#f0dca0;">Call: 929-595-5300</div>
+  <div style="font-size:13px;color:#f0dca0;margin-bottom:6px;">Building trust one brick at a time.</div>
+
+  <!-- heavy gold line -->
+  <div style="width:100%;height:2.5px;background:#e7bf63;border-radius:2px;margin-top:8px;margin-bottom:12px;"></div>
+</div>
+
 
     <h2>Project Summary</h2>
     <div class="row">
