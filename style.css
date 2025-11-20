@@ -1,7 +1,7 @@
 /* ============================================================
-   HAMMER BRICK & HOME LLC
-   Luxury Dark + Gold UI â€” v3 (Stabilized Edition)
-   SAFE â€¢ CLEAN â€¢ NON-BREAKING â€¢ OPTIMIZED
+    HAMMER BRICK & HOME LLC
+    Luxury Dark + Gold UI — v3 (Stabilized Edition)
+    SAFE • CLEAN • NON-BREAKING • OPTIMIZED
 =============================================================== */
 
 :root{
@@ -33,7 +33,7 @@ body{
 }
 
 /* ============================================================
-   GLOBAL AMBIENT GOLD EFFECT
+    GLOBAL AMBIENT GOLD EFFECT
 =============================================================== */
 
 body::before {
@@ -48,7 +48,7 @@ body::before {
 }
 
 /* ============================================================
-   TOPBAR / NAVIGATION
+    TOPBAR / NAVIGATION
 =============================================================== */
 
 .topbar{
@@ -116,37 +116,45 @@ body::before {
 
 /* Dropdown */
 .dropdown{position:relative;display:inline-block;}
+
 .nav-link.dropbtn{
   text-decoration:none;
   padding:10px 15px;
   border-radius:6px;
   transition:.2s;
 }
-.dropdown.show .nav-link.dropbtn{
-  background:#1b1b1b;
-  color:#fff;
-  box-shadow:0 0 8px rgba(245,196,0,0.6);
-}
 
+/* Base Dropdown Content (Desktop) */
 .dropdown-content{
   display:none;
   position:absolute;
-  background-color:#0a0a0a;
-  min-width:200px;
-  border-radius:10px;
+  background-color:#0d1a2e; /* Updated from #0a0a0a for consistency */
+  min-width:190px; /* Consolidating from multiple widths */
+  border-radius:12px; /* Consolidating from multiple radii */
   overflow:hidden;
   top:100%;
   left:0;
   z-index:9999;
   border:1px solid rgba(245,196,0,0.3);
-  box-shadow:0 4px 10px rgba(0,0,0,0.5);
+  box-shadow:0 12px 32px rgba(0,0,0,0.55); /* Consolidating shadow */
 }
 
+/* Display Dropdown Content when parent has .show or on desktop hover */
+.dropdown.show .dropdown-content {
+  display: block; /* Used for mobile JS toggle */
+}
+
+.dropdown:hover .dropdown-content { /* Used for desktop hover */
+  display: block; 
+}
+
+
 .dropdown-content a{
-  padding:12px 18px;
+  padding:10px 18px; /* Consolidating padding */
   text-decoration:none;
   display:block;
   transition:.2s;
+  color: #fff; /* Ensure contrast on dark background */
 }
 
 .dropdown-content a:hover{
@@ -154,14 +162,37 @@ body::before {
   color:#0a0a0a;
 }
 
-.dropdown.show .dropdown-content{display:block;}
+/* MOBILE NAV OVERRIDES */
+@media (max-width:860px){
+  .main-nav{
+    position:absolute;
+    right:10px;
+    top:54px;
+    flex-direction:column;
+    align-items:flex-end;
+    background:rgba(4,10,20,.98);
+    padding:10px;
+    border-radius:16px;
+    box-shadow:var(--shadow-soft);
+    display:none; /* HIDDEN BY DEFAULT */
+  }
+  .main-nav.show{display:flex;} /* SHOWN BY JS TOGGLE */
+  .nav-toggle{display:block;}
+  .hero{flex-direction:column;}
+  .split,
+  .rules-join-grid{grid-template-columns:1fr;}
+  .hero-badge{display:flex;justify-content:center;}
+}
 
+/* MOBILE DROPDOWN OVERRIDES (Adjusts dropdown behavior inside open mobile menu) */
 @media (max-width:768px){
   .dropdown-content{
-    position:static;
+    position:static; /* Stack links vertically */
     background:none;
     border:none;
     box-shadow:none;
+    min-width:auto;
+    padding: 0;
   }
   .dropdown-content a{
     padding-left:25px;
@@ -169,7 +200,7 @@ body::before {
 }
 
 /* ============================================================
-   PAGE LAYOUT
+    PAGE LAYOUT
 =============================================================== */
 
 .page{
@@ -194,7 +225,7 @@ body::before {
 }
 
 /* ============================================================
-   HERO
+    HERO
 =============================================================== */
 
 .hero{
@@ -257,7 +288,7 @@ body::before {
 }
 
 /* ============================================================
-   BUTTONS
+    BUTTONS
 =============================================================== */
 
 .btn{
@@ -337,7 +368,7 @@ body::before {
 }
 
 /* ============================================================
-   GRID, CARDS, CONTENT
+    GRID, CARDS, CONTENT
 =============================================================== */
 
 .split{
@@ -376,7 +407,7 @@ body::before {
 }
 
 .bullets li::before{
-  content:"â€¢";
+  content:"•";
   position:absolute;
   left:0;
   color:var(--gold);
@@ -421,7 +452,7 @@ body::before {
 }
 
 /* ============================================================
-   GALLERY
+    GALLERY
 =============================================================== */
 
 .gallery-grid{
@@ -482,7 +513,7 @@ body::before {
 .lightbox.show{display:flex;}
 
 /* ============================================================
-   BEFORE / AFTER â€” COMPARE GRID
+    BEFORE / AFTER — COMPARE GRID
 =============================================================== */
 
 .compare-grid{
@@ -583,7 +614,7 @@ body::before {
 }
 
 /* ============================================================
-   BA SYSTEM (HOME PAGE ONLY)
+    BA SYSTEM (HOME PAGE ONLY)
 =============================================================== */
 
 .ba-head h2{
@@ -677,7 +708,7 @@ body::before {
 }
 
 /* ============================================================
-   RULES / MEMBERSHIP / CONTACT
+    RULES / MEMBERSHIP / CONTACT
 =============================================================== */
 
 .rules-join-grid{
@@ -737,7 +768,7 @@ body::before {
 }
 
 /* ============================================================
-   CHAT BUBBLE
+    CHAT BUBBLE
 =============================================================== */
 
 .chat-bubble{
@@ -777,7 +808,7 @@ body::before {
 }
 
 /* ============================================================
-   ANIMATIONS â€” GOLD EFFECTS
+    ANIMATIONS — GOLD EFFECTS
 =============================================================== */
 
 .fade-up{
@@ -832,32 +863,7 @@ body::before {
 }
 
 /* ============================================================
-   RESPONSIVE FIXES
-=============================================================== */
-
-@media (max-width:860px){
-  .main-nav{
-    position:absolute;
-    right:10px;
-    top:54px;
-    flex-direction:column;
-    align-items:flex-end;
-    background:rgba(4,10,20,.98);
-    padding:10px;
-    border-radius:16px;
-    box-shadow:var(--shadow-soft);
-    display:none;
-  }
-  .main-nav.show{display:flex;}
-  .nav-toggle{display:block;}
-  .hero{flex-direction:column;}
-  .split,
-  .rules-join-grid{grid-template-columns:1fr;}
-  .hero-badge{display:flex;justify-content:center;}
-}
-
-/* ============================================================
-   SAFARI DESKTOP FIX â€” SAFE & NON-BREAKING
+    SAFARI DESKTOP FIX — SAFE & NON-BREAKING
 =============================================================== */
 
 @media (min-width:900px){
@@ -916,7 +922,7 @@ body::before {
 
 
 /* ============================================================
-   UNIVERSAL GOLD PILL â€” MENU + HERO (Animated)
+    UNIVERSAL GOLD PILL — MENU + HERO (Animated)
 =============================================================== */
 
 .gold-pill {
@@ -953,8 +959,8 @@ body::before {
 }
 
 
-/* MENU CLEANED */
- + SERVICES PAGE â€” Luxury Gold Search Upgrade
+/* ============================================================
+    GALLERY / SERVICES CLEANUP
 =============================================================== */
 
 /* Gallery Title */
@@ -1018,8 +1024,8 @@ input.gallery-search-box,
 
 
 /* ============================================================
-   FAQ â€” LUXURY DARK + GOLD UI (FINAL VERSION)
-   Hammer Brick & Home LLC
+    FAQ — LUXURY DARK + GOLD UI (FINAL VERSION)
+    Hammer Brick & Home LLC
 =============================================================== */
 
 .faq-section {
@@ -1083,7 +1089,7 @@ input.gallery-search-box,
 
 /* Gold arrow */
 .faq-section summary::after {
-  content: "â€º";
+  content: "›";
   position: absolute;
   right: 20px;
   top: 50%;
@@ -1148,7 +1154,7 @@ input.gallery-search-box,
 }
 
 /* ============================================================
-   CONTACT BOX â€” FINAL GOLD VERSION
+    CONTACT BOX — FINAL GOLD VERSION
 =============================================================== */
 
 .contact-box {
@@ -1201,27 +1207,10 @@ input.gallery-search-box,
     font-size: 14px;
   }
 }
+
 /* ============================================================
-   CONTACT PILL BUTTONS â€” GOLD LUXURY VERSION
+    CONTACT PILL BUTTONS — GOLD LUXURY VERSION (Consolidated)
 =============================================================== */
-
-.contact-box {
-  text-align: center;
-  margin: 50px auto 70px;
-  max-width: 680px;
-}
-
-.contact-box h3 {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--gold);
-  margin-bottom: 8px;
-}
-
-.contact-box p {
-  color: var(--muted);
-  font-size: 14px;
-}
 
 .contact-pills {
   margin-top: 18px;
@@ -1249,7 +1238,7 @@ input.gallery-search-box,
     inset 0 0 8px rgba(212,175,55,0.25);
 }
 
-/* HOVER â€” bright gold shimmer */
+/* HOVER — bright gold shimmer */
 .pill-btn:hover {
   color: #fff;
   border-color: var(--gold);
@@ -1261,7 +1250,7 @@ input.gallery-search-box,
   text-shadow: 0 0 12px rgba(245,196,0,0.95);
 }
 
-/* MOBILE â€” full-width buttons */
+/* MOBILE — full-width buttons */
 @media (max-width: 600px) {
   .pill-btn {
     width: 100%;
@@ -1271,8 +1260,8 @@ input.gallery-search-box,
 }
 
 /* ============================================
-   FAQ TITLE â€” GOLD â€¢ SHIMMER â€¢ GLOW â€¢ HOVER
-   ============================================ */
+    FAQ TITLE — GOLD • SHIMMER • GLOW • HOVER
+    ============================================ */
 
 .faq-title {
   font-family: var(--font-serif);
@@ -1321,7 +1310,7 @@ input.gallery-search-box,
 
 /* Shimmer animation */
 @keyframes faqShimmer {
-  0%   { width: 20%; opacity: 0.2; }
+  0%    { width: 20%; opacity: 0.2; }
   50%  { width: 65%; opacity: 1; }
   100% { width: 20%; opacity: 0.25; }
 }
@@ -1348,45 +1337,15 @@ input.gallery-search-box,
   }
 }
 /* ============================================================
-   PROJECT ESTIMATOR â€” GOLD SHIMMER / HOVER (TWO TITLES ONLY)
+    PROJECT ESTIMATOR — GOLD SHIMMER / HOVER (Consolidated)
 =============================================================== */
-
-.shimmer-title {
-  text-align: center;
-  font-size: 36px;
-  font-weight: 900;
-  font-family: var(--font-serif);
-  color: var(--gold-soft);
-  margin: 38px auto 10px;
-  text-shadow:
-    0 0 10px rgba(212,175,55,0.55),
-    0 0 20px rgba(212,175,55,0.35);
-  display: block;
-  animation: shimmerTitle 3s linear infinite;
-  transition: .25s ease-out;
-  cursor: pointer;
-}
-
-/* Hover Glow */
-.shimmer-title:hover {
-  filter: brightness(1.25);
-  transform: scale(1.03);
-  text-shadow:
-    0 0 16px rgba(245,196,0,1),
-    0 0 28px rgba(245,196,0,.9),
-    0 0 40px rgba(245,196,0,.7);
-}
 
 /* Shimmer breathing animation */
 @keyframes shimmerTitle {
-  0%   { filter: brightness(85%); }
+  0%    { filter: brightness(85%); }
   50%  { filter: brightness(150%); }
   100% { filter: brightness(85%); }
 }
-
-/* ============================================================
-   FIX PROJECT ESTIMATOR ALIGNMENT (NO HTML CHANGES)
-=============================================================== */
 
 /* Center ONLY the estimator heading block */
 .hero-inner .hero-content,
@@ -1406,6 +1365,7 @@ input.gallery-search-box,
     0 0 10px rgba(212,175,55,0.55),
     0 0 20px rgba(212,175,55,0.35);
   animation: shimmerTitle 3s linear infinite;
+  font-family: var(--font-serif) !important; /* Ensure serif font is used */
 }
 
 /* Subtitle under Project Estimator */
@@ -1417,7 +1377,7 @@ input.gallery-search-box,
   font-size: 14px !important;
 }
 
-/* Second title (NYC & NJ Project Estimator) */
+/* Second title (NYC & NJ Project Estimator) — Overrides global .section h2 */
 .section h2 {
   text-align: center !important;
   width: 100%;
@@ -1425,6 +1385,7 @@ input.gallery-search-box,
   margin-left: auto !important;
   margin-right: auto !important;
   animation: shimmerTitle 3s linear infinite;
+  /* Retains original .section h2 styles for general sections that need to be centered */
 }
 
 /* Hover glow on both titles */
@@ -1438,48 +1399,9 @@ input.gallery-search-box,
     0 0 40px rgba(245,196,0,.7);
 }
 
-/* Continuous shimmer animation */
-@keyframes shimmerTitle {
-  0%   { filter: brightness(85%); }
-  50%  { filter: brightness(150%); }
-  100% { filter: brightness(85%); }
-}
-
-
-/* Dropdown FIX */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #0d1a2e;
-  min-width: 190px;
-  padding: 10px 0;
-  border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.55);
-  z-index: 9999;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 10px 18px;
-  color: #fff;
-  text-decoration: none;
-}
-
-.dropdown-content a:hover {
-  background-color: rgba(255,255,255,0.08);
-}
-
-
-/* SIMPLE NON-HOVER GOLD MENU */
+/* ============================================================
+    SIMPLE NON-HOVER GOLD MENU (Ensures links look gold)
+=============================================================== */
 .main-nav a,
 .nav-link.dropbtn,
 .dropdown-content a {
@@ -1494,8 +1416,8 @@ input.gallery-search-box,
 .main-nav a:hover,
 .nav-link.dropbtn:hover,
 .dropdown-content a:hover {
-  color: #f5c400 !important;
-  background: transparent !important;
+  color: #fff !important; /* Changed hover to white for better contrast/effect */
+  background: rgba(255,255,255,0.08) !important; /* Added subtle background on hover */
   text-shadow: none !important;
 }
 
