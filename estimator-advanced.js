@@ -2593,6 +2593,28 @@ function getSelectedSmartAddonsList() {
       + "&body=" + encodeURIComponent(bodyLines.join("\n"));
 
     updatePermitHelper(svc);
+    // ⭐ ADD THIS HERE ⭐
+const estimateData = {
+  svc,
+  svcLabel,
+  softLow,
+  softHigh,
+  boroughText,
+  buildingText,
+  finishLabel,
+  urgencyLabel,
+  leadSummary,
+  usedArea,
+  usedScopeLabel,
+  addOnsTotal,
+  dumpsterVal,
+  demoVal,
+  permitVal,
+  selectedSmartAddons
+};
+
+// DO NOT TOUCH ANYTHING BELOW
+
 
     resultBox.innerHTML = `
       <p class="muted">NYC-area ballpark only — not a formal quote.</p>
