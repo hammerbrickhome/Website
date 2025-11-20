@@ -34,6 +34,151 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultBox   = document.getElementById("est-result");
   const permitBox   = document.getElementById("permit-helper");
   const regionNoteEl= document.getElementById("region-note");
+      // ⭐ SMART ADD-ON CONFIG (OPTION C: dedicated panel that changes by service) ⭐
+      const ADDON_CONFIG = {
+        "masonry": {
+          title: "Popular Masonry / Paver Add-Ons",
+          subnote: "Optional upgrades many NYC homeowners add to masonry and paver projects.",
+          items: [
+            { id:"polymeric-sand", label:"Polymeric sand + joint lock upgrade", low:350, high:850 },
+            { id:"paver-seal", label:"Paver sealing (up to ~800 sq ft)", low:450, high:1200 },
+            { id:"drainage", label:"Channel drain / extra drainage work", low:900, high:2200 },
+            { id:"step-safety", label:"Front steps safety / repair upgrade", low:1800, high:4200 }
+          ]
+        },
+        "driveway": {
+          title: "Driveway Add-Ons",
+          subnote: "Extras that improve drainage, edging, and long-term performance.",
+          items: [
+            { id:"edging", label:"Decorative border / soldier course", low:750, high:2500 },
+            { id:"extra-drainage", label:"Extra drainage or trench drain at garage", low:1200, high:3200 },
+            { id:"heated", label:"Snow-melt / heat prep (where feasible)", low:2500, high:6500 }
+          ]
+        },
+        "roofing": {
+          title: "Roofing Protection Add-Ons",
+          subnote: "Common upgrades for better protection and ventilation.",
+          items: [
+            { id:"ice-water", label:"Full ice & water shield upgrade", low:900, high:2600 },
+            { id:"ridge-vent", label:"Ridge vent / attic ventilation upgrade", low:750, high:2200 },
+            { id:"gutter-upgrade", label:"New gutters / downspouts with roof", low:1500, high:3800 }
+          ]
+        },
+        "bathroom": {
+          title: "Bathroom Comfort Add-Ons",
+          subnote: "Small upgrades that make the bathroom feel more custom.",
+          items: [
+            { id:"niches", label:"1–2 built-in shampoo niches", low:450, high:1200 },
+            { id:"glass-door", label:"Frameless glass door upgrade", low:1800, high:3200 },
+            { id:"heated-floor", label:"Heated floor mat (where feasible)", low:2200, high:4200 },
+            { id:"fan-upgrade", label:"Quiet exhaust fan with timer", low:650, high:1400 }
+          ]
+        },
+        "kitchen": {
+          title: "Kitchen Add-Ons",
+          subnote: "Popular kitchen extras many NYC clients add.",
+          items: [
+            { id:"under-cabinet", label:"Under-cabinet lighting package", low:950, high:2200 },
+            { id:"backsplash", label:"Full-height backsplash upgrade", low:1500, high:4200 },
+            { id:"island-electric", label:"Extra island outlets / pendants", low:900, high:2600 }
+          ]
+        },
+        "basement": {
+          title: "Basement Finishing Add-Ons",
+          subnote: "Extras that improve comfort and moisture control.",
+          items: [
+            { id:"dehumid", label:"Dedicated dehumidifier with drain", low:950, high:2200 },
+            { id:"soundproof-ceiling", label:"Sound-damped ceiling over main area", low:2200, high:5200 },
+            { id:"egress", label:"Egress window rough budget (where allowed)", low:4500, high:9500 }
+          ]
+        },
+        "interior-paint": {
+          title: "Interior Painting Add-Ons",
+          subnote: "Detail work and premium finish options.",
+          items: [
+            { id:"trim-upgrade", label:"Trim / doors enamel upgrade", low:850, high:2200 },
+            { id:"accent-walls", label:"Multiple accent walls / feature color", low:450, high:1200 },
+            { id:"ceiling-paint", label:"Ceiling repaint package", low:650, high:1800 }
+          ]
+        },
+        "flooring": {
+          title: "Flooring Add-Ons",
+          subnote: "Prep and finishing options that affect look and lifespan.",
+          items: [
+            { id:"demo-disposal", label:"Old flooring demo & disposal", low:1200, high:3200 },
+            { id:"stair-upgrade", label:"Stair treads & railing detail work", low:1800, high:4500 }
+          ]
+        },
+        "windows": {
+          title: "Window / Door Add-Ons",
+          subnote: "Comfort and finish upgrades.",
+          items: [
+            { id:"interior-trim", label:"New interior casing / trim package", low:1200, high:3200 },
+            { id:"laminated-glass", label:"Noise-reducing / laminated glass upgrade", low:1800, high:4200 }
+          ]
+        },
+        "fence": {
+          title: "Fence Add-Ons",
+          subnote: "Privacy and access upgrades.",
+          items: [
+            { id:"gates", label:"Extra gate(s) or wider gate upgrade", low:750, high:2200 },
+            { id:"privacy-screens", label:"Privacy screens / lattice sections", low:900, high:2600 }
+          ]
+        },
+        "deck": {
+          title: "Deck / Patio Add-Ons",
+          subnote: "Comfort and safety upgrades.",
+          items: [
+            { id:"lighting", label:"Stair & railing lighting package", low:900, high:2600 },
+            { id:"privacy-wall", label:"Privacy wall / divider", low:2200, high:5200 }
+          ]
+        },
+        "power-wash": {
+          title: "Power Washing Add-Ons",
+          subnote: "Deep cleaning and protection upgrades.",
+          items: [
+            { id:"softwash", label:"Soft-wash solution upgrade (roof/siding)", low:450, high:1200 },
+            { id:"sealant", label:"Sealer on cleaned concrete/pavers", low:650, high:1800 }
+          ]
+        },
+        "gutters": {
+          title: "Gutter Add-Ons",
+          subnote: "Common gutter extras.",
+          items: [
+            { id:"guards", label:"Gutter guards on main runs", low:1200, high:2800 },
+            { id:"heat-cables", label:"Heat cables at trouble spots", low:900, high:2600 }
+          ]
+        },
+        "landscaping": {
+          title: "Landscaping Add-Ons",
+          subnote: "Curb-appeal boosters.",
+          items: [
+            { id:"mulch-refresh", label:"Mulch / stone bed refresh", low:450, high:1200 },
+            { id:"planting", label:"Seasonal planting package", low:650, high:2200 }
+          ]
+        },
+        "smart-home": {
+          title: "Smart Home & Lighting Add-Ons",
+          subnote: "Extra zones and devices.",
+          items: [
+            { id:"extra-cameras", label:"Extra camera locations", low:750, high:2200 },
+            { id:"smart-dimmers", label:"Smart dimmers in key rooms", low:850, high:2600 }
+          ]
+        },
+        "handyman": {
+          title: "Handyman Visit Add-Ons",
+          subnote: "Common small extras during a visit.",
+          items: [
+            { id:"small-paint", label:"Small paint touchups (1–2 rooms)", low:250, high:550 },
+            { id:"caulking", label:"Caulk & weatherstrip package", low:220, high:480 }
+          ]
+        }
+      };
+
+
+
+
+  
 
   // Brand elements
   const brandRow    = document.getElementById("brand-row");
