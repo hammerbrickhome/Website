@@ -2693,23 +2693,25 @@ function getSelectedSmartAddonsList() {
     const pdfBtn = document.getElementById("btn-est-pdf");
     if (pdfBtn){
       pdfBtn.addEventListener("click", () => {
-        openPrintableEstimate({
-          svc,
-          svcLabel,
-          softLow,
-          softHigh,
-          boroughText,
-          buildingText,
-          finishLabel,
-          urgencyLabel,
-          leadSummary,
-          usedArea,
-          usedScopeLabel,
-          addOnsTotal,
-          dumpsterVal,
-          demoVal,
-          permitVal,
-          selectedSmartAddons
+  const {
+  svc,
+  svcLabel,
+  softLow,
+  softHigh,
+  boroughText,
+  buildingText,
+  finishLabel,
+  urgencyLabel,
+  leadSummary,
+  usedArea,
+  usedScopeLabel,
+  addOnsTotal,
+  dumpsterVal,
+  demoVal,
+  permitVal,
+  selectedSmartAddons   // ← THIS WAS MISSING
+} = estimateData;
+
         });
       });
     }
