@@ -2287,11 +2287,43 @@ const SMART_ADDONS = {
   // I will add ALL services later once working
 };
 
+<!-- LOAD THE ADVANCED ESTIMATOR LOGIC -->
+<script src="/estimator-advanced.js"></script>
+
+<!-- SMART ADD-ON ENGINE -->
+<script>
+/* -----------------------------------
+   SMART ADD-ON CONFIG
+----------------------------------- */
+const SMART_ADDONS = {
+  masonry: [
+    { label: "Polymeric Sand Refill", low: 250, high: 450 },
+    { label: "Paver Sealing", low: 450, high: 1200 },
+    { label: "Drainage Channel", low: 900, high: 1800 },
+    { label: "Border Accent Upgrade", low: 350, high: 900 },
+    { label: "LED Step Lighting", low: 450, high: 1400 }
+  ],
+  roofing: [
+    { label: "Gutter Replacement", low: 350, high: 1200 },
+    { label: "Ice & Water Shield Upgrade", low: 300, high: 850 },
+    { label: "Ridge Vent Upgrade", low: 400, high: 950 },
+    { label: "Skylight Reseal", low: 450, high: 1100 }
+  ],
+  bathroom: [
+    { label: "Niche (built-in)", low: 350, high: 850 },
+    { label: "Glass Door Upgrade", low: 900, high: 1800 },
+    { label: "Heated Floor System", low: 1800, high: 3200 },
+    { label: "Premium Vanity Install", low: 550, high: 1250 }
+  ]
+};
+
 /* -----------------------------------
    RENDER ADD-ON OPTIONS
 ----------------------------------- */
 function renderSmartAddons(service) {
   const panel = document.getElementById("smart-addons-panel");
+  if (!panel) return;
+
   panel.innerHTML = "";
 
   if (!SMART_ADDONS[service]) {
@@ -2307,8 +2339,8 @@ function renderSmartAddons(service) {
         <input type="checkbox" class="smart-addon"
           data-low="${item.low}" data-high="${item.high}">
         ${item.label}
-        <span style="color:#e7bf63">
-          (+${item.low} – ${item.high})
+        <span style="color:#e7bf63;">
+          (+$${item.low.toLocaleString()} – $${item.high.toLocaleString()})
         </span>
       </label>
     `;
@@ -2341,29 +2373,21 @@ document.getElementById("est-service").addEventListener("change", e => {
   const oldFn = calculateEstimate;
 
   calculateEstimate = function (evt) {
-    oldFn(evt);
+    oldFn(evt); // run original estimator
 
-    const panel = document.getElementById("smart-addons-panel");
     const { low, high } = getSmartAddonTotals();
 
-    // Update the displayed range
     const rangeBox = document.getElementById("est-main-range");
     if (rangeBox) {
       rangeBox.innerHTML += `
-        <p style="margin-top:8px;color:#e7bf63;">
+        <p style="margin-top:8px; color:#e7bf63;">
           Add-Ons: +$${low.toLocaleString()} – +$${high.toLocaleString()}
         </p>
       `;
     }
   };
-
+})();
+</script>
 
 </body>
 </html>
-  
-
-
-
-
-
-
