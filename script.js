@@ -1,5 +1,5 @@
 /* ============================================================
-   HEADER INTERACTIONS — WORKS WITH DYNAMIC HEADER INCLUDE
+   HEADER INTERACTIONS — FIXED VERSION (NO HOVER DROPDOWNS)
 =============================================================== */
 function initHeaderInteractions() {
   // --- Mobile navigation toggle ---
@@ -12,7 +12,7 @@ function initHeaderInteractions() {
     });
   }
 
-  // --- Dropdown: Pricing + Service Areas ---
+  // --- Dropdowns: Pricing + Service Areas ---
   const dropdowns = document.querySelectorAll('.dropdown');
 
   dropdowns.forEach(dd => {
@@ -22,31 +22,23 @@ function initHeaderInteractions() {
     btn.addEventListener('click', e => {
       e.preventDefault();
 
-      const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+      // Always toggle on click — NO HOVER AT ALL
+      dropdowns.forEach(other => {
+        if (other !== dd) other.classList.remove('show');
+      });
 
-      if (isTouch) {
-        // Close all other dropdowns
-        dropdowns.forEach(other => {
-          if (other !== dd) other.classList.remove('show');
-        });
-
-        // Toggle current dropdown
-        dd.classList.toggle('show');
-      }
+      dd.classList.toggle('show');
     });
   });
 
-  // Close dropdowns when tapping outside (mobile only)
+  // --- Close dropdowns when clicking outside ---
   document.addEventListener('click', event => {
-    const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
-    if (!isTouch) return;
+    const clickedInsideDropdown = [...dropdowns].some(dd => dd.contains(event.target));
+    const clickedButton = event.target.classList.contains('dropbtn');
 
-    dropdowns.forEach(dd => {
-      const btn = dd.querySelector('.dropbtn');
-      if (!dd.contains(event.target) && event.target !== btn) {
-        dd.classList.remove('show');
-      }
-    });
+    if (!clickedInsideDropdown && !clickedButton) {
+      dropdowns.forEach(dd => dd.classList.remove('show'));
+    }
   });
 
   // --- Chat bubble toggle ---
@@ -59,10 +51,6 @@ function initHeaderInteractions() {
     });
   }
 }
-
-/* !!! REMOVE OLD FALLBACK — NO DOMContentLoaded INIT HERE !!!
-   Header is loaded dynamically — init happens AFTER header loads
-*/
 
 
 /* ============================================================
@@ -344,5 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadGalleryPage();
   initHomepageBA();
   initGallerySearch();
-});
 
+  // MUST RUN AFTER HEADER IS LOADED
+  setTimeout(() => initHeaderInteractions(), 50);
+});
