@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -98,7 +99,7 @@
     }
   }
   </script>
-  </head>
+</head>
 <body>
 
   <div id="header-include"></div>
@@ -193,27 +194,6 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      Promise.all([
-        fetch("/header.html").then(r => r.text()),
-        fetch("/footer.html").then(r => r.text())
-      ])
-      .then(([header, footer]) => {
-        document.getElementById("header-include").innerHTML = header;
-        document.getElementById("footer-include").innerHTML = footer;
-        const yr = document.getElementById("yr");
-        if (yr) yr.textContent = new Date().getFullYear();
-
-        // ✅ FIX: Initialize menu interactions NOW that header is loaded
-        if (typeof initHeaderInteractions === 'function') {
-            initHeaderInteractions();
-        }
-      })
-      .catch(err => console.error("Include load error", err));
-    });
-  </script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
       fetch("/gallery.json")
         .then(res => res.json())
         .then(data => {
@@ -258,4 +238,4 @@
   <script src="/script.js"></script>
 
 </body>
-</html> 
+</html>
