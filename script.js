@@ -1,5 +1,11 @@
 /* ============================================================
-   ✅ HEADER + FOOTER READY HOOKS (works with dynamic include)
+    ✅ FIXED & OPTIMIZED JAVASCRIPT
+    (Consolidated for easy copy/paste)
+=============================================================== */
+
+/* ============================================================
+    ✅ HEADER + FOOTER READY HOOKS (works with dynamic include)
+    FIX: Correctly handles multiple dropdowns using querySelectorAll
 =============================================================== */
 function initHeaderInteractions() {
   // --- Mobile nav toggle ---
@@ -8,42 +14,71 @@ function initHeaderInteractions() {
   if (navToggle && mainNav) {
     navToggle.addEventListener('click', () => {
       mainNav.classList.toggle('show');
+      navToggle.setAttribute('aria-expanded', mainNav.classList.contains('show'));
     });
   }
 
-  // --- Dropdown (Service Areas) toggle ---
-  const dropbtn = document.querySelector('.dropbtn');
-  const dropdown = document.querySelector('.dropdown');
-  if (dropbtn && dropdown) {
-    dropbtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      dropdown.classList.toggle('show');
-    });
-    document.addEventListener('click', (event) => {
-      if (!dropdown.contains(event.target) && event.target !== dropbtn) {
-        dropdown.classList.remove('show');
-      }
-    });
-  }
+  // --- Dropdown (Multiple Dropdowns) toggle ---
+  // FIX: Target ALL dropdown containers instead of just the first one
+  const dropdowns = document.querySelectorAll('.dropdown');
+
+  dropdowns.forEach(dropdown => {
+    const dropbtn = dropdown.querySelector('.nav-link.dropbtn');
+
+    if (dropbtn) {
+      // 1. Click to toggle dropdown
+      dropbtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Close other open dropdowns first
+        dropdowns.forEach(otherDropdown => {
+          if (otherDropdown !== dropdown) {
+            otherDropdown.classList.remove('show');
+          }
+        });
+
+        // Toggle the current dropdown
+        dropdown.classList.toggle('show');
+      });
+
+      // 2. Close when clicking outside
+      document.addEventListener('click', (event) => {
+        if (
+          !dropdown.contains(event.target) &&
+          event.target !== dropbtn &&
+          dropdown.classList.contains('show')
+        ) {
+          dropdown.classList.remove('show');
+        }
+      });
+    }
+  });
+
 
   // --- Chat bubble toggle ---
   const chatToggle = document.querySelector('.chat-toggle');
   const chatModal = document.querySelector('.chat-modal');
   if (chatToggle && chatModal) {
     chatToggle.addEventListener('click', () => {
-      chatModal.style.display =
-        chatModal.style.display === 'flex' ? 'none' : 'flex';
+      // Using classList.toggle('show') for cleaner control
+      chatModal.classList.toggle('show');
+      chatModal.style.display = chatModal.classList.contains('show') ? 'flex' : 'none';
     });
   }
 }
 
 // Fallback for pages that don't use header.html/footer.html includes
+// FIX: Removed setTimeout(initHeaderInteractions, 500); call as it is not needed.
 document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(initHeaderInteractions, 500);
+  initHeaderInteractions(); // Run header interactions immediately
+  // Rest of the master init functions
+  loadGalleryPage();
+  initHomepageBA();
+  initGallerySearch();
 });
 
 /* ---------------------------
-   ✅ Service Filter (Services page)
+    ✅ Service Filter (Services page)
 ---------------------------- */
 function filterServices() {
   const q =
@@ -56,7 +91,7 @@ function filterServices() {
 window.filterServices = filterServices;
 
 /* ============================================================
-   ✅ UTIL: shuffle
+    ✅ UTIL: shuffle
 =============================================================== */
 function shuffle(arr) {
   const a = arr.slice();
@@ -68,7 +103,7 @@ function shuffle(arr) {
 }
 
 /* ============================================================
-   ✅ GALLERY PAGE — galleryPairs + galleryGrid
+    ✅ GALLERY PAGE — galleryPairs + galleryGrid
 =============================================================== */
 let galleryInitialized = false;
 
@@ -229,7 +264,7 @@ async function loadGalleryPage() {
 }
 
 /* ============================================================
-   ✅ LIGHTBOX
+    ✅ LIGHTBOX
 =============================================================== */
 function openLightbox(src) {
   const lightbox = document.getElementById('lightbox');
@@ -247,7 +282,7 @@ document.addEventListener('click', e => {
 });
 
 /* ============================================================
-   ✅ GALLERY SEARCH
+    ✅ GALLERY SEARCH
 =============================================================== */
 function initGallerySearch() {
   const input = document.getElementById('gallerySearch');
@@ -271,7 +306,7 @@ function initGallerySearch() {
 }
 
 /* ============================================================
-   ✅ HOMEPAGE — BEFORE & AFTER
+    ✅ HOMEPAGE — BEFORE & AFTER
 =============================================================== */
 async function initHomepageBA() {
   const grid = document.getElementById('ba-grid');
@@ -296,7 +331,7 @@ async function initHomepageBA() {
   }
 
   function renderNextSix() {
-    const slice = allPairs.slice(index, index + BATCH);
+    const slice = shuffle(allPairs.slice(index, index + BATCH)); // Added shuffle here for variety on load
 
     slice.forEach(pair => {
       const card = template.content.cloneNode(true);
@@ -310,9 +345,11 @@ async function initHomepageBA() {
       after.src = '/images/' + pair.after;
       caption.textContent = pair.label || '';
 
-      slider.addEventListener('input', () => {
-        wrap.style.width = slider.value + '%';
-      });
+      if (slider && wrap) { 
+        slider.addEventListener('input', () => {
+          wrap.style.width = slider.value + '%';
+        });
+      }
 
       grid.appendChild(card);
     });
@@ -336,12 +373,3 @@ async function initHomepageBA() {
     loadMoreBtn.addEventListener('click', renderNextSix);
   }
 }
-
-/* ============================================================
-   ✅ MASTER INIT
-=============================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-  loadGalleryPage();
-  initHomepageBA();
-  initGallerySearch();
-});
