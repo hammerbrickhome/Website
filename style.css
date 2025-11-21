@@ -1,4 +1,4 @@
-/* ============================================================
+\/* ============================================================
    HAMMER BRICK & HOME LLC
    Luxury Dark + Simple UI — v3 (Fixed Navigation)
    FIXED • CLEAN • SIMPLE NAVIGATION
@@ -228,8 +228,25 @@ body::before {
 
   /* Other mobile layout fixes */
   .hero{flex-direction:column;}
-  .split,
+  
+  /* --- START MOBILE LAYOUT FIX --- */
+  /* FIX: Override desktop grid to use a flexible column for reordering */
+  .split {
+    display: flex;
+    flex-direction: column;
+  }
+  /* FIX: Put the Services Card (accent-card) FIRST (order: -1) */
+  .split > .accent-card {
+    order: -1; 
+  }
+  /* FIX: Ensure the Credentials Text (first div) goes SECOND (order: 1) */
+  .split > div:first-child {
+    order: 1;
+  }
+  
   .rules-join-grid{grid-template-columns:1fr;}
+  /* --- END MOBILE LAYOUT FIX --- */
+  
   .hero-badge{display:flex;justify-content:center;}
 }
 @media (max-width:768px){
