@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -215,6 +214,21 @@
               if (beforeImg) { beforeImg.src = "/images/" + item.before; beforeImg.loading = "lazy"; }
               if (afterImg) { afterImg.src = "/images/" + item.after; afterImg.loading = "lazy"; }
               if (caption) { caption.textContent = item.label || ""; }
+
+              // *** FIX: Add event listeners for the Before/After slider ***
+              const afterWrap = card.querySelector(".ba-after-wrap");
+              const slider = card.querySelector(".ba-slider");
+
+              if (slider && afterWrap) {
+                  // 1. Set initial width to the slider's default value (50%)
+                  afterWrap.style.width = slider.value + '%';
+                  
+                  // 2. Add listener to change width when the slider is dragged
+                  slider.addEventListener('input', (e) => {
+                      afterWrap.style.width = e.target.value + '%';
+                  });
+              }
+              // ************************************************************
 
               grid.appendChild(card);
             });
