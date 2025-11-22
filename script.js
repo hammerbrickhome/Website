@@ -255,4 +255,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// =========================
+// GALLERY SEARCH
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("gallerySearch");
+  const container = document.getElementById("galleryContainer");
+  if (!searchInput || !container) return;
+
+  searchInput.addEventListener("input", () => {
+    const term = searchInput.value.trim().toLowerCase();
+    const items = container.querySelectorAll(".gallery-item");
+
+    items.forEach(item => {
+      const file = item.dataset.src || "";
+      const alt = item.querySelector("img")?.alt || "";
+      const cap = item.querySelector("figcaption")?.textContent || "";
+
+      const haystack = (file + " " + alt + " " + cap).toLowerCase();
+      item.style.display = haystack.includes(term) ? "" : "none";
+    });
+  });
+});
 
