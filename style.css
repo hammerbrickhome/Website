@@ -2010,3 +2010,48 @@ input.gallery-search-box,
     transform: translateY(0);
   }
 }
+/* ============================================================
+   ⭐ FLOATING CONTACT BUBBLE — GOLD LUXURY
+=============================================================== */
+
+.contact-float-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 22px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid rgba(231,191,99,0.85);
+  background: rgba(7,14,26,0.92);
+  color: #e7bf63;
+  font-size: 26px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow:
+    0 0 18px rgba(212,175,55,0.45),
+    inset 0 0 12px rgba(212,175,55,0.35);
+  text-shadow: 0 0 8px rgba(245,196,0,0.85);
+  z-index: 9999;
+  transition: 0.28s ease;
+}
+
+/* Hover glow */
+.contact-float-btn:hover {
+  transform: scale(1.10);
+  filter: brightness(1.25);
+  box-shadow:
+    0 0 24px rgba(245,196,0,0.95),
+    inset 0 0 14px rgba(245,196,0,0.75);
+  text-shadow: 0 0 12px rgba(245,196,0,1);
+}
+
+/* Mobile sizing */
+@media (max-width: 520px) {
+  .contact-float-btn {
+    width: 54px;
+    height: 54px;
+    font-size: 22px;
+    right: 16px;
+    bottom: 18px;
+  }
+}
