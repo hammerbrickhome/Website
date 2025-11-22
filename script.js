@@ -374,3 +374,74 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+/* ============================================================
+   GLOBAL CONTACT PANEL (Auto-added to every page except homepage)
+=============================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const isHome = window.location.pathname === "/" || window.location.pathname === "/index.html";
+
+  // If not homepage, auto inject new contact panel
+  if (!isHome && !document.getElementById("contact-panel")) {
+    const panel = document.createElement("div");
+    panel.id = "contact-panel";
+    panel.className = "contact-panel";
+    panel.style.display = "none";
+
+    panel.innerHTML = `
+      <div class="contact-panel-inner">
+        <button class="contact-panel-close" type="button" aria-label="Close contact options">×</button>
+        <h2>Contact Hammer Brick & Home</h2>
+        <p class="muted">Choose how you'd like to reach us:</p>
+        <ul class="contact-panel-actions">
+          <li><a href="tel:+19295955300">📞 Call Now</a></li>
+          <li><a href="sms:+19295955300">💬 Text Us</a></li>
+          <li><a href="mailto:hammerbrickhome@gmail.com">✉️ Email Us</a></li>
+          <li><a href="/project-estimator.html">🧮 Free Estimate (Project Estimator)</a></li>
+          <li><a href="/contact.html">📝 Contact Form</a></li>
+          <li><a href="sms:+19295955300">🧷 Send Photos (Text)</a></li>
+        </ul>
+      </div>
+    `;
+
+    document.body.appendChild(panel);
+  }
+
+  // UNIVERSAL TOGGLE LOGIC
+  const panel = document.getElementById("contact-panel");
+  const closeBtn = panel?.querySelector(".contact-panel-close");
+  const toggles = document.querySelectorAll(".contact-panel-toggle");
+
+  function openPanel() {
+    if (!panel) return;
+    panel.style.display = "block";
+    panel.setAttribute("aria-hidden", "false");
+  }
+
+  function closePanel() {
+    if (!panel) return;
+    panel.style.display = "none";
+    panel.setAttribute("aria-hidden", "true");
+  }
+
+  toggles.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openPanel();
+    });
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      closePanel();
+    });
+  }
+
+  // Close panel when clicking outside content
+  if (panel) {
+    panel.addEventListener("click", (e) => {
+      if (e.target === panel) closePanel();
+    });
+  }
+});
+
