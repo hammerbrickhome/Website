@@ -8,7 +8,7 @@
 
 <meta name="description" content="Contact Hammer Brick & Home LLC for fast estimates, project inquiries, and site visits. Call, text, email, or send photos. Save our vCard for quick access.">
 
-<!-- ⭐ FIXED ROOT PATHS -->
+<!-- ICON + CSS -->
 <link rel="icon" href="/images/hero.PNG">
 <link rel="preload" as="image" href="/images/hero.PNG">
 <link rel="stylesheet" href="/style.css">
@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="Fast estimates, site visits, and project inquiries.">
 <meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
 
-<!-- ⭐ FIXED SCHEMA (VALID — NO STREET ADDRESS REQUIRED) -->
+<!-- SCHEMA -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -67,10 +67,10 @@
 
 <body>
 
-<!-- HEADER INCLUDE -->
+<!-- HEADER AUTO-LOADED VIA JS -->
 <div id="header-include"></div>
 
-<a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
+<!-- REMOVED sticky-call as you requested -->
 
 <main class="page">
 
@@ -93,7 +93,6 @@
     <form action="https://formspree.io/f/yourcode" method="POST" class="contact-form" aria-label="Contact form">
 
       <input name="name" placeholder="Your Name" required aria-label="Your name">
-
       <input name="phone" placeholder="Phone Number" required aria-label="Phone number">
 
       <input type="email" name="email"
@@ -114,7 +113,7 @@
     </form>
   </div>
 
-  <!-- RIGHT: CARD -->
+  <!-- RIGHT: INFO CARD -->
   <div class="accent-card">
     <h2>Direct Contact</h2>
     <ul class="bullets">
@@ -142,9 +141,10 @@
 
 </main>
 
-<!-- FOOTER INCLUDE -->
+<!-- FOOTER AUTO-LOADED VIA JS -->
 <div id="footer-include"></div>
 
+<!-- AUTO HEADER/FOOTER LOADER -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   Promise.all([
@@ -165,10 +165,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<!-- GLOBAL SCRIPT -->
 <script src="/script.js"></script>
 
 </body>
 </html>
+
 
 
 
