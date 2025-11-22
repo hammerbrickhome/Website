@@ -52,7 +52,7 @@
       border-radius: 14px;
     }
 
-    /******** CARD GRID FIX ********/
+    /******** CARD GRID ********/
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -93,6 +93,7 @@
       transition: 0.2s ease;
     }
 
+    /******** FOOTER CARD HOVER ********/
     .pkg-card:hover {
       box-shadow: 0 0 25px rgba(231,191,99,0.35);
       transform: translateY(-4px);
@@ -112,44 +113,7 @@
       margin-bottom: 10px;
     }
 
-    .note-box p {
-      color: #dcdcdc;
-      font-size: 15px;
-    }
-
-    /******** CONTACT BOX ********/
-    .contact-box {
-      background: rgba(10,20,35,0.82);
-      border-radius: 18px;
-      padding: 22px;
-      border:1px solid rgba(231,191,99,0.45);
-      box-shadow:0 0 18px rgba(231,191,99,0.20);
-      margin-top: 35px;
-    }
-
-    .contact-box h3 {
-      color:#e7bf63;
-      font-size:22px;
-      margin-bottom:6px;
-    }
-
-    .contact-pills {
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:12px;
-    }
-
-    .pill-btn {
-      padding:10px 18px;
-      background:#e7bf63;
-      color:#071426;
-      font-weight:800;
-      border-radius:12px;
-      text-decoration:none;
-    }
-
-    /******** DISCLAIMER BOX RESTORED ********/
+    /******** DISCLAIMER ********/
     .disclaimer-box {
       margin-top: 40px;
       padding: 22px;
@@ -159,80 +123,15 @@
       box-shadow: 0 0 14px rgba(231,191,99,0.25);
     }
 
-    .disclaimer-box h3 {
-      color:#e7bf63;
-      margin-bottom:6px;
-      font-size:19px;
-    }
-
-    .disclaimer-box p {
-      color:#ccc;
-      font-size:13px;
-      line-height:1.55;
-      margin-bottom:10px;
-    }
-
-    @media(max-width:850px){
-      .hero.hero-home { flex-direction: column; text-align: center; }
-      .hero-badge img { margin-top: 20px; }
-    }
   </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header class="topbar" role="banner">
-  <div class="topbar-inner">
-    <a class="brand-lockup" href="/index.html">
-      <img class="brand-logo" src="/images/hero.PNG">
-      <div class="brand-text">
-        <div class="brand-name">Hammer Brick & Home LLC</div>
-        <div class="brand-sub">Luxury Remodeling & Masonry · HIC #21311291 · Licensed & Insured · EPA Lead-Safe Certified</div>
-      </div>
-    </a>
-    <button class="nav-toggle">☰</button>
+<!-- AUTO-LOADED HEADER -->
+<div id="header-include"></div>
 
-    <nav class="main-nav">
-      <a href="/index.html">Home</a>
-      <a href="/about.html">About</a>
-      <a href="/services.html">Services</a>
-      <a href="/gallery.html">Gallery</a>
-      <a href="/reviews.html">Reviews</a>
-
-      <div class="dropdown">
-        <a href="#">Pricing ▾</a>
-        <div class="dropdown-content">
-          <a href="/pricing.html">Pricing & Packages</a>
-          <a href="/project-estimator.html">Project Estimator</a>
-        </div>
-      </div>
-
-      <a href="/monthly-specials.html">Monthly Specials</a>
-      <a href="/downloads.html">Home Care Library</a>
-      <a href="/membership.html">Perks & Rules</a>
-      <a href="/faq.html">FAQ</a>
-
-      <div class="dropdown">
-        <a href="#">Service Areas ▾</a>
-        <div class="dropdown-content">
-          <a href="/staten-island.html">Staten Island</a>
-          <a href="/brooklyn.html">Brooklyn</a>
-          <a href="/manhattan.html">Manhattan</a>
-          <a href="/queens.html">Queens</a>
-          <a href="/bronx.html">Bronx</a>
-          <a href="/new-jersey.html">New Jersey</a>
-        </div>
-      </div>
-
-      <a class="nav-call" href="tel:+19295955300">📞 929-595-5300</a>
-    </nav>
-  </div>
-</header>
-
-<a class="sticky-call" href="tel:+19295955300">📞 Call 929-595-5300</a>
-
-<!-- PAGE CONTENT -->
+<!-- MAIN PAGE -->
 <main class="page">
 
   <!-- HERO -->
@@ -243,7 +142,6 @@
         Free downloadable checklists, prep guides, and homeowner resources created by Hammer Brick & Home LLC. 
         Designed to help NYC homeowners stay prepared with clear, step-by-step tools.
       </p>
-
       <ul class="trust-pills">
         <li class="gold-pill">NYC Licensed & Insured · HIC #21311291</li>
         <li class="gold-pill">EPA Lead-Safe Certified Firm</li>
@@ -256,18 +154,18 @@
     </div>
   </section>
 
-  <!-- INTRO -->
+  <!-- INTRO TEXT -->
   <section class="section fade-up">
     <div class="note-box">
       <h2>Free Homeowner Guides & Checklists</h2>
       <p class="muted">
         These PDFs include practical preparation steps, safety notes, maintenance reminders,
-        and professional insights from Hammer Brick & Home LLC. Download, print, or share anytime.
+        and professional insights from Hammer Brick & Home LLC.
       </p>
     </div>
   </section>
 
-  <!-- CARDS -->
+  <!-- CARD GRID -->
   <section class="section fade-up">
     <div class="card-grid">
 
@@ -316,71 +214,37 @@
     </div>
   </section>
 
-  <!-- CUSTOM CHECKLIST CONTACT BOX (RESTORED) -->
-  <section class="section fade-up">
-    <div class="contact-box">
-      <h3>Need a Custom Checklist?</h3>
-      <p>
-        We can generate custom, job-specific preparation sheets for your exact masonry or remodeling project.
-      </p>
-
-      <div class="contact-pills">
-        <a class="pill-btn" href="tel:+19295955300">📞 Call 929-595-5300</a>
-        <a class="pill-btn" href="/contact.html">📝 Contact Form</a>
-        <a class="pill-btn" href="/project-estimator.html">🧮 Fast Estimate</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FULL DISCLAIMER PAGE (RESTORED) -->
+  <!-- DISCLAIMER -->
   <section class="section fade-up">
     <div class="disclaimer-box">
-
-      <h3>Important Legal Disclaimer & Limitation of Liability</h3>
-
+      <h3>Important Legal Disclaimer</h3>
       <p>
-        The checklists and guides provided are for general educational and informational purposes only.
-        They do <strong>not</strong> constitute professional engineering, architectural, legal, or structural advice.
-        Every home is different; general guidelines cannot account for age, structure, or hidden conditions.
+        The checklists and guides provided are for educational purposes only and do not replace professional engineering,
+        architectural, or trade-specific advice.
       </p>
-
       <p>
-        Hammer Brick & Home LLC makes no warranties—express or implied—regarding the accuracy or completeness of this material.
-        Always follow NYC/NYS codes and EPA Lead-Safe rules.
+        Always follow NYC codes, EPA Lead-Safe rules, and consult a licensed engineer, plumber, or electrician for
+        structural or safety-critical work.
       </p>
-
-      <p>
-        For structural, electrical, plumbing, or safety-critical concerns, consult a licensed engineer, master plumber,
-        or licensed electrician. Do not rely solely on these documents for high-risk repairs.
-      </p>
-
-      <p>
-        Hammer Brick & Home LLC is not liable for any damages resulting from the use of this information.
-        All DIY work is done at your own risk.
-      </p>
-
-      <p style="opacity:0.75;">© <span id="yr2"></span> Hammer Brick & Home LLC — All rights reserved.</p>
-
+      <p>DIY work is performed at your own risk.</p>
+      <p>© <span id="yr2"></span> Hammer Brick & Home LLC</p>
     </div>
   </section>
 
 </main>
 
 <!-- FOOTER -->
-<footer class="site-footer" style="text-align:center; padding:16px; background:#071426; color:#f5d89b; font-size:14px;">
-  <div>© <span id="yr"></span> Hammer Brick & Home LLC · NYC HIC #21311291</div>
-  <div>Staten Island · NYC · Licensed & Insured · EPA Lead-Safe Certified Firm · Serving NYC & (NJ Coming Soon)</div>
-</footer>
+<div id="footer-include"></div>
 
 <script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-  document.getElementById('yr2').textContent = new Date().getFullYear();
+  document.getElementById("yr2").textContent = new Date().getFullYear();
 </script>
 
 <script src="/script.js"></script>
 
 </body>
 </html>
+
 
 
 
