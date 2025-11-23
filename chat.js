@@ -1,7 +1,7 @@
 /* ============================================================
-   HAMMER BRICK & HOME — ULTRA ADVANCED ESTIMATOR BOT v3.3
+   HAMMER BRICK & HOME — ULTRA ADVANCED ESTIMATOR BOT v3.4 (Improved)
    Multi-Project • Rush • Promo Codes • SMS & Email • Photos
-   + In-card Disclaimer + Disclaimer in SMS/Email
+   + New Services & Enhanced UX
 =============================================================== */
 
 (function() {
@@ -243,12 +243,32 @@
         { label: "Stone Veneer", factor: 2.3 }
       ]
     },
+    
+    // --- WATERPROOFING (NEW SERVICE) --------------------------
+    "waterproofing": {
+      label: "Waterproofing / Drainage",
+      emoji: "💧",
+      unit: "sq ft",
+      baseLow: 8, baseHigh: 15, min: 4000,
+      subQuestion: "Scope?",
+      options: [
+        { label: "Exterior Sealant (Cracks & Flashing)", factor: 1.0 },
+        { label: "Interior Basement Seal (Sealant & Sump)", factor: 1.5 },
+        { label: "Exterior Foundation & Drainage (Full Dig)", factor: 2.2 }
+      ]
+    },
 
-    // --- HANDYMAN ---------------------------------------------
+    // --- HANDYMAN (MODIFIED to provide fixed estimate) ----------------
     "handyman": {
       label: "Small Repairs / Handyman",
       emoji: "🛠",
-      unit: "consult"
+      unit: "fixed",
+      subQuestion: "Estimated duration?",
+      options: [
+        { label: "Half-Day (4 hrs)", fixedLow: 450, fixedHigh: 850 },
+        { label: "Full-Day (8 hrs)", fixedLow: 850, fixedHigh: 1500 },
+        { label: "Multi-Day Project (Custom Quote)", fixedLow: 1500, fixedHigh: 4500 }
+      ]
     },
 
     // --- KITCHEN / BATH (FIXED) -------------------------------
@@ -305,7 +325,7 @@
   // --- INIT ---------------------------------------------------
 
   function init() {
-    console.log("HB Chat: Initializing v3.3...");
+    console.log("HB Chat: Initializing v3.4 (Improved)...");
     createInterface();
 
     if (sessionStorage.getItem("hb_chat_active") === "true") {
@@ -586,20 +606,34 @@
     });
   }
 
-  // --- PROMO CODE --------------------------------------------
+  // --- PROMO CODE (MODIFIED to allow custom input) -----------
 
   function stepEight_Promo() {
     updateProgress(86);
-    addBotMessage("Any promo code today? If not, tap 'No Code'.");
+    addBotMessage("Any promo code today? Select one, or type in a custom code.");
 
     const opts = [
       { label: "No Code", code: "" },
       { label: "VIP10", code: "VIP10" },
-      { label: "REFERRAL5", code: "REFERRAL5" }
+      { label: "REFERRAL5", code: "REFERRAL5" },
     ];
 
+    // Present chips
     addChoices(opts, function(choice) {
       state.promoCode = choice.code || "";
+      const est = computeEstimateForCurrent();
+      showEstimateAndAskAnother(est);
+    });
+    
+    // Enable manual input for custom codes
+    els.input.placeholder = "Type your promo code here...";
+    enableInput(function(val) {
+      // Manual input is prioritized
+      state.promoCode = val.trim().toUpperCase();
+      // Need to remove any chips that might still be visible (by adding a blank element)
+      const emptyContainer = document.createElement("div");
+      emptyContainer.className = "hb-chips";
+      els.body.appendChild(emptyContainer);
       const est = computeEstimateForCurrent();
       showEstimateAndAskAnother(est);
     });
@@ -628,6 +662,7 @@
     var dc = 0;
     if (state.promoCode) {
       var rate = DISCOUNTS[state.promoCode.toUpperCase()];
+      // If manually entered, assume it might be valid later, but only apply known ones here
       if (rate) dc = rate;
     }
     if (dc > 0) {
@@ -721,7 +756,11 @@
         '<div class="hb-receipt-row"><span>Promo:</span><span>-' +
         Math.round(est.discountRate * 100) +
         '% applied</span></div>';
+    } else if (est.promoCode && DISCOUNTS[est.promoCode.toUpperCase()] === undefined) {
+       discountLine =
+        '<div class="hb-receipt-row" style="color:#d55"><span>Promo:</span><span>Custom Code noted</span></div>';
     }
+
 
     var rushLine = "";
     if (est.isRush) {
@@ -951,7 +990,17 @@
 
         var extras = [modeLabel];
         if (p.isRush) extras.push("Rush scheduling");
-        if (p.promoCode) extras.push("Promo: " + p.promoCode.toUpperCase());
+        
+        // Handle promo code display
+        if (p.promoCode) {
+            const code = p.promoCode.toUpperCase();
+            if (DISCOUNTS[code]) {
+                extras.push("Promo: " + code + " Applied");
+            } else {
+                extras.push("Promo: " + code + " (To be confirmed)");
+            }
+        }
+        
         if (p.isLeadHome) extras.push("Lead-safe methods");
 
         if (extras.length) {
@@ -1051,6 +1100,20 @@
         if (els.photoInput) els.photoInput.click();
       };
       els.body.appendChild(photoBtn);
+      
+      // NEW: Start Over button
+      var startOverBtn = document.createElement("button");
+      startOverBtn.className = "hb-chip";
+      startOverBtn.style.display = "block";
+      startOverBtn.style.marginTop = "12px";
+      startOverBtn.style.background = "none";
+      startOverBtn.style.color = "#777";
+      startOverBtn.style.borderColor = "#777";
+      startOverBtn.textContent = "♻️ Start Over";
+      startOverBtn.onclick = function() {
+        window.location.reload(); // Simple way to reset state
+      };
+      els.body.appendChild(startOverBtn);
 
       els.body.scrollTop = els.body.scrollHeight;
     }, 500);
