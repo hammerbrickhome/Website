@@ -202,3 +202,18 @@
 .hb-dot:nth-child(1) { animation-delay: -0.32s; }
 .hb-dot:nth-child(2) { animation-delay: -0.16s; }
 @keyframes hbBounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+
+/* Safety Overrides */
+.hb-chat-fab {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 2147483647 !important; /* Maximum possible Z-index */
+  bottom: 25px !important;
+  right: 25px !important;
+}
+
+.hb-chat-wrapper.hb-open + .hb-chat-fab {
+  display: none !important; /* Only hide if chat is actually open */
+}
