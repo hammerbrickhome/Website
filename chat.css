@@ -1,5 +1,6 @@
 /* ============================================================
-   HB ULTRA ESTIMATOR BOT v6.0 UI - Luxury Dark+Gold
+   HB ULTRA ESTIMATOR BOT v7.0 UI - Luxury Dark+Gold
+   (Reuses v6.0 styles, including fixed close button structure)
 =============================================================== */
 
 :root {
@@ -220,7 +221,7 @@
   margin-top: 10px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.3);
   border-top: 5px solid var(--hb-chat-gold);
-  overflow: hidden; /* For animations */
+  overflow: hidden; 
 }
 
 .hb-receipt h4 {
@@ -265,13 +266,15 @@
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Animation for price breakdown (Feature 16) */
+/* Animation for price breakdown */
 .hb-receipt-row.anim-1 { animation: hbFadeIn 0.3s forwards 0.3s; }
 .hb-receipt-row.anim-2 { animation: hbFadeIn 0.3s forwards 0.5s; }
 .hb-receipt-row.anim-3 { animation: hbFadeIn 0.3s forwards 0.7s; }
 .hb-receipt-row.anim-4 { animation: hbFadeIn 0.3s forwards 0.9s; }
 .hb-receipt-row.anim-5 { animation: hbFadeIn 0.3s forwards 1.1s; }
 .hb-receipt-row.anim-6 { animation: hbFadeIn 0.3s forwards 1.3s; }
+.hb-receipt-row.anim-7 { animation: hbFadeIn 0.3s forwards 1.5s; } /* New line for V7 dynamic pricing */
+
 
 .hb-receipt-total {
   border-top: 2px dashed #111;
@@ -284,7 +287,7 @@
   opacity: 0;
   transform: translateY(10px);
 }
-.hb-receipt-total.anim-7 { animation: hbFadeIn 0.3s forwards 1.5s; }
+.hb-receipt-total.anim-8 { animation: hbFadeIn 0.3s forwards 1.7s; } /* Adjusted timing */
 
 @keyframes hbFadeIn {
   to { opacity: 1; transform: translateY(0); }
@@ -372,7 +375,7 @@
 }
 
 .hb-cta-sms {
-    background: #2e8b57; /* A strong green for texting */
+    background: #2e8b57; 
     color: #fff;
 }
 .hb-cta-sms:hover { background: #35a065; }
@@ -387,7 +390,7 @@
 .hb-cta-print {
     background: #f0f0f0;
     color: #333;
-    grid-column: span 2; /* takes full width */
+    grid-column: span 2; 
 }
 
 /* --- Privacy Link (Feature 14) ----------------------------- */
@@ -413,7 +416,6 @@
 =============================================================== */
 
 @media (max-width: 768px) {
-  /* Ensure full screen on mobile */
   .hb-chat-wrapper {
     bottom: 0;
     right: 0;
