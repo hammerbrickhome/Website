@@ -2060,7 +2060,7 @@ input.gallery-search-box,
 /* Sticky Quick Contact Button */
 .sticky-quick-btn {
   position: fixed;
-  bottom: 20px;
+  bottom: 88px;
   right: 20px;
   background: #e7bf63;
   color: #071426;
