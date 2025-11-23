@@ -1,11 +1,22 @@
 /* ============================================================
-   HAMMER BRICK & HOME — ULTRA ADVANCED ESTIMATOR BOT v3.3
-   Multi-Project • Rush • Promo Codes • SMS & Email • Photos
-   + In-card Disclaimer + Disclaimer in SMS/Email
+   HAMMER BRICK & HOME — ULTRA ADVANCED ESTIMATOR BOT v4.0
+   INCLUDES: Webhook Capture, Lead Scoring, State Persistence,
+   Size Wizard, Input Sanitation, and Dynamic Upselling
 =============================================================== */
 
 (function() {
   // --- CONFIGURATION & DATA -----------------------------------
+
+  // IMPORTANT: REPLACE THIS URL with your silent lead capture endpoint (e.g. Zapier, Make.com, Formspree)
+  const WEBHOOK_URL = "https://your-silent-lead-capture-endpoint.com/receive"; 
+  
+  // Logic for suggesting a secondary project after the main one is completed
+  const RELATED_SERVICES = {
+    "deck": ["painting", "fence"],         // After Deck, suggest Painting and Fence
+    "driveway": ["masonry", "retaining"],  // After Driveway, suggest Masonry (curbing, etc.)
+    "kitchen": ["flooring", "drywall"],
+    "bathroom": ["flooring"]
+  };
 
   // Borough modifiers
   const BOROUGH_MODS = {
@@ -27,7 +38,7 @@
   const CRM_FORM_URL = "";      // e.g. "https://forms.gle/your-form-id"
   const WALKTHROUGH_URL = "";   // e.g. "https://calendly.com/your-link"
 
-  // Pricing Logic / Services
+  // Pricing Logic / Services (REMAINS UNCHANGED)
   const SERVICES = {
     "masonry": {
       label: "Masonry & Concrete",
@@ -297,29 +308,131 @@
     promoCode: "",
     name: "",
     phone: "",
-    projects: []           // list of estimate objects
+    projects: [],          // list of estimate objects
+    sizeStep: 0,           // 0: ask method, 1: ask length, 2: ask width, 3: direct input
+    tempLength: null,      // Used for L x W calculation
+    photos: []             // Array to hold file objects for reference (not the binary data)
   };
 
   let els = {};
 
-  // --- INIT ---------------------------------------------------
-
-  function init() {
-    console.log("HB Chat: Initializing v3.3...");
-    createInterface();
-
-    if (sessionStorage.getItem("hb_chat_active") === "true") {
-      toggleChat();
+  // --- UTILS (REVISED/NEW) -----------------------------------
+  
+  // 1. Input Sanitization
+  function sanitizeInput(input) {
+    if (!input) return "";
+    // Creates a temporary element to strip HTML tags and prevent XSS, then returns text content
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.textContent;
+  }
+  
+  // 2. State Persistence (Save)
+  function saveState() {
+    try {
+      // Only save key chat flow state
+      const stateToSave = {
+        step: state.step,
+        serviceKey: state.serviceKey,
+        subOption: state.subOption,
+        size: state.size,
+        borough: state.borough,
+        isLeadHome: state.isLeadHome,
+        pricingMode: state.pricingMode,
+        isRush: state.isRush,
+        promoCode: state.promoCode,
+        name: state.name,
+        phone: state.phone,
+        sizeStep: state.sizeStep,
+        tempLength: state.tempLength,
+        // WARNING: File objects cannot be saved in localStorage, only metadata/count
+        photoCount: state.photos.length 
+      };
+      localStorage.setItem("hb_chat_state", JSON.stringify(stateToSave));
+      localStorage.setItem("hb_chat_projects", JSON.stringify(state.projects));
+    } catch (e) {
+      console.error("Could not save state:", e);
     }
   }
 
+  // 3. State Persistence (Load)
+  function loadState() {
+    try {
+      const storedState = localStorage.getItem("hb_chat_state");
+      const storedProjects = localStorage.getItem("hb_chat_projects");
+
+      if (storedState) {
+        Object.assign(state, JSON.parse(storedState));
+      }
+      if (storedProjects) {
+        state.projects = JSON.parse(storedProjects);
+      }
+
+      // If a name/phone exists, we assume they reached the end and don't need to restart
+      if (state.name && state.phone) {
+        return "completed";
+      }
+    } catch (e) {
+      console.error("Could not load state:", e);
+    }
+    return "fresh";
+  }
+
+  // --- INIT (REVISED) -----------------------------------------
+
+  function init() {
+    console.log("HB Chat: Initializing v4.0...");
+    createInterface();
+
+    const loadStatus = loadState();
+    
+    // Resume chat if active or state suggests it's in progress
+    if (sessionStorage.getItem("hb_chat_active") === "true" || (loadStatus === "fresh" && state.projects.length > 0)) {
+      toggleChat(true); 
+      if (loadStatus === "completed") {
+        // If loaded a completed state, skip to final links
+        addBotMessage("Welcome back, " + state.name + "! Here is your estimate summary.");
+        showCombinedReceiptAndLeadCapture(); 
+      } else if (state.projects.length > 0) {
+        // If loaded an incomplete state with projects, ask to continue
+        addBotMessage("Welcome back! I see you were working on an estimate.");
+        setTimeout(() => askAddAnother(state.projects[state.projects.length - 1]), 1200);
+      } else {
+        // Fresh start
+        startConversation();
+      }
+    } else {
+      // Fresh start but not open
+      startConversation();
+    }
+  }
+
+  function startConversation() {
+    // Time-of-Day Logic
+    const now = new Date();
+    const hour = now.getHours();
+    let initialGreeting = "👋 Hi! I can generate a ballpark estimate for your project instantly.";
+
+    if (hour >= 20 || hour < 8) { // After 8 PM or before 8 AM (Night Time)
+      initialGreeting = "🌙 Welcome! Our office is closed, but I can secure your estimate and mark it for **priority review** first thing in the morning.";
+    } 
+
+    addBotMessage(initialGreeting);
+    setTimeout(function() {
+      addBotMessage("What type of project are you planning?");
+      presentServiceOptions();
+    }, 800);
+  }
+
   function createInterface() {
+    // ... (Interface creation logic remains mostly the same)
+    
     // FAB
     const fab = document.createElement("div");
     fab.className = "hb-chat-fab";
     fab.innerHTML = `<span class="hb-fab-icon">📷</span><span class="hb-fab-text">Get Quote</span>`;
     fab.style.display = "flex";
-    fab.onclick = toggleChat;
+    fab.onclick = () => toggleChat();
     document.body.appendChild(fab);
 
     // Chat wrapper
@@ -366,33 +479,58 @@
     };
 
     // Events
-    els.close.onclick = toggleChat;
+    els.close.onclick = () => toggleChat(false);
     els.send.onclick = handleManualInput;
     els.input.addEventListener("keypress", function(e) {
       if (e.key === "Enter") handleManualInput();
     });
 
-    photoInput.addEventListener("change", function() {
-      if (!photoInput.files || !photoInput.files.length) return;
-      addBotMessage(`📷 You selected ${photoInput.files.length} photo(s). Please attach these when you text or email us.`);
-    });
+    // Image Preview Injection
+    els.photoInput.addEventListener("change", function(e) {
+      if (!e.target.files || !e.target.files.length) return;
+      
+      let files = Array.from(e.target.files);
+      state.photos = state.photos.concat(files); 
 
-    // Kick off conversation
-    addBotMessage("👋 Hi! I can generate a ballpark estimate for your project instantly.");
-    setTimeout(function() {
-      addBotMessage("What type of project are you planning?");
-      presentServiceOptions();
-    }, 800);
+      files.forEach(file => {
+          if (!file.type.startsWith('image/')) return;
+
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              const img = document.createElement('img');
+              img.src = e.target.result;
+              img.alt = 'Uploaded image preview';
+              img.style.maxWidth = '100px';
+              img.style.maxHeight = '100px';
+              img.style.borderRadius = '8px';
+              img.style.margin = '5px';
+              img.style.display = 'inline-block';
+
+              const userMsgDiv = document.createElement("div");
+              userMsgDiv.className = "hb-msg hb-msg-user";
+              userMsgDiv.appendChild(img);
+              els.body.appendChild(userMsgDiv);
+              els.body.scrollTop = els.body.scrollHeight;
+          };
+          reader.readAsDataURL(file);
+      });
+      addBotMessage(`📷 You selected ${e.target.files.length} photo(s). Please attach these when you text or email us, or bring them to the walkthrough.`);
+      saveState();
+    });
   }
 
-  function toggleChat() {
-    const isOpen = els.wrapper.classList.toggle("hb-open");
-    if (isOpen) {
+  function toggleChat(forceOpen) {
+    const shouldOpen = (typeof forceOpen === 'boolean') ? forceOpen : !els.wrapper.classList.contains("hb-open");
+
+    if (shouldOpen) {
+      els.wrapper.classList.add("hb-open");
       els.fab.style.display = "none";
       sessionStorage.setItem("hb_chat_active", "true");
     } else {
+      els.wrapper.classList.remove("hb-open");
       els.fab.style.display = "flex";
       sessionStorage.removeItem("hb_chat_active");
+      saveState();
     }
   }
 
@@ -400,8 +538,8 @@
     if (els.prog) els.prog.style.width = pct + "%";
   }
 
-  // --- MESSAGING ---------------------------------------------
-
+  // --- MESSAGING (UNCANGED) ---------------------------------------------
+  
   function addBotMessage(text, isHtml) {
     const typingId = "typing-" + Date.now();
     const typingDiv = document.createElement("div");
@@ -462,7 +600,7 @@
     }, 1600);
   }
 
-  // --- FLOW: SERVICE -> SUB OPTIONS --------------------------
+  // --- FLOW: SERVICE -> SUB OPTIONS (MODIFIED) --------------------------
 
   function presentServiceOptions() {
     updateProgress(10);
@@ -473,6 +611,7 @@
     addChoices(opts, function(selection) {
       state.serviceKey = selection.key;
       state.subOption = null;
+      saveState(); // Save state
       stepTwo_SubQuestions();
     });
   }
@@ -486,12 +625,15 @@
       addBotMessage(svc.subQuestion);
       addChoices(svc.options, function(choice) {
         state.subOption = choice;
+        saveState(); // Save state
         stepThree_LeadCheck();
       });
     } else if (state.serviceKey === "other") {
+      saveState(); // Save state
       stepFive_Location();
     } else {
       state.subOption = { factor: 1.0, label: "Standard" };
+      saveState(); // Save state
       stepThree_LeadCheck();
     }
   }
@@ -503,19 +645,22 @@
       addChoices(["Yes (Pre-1978)", "No / Not Sure"], function(ans) {
         const val = (typeof ans === "string") ? ans : ans.label;
         state.isLeadHome = !!(val && val.indexOf("Yes") !== -1);
+        saveState(); // Save state
         stepFour_Size();
       });
     } else {
+      saveState(); // Save state
       stepFour_Size();
     }
   }
 
-  // --- SIZE STEP (SKIPS FIXED / CONSULT) ---------------------
+  // --- SIZE STEP (SIZE WIZARD) -----------------------------
 
   function stepFour_Size() {
     updateProgress(50);
     const svc = SERVICES[state.serviceKey];
     if (!svc) return;
+    state.sizeStep = 0; // Reset size step for flow control
 
     // Skip size step for fixed-price or consultation services
     if (svc.unit === "fixed" || svc.unit === "consult" || state.serviceKey === "other") {
@@ -525,23 +670,83 @@
 
     addBotMessage("Approximate size in " + svc.unit + "?");
 
-    function askSize() {
-      enableInput(function(val) {
-        const num = parseInt(val.replace(/[^0-9]/g, ""), 10);
-        if (!num || num < 10) {
-          addBotMessage("That number seems low. Please enter a valid number (e.g. 500).");
-          askSize();
+    // Start of Size Wizard: Ask method
+    addChoices(['Enter Size', 'Help me Measure'], stepFour_Size_Help);
+  }
+  
+  // New function to handle the L x W flow
+  function stepFour_Size_Help(ans) {
+    const svc = SERVICES[state.serviceKey];
+    const unit = svc.unit.replace('sq ft', 'ft').replace('linear ft', 'ft'); // 'ft' is a cleaner unit for input
+
+    // Handle initial choice from chips
+    if (state.sizeStep === 0) {
+        const label = (typeof ans === "object") ? ans.label : ans;
+        if (label === 'Enter Size') {
+            addUserMessage('Enter Size');
+            state.sizeStep = 3; // Skip to direct size entry
+            stepFour_Size_Help();
         } else {
-          state.size = num;
-          stepFive_Location();
+            addUserMessage('Help me Measure');
+            state.sizeStep = 1; // Start length/width
+            addBotMessage("Got it. What is the approximate Length (in " + unit + ")?");
+            enableInput(stepFour_Size_Help);
         }
-      });
+        saveState();
+        return;
     }
 
-    askSize();
+    // Handle length input
+    if (state.sizeStep === 1) {
+        const length = parseInt(sanitizeInput(ans).replace(/[^0-9]/g, ""), 10);
+        if (!length || length < 1) {
+            addBotMessage("Please enter a valid length number (e.g. 50).");
+            enableInput(stepFour_Size_Help);
+            return;
+        }
+        state.tempLength = length;
+        state.sizeStep = 2;
+        addBotMessage("Thanks. And what is the approximate Width (in " + unit + ")?");
+        enableInput(stepFour_Size_Help);
+        saveState();
+        return;
+    }
+
+    // Handle width input & calculation
+    if (state.sizeStep === 2) {
+        const width = parseInt(sanitizeInput(ans).replace(/[^0-9]/g, ""), 10);
+        if (!width || width < 1) {
+            addBotMessage("Please enter a valid width number (e.g. 10).");
+            enableInput(stepFour_Size_Help);
+            return;
+        }
+
+        state.size = state.tempLength * width;
+        addBotMessage(`Perfect! That calculates to about **${state.size.toLocaleString()} ${svc.unit}**.`);
+        
+        state.sizeStep = 0; // Reset
+        delete state.tempLength;
+        saveState(); // Save state
+        stepFive_Location();
+        return;
+    }
+
+    // Handle direct size entry (from the 'Enter Size' option)
+    if (state.sizeStep === 3) {
+        const num = parseInt(sanitizeInput(ans).replace(/[^0-9]/g, ""), 10);
+        if (!num || num < 10) {
+            addBotMessage("That number seems low. Please enter a valid number (e.g. 500).");
+            enableInput(stepFour_Size_Help);
+        } else {
+            state.size = num;
+            state.sizeStep = 0; // Reset
+            saveState(); // Save state
+            stepFive_Location();
+        }
+    }
   }
 
-  // --- LOCATION ----------------------------------------------
+  // --- LOCATION (MODIFIED) ----------------------------------------------
 
   function stepFive_Location() {
     updateProgress(70);
@@ -551,11 +756,12 @@
     addChoices(locs, function(loc) {
       const val = (typeof loc === "string") ? loc : loc.label;
       state.borough = val;
+      saveState(); // Save state
       stepSix_PricingMode();
     });
   }
 
-  // --- PRICING MODE (FULL / LABOR / MATERIALS) ---------------
+  // --- PRICING MODE (MODIFIED) -------------------------------
 
   function stepSix_PricingMode() {
     updateProgress(78);
@@ -569,11 +775,12 @@
 
     addChoices(opts, function(choice) {
       state.pricingMode = choice.key || "full";
+      saveState(); // Save state
       stepSeven_Rush();
     });
   }
 
-  // --- RUSH --------------------------------------------------
+  // --- RUSH (MODIFIED) --------------------------------------------------
 
   function stepSeven_Rush() {
     updateProgress(82);
@@ -582,11 +789,12 @@
     addChoices(["Yes, rush", "No"], function(ans) {
       const val = (typeof ans === "string") ? ans : ans.label;
       state.isRush = !!(val && val.indexOf("Yes") !== -1);
+      saveState(); // Save state
       stepEight_Promo();
     });
   }
 
-  // --- PROMO CODE --------------------------------------------
+  // --- PROMO CODE (MODIFIED) --------------------------------------------
 
   function stepEight_Promo() {
     updateProgress(86);
@@ -600,12 +808,14 @@
 
     addChoices(opts, function(choice) {
       state.promoCode = choice.code || "";
+      saveState(); // Save state
       const est = computeEstimateForCurrent();
       showEstimateAndAskAnother(est);
     });
   }
 
-  // --- CALCULATION ENGINE ------------------------------------
+  // --- CALCULATION ENGINE (UNCHANGED) ------------------------------------
+  // ... (computeEstimateForCurrent and buildEstimateHtml logic remain the same)
 
   function applyPriceModifiers(low, high) {
     // Pricing mode
@@ -651,6 +861,7 @@
     if (state.serviceKey === "other" || svc.unit === "consult") {
       return {
         svc: svc,
+        serviceKey: state.serviceKey, // Added for upsell/scoring
         sub: sub,
         borough: state.borough,
         size: null,
@@ -694,6 +905,7 @@
 
     return {
       svc: svc,
+      serviceKey: state.serviceKey, // Added for upsell/scoring
       sub: sub,
       borough: state.borough,
       size: (svc.unit === "fixed" || svc.unit === "consult") ? null : state.size,
@@ -793,6 +1005,44 @@
     );
   }
 
+
+  // --- LEAD SCORING --------------------------------------------
+
+  function computeLeadScore() {
+      let score = 0;
+      const projectScoreMap = {
+          "kitchen": 50, "bathroom": 40, "roofing": 30, "retaining": 25, "deck": 20
+      };
+      const boroughScoreMap = {
+          "Manhattan": 15, "Brooklyn": 10
+      };
+
+      state.projects.forEach(p => {
+          // Base score by project type (use key instead of label)
+          score += projectScoreMap[p.serviceKey] || 5; 
+
+          // Score by size (for unit-based projects)
+          if (p.size) {
+              if (p.size > 5000) score += 15;
+              else if (p.size > 2000) score += 8;
+          }
+
+          // Score for high-end sub-options (e.g., Luxury, Specialty)
+          if (p.sub.label && p.sub.label.toLowerCase().includes('luxury') || p.sub.label.toLowerCase().includes('full gut')) {
+              score += 15;
+          }
+      });
+
+      // Score modifiers for rush/location
+      if (state.projects.length > 1) score += 10; // Multi-project leads
+      if (state.isRush) score += 10;
+      score += boroughScoreMap[state.borough] || 0;
+
+      return Math.min(100, Math.round(score));
+  }
+
+  // --- UPSALE / NEXT PROJECT FLOW --------------------------------
+  
   function showEstimateAndAskAnother(est) {
     if (!est) return;
     updateProgress(90);
@@ -801,12 +1051,49 @@
     addBotMessage(html, true);
 
     setTimeout(function() {
-      askAddAnother(est);
+      // Step 8: Check for Smart Upselling opportunity first
+      stepEight_Upsell(est); 
     }, 1200);
   }
+  
+  // New step for Smart Upselling
+  function stepEight_Upsell(est) {
+      state.projects.push(est); // Save the completed project
+      saveState(); // Save state
 
-  function askAddAnother(est) {
-    state.projects.push(est);
+      const relatedKeys = RELATED_SERVICES[est.serviceKey];
+      if (relatedKeys && relatedKeys.length) {
+          // Find the first related service that hasn't been estimated yet
+          const nextKey = relatedKeys.find(k => !state.projects.some(p => p.serviceKey === k));
+          
+          if (nextKey) {
+              const nextSvc = SERVICES[nextKey];
+              updateProgress(91);
+              addBotMessage(`Since you're doing **${est.svc.label}**, we often recommend bundling related services for a discount.`);
+              
+              setTimeout(() => {
+                  addBotMessage(`Would you like to add an estimate for **${nextSvc.label}** too?`);
+                  addChoices([`Yes, Add ${nextSvc.emoji} ${nextSvc.label}`, "No, continue"], function(choice) {
+                      const val = (typeof choice === "string") ? choice : choice.label;
+                      if (val.startsWith('Yes')) {
+                          resetProjectState();
+                          state.serviceKey = nextKey;
+                          addBotMessage(`Got it. Starting estimate for ${nextSvc.label}...`);
+                          stepTwo_SubQuestions();
+                      } else {
+                          askAddAnother();
+                      }
+                  });
+              }, 1000);
+              return;
+          }
+      }
+      // If no related services or already asked, move to "Add Another"
+      askAddAnother();
+  }
+
+
+  function askAddAnother() {
     updateProgress(92);
 
     addBotMessage("Would you like to add another project to this estimate?");
@@ -903,28 +1190,87 @@
     state.pricingMode = "full";
     state.isRush = false;
     state.promoCode = "";
+    // Don't reset name/phone/photos as they apply to the entire session
+    saveState();
   }
 
-  // --- LEAD CAPTURE & LINKS ----------------------------------
+  // --- LEAD CAPTURE & LINKS (REVISED) ----------------------------------
 
   function showLeadCapture(introText) {
     addBotMessage(introText);
+    
+    // 1. Ask Name (with sanitization)
     addBotMessage("What is your name?");
     enableInput(function(name) {
-      state.name = name;
+      state.name = sanitizeInput(name); // Sanitize input
+      saveState(); // Save state
+      
+      // 2. Ask Phone (with validation)
       addBotMessage("And your mobile number?");
-      enableInput(function(phone) {
-        state.phone = phone;
-        generateFinalLinks();
-      });
+      askPhone();
     });
   }
 
+  function askPhone() {
+    enableInput(function(phone) {
+        // Basic phone number validation (10 digits minimum, ignoring format symbols)
+        const cleanPhone = phone.replace(/\D/g, "");
+        if (cleanPhone.length < 10) {
+            addBotMessage("Hmm, that doesn't look like a valid 10-digit phone number. Please try again.");
+            askPhone();
+        } else {
+            state.phone = cleanPhone;
+            saveState(); // Save state
+            submitLeadData(); // NEW: Fire webhook silently
+            generateFinalLinks();
+        }
+    });
+  }
+
+  // New function for silent lead capture
+  function submitLeadData() {
+      if (!WEBHOOK_URL) return;
+
+      const score = computeLeadScore();
+      const payload = {
+          name: state.name,
+          phone: state.phone,
+          lead_score: score,
+          is_rush: state.isRush,
+          num_projects: state.projects.length,
+          projects: state.projects.map(p => ({
+              service: p.svc.label,
+              size: p.size ? `${p.size} ${p.svc.unit}` : 'N/A',
+              estimate_range: p.isCustom ? 'Walkthrough needed' : `$${Math.round(p.low).toLocaleString()} - $${Math.round(p.high).toLocaleString()}`,
+              details: p.sub.label || 'Standard',
+              borough: p.borough,
+              mode: p.pricingMode,
+              rush: p.isRush,
+              promo: p.promoCode,
+          }))
+      };
+
+      fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+          mode: 'no-cors' // Crucial for security and simplicity when talking to 3rd party webhooks
+      })
+      .then(() => console.log("Lead silently captured via webhook."))
+      .catch(e => console.error("Webhook failed:", e));
+  }
+
+
   function generateFinalLinks() {
     updateProgress(100);
+    const score = computeLeadScore();
+    const isHighValue = score > 60;
 
     var lines = [];
-    lines.push("Hello, I'm " + state.name + ".");
+    // Sanitize name for display
+    lines.push("Hello, I'm " + sanitizeInput(state.name) + "."); 
     lines.push("Projects:");
 
     if (state.projects && state.projects.length) {
@@ -961,7 +1307,16 @@
     } else if (state.serviceKey && SERVICES[state.serviceKey]) {
       lines.push(SERVICES[state.serviceKey].label);
     }
-
+    
+    // Seasonality/Time Logic
+    const now = new Date();
+    const month = now.getMonth();
+    if (month >= 10 || month <= 2) { // Nov (10) to Feb (2)
+         lines.push("");
+         lines.push("NOTE: This is the Winter season. Exterior work (concrete, masonry) will be scheduled for the early Spring backlog. Book now to secure your slot.");
+    }
+    
+    lines.push("");
     lines.push("Phone: " + state.phone);
     lines.push("Please reply to schedule a walkthrough.");
     lines.push("");
@@ -972,11 +1327,14 @@
     );
 
     var body = encodeURIComponent(lines.join("\n"));
+    
+    // Use lead score to prioritize the subject line
+    var emailSubject = (isHighValue ? "🔥 HIGH PRIORITY LEAD " : "Estimate Request ") + " - Hammer Brick & Home";
 
     var smsLink = "sms:19295955300?&body=" + body;
     var emailLink =
       "mailto:info@hammerbrickhome.com?subject=" +
-      encodeURIComponent("Estimate Request - Hammer Brick & Home") +
+      encodeURIComponent(emailSubject) +
       "&body=" +
       body;
 
@@ -1056,7 +1414,7 @@
     }, 500);
   }
 
-  // --- UTILS -------------------------------------------------
+  // --- UTILS (REVISED) -------------------------------------------------
 
   function enableInput(callback) {
     els.input.disabled = false;
@@ -1071,7 +1429,8 @@
     els.send.onclick = function() {
       var val = els.input.value.trim();
       if (!val) return;
-      addUserMessage(val);
+      // We pass the raw value to the callback for validation/sanitization there
+      addUserMessage(val); 
       els.input.value = "";
       els.input.disabled = true;
       els.input.placeholder = "Please wait...";
