@@ -783,7 +783,7 @@ body::before {
 
 .rules-join-grid{
   display:grid;
-  grid-template-columns:minmax(0,3fr) minmax(200px,1.5fr);
+  grid-template-columns:1fr 1fr;
   gap:22px;
 }
 
