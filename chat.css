@@ -20,7 +20,7 @@
   position: fixed;
   right: 25px;
   bottom: 25px;
-  z-index: 99999;
+  z-index: 2147483647 !important;
   background: radial-gradient(circle at top left, #2a2235, #000);
   border: 1px solid rgba(231,191,99,0.6);
   border-radius: 50px;
@@ -56,8 +56,11 @@
   transform: translateY(20px) scale(0.9);
   pointer-events: none;
   transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  z-index: 99999;
+  z-index: 2147483646 !important;
   font-family: -apple-system, system-ui, sans-serif;
+
+  /* NEW – Fix iPhone viewport behavior */
+  height: 100dvh;
 }
 .hb-chat-wrapper.hb-open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 
@@ -75,7 +78,6 @@
 .hb-chat-title span { font-size: 11px; color: var(--hb-chat-gold); text-transform: uppercase; letter-spacing: 1px; }
 .hb-chat-close { background: none; border: none; color: #888; font-size: 24px; cursor: pointer; }
 
-/* Progress Bar */
 .hb-progress-container { height: 3px; background: #1c263b; width: 100%; }
 .hb-progress-bar { height: 100%; background: var(--hb-chat-gold); width: 0%; transition: width 0.5s ease; }
 
@@ -88,9 +90,11 @@
   flex-direction: column;
   gap: 16px;
   scroll-behavior: smooth;
+
+  /* NEW — Ensure input area doesn't overlap content */
+  padding-bottom: 120px;
 }
 
-/* Bubbles */
 .hb-msg {
   max-width: 85%;
   padding: 12px 16px;
@@ -121,7 +125,7 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* --- Choice Chips (Grid Layout) --- */
+/* --- Choice Chips --- */
 .hb-chips {
   display: flex;
   flex-wrap: wrap;
@@ -137,7 +141,7 @@
   font-size: 13px;
   cursor: pointer;
   transition: 0.2s;
-  flex: 1 1 auto; /* Grow to fit */
+  flex: 1 1 auto;
   text-align: center;
 }
 .hb-chip:hover {
@@ -146,7 +150,7 @@
   border-color: var(--hb-chat-gold);
 }
 
-/* --- Receipt Card (The Advanced Visual) --- */
+/* --- Receipt --- */
 .hb-receipt {
   background: #fff;
   color: #111;
@@ -163,13 +167,16 @@
 .hb-receipt-total { border-top: 2px dashed #111; margin-top: 10px; padding-top: 10px; font-weight: 900; font-size: 16px; display: flex; justify-content: space-between; }
 .hb-receipt-footer { font-size: 10px; text-align: center; margin-top: 12px; color: #666; }
 
-/* --- Inputs --- */
+/* --- Footer Input Bar --- */
 .hb-chat-footer {
   padding: 16px;
   background: rgba(9,14,26,0.95);
   border-top: 1px solid rgba(255,255,255,0.08);
   display: flex;
   gap: 10px;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
 }
 .hb-chat-input {
   flex: 1;
@@ -179,6 +186,9 @@
   padding: 12px 18px;
   color: #fff;
   outline: none;
+
+  /* NEW — Fix iPhone zoom bug */
+  font-size: 16px !important;
 }
 .hb-chat-send {
   background: var(--hb-chat-gold);
@@ -203,17 +213,38 @@
 .hb-dot:nth-child(2) { animation-delay: -0.16s; }
 @keyframes hbBounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 
+/* --- Mobile Fixes (VERY IMPORTANT) --- */
+@media (max-width: 600px) {
 
-/* Safety Overrides */
-.hb-chat-fab {
-  display: flex !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  z-index: 2147483647 !important; /* Maximum possible Z-index */
-  bottom: 25px !important;
-  right: 25px !important;
+  .hb-chat-wrapper {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .hb-chat-body {
+    padding-bottom: 160px !important;
+  }
+
+  .hb-chat-footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    z-index: 2147483647 !important;
+  }
+
+  .hb-chat-input {
+    font-size: 16px !important;
+  }
 }
 
+/* FAB Safety Override */
 .hb-chat-wrapper.hb-open ~ .hb-chat-fab {
   display: none !important;
 }
+
