@@ -13,72 +13,286 @@
   };
 
   // Pricing Logic
-  const SERVICES = {
-    "masonry": {
-      label: "Masonry & Concrete",
-      emoji: "🧱",
-      unit: "sq ft",
-      baseLow: 16, baseHigh: 28, min: 2500,
-      subQuestion: "What type of finish?",
-      options: [
-        { label: "Standard Concrete ($)", factor: 1.0 },
-        { label: "Pavers ($$)", factor: 1.6 },
-        { label: "Natural Stone ($$$)", factor: 2.2 }
-      ]
-    },
-    "driveway": {
-      label: "Driveway",
-      emoji: "🚗",
-      unit: "sq ft",
-      baseLow: 10, baseHigh: 20, min: 3500,
-      subQuestion: "Current surface condition?",
-      options: [
-        { label: "Dirt/Gravel (New)", factor: 1.0 },
-        { label: "Existing Asphalt (Removal)", factor: 1.25 },
-        { label: "Existing Concrete (Hard Demo)", factor: 1.4 }
-      ]
-    },
-    "roofing": {
-      label: "Roofing",
-      emoji: "🏠",
-      unit: "sq ft",
-      baseLow: 4.5, baseHigh: 9.5, min: 6500,
-      subQuestion: "Roof type & style?",
-      options: [
-        { label: "Shingle (Standard)", factor: 1.0 },
-        { label: "Flat Roof (NYC Spec)", factor: 1.5 },
-        { label: "Slate/Specialty", factor: 2.5 }
-      ]
-    },
-    "kitchen": {
-      label: "Kitchen Remodel",
-      emoji: "🍳",
-      unit: "fixed",
-      subQuestion: "What is the scope?",
-      options: [
-        { label: "Refresh (Cosmetic)", fixedLow: 18000, fixedHigh: 30000 },
-        { label: "Mid-Range (Cabinets+)", fixedLow: 30000, fixedHigh: 55000 },
-        { label: "Full Gut / Luxury", fixedLow: 55000, fixedHigh: 110000 }
-      ],
-      leadSensitive: true
-    },
-    "bathroom": {
-      label: "Bathroom Remodel",
-      emoji: "🚿",
-      unit: "fixed",
-      subQuestion: "What is the scope?",
-      options: [
-        { label: "Update (Fixtures/Tile)", fixedLow: 14000, fixedHigh: 24000 },
-        { label: "Full Gut / Redo", fixedLow: 24000, fixedHigh: 45000 }
-      ],
-      leadSensitive: true
-    },
-    "other": {
-      label: "Other / Handyman",
-      emoji: "🛠",
-      unit: "consult"
-    }
-  };
+ const SERVICES = {
+  "masonry": {
+    label: "Masonry & Concrete",
+    emoji: "🧱",
+    unit: "sq ft",
+    baseLow: 16, baseHigh: 28, min: 2500,
+    subQuestion: "What type of finish?",
+    options: [
+      { label: "Standard Concrete ($)", factor: 1.0 },
+      { label: "Pavers ($$)", factor: 1.6 },
+      { label: "Natural Stone ($$$)", factor: 2.2 }
+    ]
+  },
+
+  "driveway": {
+    label: "Driveway",
+    emoji: "🚗",
+    unit: "sq ft",
+    baseLow: 10, baseHigh: 20, min: 3500,
+    subQuestion: "Current surface condition?",
+    options: [
+      { label: "Dirt/Gravel (New)", factor: 1.0 },
+      { label: "Existing Asphalt (Removal)", factor: 1.25 },
+      { label: "Existing Concrete (Hard Demo)", factor: 1.4 }
+    ]
+  },
+
+  "roofing": {
+    label: "Roofing",
+    emoji: "🏠",
+    unit: "sq ft",
+    baseLow: 4.5, baseHigh: 9.5, min: 6500,
+    subQuestion: "Roof type?",
+    options: [
+      { label: "Shingle (Standard)", factor: 1.0 },
+      { label: "Flat Roof (NYC Spec)", factor: 1.5 },
+      { label: "Slate/Specialty", factor: 2.5 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: PAINTING
+  ------------------------------ */
+  "painting": {
+    label: "Interior Painting",
+    emoji: "🎨",
+    unit: "sq ft",
+    baseLow: 1.8, baseHigh: 3.8, min: 1800,
+    subQuestion: "Paint quality?",
+    leadSensitive: true,
+    options: [
+      { label: "Standard Paint", factor: 1.0 },
+      { label: "Premium Paint", factor: 1.3 },
+      { label: "Luxury Benjamin Moore", factor: 1.55 }
+    ]
+  },
+  "exterior_paint": {
+    label: "Exterior Painting",
+    emoji: "🖌",
+    unit: "sq ft",
+    baseLow: 2.5, baseHigh: 5.5, min: 3500,
+    subQuestion: "Surface condition?",
+    options: [
+      { label: "Good Condition", factor: 1.0 },
+      { label: "Peeling / Prep Needed", factor: 1.4 },
+      { label: "Heavy Prep / Repairs", factor: 1.8 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: BASEMENT FLOOR
+  ------------------------------ */
+  "basement_floor": {
+    label: "Basement Floor Paint / Epoxy",
+    emoji: "🧼",
+    unit: "sq ft",
+    baseLow: 2.8, baseHigh: 5.5, min: 1200,
+    subQuestion: "Floor type?",
+    options: [
+      { label: "1-Part Epoxy Paint", factor: 1.0 },
+      { label: "2-Part Epoxy (Thick Coat)", factor: 1.6 },
+      { label: "Flake System", factor: 2.1 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: FENCING
+  ------------------------------ */
+  "fence": {
+    label: "Fence Install",
+    emoji: "🚧",
+    unit: "linear ft",
+    baseLow: 30, baseHigh: 75, min: 1800,
+    subQuestion: "Fence type?",
+    options: [
+      { label: "Wood", factor: 1.0 },
+      { label: "PVC", factor: 1.6 },
+      { label: "Chain-Link", factor: 0.9 },
+      { label: "Aluminum", factor: 2.0 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: DECK / PORCH
+  ------------------------------ */
+  "deck": {
+    label: "Deck / Porch Build",
+    emoji: "🪵",
+    unit: "sq ft",
+    baseLow: 35, baseHigh: 65, min: 5000,
+    subQuestion: "Deck material?",
+    options: [
+      { label: "Pressure Treated", factor: 1.0 },
+      { label: "Composite (Trex)", factor: 1.9 },
+      { label: "PVC Luxury", factor: 2.4 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: DRYWALL
+  ------------------------------ */
+  "drywall": {
+    label: "Drywall Install / Repair",
+    emoji: "📐",
+    unit: "sq ft",
+    baseLow: 3.2, baseHigh: 6.5, min: 750,
+    subQuestion: "Scope?",
+    options: [
+      { label: "Minor Repairs", factor: 1.0 },
+      { label: "Full Install", factor: 1.6 },
+      { label: "Level 5 Finish", factor: 2.1 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: FLOORING
+  ------------------------------ */
+  "flooring": {
+    label: "Flooring Installation",
+    emoji: "🪚",
+    unit: "sq ft",
+    baseLow: 3.5, baseHigh: 9.5, min: 2500,
+    subQuestion: "Flooring type?",
+    options: [
+      { label: "Vinyl Plank", factor: 1.0 },
+      { label: "Tile", factor: 1.8 },
+      { label: "Hardwood", factor: 2.4 },
+      { label: "Laminate", factor: 1.2 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: POWER WASHING
+  ------------------------------ */
+  "powerwash": {
+    label: "Power Washing",
+    emoji: "💦",
+    unit: "sq ft",
+    baseLow: 0.35, baseHigh: 0.85, min: 250
+  },
+
+  /* -----------------------------
+       NEW: GUTTERS
+  ------------------------------ */
+  "gutter": {
+    label: "Gutter Install",
+    emoji: "🩸",
+    unit: "linear ft",
+    baseLow: 15, baseHigh: 35, min: 1200,
+    subQuestion: "Type?",
+    options: [
+      { label: "Aluminum", factor: 1.0 },
+      { label: "Seamless", factor: 1.4 },
+      { label: "Copper", factor: 3.5 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: WINDOWS & DOORS
+  ------------------------------ */
+  "windows": {
+    label: "Windows Install",
+    emoji: "🪟",
+    unit: "fixed",
+    subQuestion: "Window type?",
+    options: [
+      { label: "Standard Vinyl", fixedLow: 550, fixedHigh: 850 },
+      { label: "Double Hung Premium", fixedLow: 850, fixedHigh: 1400 },
+      { label: "Bay/Bow Window", fixedLow: 3500, fixedHigh: 6500 }
+    ]
+  },
+
+  /* ----------------------------- */
+  "doors": {
+    label: "Door Installation",
+    emoji: "🚪",
+    unit: "fixed",
+    subQuestion: "Door type?",
+    options: [
+      { label: "Interior", fixedLow: 250, fixedHigh: 550 },
+      { label: "Exterior Steel / Fiberglass", fixedLow: 950, fixedHigh: 1800 },
+      { label: "Sliding Patio", fixedLow: 2200, fixedHigh: 4200 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: DEMOLITION
+  ------------------------------ */
+  "demo": {
+    label: "Demolition",
+    emoji: "💥",
+    unit: "sq ft",
+    baseLow: 3.0, baseHigh: 7.5, min: 900,
+    subQuestion: "Material?",
+    leadSensitive: true,
+    options: [
+      { label: "Drywall", factor: 1.0 },
+      { label: "Tile / Bathroom Demo", factor: 1.8 },
+      { label: "Concrete Demo", factor: 2.4 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: RETAINING WALL
+  ------------------------------ */
+  "retaining": {
+    label: "Retaining Wall",
+    emoji: "🧱",
+    unit: "linear ft",
+    baseLow: 60, baseHigh: 140, min: 5500,
+    subQuestion: "Material?",
+    options: [
+      { label: "CMU Block", factor: 1.0 },
+      { label: "Poured Concrete", factor: 1.7 },
+      { label: "Stone Veneer", factor: 2.3 }
+    ]
+  },
+
+  /* -----------------------------
+       NEW: HANDYMAN MINI-TASKS
+  ------------------------------ */
+  "handyman": {
+    label: "Small Repairs / Handyman",
+    emoji: "🛠",
+    unit: "consult"
+  },
+
+  /* EXISTING SERVICES */
+  "kitchen": {
+    label: "Kitchen Remodel",
+    emoji: "🍳",
+    unit: "fixed",
+    subQuestion: "What is the scope?",
+    options: [
+      { label: "Refresh (Cosmetic)", fixedLow: 18000, fixedHigh: 30000 },
+      { label: "Mid-Range (Cabinets+)", fixedLow: 30000, fixedHigh: 55000 },
+      { label: "Full Gut / Luxury", fixedLow: 55000, fixedHigh: 110000 }
+    ],
+    leadSensitive: true
+  },
+
+  "bathroom": {
+    label: "Bathroom Remodel",
+    emoji: "🚿",
+    unit: "fixed",
+    subQuestion: "What is the scope?",
+    options: [
+      { label: "Update (Fixtures/Tile)", fixedLow: 14000, fixedHigh: 24000 },
+      { label: "Full Gut / Redo", fixedLow: 24000, fixedHigh: 45000 }
+    ],
+    leadSensitive: true
+  },
+
+  "other": {
+    label: "Other / Custom",
+    emoji: "📋",
+    unit: "consult"
+  }
+};
+
 
   // State Management
   const state = {
