@@ -501,12 +501,33 @@
       const num = parseInt(val.replace(/[^0-9]/g, ''));
       if (!num || num < 10) {
         addBotMessage("That number seems low. Please enter a valid number (e.g. 500).");
-        enableInput(arguments.callee);
+   function stepFour_Size() {
+  updateProgress(50);
+  const svc = SERVICES[state.serviceKey];
+
+  if (svc.unit === 'fixed' || svc.unit === 'consult' || state.serviceKey === 'other') {
+    stepFive_Location();
+    return;
+  }
+
+  addBotMessage(`Approximate size in ${svc.unit}?`);
+
+  function askSize() {
+    enableInput((val) => {
+      const num = parseInt(val.replace(/[^0-9]/g, ''));
+      if (!num || num < 10) {
+        addBotMessage("That number seems low. Please enter a valid number (e.g. 500).");
+        askSize();
       } else {
         state.size = num;
         stepFive_Location();
       }
     });
+  }
+
+  askSize();
+}
+
   }
 
   function stepFive_Location() {
