@@ -311,26 +311,38 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ============================================================
-   AUTO-INCLUDE HEADER & FOOTER
+   ALWAYS LOAD HEADER + FOOTER ON EVERY PAGE
 =============================================================== */
-// NOTE: This section was moved to after the main DOMContentLoaded listener 
-// to ensure initHeaderInteractions is called after the header elements exist.
-
 document.addEventListener("DOMContentLoaded", () => {
-  const headerEl = document.getElementById("header-include");
-  const footerEl = document.getElementById("footer-include");
+  const headerEl = document.getElementById("header-include");
+  const footerEl = document.getElementById("footer-include");
 
-  if (headerEl) {
-    Promise.all([
-      fetch("/header.html").then(r => r.text()),
-      fetch("/footer.html").then(r => r.text())
-    ]).then(([header, footer]) => {
-      headerEl.innerHTML = header;
-      footerEl.innerHTML = footer;
-      // initHeaderInteractions() is now called in the master DOMContentLoaded listener
-    });
-  }
+  // Load header
+  if (headerEl) {
+    fetch("/header.html")
+      .then(res => res.text())
+      .then(html => {
+        headerEl.innerHTML = html;
+
+        // Reinit navigation after header loads
+        if (typeof initHeaderInteractions === "function") {
+          initHeaderInteractions();
+        }
+      })
+      .catch(err => console.error("Header load error:", err));
+  }
+
+  // Load footer
+  if (footerEl) {
+    fetch("/footer.html")
+      .then(res => res.text())
+      .then(html => {
+        footerEl.innerHTML = html;
+      })
+      .catch(err => console.error("Footer load error:", err));
+  }
 });
+
 
 /* ============================================================
    ⭐ FINAL VERSION — ONLY GLOBAL STICKY CONTACT BUTTON
