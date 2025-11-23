@@ -214,6 +214,6 @@
   right: 25px !important;
 }
 
-.hb-chat-wrapper.hb-open + .hb-chat-fab {
-  display: none !important; /* Only hide if chat is actually open */
+.hb-chat-wrapper.hb-open ~ .hb-chat-fab {
+  display: none !important;
 }
