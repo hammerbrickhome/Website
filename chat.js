@@ -1,14 +1,14 @@
-
-
 /* ============================================================
-   HB ULTRA ESTIMATOR BOT v7.0 - PRO TIER BLUEPRINT
-   Full Service List, Conversational Memory, Dynamic Pricing Hooks
-   CRM & Analytics Ready.
+   HB ULTRA ESTIMATOR BOT v7.1 - PRO TIER BLUEPRINT
+   - NYC Price Correction (Higher Base Rates)
+   - Mandatory Disclaimer Gate (UX Fix)
+   - Improved Size Input (Small/Medium/Large Guidance)
+   - Full Service List, Conversational Memory, Dynamic Pricing Hooks
 =============================================================== */
 
 (function() {
   // ==========================================================
-  // I. CONFIGURATION & DATA (V7.0 Pro Tier Integration)
+  // I. CONFIGURATION & DATA (V7.1 Price/UX Update)
   // ==========================================================
 
   // --- External Settings ---
@@ -17,12 +17,12 @@
   const CONTACT_EMAIL = "info@hammerbrickhome.com";
   
   // V7.0 PRO TIER INTEGRATION HOOKS - Update these values!
-  const CRM_ENDPOINT = "https://api.yourcrm.com/leads/v1";      // 🎯 Pro: Hubspot/Salesforce/Pipedrive API URL
-  const CRM_API_KEY = "sk-y0urSecrEtAp1Key";                     // 🎯 Pro: CRM Authentication Key
-  const GA_TRACKING_ID = "G-XXXXXXXXXX";                         // 🎯 Pro: Google Analytics/GTM Measurement ID
-  const VISION_AI_ENDPOINT = "https://vision-ai.api/analyze";   // 🎯 Pro: External service for photo analysis
-  const PRICING_API_KEY = "live-cost-key";                       // 🎯 Pro: Key for a live material cost feed
-  const WALKTHROUGH_URL = "";                                   // e.g., Calendly/Acuity link
+  const CRM_ENDPOINT = "https://api.yourcrm.com/leads/v1";      
+  const CRM_API_KEY = "sk-y0urSecrEtAp1Key";                     
+  const GA_TRACKING_ID = "G-XXXXXXXXXX";                         
+  const VISION_AI_ENDPOINT = "https://vision-ai.api/analyze";   
+  const PRICING_API_KEY = "live-cost-key";                       
+  const WALKTHROUGH_URL = "";                                   
 
   // --- Pricing Modifiers ---
   const BOROUGH_MODS = {
@@ -50,11 +50,16 @@
     { label: "Masonry Care Guide", key: "masonry_guide" }
   ];
   
-  // --- Pricing Logic / Services (FULL 20 SERVICES MERGED FROM v3.3) ---
+  // --- Pricing Logic / Services (V7.1 NYC PRICE CORRECTION APPLIED) ---
   const SERVICES = {
     // 1. Masonry
     "masonry": {
-      label: "Masonry & Concrete", emoji: "🧱", unit: "sq ft", baseLow: 16, baseHigh: 28, min: 2500,
+      label: "Masonry & Concrete", emoji: "🧱", unit: "sq ft", baseLow: 28, baseHigh: 42, minSize: 100, // MINIMUM SET TO 100 FOR SQ INPUT
+      sizeChips: [
+        { label: "Small Steps/Patch (100 sq ft)", size: 100 },
+        { label: "Medium Sidewalk/Patio (250 sq ft)", size: 250 },
+        { label: "Large Driveway/Foundation (450 sq ft)", size: 450 }
+      ],
       subQuestion: "What type of finish?",
       options: [
         { label: "Standard Concrete ($)", factor: 1.0 },
@@ -64,7 +69,12 @@
     },
     // 2. Driveway
     "driveway": {
-      label: "Driveway", emoji: "🚗", unit: "sq ft", baseLow: 10, baseHigh: 20, min: 3500,
+      label: "Driveway", emoji: "🚗", unit: "sq ft", baseLow: 18, baseHigh: 35, minSize: 100, 
+      sizeChips: [
+        { label: "Small One-Car (150 sq ft)", size: 150 },
+        { label: "Standard Two-Car (300 sq ft)", size: 300 },
+        { label: "Large/Custom (600 sq ft)", size: 600 }
+      ],
       subQuestion: "Current surface condition?",
       options: [
         { label: "Dirt/Gravel (New)", factor: 1.0 },
@@ -74,7 +84,7 @@
     },
     // 3. Roofing
     "roofing": {
-      label: "Roofing", emoji: "🏠", unit: "sq ft", baseLow: 4.5, baseHigh: 9.5, min: 6500,
+      label: "Roofing", emoji: "🏠", unit: "sq ft", baseLow: 8, baseHigh: 16, minSize: 500, 
       subQuestion: "Roof type?",
       options: [
         { label: "Shingle (Standard)", factor: 1.0 },
@@ -84,7 +94,12 @@
     },
     // 4. Painting (Interior)
     "painting": {
-      label: "Interior Painting", emoji: "🎨", unit: "sq ft", baseLow: 1.8, baseHigh: 3.8, min: 1800,
+      label: "Interior Painting", emoji: "🎨", unit: "sq ft", baseLow: 3.5, baseHigh: 6.5, minSize: 500, 
+      sizeChips: [
+        { label: "Single Room (400 sq ft)", size: 400 },
+        { label: "Small Apartment (900 sq ft)", size: 900 },
+        { label: "House Floor / Large Apartment (1500 sq ft)", size: 1500 }
+      ],
       subQuestion: "Paint quality?", leadSensitive: true,
       options: [
         { label: "Standard Paint", factor: 1.0 },
@@ -94,7 +109,7 @@
     },
     // 5. Exterior Paint
     "exterior_paint": {
-      label: "Exterior Painting", emoji: "🖌", unit: "sq ft", baseLow: 2.5, baseHigh: 5.5, min: 3500,
+      label: "Exterior Painting", emoji: "🖌", unit: "sq ft", baseLow: 5.5, baseHigh: 10.5, minSize: 800, 
       subQuestion: "Surface condition?",
       options: [
         { label: "Good Condition", factor: 1.0 },
@@ -104,7 +119,7 @@
     },
     // 6. Basement Floor
     "basement_floor": {
-      label: "Basement Floor Paint / Epoxy", emoji: "🧼", unit: "sq ft", baseLow: 2.8, baseHigh: 5.5, min: 1200,
+      label: "Basement Floor Paint / Epoxy", emoji: "🧼", unit: "sq ft", baseLow: 4.5, baseHigh: 8.5, minSize: 300, 
       subQuestion: "Floor type?",
       options: [
         { label: "1-Part Epoxy Paint", factor: 1.0 },
@@ -114,7 +129,7 @@
     },
     // 7. Fence
     "fence": {
-      label: "Fence Install", emoji: "🚧", unit: "linear ft", baseLow: 30, baseHigh: 75, min: 1800,
+      label: "Fence Install", emoji: "🚧", unit: "linear ft", baseLow: 45, baseHigh: 95, minSize: 50, 
       subQuestion: "Fence type?",
       options: [
         { label: "Wood", factor: 1.0 },
@@ -125,7 +140,7 @@
     },
     // 8. Deck
     "deck": {
-      label: "Deck / Porch Build", emoji: "🪵", unit: "sq ft", baseLow: 35, baseHigh: 65, min: 5000,
+      label: "Deck / Porch Build", emoji: "🪵", unit: "sq ft", baseLow: 55, baseHigh: 85, minSize: 100, 
       subQuestion: "Deck material?",
       options: [
         { label: "Pressure Treated", factor: 1.0 },
@@ -135,7 +150,7 @@
     },
     // 9. Drywall
     "drywall": {
-      label: "Drywall Install / Repair", emoji: "📐", unit: "sq ft", baseLow: 3.2, baseHigh: 6.5, min: 750,
+      label: "Drywall Install / Repair", emoji: "📐", unit: "sq ft", baseLow: 5.5, baseHigh: 10.5, minSize: 200, 
       subQuestion: "Scope?",
       options: [
         { label: "Minor Repairs", factor: 1.0 },
@@ -145,7 +160,7 @@
     },
     // 10. Flooring
     "flooring": {
-      label: "Flooring Installation", emoji: "🪚", unit: "sq ft", baseLow: 3.5, baseHigh: 9.5, min: 2500,
+      label: "Flooring Installation", emoji: "🪚", unit: "sq ft", baseLow: 5.5, baseHigh: 12.5, minSize: 200, 
       subQuestion: "Flooring type?",
       options: [
         { label: "Vinyl Plank", factor: 1.0 },
@@ -156,11 +171,11 @@
     },
     // 11. Powerwash
     "powerwash": {
-      label: "Power Washing", emoji: "💦", unit: "sq ft", baseLow: 0.35, baseHigh: 0.85, min: 250
+      label: "Power Washing", emoji: "💦", unit: "sq ft", baseLow: 0.55, baseHigh: 1.2, minSize: 500
     },
     // 12. Gutter
     "gutter": {
-      label: "Gutter Install", emoji: "🩸", unit: "linear ft", baseLow: 15, baseHigh: 35, min: 1200,
+      label: "Gutter Install", emoji: "🩸", unit: "linear ft", baseLow: 25, baseHigh: 55, minSize: 50, 
       subQuestion: "Type?",
       options: [
         { label: "Aluminum", factor: 1.0 },
@@ -168,29 +183,29 @@
         { label: "Copper", factor: 3.5 }
       ]
     },
-    // 13. Windows
+    // 13. Windows (Fixed Price Service)
     "windows": {
-      label: "Windows Install", emoji: "🪟", unit: "fixed",
+      label: "Windows Install (Per Window)", emoji: "🪟", unit: "fixed",
       subQuestion: "Window type?",
       options: [
-        { label: "Standard Vinyl", fixedLow: 550, fixedHigh: 850 },
-        { label: "Double Hung Premium", fixedLow: 850, fixedHigh: 1400 },
-        { label: "Bay/Bow Window", fixedLow: 3500, fixedHigh: 6500 }
+        { label: "Standard Vinyl", fixedLow: 750, fixedHigh: 1100 },
+        { label: "Double Hung Premium", fixedLow: 1100, fixedHigh: 1800 },
+        { label: "Bay/Bow Window", fixedLow: 4500, fixedHigh: 7500 }
       ]
     },
-    // 14. Doors
+    // 14. Doors (Fixed Price Service)
     "doors": {
-      label: "Door Installation", emoji: "🚪", unit: "fixed",
+      label: "Door Installation (Per Door)", emoji: "🚪", unit: "fixed",
       subQuestion: "Door type?",
       options: [
-        { label: "Interior", fixedLow: 250, fixedHigh: 550 },
-        { label: "Exterior Steel / Fiberglass", fixedLow: 950, fixedHigh: 1800 },
-        { label: "Sliding Patio", fixedLow: 2200, fixedHigh: 4200 }
+        { label: "Interior", fixedLow: 350, fixedHigh: 750 },
+        { label: "Exterior Steel / Fiberglass", fixedLow: 1200, fixedHigh: 2200 },
+        { label: "Sliding Patio", fixedLow: 2800, fixedHigh: 4800 }
       ]
     },
     // 15. Demo
     "demo": {
-      label: "Demolition", emoji: "💥", unit: "sq ft", baseLow: 3.0, baseHigh: 7.5, min: 900,
+      label: "Demolition", emoji: "💥", unit: "sq ft", baseLow: 5.5, baseHigh: 12.5, minSize: 200, 
       subQuestion: "Material?", leadSensitive: true,
       options: [
         { label: "Drywall", factor: 1.0 },
@@ -200,7 +215,7 @@
     },
     // 16. Retaining Wall
     "retaining": {
-      label: "Retaining Wall", emoji: "🧱", unit: "linear ft", baseLow: 60, baseHigh: 140, min: 5500,
+      label: "Retaining Wall", emoji: "🧱", unit: "linear ft", baseLow: 90, baseHigh: 180, minSize: 40, 
       subQuestion: "Material?",
       options: [
         { label: "CMU Block", factor: 1.0 },
@@ -213,33 +228,59 @@
       label: "Small Repairs / Handyman", emoji: "🛠", unit: "fixed",
       subQuestion: "Estimated duration?",
       options: [
-        { label: "Half-Day (4 hrs)", fixedLow: 450, fixedHigh: 850 },
-        { label: "Full-Day (8 hrs)", fixedLow: 850, fixedHigh: 1500 },
-        { label: "Multi-Day Project (Custom Quote)", fixedLow: 1500, fixedHigh: 4500 }
+        { label: "Half-Day (4 hrs)", fixedLow: 550, fixedHigh: 950 },
+        { label: "Full-Day (8 hrs)", fixedLow: 950, fixedHigh: 1800 },
+        { label: "Multi-Day Project (Custom Quote)", fixedLow: 1800, fixedHigh: 5000 }
       ]
     },
-    // 18. Kitchen
+    // 18. Kitchen (Fixed Price Service)
     "kitchen": {
       label: "Kitchen Remodel", emoji: "🍳", unit: "fixed",
       subQuestion: "What is the scope?", leadSensitive: true,
       options: [
-        { label: "Refresh (Cosmetic)", fixedLow: 18000, fixedHigh: 30000 },
-        { label: "Mid-Range (Cabinets+)", fixedLow: 30000, fixedHigh: 55000 },
-        { label: "Full Gut / Luxury", fixedLow: 55000, fixedHigh: 110000 }
+        { label: "Refresh (Cosmetic)", fixedLow: 35000, fixedHigh: 55000 }, // RAISED
+        { label: "Mid-Range (Cabinets+)", fixedLow: 55000, fixedHigh: 85000 }, // RAISED
+        { label: "Full Gut / Luxury", fixedLow: 85000, fixedHigh: 150000 } // RAISED
       ],
     },
-    // 19. Bathroom
+    // 19. Bathroom (Fixed Price Service)
     "bathroom": {
       label: "Bathroom Remodel", emoji: "🚿", unit: "fixed",
       subQuestion: "What is the scope?", leadSensitive: true,
       options: [
-        { label: "Update (Fixtures/Tile)", fixedLow: 14000, fixedHigh: 24000 },
-        { label: "Full Gut / Redo", fixedLow: 24000, fixedHigh: 45000 }
+        { label: "Update (Fixtures/Tile)", fixedLow: 18000, fixedHigh: 28000 }, // RAISED
+        { label: "Full Gut / Redo", fixedLow: 28000, fixedHigh: 50000 } // RAISED
       ],
     },
     // 20. Other
     "other": { label: "Other / Custom", emoji: "📋", unit: "consult" }
   };
+  
+  // Custom sizes for fixed-unit jobs to guide the user (new v7.1 feature)
+  const CUSTOM_SIZE_GUIDES = {
+    // For fixed unit jobs that still need a size sense
+    "windows": [
+        { label: "2-3 Windows", size: 3 },
+        { label: "4-6 Windows", size: 6 },
+        { label: "Whole House (7+)", size: 10 }
+    ],
+    "doors": [
+        { label: "1-2 Doors", size: 2 },
+        { label: "3-4 Doors", size: 4 },
+        { label: "5+ Doors", size: 6 }
+    ],
+    "kitchen": [
+        { label: "Small (50-100 sq ft)", size: 75 },
+        { label: "Medium (100-200 sq ft)", size: 150 },
+        { label: "Large (200+ sq ft)", size: 250 }
+    ],
+    "bathroom": [
+        { label: "Small (30-50 sq ft)", size: 40 },
+        { label: "Medium (50-80 sq ft)", size: 65 },
+        { label: "Large (80+ sq ft)", size: 100 }
+    ]
+  };
+
 
   // ==========================================================
   // II. STATE & MEMORY (v6.0 Core Feature)
@@ -256,7 +297,7 @@
     pricingMode: "full",
     isRush: false,
     promoCode: "",
-    photosUploaded: 0, // V7.0 hook for photo AI
+    photosUploaded: 0, 
   };
 
   let state = {
@@ -265,7 +306,8 @@
     phone: "",
     projects: [],
     isChatOpen: false,
-    currentStep: 0
+    currentStep: 0,
+    hasAcceptedDisclaimer: false, // NEW V7.1 FLAG
   };
 
   let els = {}; 
@@ -276,23 +318,30 @@
     const storedName = sessionStorage.getItem("hb_name");
     const storedPhone = sessionStorage.getItem("hb_phone");
     const storedOpen = sessionStorage.getItem("hb_chat_active") === "true";
+    const storedDisclaimer = sessionStorage.getItem("hb_disclaimer_accepted") === "true";
 
     if (storedProjects) state.projects = JSON.parse(storedProjects);
     if (storedName) state.name = storedName;
     if (storedPhone) state.phone = storedPhone;
     state.isChatOpen = storedOpen;
+    state.hasAcceptedDisclaimer = storedDisclaimer; // Load disclaimer state
   }
 
   function saveState() {
     sessionStorage.setItem("hb_projects", JSON.stringify(state.projects));
     sessionStorage.setItem("hb_name", state.name);
     sessionStorage.setItem("hb_phone", state.phone);
+    sessionStorage.setItem("hb_disclaimer_accepted", state.hasAcceptedDisclaimer); // Save disclaimer state
   }
 
   function clearData(showConf) {
     sessionStorage.clear();
     localStorage.clear(); 
-    Object.assign(state, { ...INITIAL_PROJECT_STATE, name: "", phone: "", projects: [], isChatOpen: false, currentStep: 0 });
+    Object.assign(state, { 
+      ...INITIAL_PROJECT_STATE, 
+      name: "", phone: "", projects: [], isChatOpen: false, currentStep: 0, 
+      hasAcceptedDisclaimer: false // Clear disclaimer state
+    });
     if (showConf) {
       addBotMessage("✅ Your data has been cleared from this device, as per your request.", false, 0);
       setTimeout(() => {
@@ -305,9 +354,7 @@
     Object.assign(state, { ...INITIAL_PROJECT_STATE, name: state.name, phone: state.phone, projects: state.projects });
   }
 
-  // ==========================================================
-  // III. UI UTILITIES & INITIALIZATION
-  // ==========================================================
+  // ... (III. UI UTILITIES & INITIALIZATION - no functional changes needed here except the initialization call) ...
 
   function createInterface() {
     loadState();
@@ -315,12 +362,11 @@
     // V7.0 PRO: Send initial analytics event
     sendAnalyticsEvent('bot_init', { status: 'loaded' });
 
-    // ... (rest of createInterface remains the same as v6.0 for UI stability)
     const fab = document.createElement("div");
     fab.className = "hb-chat-fab";
     fab.innerHTML = `<span class="hb-fab-icon">📷</span><span class="hb-fab-text">Get Estimate</span>`;
     fab.style.display = "flex";
-    fab.onclick = () => toggleChat(true); // Explicitly pass true to ensure it opens
+    fab.onclick = () => toggleChat(true); 
     document.body.appendChild(fab);
 
     const wrapper = document.createElement("div");
@@ -329,7 +375,7 @@
       <div class="hb-chat-header">
         <div class="hb-chat-title">
           <h3>${COMPANY_NAME}</h3>
-          <span>AI Estimator (v7.0 Pro Blueprint)</span>
+          <span>AI Estimator (v7.1 Price Corrected)</span>
         </div>
         <button class="hb-chat-close">×</button>
       </div>
@@ -369,7 +415,7 @@
     };
 
     // FIX FOR CLOSE BUTTON: ensure it uses the toggle function
-    els.close.onclick = () => toggleChat(false); // Explicitly pass false to ensure it closes
+    els.close.onclick = () => toggleChat(false); 
     els.send.onclick = handleManualInput;
     els.input.addEventListener("keypress", function(e) {
       if (e.key === "Enter") handleManualInput();
@@ -382,7 +428,6 @@
       
       addBotMessage(`📷 **(V7.0 Hook)** You selected ${state.photosUploaded} photo(s).`, false, 200);
       
-      // V7.0 PRO: Simulate call to Visual AI
       simulatePhotoAnalysis(photoInput.files);
     });
 
@@ -391,7 +436,7 @@
     }
     startConversation();
   }
-
+  
   function toggleChat(forceOpen = false) {
     const isOpen = els.wrapper.classList.toggle("hb-open", forceOpen);
     if (isOpen) {
@@ -404,13 +449,22 @@
   }
 
   function updateProgress(step) {
-    sendAnalyticsEvent('progress_update', { step: step }); // V7.0 PRO: Analytics Event
+    sendAnalyticsEvent('progress_update', { step: step }); 
     const totalSteps = 10;
     const pct = Math.min(100, Math.round((step / totalSteps) * 100));
     state.currentStep = step;
     if (els.prog) els.prog.style.width = pct + "%";
   }
 
+  // ... (addUserMessage, addChoices, enableInput, handleManualInput remain the same) ...
+  function addUserMessage(text) {
+    const div = document.createElement("div");
+    div.className = "hb-msg hb-msg-user";
+    div.textContent = text;
+    els.body.appendChild(div);
+    els.body.scrollTop = els.body.scrollHeight;
+  }
+  
   function addBotMessage(text, isHtml = false, delay = 800) {
     const typingId = "typing-" + Date.now();
     const typingDiv = document.createElement("div");
@@ -434,15 +488,6 @@
         els.body.scrollTop = els.body.scrollHeight;
       }
     }, Math.min(1500, text.length * 15 + delay));
-  }
-  
-  // ... (addUserMessage, addChoices, enableInput, handleManualInput remain the same) ...
-  function addUserMessage(text) {
-    const div = document.createElement("div");
-    div.className = "hb-msg hb-msg-user";
-    div.textContent = text;
-    els.body.appendChild(div);
-    els.body.scrollTop = els.body.scrollHeight;
   }
 
   function addChoices(options, callback) {
@@ -498,18 +543,11 @@
     }
   }
 
-  // ==========================================================
-  // IV. V7.0 PRO TIER INTEGRATION PLACEHOLDERS
-  // ==========================================================
-
+  // ... (IV. V7.0 PRO TIER INTEGRATION PLACEHOLDERS - no changes) ...
   function sendLeadToCRM(leadData) {
-    // 🎯 V7.0 PRO: This function replaces the need for the user to manually text/email.
     console.log(`[V7.0 PRO] Sending lead data to CRM_ENDPOINT: ${CRM_ENDPOINT}`);
     console.log("Lead Payload:", leadData);
-
-    // Placeholder for actual API call (e.g., fetch(CRM_ENDPOINT, { method: 'POST', body: JSON.stringify(leadData) }))
-    const success = Math.random() > 0.1; // Simulate 90% success rate
-
+    const success = Math.random() > 0.1; 
     if (success) {
       addBotMessage("✅ **(V7.0 PRO)** Estimate successfully logged in your CRM (ID: 12345). A sales rep will contact you instantly.", false, 500);
       return true;
@@ -520,20 +558,13 @@
   }
 
   function sendAnalyticsEvent(eventName, params = {}) {
-    // 🎯 V7.0 PRO: This function tracks conversion goals and funnel drop-offs.
     console.log(`[V7.0 PRO] Analytics: Sending event ${eventName} to GA ID ${GA_TRACKING_ID}`);
-    // Placeholder for gtag/dataLayer push:
-    // if (window.dataLayer) { dataLayer.push({ 'event': eventName, ...params }); }
   }
   
   function fetchDynamicPricing(svcKey, borough) {
-    // 🎯 V7.0 PRO: Simulates fetching live material and labor costs.
     console.log(`[V7.0 PRO] Dynamic Pricing: Fetching live costs for ${svcKey} in ${borough} using key: ${PRICING_API_KEY}...`);
-
-    // Placeholder Logic: Return dynamic market condition factors
-    const materialFactor = 1.0 + Math.random() * 0.15; // Up to 15% swing
+    const materialFactor = 1.0 + Math.random() * 0.15; 
     const laborFactor = 1.0 + Math.random() * 0.10;
-    
     return {
         materialFactor: materialFactor,
         laborFactor: laborFactor
@@ -541,42 +572,62 @@
   }
 
   function simulatePhotoAnalysis(fileList) {
-    // 🎯 V7.0 PRO: Simulates uploading photos to an external Visual AI service.
     if (fileList.length === 0) return;
-    
     addBotMessage(`⏳ **(V7.0 PRO)** Sending photos for Visual AI analysis...`, false, 100);
-
     setTimeout(() => {
-        // Placeholder Result: Assume AI returns an estimated size and confidence
         const estimatedSize = 350 + Math.round(Math.random() * 200); 
         const confidence = 75 + Math.round(Math.random() * 20);
-        
         addBotMessage(`🧠 **(Visual AI)** Analysis complete. AI suggests project size is approx. **${estimatedSize} sq ft** (Confidence: ${confidence}%).`, false, 1500);
-
-        // Optional: Can use this to override or validate user input size later
     }, 2500);
   }
 
+
   // ==========================================================
-  // V. FLOW LOGIC (v6.0 Core Flow)
+  // V. FLOW LOGIC (v7.1 Flow: New Disclaimer Step)
   // ==========================================================
 
   function startConversation() {
-    addBotMessage(`👋 Hi! Welcome to the ${COMPANY_NAME} AI Estimator (v7.0 Blueprint). I can generate a ballpark estimate in under 60 seconds.`);
+    addBotMessage(`👋 Hi! Welcome to the ${COMPANY_NAME} AI Estimator (v7.1 Price Corrected). I can generate a ballpark estimate in under 60 seconds.`);
 
     const hour = new Date().getHours();
     if (hour >= 21 || hour < 6) {
       addBotMessage("🚨 We're past normal business hours. We only have **2 openings left** for tomorrow morning — want priority slotting? (v6.0 Urgency)", false, 800);
     }
-
-    setTimeout(() => {
-      addBotMessage("What type of project are you planning?");
-      presentServiceOptions();
-    }, 1500);
+    
+    if (state.hasAcceptedDisclaimer) {
+        addBotMessage("**(Memory)** You've accepted the terms. Proceeding to service selection.", false, 0);
+        presentServiceOptions();
+    } else {
+        stepOne_DisclaimerGate(); // NEW: Start with the disclaimer
+    }
   }
 
+  // V7.1 NEW FUNCTION
+  function stepOne_DisclaimerGate() {
+      updateProgress(1);
+      addBotMessage(`⚠️ **DISCLAIMER:** Please understand that this tool provides a rough, **ballpark estimate** for planning purposes only. Due to the high cost of skilled labor, materials, and complex NYC logistics, our final on-site quotes will be higher than general regional averages.`);
+      
+      addBotMessage(`By continuing, you acknowledge this is not a contract, and final pricing requires a site visit. Do you accept these terms to proceed?`);
+      
+      addChoices([
+          { label: "✅ Yes, Proceed to Estimate", key: "yes" },
+          { label: "❌ No, Close Chat", key: "no" }
+      ], function(choice) {
+          if (choice.key === "yes") {
+              state.hasAcceptedDisclaimer = true;
+              sessionStorage.setItem("hb_disclaimer_accepted", "true");
+              addBotMessage("Terms accepted. Thank you. Now, what type of project are you planning?");
+              presentServiceOptions();
+          } else {
+              addBotMessage("Understood. Closing the chat now. Thank you for visiting.");
+              toggleChat(false);
+          }
+      });
+  }
+
+
   function presentServiceOptions() {
-    updateProgress(1);
+    updateProgress(2); // Progress adjusted due to new Step 1
     const opts = Object.keys(SERVICES).map(k => ({
       label: SERVICES[k].emoji + " " + SERVICES[k].label, key: k
     }));
@@ -599,7 +650,7 @@
   }
 
   function stepTwo_SubQuestions() {
-    updateProgress(2);
+    updateProgress(3);
     const svc = SERVICES[state.serviceKey];
 
     if (svc.subQuestion && svc.options) {
@@ -615,7 +666,7 @@
   }
   
   function stepThree_DeepLogic() {
-    updateProgress(3);
+    updateProgress(4);
     const svc = SERVICES[state.serviceKey];
     const sub = state.subOption;
 
@@ -634,7 +685,7 @@
 
 
   function stepFour_LeadCheck() {
-    updateProgress(4);
+    updateProgress(5);
     const svc = SERVICES[state.serviceKey];
     if (svc && svc.leadSensitive) {
       addBotMessage("⚠️ **(v6.0 Safety Check)** Is your property built before 1978? (Required for lead safety laws).");
@@ -647,36 +698,56 @@
     }
   }
 
+  // V7.1 MODIFIED FUNCTION
   function stepFive_Size() {
-    updateProgress(5);
+    updateProgress(6);
     const svc = SERVICES[state.serviceKey];
 
-    if (svc.unit === "fixed" || svc.unit === "consult") {
+    // Skip if it's a fixed price or consultation service
+    if (svc.unit === "consult") {
       stepSix_Location();
       return;
     }
 
-    addBotMessage(`Approximate size in **${svc.unit}**? (Minimum project size: ${svc.min.toLocaleString()} ${svc.unit})`);
-
-    function askSize() {
-      enableInput(function(val) {
-        const num = parseInt(val.replace(/[^0-9]/g, ""), 10);
-        if (!num || num < 10) {
-          addBotMessage("That number seems low. Please enter a valid number (e.g. 500).");
-          askSize();
-        } else {
-          state.size = num;
-          addBotMessage(`**Confirmed:** Project size is ${num.toLocaleString()} ${svc.unit}.`);
-          stepSix_Location();
-        }
-      }, "e.g. 500");
+    addBotMessage(`What is the size of your project in **${svc.unit}**?`);
+    
+    // Provide size guide chips for the user
+    const sizeGuide = svc.sizeChips || CUSTOM_SIZE_GUIDES[state.serviceKey];
+    if (sizeGuide) {
+        const chips = sizeGuide.map(item => ({ 
+            label: item.label, 
+            key: item.size // key will be the size to use
+        }));
+        addChoices(chips, function(choice) {
+            state.size = choice.key;
+            addBotMessage(`**Confirmed:** Using the suggested size of ${state.size.toLocaleString()} ${svc.unit}.`, false, 0);
+            stepSix_Location();
+        });
     }
-
-    askSize();
+    
+    // Always provide manual input option
+    let minMsg = svc.minSize ? `(Enter your exact number. E.g., ${svc.minSize})` : "(Enter your exact number)";
+    enableInput(function(val) {
+        const num = parseInt(val.replace(/[^0-9]/g, ""), 10);
+        
+        // Custom minimum validation
+        if (!num || (svc.minSize && num < svc.minSize)) {
+            const errorMsg = svc.minSize 
+                ? `That seems too low for a typical job of this type. Please enter at least ${svc.minSize} ${svc.unit}.`
+                : "Please enter a valid number (e.g. 250).";
+            addBotMessage(errorMsg);
+            stepFive_Size(); // Restart the step
+        } else {
+            state.size = num;
+            addBotMessage(`**Confirmed:** Project size is ${num.toLocaleString()} ${svc.unit}.`);
+            stepSix_Location();
+        }
+    }, `${minMsg}`);
   }
 
+
   function stepSix_Location() {
-    updateProgress(6);
+    updateProgress(7);
     if (state.projects.length > 0 && state.projects[0].borough) {
         state.borough = state.projects[0].borough;
         addBotMessage(`**(v6.0 Memory)** I see your last project was in **${state.borough}**. We'll use that for the price modifier.`, false, 0);
@@ -692,7 +763,7 @@
   }
 
   function stepSeven_PricingMode() {
-    updateProgress(7);
+    updateProgress(8);
     addBotMessage("How should we calculate the estimate?");
 
     const opts = [
@@ -708,10 +779,9 @@
   }
 
   function stepEight_Promo() {
-    updateProgress(8);
+    updateProgress(9);
     addBotMessage("Do you have a promo code?");
 
-    // Promo Code Display Fix & V6.0 Feature: Display discount percentage
     const opts = Object.keys(DISCOUNTS).map(code => ({
         label: `${code} (${Math.round(DISCOUNTS[code] * 100)}% off)`, code: code
     }));
@@ -736,12 +806,13 @@
 
   function calculateConfidence() {
     let score = 0;
+    // ... (logic remains the same) ...
     if (state.serviceKey === 'other' || SERVICES[state.serviceKey].unit === 'consult') return 0; 
     if (SERVICES[state.serviceKey].unit === 'fixed' || state.size > 0) score += 40;
     if (state.subOption) score += 25;
     if (state.borough) score += 20;
     if (state.deepAnswer && state.deepAnswer !== 'N/A') score += 15;
-    if (state.photosUploaded > 0) score += 5; // Slight bump if photos exist
+    if (state.photosUploaded > 0) score += 5; 
     return Math.min(100, score);
   }
 
@@ -766,8 +837,9 @@
 
     // Calculate Base Range
     if (svc.unit === "fixed") {
-      low = (sub.fixedLow || 0);
-      high = (sub.fixedHigh || 0);
+      // For fixed jobs, size represents number of units/scale
+      low = (sub.fixedLow || 0) * (state.size || 1); 
+      high = (sub.fixedHigh || 0) * (state.size || 1);
     } else {
       var rateLow = svc.baseLow * (sub.factor || 1.0);
       var rateHigh = svc.baseHigh * (sub.factor || 1.0);
@@ -786,10 +858,13 @@
     low *= ((materialModV7 + laborModV7) / 2); 
     high *= ((materialModV7 + laborModV7) / 2);
 
-    // 3. Minimum Check
-    if (svc.min && svc.unit !== 'fixed') {
-        low = Math.max(low, svc.min * boroughMod.complexity);
-        high = Math.max(high, svc.min * 1.25 * boroughMod.complexity);
+    // 3. Minimum Check (Only apply if size unit is not fixed, fixed pricing already incorporates scale)
+    if (svc.minSize && svc.unit !== 'fixed') { 
+        // Use a high complexity factor to ensure the minimum is met for small jobs
+        const hardMinLow = svc.minSize * (svc.baseLow * (sub.factor || 1.0) * boroughMod.factor);
+        const hardMinHigh = svc.minSize * (svc.baseHigh * (sub.factor || 1.0) * boroughMod.factor);
+        low = Math.max(low, hardMinLow);
+        high = Math.max(high, hardMinHigh);
     }
 
     // 4. Lead safety bump
@@ -832,7 +907,7 @@
       pricingMode: state.pricingMode, isRush: state.isRush, promoCode: state.promoCode,
       low: low, high: high, confidence: confidence,
       breakdown: {
-          materialModV7, laborModV7, // V7.0 factors included in breakdown
+          materialModV7, laborModV7, 
           baseLow: low / laborFactor / rushFactor + dcAmountLow, 
           baseHigh: high / laborFactor / rushFactor + dcAmountHigh,
           subFactor: (sub.factor || 1.0),
@@ -869,7 +944,11 @@
         <div class="hb-breakdown-lines">`;
     
     // 1. Base Cost
-    html += `<div class="hb-receipt-row anim-1"><span>Base Cost (${isFixed ? 'Fixed Price Tier' : est.size.toLocaleString() + ' ' + svc.unit}):</span>
+    const sizeLabel = isFixed 
+        ? `${est.size || '1'} Unit(s)`
+        : `${est.size.toLocaleString()} ${svc.unit}`;
+        
+    html += `<div class="hb-receipt-row anim-1"><span>Base Cost (${sizeLabel} @ NYC Rates):</span>
         <span>$${Math.round(breakdown.baseLow).toLocaleString()} – $${Math.round(breakdown.baseHigh).toLocaleString()}</span></div>`;
 
     // 2. Sub-Option Factor
@@ -925,6 +1004,7 @@
     return html;
   }
 
+  // ... (showEstimateAndAskAnother, askAddAnother, showCombinedReceiptAndLeadCapture remain the same) ...
   function showEstimateAndAskAnother(est) {
     if (!est) return;
     updateProgress(9);
@@ -975,10 +1055,6 @@
     );
   }
 
-  // ==========================================================
-  // VII. LEAD CAPTURE & FINAL LINKS (v6.0 + V7.0 CRM Push)
-  // ==========================================================
-
   function showCombinedReceiptAndLeadCapture() {
     updateProgress(10);
     var projects = state.projects;
@@ -998,7 +1074,8 @@
 
         var fLow = hasPrice ? Math.round(p.low).toLocaleString() : "Custom";
         var fHigh = hasPrice ? Math.round(p.high).toLocaleString() : "Quote";
-        var sizePart = p.size ? ` — ${p.size} ${p.svc.unit}` : '';
+        var sizePart = p.size && p.svc.unit !== 'fixed' ? ` — ${p.size} ${p.svc.unit}` : '';
+        if (p.svc.unit === 'fixed' && p.size > 0) sizePart = ` — ${p.size} Unit(s)`;
         var areaPart = p.borough ? ` (${p.borough})` : '';
 
         return `<div class="hb-receipt-row">
@@ -1129,7 +1206,7 @@
       const emailBtn = document.createElement("a");
       emailBtn.className = "hb-chip-cta hb-cta-email";
       emailBtn.textContent = "✉️ Email My Details";
-      emailBtn.href = emailLink;
+      emailLink.href = emailLink;
       chipContainer.appendChild(emailBtn);
       
       if (!isHumanMode && !isLeadMagnet) {
@@ -1159,10 +1236,7 @@
     }, 500);
   }
 
-  // ==========================================================
-  // VIII. UTILS & SANITIZATION (v6.0)
-  // ==========================================================
-
+  // ... (VIII. UTILS & SANITIZATION - no changes) ...
   function sanitizeAndConfirmInput(input, isName = false) {
     let sanitized = input.trim();
     if (isName) {
