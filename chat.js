@@ -1,1091 +1,1154 @@
 /* ============================================================
-   HAMMER BRICK & HOME — ULTRA ADVANCED ESTIMATOR BOT v3.3
-   Multi-Project • Rush • Promo Codes • SMS & Email • Photos
-   + In-card Disclaimer + Disclaimer in SMS/Email
-=============================================================== */
+   HAMMER BRICK & HOME LLC
+   ESTIMATOR BOT v7.0 — ULTRA EDITION
+   - AI project detection
+   - Size Wizard
+   - Tiered pricing
+   - Lead scoring + confidence score
+   - Smart bundles / upsells
+   - Time-aware + seasonal messaging
+   - Photo handling (Base64, 100KB limit, 5 photos)
+   - Storage separation (PII in sessionStorage)
+   - CRM webhook + email/SMS payload helpers
+   - Language-ready (EN primary, stubs for more)
+   - Progress, lead magnet, privacy mode, human mode
+   - Commented, modular-ish, "zero breaks" mindset
+============================================================ */
 
-(function() {
-  // --- CONFIGURATION & DATA -----------------------------------
+(function () {
+  "use strict";
 
-  // Borough modifiers
+  // ----------------------------
+  // 0. BASIC CONFIG
+  // ----------------------------
+
+  const WEBHOOK_URL = "https://your-silent-lead-capture-endpoint.com/receive"; // <- replace
+  const MAX_PHOTOS = 5;
+  const MAX_PHOTO_SIZE_BYTES = 100 * 1024; // 100KB
+
   const BOROUGH_MODS = {
     "Manhattan": 1.18,
     "Brooklyn": 1.08,
-    "Queens": 1.05,
-    "Bronx": 1.03,
-    "Staten Island": 1.0,
-    "New Jersey": 0.96
+    "Queens": 1.04,
+    "Bronx": 1.02,
+    "Staten Island": 0.98
   };
 
-  // Recognized promo codes (optional)
   const DISCOUNTS = {
-    "VIP10": 0.10,       // 10% off
-    "REFERRAL5": 0.05    // 5% off
+    "WELCOME10": 0.10,
+    "SPRING15": 0.15
   };
 
-  // Optional external URLs (leave empty if not used)
-  const CRM_FORM_URL = "";      // e.g. "https://forms.gle/your-form-id"
-  const WALKTHROUGH_URL = "";   // e.g. "https://calendly.com/your-link"
-
-  // Pricing Logic / Services
+  // Different job types and rough base pricing + ROI notes
   const SERVICES = {
-    "masonry": {
-      label: "Masonry & Concrete",
-      emoji: "🧱",
-      unit: "sq ft",
-      baseLow: 16, baseHigh: 28, min: 2500,
-      subQuestion: "What type of finish?",
-      options: [
-        { label: "Standard Concrete ($)", factor: 1.0 },
-        { label: "Pavers ($$)", factor: 1.6 },
-        { label: "Natural Stone ($$$)", factor: 2.2 }
+    masonry: {
+      label: "Masonry / Concrete / Pavers",
+      base: 850,
+      perSqFt: 12,
+      roi: "Exterior masonry and hardscape upgrades can improve curb appeal and resale value.",
+      related: ["Power-wash & seal", "Step repair", "Belgian block curb"],
+      deepQuestions: [
+        "Is this a walkway, driveway, patio, or front steps?",
+        "Is there existing concrete or pavers to remove?",
+        "Any drainage or water issues in this area?"
       ]
     },
-
-    "driveway": {
-      label: "Driveway",
-      emoji: "🚗",
-      unit: "sq ft",
-      baseLow: 10, baseHigh: 20, min: 3500,
-      subQuestion: "Current surface condition?",
-      options: [
-        { label: "Dirt/Gravel (New)", factor: 1.0 },
-        { label: "Existing Asphalt (Removal)", factor: 1.25 },
-        { label: "Existing Concrete (Hard Demo)", factor: 1.4 }
+    painting: {
+      label: "Interior / Exterior Painting",
+      base: 600,
+      perSqFt: 2.5,
+      roi: "Fresh paint is one of the highest-ROI cosmetic upgrades.",
+      related: ["Drywall patching", "Trim & doors", "Ceiling repaint"],
+      deepQuestions: [
+        "Are walls in good shape or peeling / cracked?",
+        "Do you need ceilings and trim included?",
+        "Any color changes from dark to light?"
       ]
     },
-
-    "roofing": {
-      label: "Roofing",
-      emoji: "🏠",
-      unit: "sq ft",
-      baseLow: 4.5, baseHigh: 9.5, min: 6500,
-      subQuestion: "Roof type?",
-      options: [
-        { label: "Shingle (Standard)", factor: 1.0 },
-        { label: "Flat Roof (NYC Spec)", factor: 1.5 },
-        { label: "Slate/Specialty", factor: 2.5 }
+    remodeling: {
+      label: "Kitchen / Bathroom Remodeling",
+      base: 6500,
+      perSqFt: 150,
+      roi: "NYC kitchens and baths often return 57–73% of their cost at resale.",
+      related: ["Floor upgrade", "Lighting package", "Tile upgrade"],
+      deepQuestions: [
+        "Is this a full gut or cosmetic remodel?",
+        "Any layout changes (moving plumbing or walls)?",
+        "Do you want tile all the way to the ceiling?"
       ]
     },
-
-    // --- PAINTING ---------------------------------------------
-    "painting": {
-      label: "Interior Painting",
-      emoji: "🎨",
-      unit: "sq ft",
-      baseLow: 1.8, baseHigh: 3.8, min: 1800,
-      subQuestion: "Paint quality?",
-      leadSensitive: true,
-      options: [
-        { label: "Standard Paint", factor: 1.0 },
-        { label: "Premium Paint", factor: 1.3 },
-        { label: "Luxury Benjamin Moore", factor: 1.55 }
+    flooring: {
+      label: "Flooring (Vinyl, Laminate, Hardwood)",
+      base: 1200,
+      perSqFt: 6,
+      roi: "Modern flooring improves comfort and perceived home value.",
+      related: ["Baseboard replacement", "Soundproof underlayment"],
+      deepQuestions: [
+        "Is furniture moving required?",
+        "Do you have existing flooring to remove?",
+        "Any steps or transitions to other floors?"
       ]
     },
-
-    "exterior_paint": {
-      label: "Exterior Painting",
-      emoji: "🖌",
-      unit: "sq ft",
-      baseLow: 2.5, baseHigh: 5.5, min: 3500,
-      subQuestion: "Surface condition?",
-      options: [
-        { label: "Good Condition", factor: 1.0 },
-        { label: "Peeling / Prep Needed", factor: 1.4 },
-        { label: "Heavy Prep / Repairs", factor: 1.8 }
+    landscaping: {
+      label: "Landscaping / Yard Clean-Up",
+      base: 450,
+      perSqFt: 3,
+      roi: "Clean, maintained landscaping can significantly boost curb appeal.",
+      related: ["Mulch & bed edging", "Hedge trimming", "Seasonal cleanup"],
+      deepQuestions: [
+        "Is this a one-time clean-up or recurring maintenance?",
+        "Any large tree or stump work?",
+        "Do you want mulch or rock installed?"
       ]
-    },
-
-    // --- BASEMENT FLOOR ---------------------------------------
-    "basement_floor": {
-      label: "Basement Floor Paint / Epoxy",
-      emoji: "🧼",
-      unit: "sq ft",
-      baseLow: 2.8, baseHigh: 5.5, min: 1200,
-      subQuestion: "Floor type?",
-      options: [
-        { label: "1-Part Epoxy Paint", factor: 1.0 },
-        { label: "2-Part Epoxy (Thick Coat)", factor: 1.6 },
-        { label: "Flake System", factor: 2.1 }
-      ]
-    },
-
-    // --- FENCING ----------------------------------------------
-    "fence": {
-      label: "Fence Install",
-      emoji: "🚧",
-      unit: "linear ft",
-      baseLow: 30, baseHigh: 75, min: 1800,
-      subQuestion: "Fence type?",
-      options: [
-        { label: "Wood", factor: 1.0 },
-        { label: "PVC", factor: 1.6 },
-        { label: "Chain-Link", factor: 0.9 },
-        { label: "Aluminum", factor: 2.0 }
-      ]
-    },
-
-    // --- DECK / PORCH -----------------------------------------
-    "deck": {
-      label: "Deck / Porch Build",
-      emoji: "🪵",
-      unit: "sq ft",
-      baseLow: 35, baseHigh: 65, min: 5000,
-      subQuestion: "Deck material?",
-      options: [
-        { label: "Pressure Treated", factor: 1.0 },
-        { label: "Composite (Trex)", factor: 1.9 },
-        { label: "PVC Luxury", factor: 2.4 }
-      ]
-    },
-
-    // --- DRYWALL ----------------------------------------------
-    "drywall": {
-      label: "Drywall Install / Repair",
-      emoji: "📐",
-      unit: "sq ft",
-      baseLow: 3.2, baseHigh: 6.5, min: 750,
-      subQuestion: "Scope?",
-      options: [
-        { label: "Minor Repairs", factor: 1.0 },
-        { label: "Full Install", factor: 1.6 },
-        { label: "Level 5 Finish", factor: 2.1 }
-      ]
-    },
-
-    // --- FLOORING ---------------------------------------------
-    "flooring": {
-      label: "Flooring Installation",
-      emoji: "🪚",
-      unit: "sq ft",
-      baseLow: 3.5, baseHigh: 9.5, min: 2500,
-      subQuestion: "Flooring type?",
-      options: [
-        { label: "Vinyl Plank", factor: 1.0 },
-        { label: "Tile", factor: 1.8 },
-        { label: "Hardwood", factor: 2.4 },
-        { label: "Laminate", factor: 1.2 }
-      ]
-    },
-
-    // --- POWER WASHING ----------------------------------------
-    "powerwash": {
-      label: "Power Washing",
-      emoji: "💦",
-      unit: "sq ft",
-      baseLow: 0.35, baseHigh: 0.85, min: 250
-    },
-
-    // --- GUTTERS ----------------------------------------------
-    "gutter": {
-      label: "Gutter Install",
-      emoji: "🩸",
-      unit: "linear ft",
-      baseLow: 15, baseHigh: 35, min: 1200,
-      subQuestion: "Type?",
-      options: [
-        { label: "Aluminum", factor: 1.0 },
-        { label: "Seamless", factor: 1.4 },
-        { label: "Copper", factor: 3.5 }
-      ]
-    },
-
-    // --- WINDOWS & DOORS --------------------------------------
-    "windows": {
-      label: "Windows Install",
-      emoji: "🪟",
-      unit: "fixed",
-      subQuestion: "Window type?",
-      options: [
-        { label: "Standard Vinyl", fixedLow: 550, fixedHigh: 850 },
-        { label: "Double Hung Premium", fixedLow: 850, fixedHigh: 1400 },
-        { label: "Bay/Bow Window", fixedLow: 3500, fixedHigh: 6500 }
-      ]
-    },
-
-    "doors": {
-      label: "Door Installation",
-      emoji: "🚪",
-      unit: "fixed",
-      subQuestion: "Door type?",
-      options: [
-        { label: "Interior", fixedLow: 250, fixedHigh: 550 },
-        { label: "Exterior Steel / Fiberglass", fixedLow: 950, fixedHigh: 1800 },
-        { label: "Sliding Patio", fixedLow: 2200, fixedHigh: 4200 }
-      ]
-    },
-
-    // --- DEMOLITION -------------------------------------------
-    "demo": {
-      label: "Demolition",
-      emoji: "💥",
-      unit: "sq ft",
-      baseLow: 3.0, baseHigh: 7.5, min: 900,
-      subQuestion: "Material?",
-      leadSensitive: true,
-      options: [
-        { label: "Drywall", factor: 1.0 },
-        { label: "Tile / Bathroom Demo", factor: 1.8 },
-        { label: "Concrete Demo", factor: 2.4 }
-      ]
-    },
-
-    // --- RETAINING WALL ---------------------------------------
-    "retaining": {
-      label: "Retaining Wall",
-      emoji: "🧱",
-      unit: "linear ft",
-      baseLow: 60, baseHigh: 140, min: 5500,
-      subQuestion: "Material?",
-      options: [
-        { label: "CMU Block", factor: 1.0 },
-        { label: "Poured Concrete", factor: 1.7 },
-        { label: "Stone Veneer", factor: 2.3 }
-      ]
-    },
-
-    // --- HANDYMAN ---------------------------------------------
-    "handyman": {
-      label: "Small Repairs / Handyman",
-      emoji: "🛠",
-      unit: "consult"
-    },
-
-    // --- KITCHEN / BATH (FIXED) -------------------------------
-    "kitchen": {
-      label: "Kitchen Remodel",
-      emoji: "🍳",
-      unit: "fixed",
-      subQuestion: "What is the scope?",
-      options: [
-        { label: "Refresh (Cosmetic)", fixedLow: 18000, fixedHigh: 30000 },
-        { label: "Mid-Range (Cabinets+)", fixedLow: 30000, fixedHigh: 55000 },
-        { label: "Full Gut / Luxury", fixedLow: 55000, fixedHigh: 110000 }
-      ],
-      leadSensitive: true
-    },
-
-    "bathroom": {
-      label: "Bathroom Remodel",
-      emoji: "🚿",
-      unit: "fixed",
-      subQuestion: "What is the scope?",
-      options: [
-        { label: "Update (Fixtures/Tile)", fixedLow: 14000, fixedHigh: 24000 },
-        { label: "Full Gut / Redo", fixedLow: 24000, fixedHigh: 45000 }
-      ],
-      leadSensitive: true
-    },
-
-    "other": {
-      label: "Other / Custom",
-      emoji: "📋",
-      unit: "consult"
     }
   };
 
-  // --- STATE --------------------------------------------------
+  // Map of keywords -> service (AI-ish detection)
+  const AI_SERVICE_KEYWORDS = {
+    masonry: ["brick", "blocks", "steps", "stoop", "pavers", "concrete", "sidewalk", "cement", "walkway", "curb"],
+    painting: ["paint", "painting", "peeling", "color", "primer", "wall color", "stain on wall"],
+    remodeling: ["kitchen", "bathroom", "remodel", "renovation", "gut", "shower", "tile walls", "vanity"],
+    flooring: ["flooring", "laminate", "vinyl", "hardwood", "engineered", "lvp"],
+    landscaping: ["grass", "lawn", "mulch", "hedge", "yard", "bush", "cleanup", "landscape"]
+  };
+
+  // Simple spam / bot detection keywords
+  const SPAM_KEYWORDS = ["viagra", "crypto", "casino", "betting", "adult link"];
+
+  // ----------------------------
+  // 1. GLOBAL STATE
+  // ----------------------------
+
   const state = {
-    step: 0,
-    serviceKey: null,
-    subOption: null,
-    size: 0,
-    borough: null,
-    isLeadHome: false,
-    pricingMode: "full",   // full | labor | materials
-    isRush: false,
-    promoCode: "",
-    name: "",
-    phone: "",
-    projects: []           // list of estimate objects
+    step: "greeting",
+    lang: "en",
+    privacyMode: false,
+    humanMode: false,
+    sizeWizard: {
+      active: false,
+      length: null,
+      width: null
+    },
+    project: {
+      serviceKey: null,
+      borough: null,
+      zip: null,
+      sizeSqFt: null,
+      rush: null,
+      budgetLevel: null,
+      notesRaw: "",
+      notesClean: "",
+      tieredEstimate: null,
+      priceConfidence: 0,
+      roiNote: "",
+      breakdown: null
+    },
+    contact: {
+      name: "",
+      phone: "",
+      email: ""
+    },
+    meta: {
+      timestamp: null,
+      timeOfDayLabel: "",
+      seasonLabel: "",
+      urgencyCopy: "",
+      progress: 0,
+      leadScore: 0,
+      spamScore: 0
+    },
+    photos: [], // {name, size, previewUrl, base64}
+    leadMagnetOptIn: false
   };
 
-  let els = {};
+  // cached DOM
+  const els = {
+    messages: null,
+    form: null,
+    input: null,
+    photos: null,
+    progress: null,
+    resetBtn: null
+  };
 
-  // --- INIT ---------------------------------------------------
+  // ----------------------------
+  // 2. STORAGE HELPERS
+  // ----------------------------
 
-  function init() {
-    console.log("HB Chat: Initializing v3.3...");
-    createInterface();
-
-    if (sessionStorage.getItem("hb_chat_active") === "true") {
-      toggleChat();
+  function saveNonPII() {
+    try {
+      const payload = {
+        project: state.project,
+        meta: state.meta,
+        photosMeta: state.photos.map(p => ({ name: p.name, size: p.size }))
+      };
+      localStorage.setItem("hb_hammer_estimator_project", JSON.stringify(payload));
+    } catch (e) {
+      console.warn("Failed to save non-PII state:", e);
     }
   }
 
-  function createInterface() {
-    // FAB
-    const fab = document.createElement("div");
-    fab.className = "hb-chat-fab";
-    fab.innerHTML = `<span class="hb-fab-icon">📷</span><span class="hb-fab-text">Get Quote</span>`;
-    fab.style.display = "flex";
-    fab.onclick = toggleChat;
-    document.body.appendChild(fab);
-
-    // Chat wrapper
-    const wrapper = document.createElement("div");
-    wrapper.className = "hb-chat-wrapper";
-    wrapper.innerHTML = `
-      <div class="hb-chat-header">
-        <div class="hb-chat-title">
-          <h3>Hammer Brick & Home</h3>
-          <span>AI Estimator</span>
-        </div>
-        <button class="hb-chat-close">×</button>
-      </div>
-      <div class="hb-progress-container">
-        <div class="hb-progress-bar" id="hb-prog"></div>
-      </div>
-      <div class="hb-chat-body" id="hb-body"></div>
-      <div class="hb-chat-footer">
-        <input type="text" class="hb-chat-input" id="hb-input" placeholder="Select an option above..." disabled>
-        <button class="hb-chat-send" id="hb-send">➤</button>
-      </div>
-    `;
-    document.body.appendChild(wrapper);
-
-    // Hidden photo input
-    const photoInput = document.createElement("input");
-    photoInput.type = "file";
-    photoInput.accept = "image/*";
-    photoInput.multiple = true;
-    photoInput.style.display = "none";
-    photoInput.id = "hb-photo-input";
-    document.body.appendChild(photoInput);
-
-    // Cache elements
-    els = {
-      wrapper,
-      fab,
-      body: document.getElementById("hb-body"),
-      input: document.getElementById("hb-input"),
-      send: document.getElementById("hb-send"),
-      prog: document.getElementById("hb-prog"),
-      close: wrapper.querySelector(".hb-chat-close"),
-      photoInput
-    };
-
-    // Events
-    els.close.onclick = toggleChat;
-    els.send.onclick = handleManualInput;
-    els.input.addEventListener("keypress", function(e) {
-      if (e.key === "Enter") handleManualInput();
-    });
-
-    photoInput.addEventListener("change", function() {
-      if (!photoInput.files || !photoInput.files.length) return;
-      addBotMessage(`📷 You selected ${photoInput.files.length} photo(s). Please attach these when you text or email us.`);
-    });
-
-    // Kick off conversation
-    addBotMessage("👋 Hi! I can generate a ballpark estimate for your project instantly.");
-    setTimeout(function() {
-      addBotMessage("What type of project are you planning?");
-      presentServiceOptions();
-    }, 800);
-  }
-
-  function toggleChat() {
-    const isOpen = els.wrapper.classList.toggle("hb-open");
-    if (isOpen) {
-      els.fab.style.display = "none";
-      sessionStorage.setItem("hb_chat_active", "true");
-    } else {
-      els.fab.style.display = "flex";
-      sessionStorage.removeItem("hb_chat_active");
+  function loadNonPII() {
+    try {
+      const raw = localStorage.getItem("hb_hammer_estimator_project");
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (parsed.project) Object.assign(state.project, parsed.project);
+      if (parsed.meta) Object.assign(state.meta, parsed.meta);
+    } catch (e) {
+      console.warn("Failed to load non-PII state:", e);
     }
   }
 
-  function updateProgress(pct) {
-    if (els.prog) els.prog.style.width = pct + "%";
+  function saveContact() {
+    if (state.privacyMode) return;
+    try {
+      sessionStorage.setItem("hb_hammer_estimator_contact", JSON.stringify(state.contact));
+    } catch (e) {
+      console.warn("Failed to save contact:", e);
+    }
   }
 
-  // --- MESSAGING ---------------------------------------------
+  function loadContact() {
+    try {
+      const raw = sessionStorage.getItem("hb_hammer_estimator_contact");
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      Object.assign(state.contact, parsed);
+    } catch (e) {
+      console.warn("Failed to load contact:", e);
+    }
+  }
 
-  function addBotMessage(text, isHtml) {
-    const typingId = "typing-" + Date.now();
-    const typingDiv = document.createElement("div");
-    typingDiv.className = "hb-msg hb-msg-bot";
-    typingDiv.id = typingId;
-    typingDiv.innerHTML = `
-      <div class="hb-typing-dots">
-        <div class="hb-dot"></div>
-        <div class="hb-dot"></div>
-        <div class="hb-dot"></div>
-      </div>`;
-    els.body.appendChild(typingDiv);
-    els.body.scrollTop = els.body.scrollHeight;
+  function clearAllStorage() {
+    try {
+      localStorage.removeItem("hb_hammer_estimator_project");
+      sessionStorage.removeItem("hb_hammer_estimator_contact");
+    } catch (e) {
+      console.warn("Failed to clear storage:", e);
+    }
+  }
 
-    const delay = Math.min(1500, text.length * 20 + 500);
+  // ----------------------------
+  // 3. DOM / UI HELPERS
+  // ----------------------------
 
-    setTimeout(function() {
-      const msgBubble = document.getElementById(typingId);
-      if (msgBubble) {
-        if (isHtml) {
-          msgBubble.innerHTML = text;
-        } else {
-          msgBubble.textContent = text;
-        }
-        els.body.scrollTop = els.body.scrollHeight;
+  function cacheDOM() {
+    els.messages = document.querySelector("#chat-messages");
+    els.form = document.querySelector("#chat-form");
+    els.input = document.querySelector("#chat-input");
+    els.photos = document.querySelector("#chat-photos");
+    els.progress = document.querySelector("#chat-progress");
+    els.resetBtn = document.querySelector("#chat-reset-btn"); // optional
+  }
+
+  function ensureStylesInjected() {
+    if (document.getElementById("hb-estimator-inline-style")) return;
+    const style = document.createElement("style");
+    style.id = "hb-estimator-inline-style";
+    style.textContent = `
+      .hb-msg { margin: 8px 0; font-size: 14px; line-height: 1.4; }
+      .hb-msg.bot { text-align: left; }
+      .hb-msg.user { text-align: right; }
+      .hb-bubble {
+        display: inline-block;
+        padding: 10px 12px;
+        border-radius: 14px;
+        max-width: 90%;
       }
+      .hb-msg.bot .hb-bubble {
+        background: rgba(10,18,32,0.9);
+        color: #f7f7f7;
+        border: 1px solid rgba(231,191,99,0.25);
+      }
+      .hb-msg.user .hb-bubble {
+        background: #e7bf63;
+        color: #05090f;
+        border: 1px solid rgba(0,0,0,0.5);
+      }
+      .hb-ballpark-card {
+        background: radial-gradient(circle at top left, #111a2d, #050812);
+        color: #ffffff;
+        border-radius: 18px;
+        padding: 14px 16px;
+        border: 1px solid rgba(231,191,99,0.4);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        margin-top: 6px;
+      }
+      .hb-ballpark-card h4 { margin: 0 0 4px 0; font-size: 15px; }
+      .hb-ballpark-card .tiers { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+      .hb-ballpark-card .tier {
+        border-radius: 12px;
+        padding: 4px 8px;
+        border: 1px solid rgba(231,191,99,0.4);
+        font-size: 12px;
+      }
+      .hb-disclaimer {
+        color: #ff5555;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+      .hb-progress-bar {
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.07);
+        overflow: hidden;
+      }
+      .hb-progress-value {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #e7bf63, #f5d89b);
+        transition: width 0.25s ease;
+      }
+      .hb-photo-thumb {
+        max-width: 90px;
+        max-height: 90px;
+        border-radius: 10px;
+        object-fit: cover;
+        margin-right: 4px;
+        border: 1px solid rgba(231,191,99,0.6);
+      }
+      .hb-tag {
+        display: inline-block;
+        padding: 3px 7px;
+        border-radius: 999px;
+        border: 1px solid rgba(231,191,99,0.5);
+        font-size: 11px;
+        margin-right: 4px;
+        margin-top: 2px;
+        opacity: 0.9;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function createProgressBarIfNeeded() {
+    if (els.progress && els.progress.querySelector(".hb-progress-bar")) return;
+    if (!els.progress) return;
+    const bar = document.createElement("div");
+    bar.className = "hb-progress-bar";
+    const inner = document.createElement("div");
+    inner.className = "hb-progress-value";
+    bar.appendChild(inner);
+    els.progress.appendChild(bar);
+  }
+
+  function setProgress(pct) {
+    state.meta.progress = pct;
+    const inner = els.progress && els.progress.querySelector(".hb-progress-value");
+    if (inner) inner.style.width = Math.min(100, Math.max(0, pct)) + "%";
+  }
+
+  // Typing delay: 10ms per char, max 1000ms
+  function getTypingDelayFor(text) {
+    const base = Math.min(1000, text.length * 10);
+    return base;
+  }
+
+  function scrollToBottom() {
+    if (!els.messages) return;
+    els.messages.scrollTop = els.messages.scrollHeight;
+  }
+
+  function addMessage(opts) {
+    // opts: { text, html, from: 'bot' | 'user', extraClass }
+    if (!els.messages) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "hb-msg " + (opts.from || "bot") + (opts.extraClass ? " " + opts.extraClass : "");
+    const bubble = document.createElement("div");
+    bubble.className = "hb-bubble";
+    if (opts.html) bubble.innerHTML = opts.html;
+    else bubble.textContent = opts.text || "";
+    wrapper.appendChild(bubble);
+    els.messages.appendChild(wrapper);
+    scrollToBottom();
+  }
+
+  function addBotMessage(textOrHtml, { html = false, extraClass = "" } = {}) {
+    const delay = getTypingDelayFor(
+      typeof textOrHtml === "string" ? textOrHtml : (textOrHtml || "")
+    );
+    setTimeout(() => {
+      addMessage({
+        from: "bot",
+        text: html ? "" : textOrHtml,
+        html: html ? textOrHtml : null,
+        extraClass
+      });
     }, delay);
   }
 
   function addUserMessage(text) {
-    const div = document.createElement("div");
-    div.className = "hb-msg hb-msg-user";
-    div.textContent = text;
-    els.body.appendChild(div);
-    els.body.scrollTop = els.body.scrollHeight;
+    addMessage({ from: "user", text });
   }
 
-  function addChoices(options, callback) {
-    setTimeout(function() {
-      const chipContainer = document.createElement("div");
-      chipContainer.className = "hb-chips";
-
-      options.forEach(function(opt) {
+  function attachResetButton() {
+    if (!els.resetBtn) {
+      // Try to find one or create minimal one
+      const header = document.querySelector("#chat-header");
+      if (header) {
         const btn = document.createElement("button");
-        btn.className = "hb-chip";
-        const label = (typeof opt === "object") ? opt.label : opt;
-        btn.textContent = label;
-        btn.onclick = function() {
-          chipContainer.remove();
-          addUserMessage(label);
-          callback(opt);
-        };
-        chipContainer.appendChild(btn);
+        btn.type = "button";
+        btn.id = "chat-reset-btn";
+        btn.textContent = "🔄";
+        btn.style.marginLeft = "auto";
+        btn.style.background = "transparent";
+        btn.style.border = "none";
+        btn.style.cursor = "pointer";
+        btn.title = "Reset estimator";
+        header.appendChild(btn);
+        els.resetBtn = btn;
+      }
+    }
+    if (els.resetBtn) {
+      els.resetBtn.addEventListener("click", () => {
+        clearAllStorage();
+        window.location.reload();
       });
-
-      els.body.appendChild(chipContainer);
-      els.body.scrollTop = els.body.scrollHeight;
-    }, 1600);
-  }
-
-  // --- FLOW: SERVICE -> SUB OPTIONS --------------------------
-
-  function presentServiceOptions() {
-    updateProgress(10);
-    const opts = Object.keys(SERVICES).map(function(k) {
-      return { label: SERVICES[k].emoji + " " + SERVICES[k].label, key: k };
-    });
-
-    addChoices(opts, function(selection) {
-      state.serviceKey = selection.key;
-      state.subOption = null;
-      stepTwo_SubQuestions();
-    });
-  }
-
-  function stepTwo_SubQuestions() {
-    updateProgress(30);
-    const svc = SERVICES[state.serviceKey];
-    if (!svc) return;
-
-    if (svc.subQuestion && svc.options) {
-      addBotMessage(svc.subQuestion);
-      addChoices(svc.options, function(choice) {
-        state.subOption = choice;
-        stepThree_LeadCheck();
-      });
-    } else if (state.serviceKey === "other") {
-      stepFive_Location();
-    } else {
-      state.subOption = { factor: 1.0, label: "Standard" };
-      stepThree_LeadCheck();
     }
   }
 
-  function stepThree_LeadCheck() {
-    const svc = SERVICES[state.serviceKey];
-    if (svc && svc.leadSensitive) {
-      addBotMessage("Is your property built before 1978? (Required for lead safety laws).");
-      addChoices(["Yes (Pre-1978)", "No / Not Sure"], function(ans) {
-        const val = (typeof ans === "string") ? ans : ans.label;
-        state.isLeadHome = !!(val && val.indexOf("Yes") !== -1);
-        stepFour_Size();
+  // ----------------------------
+  // 4. AI PROJECT DETECTION & CLEANING
+  // ----------------------------
+
+  function detectServiceFromText(text) {
+    const txt = (text || "").toLowerCase();
+    let bestKey = null;
+    let bestHits = 0;
+    for (const key in AI_SERVICE_KEYWORDS) {
+      const list = AI_SERVICE_KEYWORDS[key];
+      let hits = 0;
+      list.forEach((word) => {
+        if (txt.includes(word)) hits++;
       });
-    } else {
-      stepFour_Size();
+      if (hits > bestHits) {
+        bestHits = hits;
+        bestKey = key;
+      }
+    }
+    return bestKey;
+  }
+
+  function sanitizeNotes(raw) {
+    if (!raw) return "";
+    let txt = raw.replace(/\s+/g, " ").trim();
+    SPAM_KEYWORDS.forEach((bad) => {
+      const re = new RegExp(bad, "gi");
+      txt = txt.replace(re, "***");
+    });
+    return txt;
+  }
+
+  // AI-ish rewrite to clean description for email / scope
+  function rewriteDescriptionForScope(raw) {
+    if (!raw) return "";
+    let s = sanitizeNotes(raw);
+    // simple "AI style" cleanup
+    s = s.replace(/\bi\b/g, "I");
+    if (!/[.!?]$/.test(s)) s += ".";
+    return s;
+  }
+
+  // ----------------------------
+  // 5. SIZE WIZARD & MEASUREMENTS
+  // ----------------------------
+
+  function startSizeWizard() {
+    state.sizeWizard.active = true;
+    state.sizeWizard.length = null;
+    state.sizeWizard.width = null;
+    state.step = "sizeWizard_length";
+    addBotMessage("No problem. Let’s estimate size together. Roughly how many feet is the **length** of the area?", { html: true });
+  }
+
+  function handleSizeWizardInput(userText) {
+    const value = parseFloat(userText);
+    if (isNaN(value) || value <= 0) {
+      addBotMessage("Please enter a number in feet (e.g. 20).");
+      return;
+    }
+    if (state.step === "sizeWizard_length") {
+      state.sizeWizard.length = value;
+      state.step = "sizeWizard_width";
+      addBotMessage("Got it. And the **width** in feet?", { html: true });
+    } else if (state.step === "sizeWizard_width") {
+      state.sizeWizard.width = value;
+      const sqf = Math.round(state.sizeWizard.length * state.sizeWizard.width);
+      state.project.sizeSqFt = sqf;
+      state.sizeWizard.active = false;
+      state.step = "borough";
+      addBotMessage(`That’s about **${sqf} sq ft**.`, { html: true });
+      askBorough();
+      saveNonPII();
     }
   }
 
-  // --- SIZE STEP (SKIPS FIXED / CONSULT) ---------------------
+  // ----------------------------
+  // 6. PRICING, TIERED ESTIMATE, CONFIDENCE, UPSPELLS
+  // ----------------------------
 
-  function stepFour_Size() {
-    updateProgress(50);
-    const svc = SERVICES[state.serviceKey];
-    if (!svc) return;
+  function basePriceForService(serviceKey) {
+    const cfg = SERVICES[serviceKey];
+    if (!cfg) return 0;
+    const base = cfg.base || 0;
+    const per = cfg.perSqFt || 0;
+    const sqf = state.project.sizeSqFt || 0;
+    return base + per * sqf;
+  }
 
-    // Skip size step for fixed-price or consultation services
-    if (svc.unit === "fixed" || svc.unit === "consult" || state.serviceKey === "other") {
-      stepFive_Location();
+  function boroughMultiplier() {
+    const b = state.project.borough;
+    return BOROUGH_MODS[b] || 1;
+  }
+
+  function difficultyMultiplier() {
+    // Very simple: remodeling > masonry > others
+    const key = state.project.serviceKey;
+    if (key === "remodeling") return 1.4;
+    if (key === "masonry") return 1.2;
+    return 1.0;
+  }
+
+  function rushMultiplier() {
+    const rush = state.project.rush;
+    if (rush === "same-day") return 1.35;
+    if (rush === "24hr") return 1.2;
+    return 1.0;
+  }
+
+  function discountMultiplier() {
+    const promo = (state.project.promoCode || "").toUpperCase();
+    if (DISCOUNTS[promo]) {
+      return 1 - DISCOUNTS[promo];
+    }
+    return 1;
+  }
+
+  function calculateEstimate() {
+    const base = basePriceForService(state.project.serviceKey);
+    let price = base;
+    price *= boroughMultiplier();
+    price *= difficultyMultiplier();
+    price *= rushMultiplier();
+    price *= discountMultiplier();
+    const rounded = Math.round(price);
+
+    const tiers = buildTieredPricing(rounded);
+    const breakdown = {
+      base,
+      boroughMult: boroughMultiplier(),
+      difficultyMult: difficultyMultiplier(),
+      rushMult: rushMultiplier(),
+      discountMult: discountMultiplier(),
+      final: rounded,
+      tiers
+    };
+
+    state.project.tieredEstimate = tiers;
+    state.project.breakdown = breakdown;
+    state.project.priceConfidence = estimateConfidenceScore();
+    const svc = SERVICES[state.project.serviceKey];
+    state.project.roiNote = svc ? svc.roi : "";
+    return breakdown;
+  }
+
+  function buildTieredPricing(base) {
+    return {
+      basic: Math.round(base * 0.85),
+      standard: Math.round(base),
+      premium: Math.round(base * 1.25)
+    };
+  }
+
+  function estimateConfidenceScore() {
+    let score = 60;
+    if (state.project.sizeSqFt) score += 10;
+    if (state.photos.length > 0) score += 10;
+    if (state.project.borough) score += 5;
+    if (state.project.notesClean.length > 30) score += 5;
+    return Math.min(100, score);
+  }
+
+  function suggestUpsells() {
+    const key = state.project.serviceKey;
+    const svc = SERVICES[key];
+    if (!svc) return [];
+    return svc.related || [];
+  }
+
+  // ROI message for remodeling etc.
+  function getROIMessage() {
+    const svc = SERVICES[state.project.serviceKey];
+    if (!svc || !svc.roi) return "";
+    if (state.project.serviceKey === "remodeling") {
+      return "Typical ROI on a NYC kitchen or bathroom remodel is often in the 57–73% range at resale.";
+    }
+    return svc.roi;
+  }
+
+  // ----------------------------
+  // 7. LEAD SCORING & URGENCY
+  // ----------------------------
+
+  function computeLeadScore() {
+    let score = 50;
+    const proj = state.project;
+
+    // Borough
+    if (proj.borough === "Manhattan") score += 10;
+    if (proj.borough === "Brooklyn") score += 5;
+
+    // Rush
+    if (proj.rush === "same-day") score += 20;
+    if (proj.rush === "24hr") score += 10;
+
+    // Job type
+    if (proj.serviceKey === "remodeling") score += 15;
+    if (proj.serviceKey === "masonry") score += 10;
+
+    // Photos
+    if (state.photos.length >= 3) score += 10;
+
+    // Budget (user-chosen)
+    if (proj.budgetLevel === "high") score += 20;
+    if (proj.budgetLevel === "medium") score += 10;
+
+    // Spam penalty
+    score -= state.meta.spamScore || 0;
+
+    state.meta.leadScore = Math.max(0, Math.min(100, score));
+    return state.meta.leadScore;
+  }
+
+  function computeUrgencyCopy() {
+    const hour = new Date().getHours();
+    let msg = "";
+
+    if (hour >= 20 || hour < 7) {
+      msg = "Our office is closed right now, but I’ll flag this for **priority review** tomorrow morning.";
+    } else {
+      msg = "We still have a few openings — we’ll review this and contact you as soon as possible.";
+    }
+
+    // “ethical urgency”
+    if (state.project.serviceKey === "masonry" || state.project.serviceKey === "concrete") {
+      msg += " Concrete and exterior work can book out quickly as weather allows, so locking a slot early helps.";
+    }
+
+    state.meta.urgencyCopy = msg;
+    return msg;
+  }
+
+  // ----------------------------
+  // 8. TIME / SEASONAL LOGIC
+  // ----------------------------
+
+  function computeTimeAndSeasonMeta() {
+    const now = new Date();
+    state.meta.timestamp = now.toISOString();
+    const hour = now.getHours();
+    if (hour < 12) state.meta.timeOfDayLabel = "morning";
+    else if (hour < 18) state.meta.timeOfDayLabel = "afternoon";
+    else state.meta.timeOfDayLabel = "evening";
+
+    const month = now.getMonth() + 1;
+    if ([12,1,2].includes(month)) state.meta.seasonLabel = "winter";
+    else if ([3,4,5].includes(month)) state.meta.seasonLabel = "spring";
+    else if ([6,7,8].includes(month)) state.meta.seasonLabel = "summer";
+    else state.meta.seasonLabel = "fall";
+  }
+
+  function seasonalNote() {
+    const s = state.meta.seasonLabel;
+    const key = state.project.serviceKey;
+    if (!s) return "";
+    if (["winter"].includes(s) && (key === "masonry" || key === "concrete")) {
+      return "Note: exterior concrete and masonry are **weather-dependent** in colder months. We can still plan and reserve a Spring or weather-window slot.";
+    }
+    if (["spring", "summer"].includes(s) && key === "landscaping") {
+      return "Spring and summer bookings fill quickly for exterior and landscaping work — pre-booking helps lock your preferred dates.";
+    }
+    return "";
+  }
+
+  // ----------------------------
+  // 9. PHOTO HANDLING (PREVIEW + BASE64 FOR CRM)
+  // ----------------------------
+
+  function handlePhotoInputChange(files) {
+    if (!files || !files.length) return;
+    const arr = Array.from(files);
+    const remainingSlots = MAX_PHOTOS - state.photos.length;
+    if (remainingSlots <= 0) {
+      addBotMessage(`You already attached ${MAX_PHOTOS} photos. That’s enough for now.`);
       return;
     }
 
-    addBotMessage("Approximate size in " + svc.unit + "?");
-
-    function askSize() {
-      enableInput(function(val) {
-        const num = parseInt(val.replace(/[^0-9]/g, ""), 10);
-        if (!num || num < 10) {
-          addBotMessage("That number seems low. Please enter a valid number (e.g. 500).");
-          askSize();
-        } else {
-          state.size = num;
-          stepFive_Location();
-        }
-      });
-    }
-
-    askSize();
-  }
-
-  // --- LOCATION ----------------------------------------------
-
-  function stepFive_Location() {
-    updateProgress(70);
-    addBotMessage("Which borough/area is this in?");
-    const locs = Object.keys(BOROUGH_MODS);
-
-    addChoices(locs, function(loc) {
-      const val = (typeof loc === "string") ? loc : loc.label;
-      state.borough = val;
-      stepSix_PricingMode();
-    });
-  }
-
-  // --- PRICING MODE (FULL / LABOR / MATERIALS) ---------------
-
-  function stepSix_PricingMode() {
-    updateProgress(78);
-    addBotMessage("How should we price this?");
-
-    const opts = [
-      { label: "Full Project (Labor + Materials)", key: "full" },
-      { label: "Labor Only", key: "labor" },
-      { label: "Materials + Light Help", key: "materials" }
-    ];
-
-    addChoices(opts, function(choice) {
-      state.pricingMode = choice.key || "full";
-      stepSeven_Rush();
-    });
-  }
-
-  // --- RUSH --------------------------------------------------
-
-  function stepSeven_Rush() {
-    updateProgress(82);
-    addBotMessage("Is this a rush project (starting within 72 hours)?");
-
-    addChoices(["Yes, rush", "No"], function(ans) {
-      const val = (typeof ans === "string") ? ans : ans.label;
-      state.isRush = !!(val && val.indexOf("Yes") !== -1);
-      stepEight_Promo();
-    });
-  }
-
-  // --- PROMO CODE --------------------------------------------
-
-  function stepEight_Promo() {
-    updateProgress(86);
-    addBotMessage("Any promo code today? If not, tap 'No Code'.");
-
-    const opts = [
-      { label: "No Code", code: "" },
-      { label: "VIP10", code: "VIP10" },
-      { label: "REFERRAL5", code: "REFERRAL5" }
-    ];
-
-    addChoices(opts, function(choice) {
-      state.promoCode = choice.code || "";
-      const est = computeEstimateForCurrent();
-      showEstimateAndAskAnother(est);
-    });
-  }
-
-  // --- CALCULATION ENGINE ------------------------------------
-
-  function applyPriceModifiers(low, high) {
-    // Pricing mode
-    var factor = 1;
-    if (state.pricingMode === "labor") {
-      factor = 0.7;
-    } else if (state.pricingMode === "materials") {
-      factor = 0.5;
-    }
-    low *= factor;
-    high *= factor;
-
-    // Rush surcharge
-    if (state.isRush) {
-      low *= 1.12;
-      high *= 1.18;
-    }
-
-    // Promo discount
-    var dc = 0;
-    if (state.promoCode) {
-      var rate = DISCOUNTS[state.promoCode.toUpperCase()];
-      if (rate) dc = rate;
-    }
-    if (dc > 0) {
-      low *= (1 - dc);
-      high *= (1 - dc);
-    }
-
-    return { low: low, high: high, discountRate: dc };
-  }
-
-  function computeEstimateForCurrent() {
-    var svc = SERVICES[state.serviceKey];
-    if (!svc) return null;
-
-    var sub = state.subOption || {};
-    var mod = BOROUGH_MODS[state.borough] || 1.0;
-    var low = 0;
-    var high = 0;
-
-    // Custom/consult jobs: no auto price
-    if (state.serviceKey === "other" || svc.unit === "consult") {
-      return {
-        svc: svc,
-        sub: sub,
-        borough: state.borough,
-        size: null,
-        isLeadHome: state.isLeadHome,
-        pricingMode: state.pricingMode,
-        isRush: state.isRush,
-        promoCode: state.promoCode,
-        low: 0,
-        high: 0,
-        discountRate: 0,
-        isCustom: true
+    const toUse = arr.slice(0, remainingSlots);
+    toUse.forEach((file) => {
+      if (file.size > MAX_PHOTO_SIZE_BYTES) {
+        addBotMessage(`One photo (${file.name}) is over 100KB. I’ll skip that to keep things stable.`);
+        return;
+      }
+      const photo = {
+        name: file.name,
+        size: file.size,
+        previewUrl: URL.createObjectURL(file),
+        base64: null
       };
-    }
-
-    if (svc.unit === "fixed") {
-      low = (sub.fixedLow || 0) * mod;
-      high = (sub.fixedHigh || 0) * mod;
-    } else {
-      var rateLow = svc.baseLow;
-      var rateHigh = svc.baseHigh;
-
-      if (sub.factor) {
-        rateLow *= sub.factor;
-        rateHigh *= sub.factor;
-      }
-
-      low = rateLow * state.size * mod;
-      high = rateHigh * state.size * mod;
-
-      if (svc.min && low < svc.min) low = svc.min;
-      if (svc.min && high < svc.min * 1.2) high = svc.min * 1.25;
-    }
-
-    // Lead safety bump
-    if (state.isLeadHome) {
-      low *= 1.10;
-      high *= 1.10;
-    }
-
-    var adjusted = applyPriceModifiers(low, high);
-
-    return {
-      svc: svc,
-      sub: sub,
-      borough: state.borough,
-      size: (svc.unit === "fixed" || svc.unit === "consult") ? null : state.size,
-      isLeadHome: state.isLeadHome,
-      pricingMode: state.pricingMode,
-      isRush: state.isRush,
-      promoCode: state.promoCode,
-      low: adjusted.low,
-      high: adjusted.high,
-      discountRate: adjusted.discountRate,
-      isCustom: false
-    };
-  }
-
-  function buildEstimateHtml(est) {
-    var svc = est.svc;
-    var sub = est.sub || {};
-    var hasPrice = !!(est.low && est.high);
-    var fLow = hasPrice ? Math.round(est.low).toLocaleString() : null;
-    var fHigh = hasPrice ? Math.round(est.high).toLocaleString() : null;
-
-    var discountLine = "";
-    if (est.discountRate && est.discountRate > 0) {
-      discountLine =
-        '<div class="hb-receipt-row"><span>Promo:</span><span>-' +
-        Math.round(est.discountRate * 100) +
-        '% applied</span></div>';
-    }
-
-    var rushLine = "";
-    if (est.isRush) {
-      rushLine =
-        '<div class="hb-receipt-row"><span>Rush:</span><span>Priority scheduling included</span></div>';
-    }
-
-    var modeLabel = "Full (Labor + Materials)";
-    if (est.pricingMode === "labor") modeLabel = "Labor Only";
-    if (est.pricingMode === "materials") modeLabel = "Materials + Light Help";
-
-    var sizeRow = "";
-    if (est.size) {
-      sizeRow =
-        '<div class="hb-receipt-row"><span>Size:</span><span>' +
-        est.size +
-        " " +
-        svc.unit +
-        "</span></div>";
-    }
-
-    var leadRow = "";
-    if (est.isLeadHome) {
-      leadRow =
-        '<div class="hb-receipt-row" style="color:#d55"><span>Lead Safety:</span><span>Included</span></div>';
-    }
-
-    var priceRow = "";
-    if (hasPrice) {
-      priceRow =
-        '<div class="hb-receipt-total"><span>ESTIMATE:</span><span>$' +
-        fLow +
-        " – $" +
-        fHigh +
-        "</span></div>";
-    } else {
-      priceRow =
-        '<div class="hb-receipt-total"><span>ESTIMATE:</span><span>Requires on-site walkthrough</span></div>';
-    }
-
-    return (
-      '<div class="hb-receipt">' +
-        '<h4>Estimator Summary</h4>' +
-        '<div class="hb-receipt-row"><span>Service:</span><span>' +
-        svc.label +
-        "</span></div>" +
-        '<div class="hb-receipt-row"><span>Type:</span><span>' +
-        (sub.label || "Standard") +
-        "</span></div>" +
-        '<div class="hb-receipt-row"><span>Area:</span><span>' +
-        (est.borough || "N/A") +
-        "</span></div>" +
-        sizeRow +
-        '<div class="hb-receipt-row"><span>Pricing Mode:</span><span>' +
-        modeLabel +
-        "</span></div>" +
-        rushLine +
-        leadRow +
-        discountLine +
-        priceRow +
-        '<div class="hb-receipt-footer hb-disclaimer">' +
-          '<strong>Disclaimer:</strong> This tool provides an automated ballpark range only. ' +
-          'It is not a formal estimate, contract, or offer for services. Final pricing may change ' +
-          'based on site conditions, labor requirements, structural issues, materials selected, ' +
-          'permits, access limitations, and code compliance. A legally binding estimate is issued ' +
-          'only after an in-person walkthrough and a written agreement signed by both parties.' +
-        "</div>" +
-      "</div>"
-    );
-  }
-
-  function showEstimateAndAskAnother(est) {
-    if (!est) return;
-    updateProgress(90);
-
-    var html = buildEstimateHtml(est);
-    addBotMessage(html, true);
-
-    setTimeout(function() {
-      askAddAnother(est);
-    }, 1200);
-  }
-
-  function askAddAnother(est) {
-    state.projects.push(est);
-    updateProgress(92);
-
-    addBotMessage("Would you like to add another project to this estimate?");
-    addChoices(
-      [
-        { label: "➕ Add Another Project", key: "yes" },
-        { label: "No, continue", key: "no" }
-      ],
-      function(choice) {
-        var key =
-          choice.key ||
-          (choice.label && choice.label.indexOf("No") !== -1 ? "no" : "yes");
-        if (key === "yes") {
-          resetProjectState();
-          addBotMessage("Great! What type of project is the next one?");
-          presentServiceOptions();
-        } else {
-          showCombinedReceiptAndLeadCapture();
-        }
-      }
-    );
-  }
-
-  function showCombinedReceiptAndLeadCapture() {
-    updateProgress(96);
-    var projects = state.projects;
-    if (!projects || !projects.length) return;
-
-    var totalLow = 0;
-    var totalHigh = 0;
-
-    var rowsHtml = projects
-      .map(function(p, idx) {
-        var hasPrice = !!(p.low && p.high);
-        if (hasPrice) {
-          totalLow += p.low;
-          totalHigh += p.high;
-        }
-
-        var fLow = hasPrice ? Math.round(p.low).toLocaleString() : "Custom";
-        var fHigh = hasPrice ? Math.round(p.high).toLocaleString() : "Quote";
-        var sizePart = p.size ? " — " + p.size + " " + p.svc.unit : "";
-        var areaPart = p.borough ? " (" + p.borough + ")" : "";
-
-        return (
-          '<div class="hb-receipt-row">' +
-            "<span>#"+ (idx + 1) + " " + p.svc.label + sizePart + areaPart + "</span>" +
-            "<span>" +
-              (hasPrice ? "$" + fLow + " – $" + fHigh : "Walkthrough needed") +
-            "</span>" +
-          "</div>"
-        );
-      })
-      .join("");
-
-    var totalRow = "";
-    if (totalLow && totalHigh) {
-      totalRow =
-        '<div class="hb-receipt-total">' +
-          "<span>Combined Range:</span>" +
-          "<span>$" +
-          Math.round(totalLow).toLocaleString() +
-          " – $" +
-          Math.round(totalHigh).toLocaleString() +
-          "</span>" +
-        "</div>";
-    }
-
-    var html =
-      '<div class="hb-receipt">' +
-        "<h4>Combined Estimate Summary</h4>" +
-        rowsHtml +
-        totalRow +
-        '<div class="hb-receipt-footer">' +
-          "Ask about VIP Home Care memberships & referral rewards for extra savings." +
-        "</div>" +
-      "</div>";
-
-    addBotMessage(html, true);
-
-    setTimeout(function() {
-      showLeadCapture(
-        "To lock in this combined estimate, I can text or email you everything we just went over."
-      );
-    }, 1200);
-  }
-
-  function resetProjectState() {
-    state.serviceKey = null;
-    state.subOption = null;
-    state.size = 0;
-    state.borough = null;
-    state.isLeadHome = false;
-    state.pricingMode = "full";
-    state.isRush = false;
-    state.promoCode = "";
-  }
-
-  // --- LEAD CAPTURE & LINKS ----------------------------------
-
-  function showLeadCapture(introText) {
-    addBotMessage(introText);
-    addBotMessage("What is your name?");
-    enableInput(function(name) {
-      state.name = name;
-      addBotMessage("And your mobile number?");
-      enableInput(function(phone) {
-        state.phone = phone;
-        generateFinalLinks();
-      });
+      state.photos.push(photo);
+      renderPhotoPreview(photo);
+      // read base64 for webhook later
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        photo.base64 = e.target.result;
+      };
+      reader.readAsDataURL(file);
     });
+
+    saveNonPII();
   }
 
-  function generateFinalLinks() {
-    updateProgress(100);
+  function renderPhotoPreview(photo) {
+    if (!els.messages) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "hb-msg user";
+    const bubble = document.createElement("div");
+    bubble.className = "hb-bubble";
+    const img = document.createElement("img");
+    img.src = photo.previewUrl;
+    img.alt = photo.name;
+    img.className = "hb-photo-thumb";
+    bubble.textContent = "Uploaded photo: ";
+    bubble.appendChild(img);
+    wrapper.appendChild(bubble);
+    els.messages.appendChild(wrapper);
+    scrollToBottom();
+  }
 
-    var lines = [];
-    lines.push("Hello, I'm " + state.name + ".");
-    lines.push("Projects:");
+  // ----------------------------
+  // 10. EMAIL / SMS PAYLOAD + DISCLAIMER
+  // ----------------------------
 
-    if (state.projects && state.projects.length) {
-      state.projects.forEach(function(p, idx) {
-        var sizePart = p.size ? (" — " + p.size + " " + p.svc.unit) : "";
-        var areaPart = p.borough ? (" (" + p.borough + ")") : "";
+  function buildEmailSubject() {
+    const score = state.meta.leadScore || 0;
+    const svcLabel = SERVICES[state.project.serviceKey]?.label || "Project";
+    const urgencyFlag = score >= 70 ? "🔥 URGENT HIGH-VALUE LEAD" :
+                        score >= 50 ? "⭐ New Qualified Lead" :
+                        "New Estimate Request";
 
-        var line = (idx + 1) + ". " + p.svc.label + sizePart + areaPart;
+    return `${urgencyFlag}: ${svcLabel} in ${state.project.borough || "NYC"} — ${state.contact.name || "Unknown"}`;
+  }
 
-        if (p.low && p.high) {
-          var fLow = Math.round(p.low).toLocaleString();
-          var fHigh = Math.round(p.high).toLocaleString();
-          line += " — ~$" + fLow + "–$" + fHigh;
-        } else {
-          line += " (walkthrough needed)";
-        }
+  function buildEmailBody() {
+    const b = state.project.breakdown || {};
+    const tiers = state.project.tieredEstimate || {};
+    const ROI = getROIMessage();
+    const seasonal = seasonalNote();
+    const urgency = state.meta.urgencyCopy || computeUrgencyCopy();
+    const descClean = rewriteDescriptionForScope(state.project.notesRaw);
 
-        lines.push(line);
+    const disclaimerText =
+      "DISCLAIMER: This is a rough, non-binding ballpark estimate based on limited information. Final pricing requires an on-site visit, detailed scope, and written proposal.";
 
-        // Add extra detail line (mode, rush, promo, lead)
-        var modeLabel = "Full (Labor + Materials)";
-        if (p.pricingMode === "labor") modeLabel = "Labor Only";
-        if (p.pricingMode === "materials") modeLabel = "Materials + Light Help";
+    let body = "";
+    body += `Lead time: ${state.meta.timestamp}\n`;
+    body += `Name: ${state.contact.name || ""}\n`;
+    body += `Phone: ${state.contact.phone || ""}\n`;
+    body += `Email: ${state.contact.email || ""}\n\n`;
 
-        var extras = [modeLabel];
-        if (p.isRush) extras.push("Rush scheduling");
-        if (p.promoCode) extras.push("Promo: " + p.promoCode.toUpperCase());
-        if (p.isLeadHome) extras.push("Lead-safe methods");
+    body += `Service: ${SERVICES[state.project.serviceKey]?.label || ""}\n`;
+    body += `Borough / ZIP: ${state.project.borough || ""} ${state.project.zip || ""}\n`;
+    body += `Approx. Size: ${state.project.sizeSqFt || "N/A"} sq ft\n`;
+    body += `Rush Level: ${state.project.rush || "Standard"}\n`;
+    body += `Budget Level: ${state.project.budgetLevel || "Not specified"}\n\n`;
 
-        if (extras.length) {
-          lines.push("   [" + extras.join(" | ") + "]");
-        }
-      });
-    } else if (state.serviceKey && SERVICES[state.serviceKey]) {
-      lines.push(SERVICES[state.serviceKey].label);
+    body += `User Description (cleaned):\n${descClean}\n\n`;
+
+    body += `Ballpark Estimate (tiers):\n`;
+    if (tiers.basic) body += `- BASIC: $${tiers.basic}\n`;
+    if (tiers.standard) body += `- STANDARD: $${tiers.standard}\n`;
+    if (tiers.premium) body += `- PREMIUM: $${tiers.premium}\n`;
+    body += `\nConfidence Score: ${state.project.priceConfidence || 0}%\n`;
+    body += `Lead Score: ${state.meta.leadScore || 0}/100\n\n`;
+
+    if (ROI) body += `ROI Note: ${ROI}\n`;
+    if (seasonal) body += `Seasonal Note: ${seasonal}\n`;
+    if (urgency) body += `Urgency Note: ${urgency}\n`;
+    body += `\n${disclaimerText}\n`;
+
+    if (state.leadMagnetOptIn) {
+      body += `\nLead Magnet: User requested Hammer Brick & Home NYC Home Maintenance Checklist.\n`;
     }
 
-    lines.push("Phone: " + state.phone);
-    lines.push("Please reply to schedule a walkthrough.");
-    lines.push("");
-    lines.push(
-      "Disclaimer: This is an automated ballpark estimate only. " +
-      "It is not a formal estimate, contract, or offer for services. " +
-      "Final pricing may change after an in-person walkthrough and a written agreement."
-    );
+    // photo summary
+    if (state.photos.length) {
+      body += `\nPhotos (${state.photos.length}):\n`;
+      state.photos.forEach((p, idx) => {
+        body += `  ${idx + 1}. ${p.name} (${Math.round(p.size / 1024)} KB)\n`;
+      });
+    }
 
-    var body = encodeURIComponent(lines.join("\n"));
+    return body;
+  }
 
-    var smsLink = "sms:19295955300?&body=" + body;
-    var emailLink =
-      "mailto:info@hammerbrickhome.com?subject=" +
-      encodeURIComponent("Estimate Request - Hammer Brick & Home") +
-      "&body=" +
-      body;
+  function buildSmsBody() {
+    const svcLabel = SERVICES[state.project.serviceKey]?.label || "Project";
+    const b = state.project.breakdown || {};
+    const tiers = state.project.tieredEstimate || {};
+    const disclaimer =
+      "DISCLAIMER: Rough ballpark only. Final price after site visit & written quote.";
 
+    // SMS is plain text (no red color possible)
+    let msg = "";
+    msg += `Hammer Brick & Home — ${svcLabel} in ${state.project.borough || "NYC"}\n`;
+    if (tiers.standard) msg += `Std: ~$${tiers.standard}`;
+    if (tiers.basic) msg += ` | Basic: ~$${tiers.basic}`;
+    if (tiers.premium) msg += ` | Prem: ~$${tiers.premium}`;
+    msg += `\nConf: ${state.project.priceConfidence || 0}% | Lead: ${state.meta.leadScore || 0}`;
+    msg += `\n${disclaimer}`;
+    return msg;
+  }
+
+  // ----------------------------
+  // 11. BALLPARK MESSAGE RENDER
+  // ----------------------------
+
+  function renderBallparkCard() {
+    const breakdown = state.project.breakdown || calculateEstimate();
+    const tiers = breakdown.tiers || state.project.tieredEstimate || {};
+    const confidence = state.project.priceConfidence || 0;
+    const score = state.meta.leadScore || computeLeadScore();
+    const ROI = getROIMessage();
+    const seasonal = seasonalNote();
+
+    const upsells = suggestUpsells();
+    const urgency = state.meta.urgencyCopy || computeUrgencyCopy();
+
+    const disclaimerHtml =
+      '<div class="hb-disclaimer">DISCLAIMER: This is a rough, non-binding ballpark based on limited info. Final pricing requires an on-site visit + written proposal.</div>';
+
+    let html = `<div class="hb-ballpark-card">`;
+    html += `<h4>Ballpark Estimate (Not a Final Quote)</h4>`;
+    html += `<div>For: <strong>${SERVICES[state.project.serviceKey]?.label || "Project"}</strong> in <strong>${state.project.borough || "NYC"}</strong></div>`;
+    if (state.project.sizeSqFt) {
+      html += `<div>Approx. size: <strong>${state.project.sizeSqFt} sq ft</strong></div>`;
+    }
+    html += `<div class="tiers">`;
+    if (tiers.basic) html += `<div class="tier">BASIC ~ $${tiers.basic}</div>`;
+    if (tiers.standard) html += `<div class="tier">STANDARD ~ $${tiers.standard}</div>`;
+    if (tiers.premium) html += `<div class="tier">PREMIUM ~ $${tiers.premium}</div>`;
+    html += `</div>`;
+    html += `<div style="margin-top:6px;font-size:12px;">Confidence: <strong>${confidence}%</strong> · Lead Score: <strong>${score}/100</strong></div>`;
+
+    if (ROI) {
+      html += `<div style="margin-top:6px;font-size:12px;">ROI insight: ${ROI}</div>`;
+    }
+    if (seasonal) {
+      html += `<div style="margin-top:4px;font-size:12px;">${seasonal}</div>`;
+    }
+    if (upsells.length) {
+      html += `<div style="margin-top:6px;font-size:12px;">You may also want: `;
+      upsells.forEach((u) => {
+        html += `<span class="hb-tag">${u}</span>`;
+      });
+      html += `</div>`;
+    }
+    if (urgency) {
+      html += `<div style="margin-top:6px;font-size:12px;">${urgency}</div>`;
+    }
+
+    html += disclaimerHtml;
+    html += `</div>`;
+
+    addBotMessage(html, { html: true });
+  }
+
+  // ----------------------------
+  // 12. LEAD MAGNET / PRIVACY / HUMAN MODE
+  // ----------------------------
+
+  function askLeadMagnet() {
     addBotMessage(
-      "Thanks, " +
-        state.name +
-        "! Choose how you’d like to contact us and feel free to attach your photos.",
-      false
+      "Would you like a free **NYC Home Maintenance Checklist** from Hammer Brick & Home emailed to you along with your estimate? Type **yes** or **no**.",
+      { html: true }
     );
-
-    setTimeout(function() {
-      // SMS button
-      var smsBtn = document.createElement("a");
-      smsBtn.className = "hb-chip";
-      smsBtn.style.background = "#e7bf63";
-      smsBtn.style.color = "#000";
-      smsBtn.style.fontWeight = "bold";
-      smsBtn.style.display = "block";
-      smsBtn.style.textAlign = "center";
-      smsBtn.style.textDecoration = "none";
-      smsBtn.style.marginTop = "10px";
-      smsBtn.textContent = "📲 Open Text Messages";
-      smsBtn.href = smsLink;
-      els.body.appendChild(smsBtn);
-
-      // Email button
-      var emailBtn = document.createElement("a");
-      emailBtn.className = "hb-chip";
-      emailBtn.style.display = "block";
-      emailBtn.style.textAlign = "center";
-      emailBtn.style.textDecoration = "none";
-      emailBtn.style.marginTop = "8px";
-      emailBtn.textContent = "✉️ Email My Estimate";
-      emailBtn.href = emailLink;
-      els.body.appendChild(emailBtn);
-
-      // Optional CRM / form
-      if (CRM_FORM_URL) {
-        var formBtn = document.createElement("a");
-        formBtn.className = "hb-chip";
-        formBtn.style.display = "block";
-        formBtn.style.textAlign = "center";
-        formBtn.style.textDecoration = "none";
-        formBtn.style.marginTop = "8px";
-        formBtn.textContent = "📝 Complete Full Intake Form";
-        formBtn.href = CRM_FORM_URL;
-        formBtn.target = "_blank";
-        els.body.appendChild(formBtn);
-      }
-
-      // Optional walkthrough booking
-      if (WALKTHROUGH_URL) {
-        var walkBtn = document.createElement("a");
-        walkBtn.className = "hb-chip";
-        walkBtn.style.display = "block";
-        walkBtn.style.textAlign = "center";
-        walkBtn.style.textDecoration = "none";
-        walkBtn.style.marginTop = "8px";
-        walkBtn.textContent = "📅 Book a Walkthrough";
-        walkBtn.href = WALKTHROUGH_URL;
-        walkBtn.target = "_blank";
-        els.body.appendChild(walkBtn);
-      }
-
-      // Photo button (triggers hidden input)
-      var photoBtn = document.createElement("button");
-      photoBtn.className = "hb-chip";
-      photoBtn.style.display = "block";
-      photoBtn.style.marginTop = "8px";
-      photoBtn.textContent = "📷 Add Photos";
-      photoBtn.onclick = function() {
-        if (els.photoInput) els.photoInput.click();
-      };
-      els.body.appendChild(photoBtn);
-
-      els.body.scrollTop = els.body.scrollHeight;
-    }, 500);
+    state.step = "lead_magnet";
   }
 
-  // --- UTILS -------------------------------------------------
+  function enablePrivacyMode() {
+    state.privacyMode = true;
+    addBotMessage(
+      "Privacy mode is now **ON**. I won’t store your contact details in this browser after we’re done.",
+      { html: true }
+    );
+  }
 
-  function enableInput(callback) {
-    els.input.disabled = false;
-    els.input.placeholder = "Type your answer...";
-    els.input.focus();
+  function triggerHumanMode() {
+    state.humanMode = true;
+    const phoneText = "929-595-5300";
+    addBotMessage(
+      `You can reach a human now at <strong>${phoneText}</strong> (call or text). I’ll still capture your details here so we can follow up.`,
+      { html: true }
+    );
+  }
 
-    // Reset send button listener
-    var newSend = els.send.cloneNode(true);
-    els.send.parentNode.replaceChild(newSend, els.send);
-    els.send = newSend;
+  // ----------------------------
+  // 13. CRM / WEBHOOK
+  // ----------------------------
 
-    els.send.onclick = function() {
-      var val = els.input.value.trim();
-      if (!val) return;
-      addUserMessage(val);
-      els.input.value = "";
-      els.input.disabled = true;
-      els.input.placeholder = "Please wait...";
-      callback(val);
+  async function sendToCRM() {
+    const payload = {
+      project: state.project,
+      contact: state.contact,
+      photos: state.photos
+        .filter((p) => !!p.base64)
+        .map((p) => ({ name: p.name, size: p.size, base64: p.base64 })),
+      meta: state.meta,
+      emailSubject: buildEmailSubject(),
+      emailBody: buildEmailBody(),
+      smsPreview: buildSmsBody()
     };
+
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      console.log("CRM webhook sent.");
+    } catch (e) {
+      console.warn("Failed to send webhook:", e);
+    }
   }
 
-  function handleManualInput() {
-    if (!els.input.disabled && els.send) els.send.click();
+  // ----------------------------
+  // 14. CHAT FLOW ENGINE (SIMPLIFIED)
+  // ----------------------------
+
+  function startConversation() {
+    computeTimeAndSeasonMeta();
+    ensureStylesInjected();
+    createProgressBarIfNeeded();
+    setProgress(5);
+    let greet = "Hi, I’m the Hammer Brick & Home estimate assistant.";
+    if (state.meta.timeOfDayLabel === "evening") {
+      greet = "Good evening — I’m the Hammer Brick & Home estimate assistant.";
+    }
+    addBotMessage(greet);
+    addBotMessage("Tell me what you’re working on. You can say things like “front steps are cracked”, “basement floor painting”, or “full bathroom remodel”.");
+    state.step = "service";
   }
 
-  // --- RUN ---------------------------------------------------
+  function askBorough() {
+    addBotMessage("Which borough is the property in? (Manhattan, Brooklyn, Queens, Bronx, Staten Island)");
+  }
+
+  function askSizeOrWizard() {
+    addBotMessage(
+      'Do you know the approximate size in square feet? You can type a number (like **400**) or type **help** and I’ll guide you.',
+      { html: true }
+    );
+    state.step = "size_choice";
+  }
+
+  function askRush() {
+    addBotMessage(
+      "How fast do you need this done? Type: **standard**, **24hr**, or **same-day** (where available).",
+      { html: true }
+    );
+    state.step = "rush";
+  }
+
+  function askContactInfo() {
+    addBotMessage("What’s your **name**?", { html: true });
+    state.step = "contact_name";
+  }
+
+  function handleUserInput(raw) {
+    const text = raw.trim();
+    if (!text) return;
+
+    // privacy + human triggers (any time)
+    if (/privacy/i.test(text)) {
+      enablePrivacyMode();
+      return;
+    }
+    if (/human|agent|person/i.test(text)) {
+      triggerHumanMode();
+    }
+
+    if (state.step === "service") {
+      // detect service
+      const key = detectServiceFromText(text);
+      if (!key) {
+        addBotMessage("Got it. That sounds like a project I can help with. I’ll treat it as general remodeling for now.");
+        state.project.serviceKey = "remodeling";
+      } else {
+        state.project.serviceKey = key;
+        addBotMessage(`Sounds like **${SERVICES[key].label}**.`, { html: true });
+      }
+      state.project.notesRaw = text;
+      state.project.notesClean = sanitizeNotes(text);
+
+      const svc = SERVICES[state.project.serviceKey];
+      if (svc && svc.deepQuestions && svc.deepQuestions.length) {
+        addBotMessage("A couple of quick questions help make the estimate smarter:");
+        svc.deepQuestions.forEach((q) => addBotMessage("• " + q));
+      }
+
+      saveNonPII();
+      setProgress(15);
+      askSizeOrWizard();
+      return;
+    }
+
+    if (state.step === "size_choice") {
+      if (/help/i.test(text)) {
+        startSizeWizard();
+        return;
+      }
+      const sqf = parseFloat(text);
+      if (isNaN(sqf) || sqf <= 0) {
+        addBotMessage("Please enter a rough number in square feet (for example: 400) or type **help**.", { html: true });
+        return;
+      }
+      state.project.sizeSqFt = Math.round(sqf);
+      addBotMessage(`Great — I’ll use about **${state.project.sizeSqFt} sq ft**.`, { html: true });
+      saveNonPII();
+      setProgress(25);
+      askBorough();
+      state.step = "borough";
+      return;
+    }
+
+    if (state.step === "sizeWizard_length" || state.step === "sizeWizard_width") {
+      handleSizeWizardInput(text);
+      setProgress(30);
+      return;
+    }
+
+    if (state.step === "borough") {
+      const b = text.trim();
+      const normalized = Object.keys(BOROUGH_MODS).find((k) =>
+        k.toLowerCase().startsWith(b.toLowerCase())
+      );
+      if (!normalized) {
+        addBotMessage("Please type one of: Manhattan, Brooklyn, Queens, Bronx, or Staten Island.");
+        return;
+      }
+      state.project.borough = normalized;
+      addBotMessage(`Perfect, we’ll treat this as **${normalized}** pricing.`, { html: true });
+      setProgress(40);
+      askRush();
+      return;
+    }
+
+    if (state.step === "rush") {
+      const t = text.toLowerCase();
+      if (/same/.test(t)) state.project.rush = "same-day";
+      else if (/24/.test(t)) state.project.rush = "24hr";
+      else state.project.rush = "standard";
+      addBotMessage(`Got it — **${state.project.rush.toUpperCase()}** timing.`, { html: true });
+      setProgress(50);
+      askContactInfo();
+      return;
+    }
+
+    if (state.step === "contact_name") {
+      state.contact.name = text;
+      saveContact();
+      addBotMessage("Thanks! What’s the best **phone number** to reach you?", { html: true });
+      state.step = "contact_phone";
+      setProgress(60);
+      return;
+    }
+
+    if (state.step === "contact_phone") {
+      state.contact.phone = text;
+      saveContact();
+      addBotMessage("And your **email address** (for sending your written estimate)?", { html: true });
+      state.step = "contact_email";
+      setProgress(70);
+      return;
+    }
+
+    if (state.step === "contact_email") {
+      state.contact.email = text;
+      saveContact();
+      setProgress(80);
+      // compute everything now
+      computeTimeAndSeasonMeta();
+      computeLeadScore();
+      calculateEstimate();
+      renderBallparkCard();
+      setProgress(90);
+      // Ask about lead magnet
+      askLeadMagnet();
+      return;
+    }
+
+    if (state.step === "lead_magnet") {
+      if (/yes|yeah|yep/i.test(text)) {
+        state.leadMagnetOptIn = true;
+        addBotMessage("Nice — I’ll include the checklist with your follow-up email.");
+      } else {
+        state.leadMagnetOptIn = false;
+        addBotMessage("No problem. I’ll just send the estimate details.");
+      }
+      setProgress(100);
+      // Send to CRM
+      sendToCRM();
+      addBotMessage(
+        "I’ve captured everything. A human from Hammer Brick & Home will review this and follow up with a proper written estimate. If you need to talk right away, call or text <strong>929-595-5300</strong>.",
+        { html: true }
+      );
+      state.step = "done";
+      return;
+    }
+
+    if (state.step === "done") {
+      addBotMessage("You’re all set. If you’d like to start a **new estimate**, hit the reset button (🔄) at the top.");
+      return;
+    }
+  }
+
+  // ----------------------------
+  // 15. INIT
+  // ----------------------------
+
+  function init() {
+    cacheDOM();
+    ensureStylesInjected();
+    loadNonPII();
+    loadContact();
+    attachResetButton();
+    createProgressBarIfNeeded();
+
+    if (els.form && els.input) {
+      els.form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const text = els.input.value;
+        if (!text.trim()) return;
+        addUserMessage(text);
+        els.input.value = "";
+        handleUserInput(text);
+      });
+    }
+
+    if (els.photos) {
+      els.photos.addEventListener("change", function () {
+        handlePhotoInputChange(this.files);
+        // Clear input so same file can be re-chosen if needed
+        this.value = "";
+      });
+    }
+
+    // Start fresh conversation
+    startConversation();
+  }
 
   document.addEventListener("DOMContentLoaded", init);
-
 })();
 
