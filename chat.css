@@ -1,252 +1,201 @@
 /* ============================================================
-   HAMMER BRICK & HOME — INTELLIGENT CHAT WIZARD
-   "📷 Smart Quote Assistant"
+   HAMMER BRICK & HOME — ULTRA-ADVANCED CHAT AI
+   "The Estimator Bot"
 =============================================================== */
 
 :root {
-  --hb-chat-bg: #050914;
-  --hb-chat-surface: #0f1629;
+  --hb-chat-bg: #090e1a;
+  --hb-chat-surface: #121a2e;
   --hb-chat-gold: #e7bf63;
-  --hb-chat-gold-soft: #f5d89b;
-  --hb-chat-ink: #ffffff;
-  --hb-chat-muted: rgba(255,255,255,0.6);
-  --hb-chat-accent: #2c3e66;
-  --hb-chat-radius-lg: 20px;
-  --hb-chat-radius-sm: 8px;
-  --hb-chat-shadow: 0 16px 40px rgba(0,0,0,0.65);
-  --hb-msg-bot-bg: #1c263b;
-  --hb-msg-user-bg: linear-gradient(135deg, #e7bf63, #c9a045);
-  --hb-msg-user-text: #1a120f;
+  --hb-chat-gold-dim: #bba060;
+  --hb-chat-accent: #3a4b70;
+  --hb-chat-text: #ececec;
+  --hb-chat-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  --hb-bot-msg-bg: #1c263b;
+  --hb-user-msg-bg: linear-gradient(135deg, #e7bf63, #c9a045);
 }
 
-/* --- Floating Button (FAB) --- */
+/* --- FAB (Floating Action Button) --- */
 .hb-chat-fab {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 99990;
-  border-radius: 999px;
-  border: 1px solid rgba(231,191,99,0.5);
-  padding: 12px 20px;
-  display: inline-flex;
+  right: 25px;
+  bottom: 25px;
+  z-index: 99999;
+  background: radial-gradient(circle at top left, #2a2235, #000);
+  border: 1px solid rgba(231,191,99,0.6);
+  border-radius: 50px;
+  padding: 14px 24px;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  background: radial-gradient(circle at top left, #2a2235, #05070f);
-  color: var(--hb-chat-gold-soft);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
+  gap: 12px;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-  transition: all 0.25s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+.hb-chat-fab:hover { transform: scale(1.05) translateY(-4px); }
+.hb-fab-text { color: var(--hb-chat-gold); font-weight: 700; font-size: 14px; }
+.hb-fab-icon { font-size: 20px; }
 
-.hb-chat-fab:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(231,191,99,0.15);
-  border-color: var(--hb-chat-gold);
-}
-
-/* --- Main Chat Interface --- */
+/* --- Main Window --- */
 .hb-chat-wrapper {
   position: fixed;
-  bottom: 90px;
-  right: 20px;
-  width: 380px;
-  max-width: calc(100vw - 40px);
-  height: 600px;
-  max-height: calc(100vh - 120px);
+  bottom: 100px;
+  right: 25px;
+  width: 400px;
+  max-width: calc(100vw - 50px);
+  height: 650px;
+  max-height: calc(100vh - 140px);
   background: var(--hb-chat-bg);
-  border-radius: var(--hb-chat-radius-lg);
+  border-radius: 20px;
   border: 1px solid rgba(231,191,99,0.3);
   box-shadow: var(--hb-chat-shadow);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  z-index: 99990;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   opacity: 0;
-  transform: translateY(20px) scale(0.95);
+  transform: translateY(20px) scale(0.9);
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 99999;
+  font-family: -apple-system, system-ui, sans-serif;
 }
+.hb-chat-wrapper.hb-open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 
-.hb-chat-wrapper.hb-open {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-/* Header */
+/* --- Header & Progress --- */
 .hb-chat-header {
+  background: rgba(18,26,46,0.95);
   padding: 16px;
-  background: linear-gradient(180deg, #131b2e, #050914);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  backdrop-filter: blur(10px);
 }
+.hb-chat-title h3 { margin: 0; font-size: 15px; color: #fff; }
+.hb-chat-title span { font-size: 11px; color: var(--hb-chat-gold); text-transform: uppercase; letter-spacing: 1px; }
+.hb-chat-close { background: none; border: none; color: #888; font-size: 24px; cursor: pointer; }
 
-.hb-chat-brand h3 {
-  margin: 0;
-  font-size: 16px;
-  color: var(--hb-chat-gold);
-  font-weight: 700;
-}
+/* Progress Bar */
+.hb-progress-container { height: 3px; background: #1c263b; width: 100%; }
+.hb-progress-bar { height: 100%; background: var(--hb-chat-gold); width: 0%; transition: width 0.5s ease; }
 
-.hb-chat-brand span {
-  font-size: 12px;
-  color: var(--hb-chat-muted);
-}
-
-.hb-chat-close {
-  background: transparent;
-  border: none;
-  color: var(--hb-chat-muted);
-  font-size: 24px;
-  cursor: pointer;
-  line-height: 1;
-}
-
-/* Message Area */
-.hb-chat-messages {
+/* --- Message Area --- */
+.hb-chat-body {
   flex: 1;
-  padding: 16px;
+  padding: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   scroll-behavior: smooth;
 }
 
-/* Message Bubbles */
+/* Bubbles */
 .hb-msg {
   max-width: 85%;
-  padding: 10px 14px;
-  border-radius: 14px;
+  padding: 12px 16px;
+  border-radius: 18px;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.5;
   position: relative;
-  animation: hbSlideUp 0.3s ease-out forwards;
+  animation: hbPopIn 0.3s ease forwards;
 }
-
-@keyframes hbSlideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 .hb-msg-bot {
-  background: var(--hb-msg-bot-bg);
-  color: #e0e0e0;
+  background: var(--hb-bot-msg-bg);
+  color: #ddd;
+  border-bottom-left-radius: 4px;
   align-self: flex-start;
-  border-bottom-left-radius: 2px;
   border: 1px solid rgba(255,255,255,0.05);
 }
-
 .hb-msg-user {
-  background: var(--hb-msg-user-bg);
-  color: var(--hb-msg-user-text);
+  background: var(--hb-user-msg-bg);
+  color: #1a120f;
+  border-bottom-right-radius: 4px;
   align-self: flex-end;
-  border-bottom-right-radius: 2px;
   font-weight: 500;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 15px rgba(231,191,99,0.2);
 }
 
-.hb-typing {
-  font-size: 12px;
-  color: var(--hb-chat-muted);
-  margin-left: 10px;
-  font-style: italic;
-  display: none;
+@keyframes hbPopIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
-.hb-typing.active { display: block; margin-bottom: 10px; }
 
-/* Interactive Options (Chips) */
-.hb-opts-container {
+/* --- Choice Chips (Grid Layout) --- */
+.hb-chips {
   display: flex;
-  flex-wrap: wrap; /* CRITICAL FIX: Allows buttons to wrap naturally */
+  flex-wrap: wrap;
   gap: 8px;
-  margin-top: 6px;
-  margin-bottom: 6px;
-  justify-content: flex-start;
+  margin-top: 5px;
 }
-
-.hb-opt-btn {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(231,191,99,0.3);
-  color: var(--hb-chat-gold-soft);
-  padding: 8px 14px;
-  border-radius: 18px;
+.hb-chip {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(231,191,99,0.4);
+  color: var(--hb-chat-gold);
+  padding: 10px 16px;
+  border-radius: 12px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s;
-  text-align: left;
-  line-height: 1.3;
-  /* Ensure text doesn't overflow */
-  max-width: 100%; 
-  white-space: normal;
+  transition: 0.2s;
+  flex: 1 1 auto; /* Grow to fit */
+  text-align: center;
 }
-
-.hb-opt-btn:hover {
+.hb-chip:hover {
   background: rgba(231,191,99,0.15);
+  transform: translateY(-2px);
   border-color: var(--hb-chat-gold);
-  transform: translateY(-1px);
 }
 
-/* Input Area */
-.hb-chat-input-area {
-  padding: 12px;
-  background: #0b111f;
+/* --- Receipt Card (The Advanced Visual) --- */
+.hb-receipt {
+  background: #fff;
+  color: #111;
+  padding: 20px;
+  border-radius: 12px;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  margin-top: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  border-top: 5px solid var(--hb-chat-gold);
+}
+.hb-receipt h4 { margin: 0 0 10px 0; text-align: center; text-transform: uppercase; border-bottom: 2px dashed #ccc; padding-bottom: 10px; }
+.hb-receipt-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
+.hb-receipt-total { border-top: 2px dashed #111; margin-top: 10px; padding-top: 10px; font-weight: 900; font-size: 16px; display: flex; justify-content: space-between; }
+.hb-receipt-footer { font-size: 10px; text-align: center; margin-top: 12px; color: #666; }
+
+/* --- Inputs --- */
+.hb-chat-footer {
+  padding: 16px;
+  background: rgba(9,14,26,0.95);
   border-top: 1px solid rgba(255,255,255,0.08);
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
-
 .hb-chat-input {
   flex: 1;
-  background: #05070f;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 20px;
-  padding: 10px 14px;
-  color: white;
-  font-size: 14px;
+  background: #1c263b;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 25px;
+  padding: 12px 18px;
+  color: #fff;
   outline: none;
 }
-
-.hb-chat-input:focus {
-  border-color: var(--hb-chat-gold);
-}
-
 .hb-chat-send {
   background: var(--hb-chat-gold);
-  border: none;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
+  border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  color: #1a120f;
-  font-size: 16px;
-}
-
-/* Estimate Box inside Chat */
-.hb-estimate-card {
-  background: rgba(7,10,20,0.6);
-  border: 1px dashed var(--hb-chat-gold);
-  border-radius: 8px;
-  padding: 12px;
-  margin-top: 8px;
-}
-.hb-est-price {
   font-size: 18px;
-  font-weight: 700;
-  color: var(--hb-chat-gold);
-  margin: 4px 0;
+  color: #000;
+  transition: 0.2s;
 }
-.hb-est-note {
-  font-size: 11px;
-  color: var(--hb-chat-muted);
-}
+.hb-chat-send:hover { transform: rotate(-10deg) scale(1.1); }
 
+/* Typing Animation */
+.hb-typing-dots { display: inline-flex; gap: 4px; padding: 4px 8px; }
+.hb-dot { width: 6px; height: 6px; background: #888; border-radius: 50%; animation: hbBounce 1.4s infinite ease-in-out
