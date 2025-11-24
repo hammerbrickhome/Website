@@ -12,17 +12,6 @@
 <link rel="stylesheet" href="/chat.css">
 <link rel="stylesheet" href="/style.css">
 
-<meta property="og:title" content="Services — Hammer Brick & Home LLC">
-<meta property="og:description" content="Luxury masonry, structural remodeling, hardscape, lead-safe renovation and seasonal home care services for NYC homeowners.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.hammerbrickhome.com/services.html">
-<meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Services — Hammer Brick & Home LLC">
-<meta name="twitter:description" content="Luxury masonry, structural remodeling, hardscape, lead-safe renovation and seasonal home care services for NYC homeowners.">
-<meta name="twitter:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
-
 <script type="application/ld+json">
 [
   {
@@ -118,93 +107,35 @@
 </script>
 
 <style>
-/* CSS ADDITIONS/MODIFICATIONS FOR FIXES */
+/* Resetting the essential styles for the service buttons to maintain grid structure */
 .service-button {
   /* Set parent to flex to stack items */
   display: flex; 
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* Retained styling */
   padding: 16px 20px;
   text-align: center;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(245,216,155,0.16), rgba(10,15,25,0.96));
-  border: 1px solid rgba(255,255,255,0.12);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: .3px;
-  color: var(--gold-soft);
-  text-shadow: 0 2px 6px rgba(0,0,0,.6);
-  cursor: pointer;
-  transition: .25s;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.6);
-}
-.service-button:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(180deg, var(--gold-soft), var(--gold));
-  color: #151515;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.75);
 }
 .service-button a { 
-    /* FIX 1.2: Ensure the anchor text is readable and the click area is large */
+    /* The core layout fix: ensure anchor does not interfere with flexbox/grid */
     display: block;
     text-decoration: none;
     color: inherit;
     font-weight: inherit;
     padding: 0;
     margin: 0;
-    margin-bottom: 4px; /* Space between link and price-span */
+    margin-bottom: 4px;
 }
 .price-span { 
     display: block;
     font-size: 11px;
-    color: #fff;
+    color: var(--muted);
     opacity: 0.8;
     margin-top: 5px;
     font-weight: 400;
 }
-/* New CSS for Breadcrumbs */
-.breadcrumbs {
-    font-size: 13px;
-    color: var(--muted);
-    margin: 10px 0 15px 0;
-}
-.breadcrumbs a {
-    color: var(--gold-soft);
-    text-decoration: none;
-}
-.breadcrumbs a:hover {
-    text-decoration: underline;
-}
-/* Retained CSS for SEO/Conversion blocks */
-.seo-block {
-    background: rgba(15,25,40,.8);
-    padding: 18px;
-    border-radius: 14px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-left: 4px solid var(--gold-soft);
-}
-.mini-cta {
-    text-align: center;
-    margin-top: 25px;
-    margin-bottom: 40px;
-}
-/* Center Fix Logic (Ensuring content is not strictly left-aligned) */
-.page, .section {
-    text-align: inherit; /* Inherit alignment from site root */
-    margin-left: auto;
-    margin-right: auto;
-}
-.quick-action-row {
-    display: flex;
-    justify-content: center; /* Center the button row */
-    gap: 15px;
-    margin-top: 20px;
-    margin-bottom: 30px;
-}
-/* ... (Rest of styling is assumed in style.css) ... */
+/* No other custom styles are needed. We rely on style.css */
 </style>
 </head>
 
@@ -212,9 +143,7 @@
 
 <div id="header-include"></div>
 
-<main class="page">
-
-<nav class="breadcrumbs">
+<main class="page content-wrapper"> <nav class="breadcrumbs">
  <a href="/">Home</a> &raquo; Services
 </nav>
 
@@ -238,11 +167,11 @@
     <a href="/contact.html?type=visit"><span>📅</span> Book a Site Visit</a>
 </section>
 
-<section class="section fade-up" style="text-align: center;">
+<section class="section fade-up">
   <label class="search-label" for="serviceSearch">Search Services</label>
   <input id="serviceSearch" class="search-input"
     placeholder="Type to filter (e.g., pavers, kitchen, sidewalk)..."
-    aria-label="Search available services" style="max-width: 420px; margin-left: auto; margin-right: auto;">
+    aria-label="Search available services" style="margin-left: auto; margin-right: auto;">
   <p id="noResults">No matching services found.</p>
 </section>
 
@@ -258,7 +187,7 @@
 </section>
 
 <section class="section fade-up">
-    <h2>How Our Tiers Differ</h2>
+    <h2 style="text-align: center;">How Our Tiers Differ</h2>
     <p class="section-note" style="text-align: center;">The level of assurance, materials, and process management scales with your investment.</p>
     <div class="tier-grid">
 
@@ -295,7 +224,7 @@
     </div>
 </section>
 <section class="section fade-up" id="lead-safe-section">
-  <h2>Lead-Safe Renovation (Pre-1978 Homes)</h2>
+  <h2 style="text-align: center;">Lead-Safe Renovation (Pre-1978 Homes)</h2>
   <p class="section-note" style="text-align: center;">EPA RRP Lead-Safe Certified Firm — strict dust control, protection, and compliance for older buildings.</p>
   <div class="service-grid">
     <div class="service-button"><a href="/lead-safe.html">Lead-Safe Kitchen & Bath Renovations</a></div>
@@ -314,7 +243,7 @@
 </section>
 
 <section class="section fade-up" id="masonry-section">
-  <h2>Masonry, Concrete & Hardscape Design</h2>
+  <h2 style="text-align: center;">Masonry, Concrete & Hardscape Design</h2>
   <p class="section-note" style="text-align: center;">Structural integrity meets aesthetic design. Includes DOT compliance and **Outdoor Living** services.</p>
   <div class="service-grid">
     <div class="service-button"><a href="/masonry-brickwork.html">Brickwork & Repointing</a><span class="price-span">Quote by Project</span></div>
@@ -393,7 +322,7 @@
     <div class="mini-cta"><a href="/project-estimator.html" class="btn breathing-gold">Get a Fast Estimate</a></div>
 </section>
 
-<section class="section note-box fade-up" style="max-width: 960px;">
+<section class="section note-box fade-up" style="max-width: 960px; margin-left: auto; margin-right: auto;">
   <h2>Roofing Policy</h2>
   <p>We perform **small roof repairs only**: shingle fixes, flashing adjustments, and leak tracing. Full replacements are referred to trusted partners.</p>
 </section>
@@ -430,6 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const match = textContent.includes(query);
         
         // Final Fix: Corrected logic to hide the service-button container
+        // We set display to 'none' or 'flex' as defined in the style block/style.css
         btn.style.display = match ? "flex" : "none"; 
         
         if(match) visible++;
