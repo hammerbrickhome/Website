@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Licensed Contractor Services NYC | Masonry, Hardscape, Remodeling & Exterior Care</title>
-<meta name="description" content="Hammer Brick & Home LLC offers luxury masonry, concrete, pavers, structural remodeling, carpentry, painting, and comprehensive exterior home care in NYC and nearby New Jersey. EPA Lead-Safe Certified Firm.">
+<meta name="description" content="Hammer Brick & Home LLC offers luxury masonry, concrete, pavers, structural remodeling, carpentry, painting, and complete exterior home care contractor services in NYC and nearby New Jersey. EPA Lead-Safe Certified Firm.">
 <link rel="canonical" href="https://www.hammerbrickhome.com/services.html">
 <link rel="icon" href="/images/hero.PNG">
 <link rel="preload" as="image" href="/images/hero.webp"> 
@@ -34,20 +34,45 @@
     "image": "https://www.hammerbrickhome.com/images/hero.PNG",
     "priceRange": "$$$",
     "telephone": "+19295955300",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "telephone": "+19295955300",
+      "email": "contact@hammerbrickhome.com"
+    },
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Staten Island",
       "addressRegion": "NY",
       "addressCountry": "US"
     },
-    "areaServed": ["Staten Island", "Brooklyn", "Queens", "Manhattan", "Bronx", "New Jersey"],
+    "openingHours": "Mo-Fr 08:00-17:00",
+    "sameAs": [
+      "https://facebook.com/hammerbrickhome",
+      "https://instagram.com/hammerbrickhome",
+      "https://tiktok.com/hammerbrickhome"
+    ],
+    "areaServed": [
+      { "@type": "City", "name": "Staten Island" },
+      { "@type": "City", "name": "Brooklyn" },
+      { "@type": "City", "name": "Queens" },
+      { "@type": "City", "name": "Manhattan" },
+      { "@type": "City", "name": "Bronx" },
+      { "@type": "State", "name": "New Jersey" }
+    ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Full Range of Masonry, Hardscape, Remodeling, and Exterior Services",
       "itemListElement": [
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "DOT Violation Repairs"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Custom Hardscape Design"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Brickwork & Repointing"}}
+        {
+          "@type": "OfferCatalog",
+          "name": "Masonry & Hardscape Services",
+          "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "DOT Violation Repairs", "serviceType": "Sidewalk Repair"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Custom Hardscape Design", "serviceType": "Paver Installation"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Brickwork & Repointing", "serviceType": "Facade Restoration"}}
+          ]
+        }
       ]
     }
   },
@@ -55,8 +80,18 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.hammerbrickhome.com/" },
-      { "@type": "ListItem", "position": 2, "name": "Services" }
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.hammerbrickhome.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://www.hammerbrickhome.com/services.html"
+      }
     ]
   },
   {
@@ -66,7 +101,17 @@
       {
         "@type": "Question",
         "name": "Do you repair DOT sidewalk violations?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes, we handle violation removal, permits, demolition, concrete pouring, broom finish, and final inspection for all 5 boroughs." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, we handle violation removal, permits, demolition, concrete pouring, broom finish, and final inspection for all 5 boroughs. We specialize in fast compliance." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between your Premium and Signature tiers?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The Premium Tier offers a 3-Year Warranty and Enhanced Dust Control. The Signature Tier offers a 5-Year Warranty, White-Glove Cleanup, and includes full management of Co-op/Condo board approvals and custom design work." }
+      },
+      {
+        "@type": "Question",
+        "name": "Are you licensed and insured for all NYC boroughs?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, Hammer Brick & Home LLC is fully licensed (NYC HIC #21311291) and carries all required general liability and worker's compensation insurance to operate legally across Staten Island, Brooklyn, Queens, Manhattan, and The Bronx." }
       }
     ]
   }
@@ -74,7 +119,7 @@
 </script>
 
 <style>
-/* GRID STYLES (Kept exactly as you liked) */
+/* GRID & BUTTON STYLES */
 .service-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -95,7 +140,8 @@
   cursor: pointer;
   transition: .25s;
   box-shadow: 0 8px 22px rgba(0,0,0,0.6);
-  display: flex; /* Ensures content centers */
+  /* Flex centering to keep content aligned */
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -105,7 +151,6 @@
   color: #151515;
   box-shadow: 0 10px 28px rgba(0,0,0,0.75);
 }
-/* Fix: Make the link fill the button so the whole thing is clickable */
 .service-button a {
   text-decoration: none;
   color: inherit;
@@ -116,12 +161,12 @@
   justify-content: center;
 }
 
-/* NEW: Breadcrumbs Style */
+/* Breadcrumbs */
 .breadcrumbs {
   font-size: 13px;
   color: var(--muted);
   margin: 10px auto 15px;
-  max-width: 1240px; /* Matches your topbar/page width */
+  max-width: 1240px;
   padding: 0 18px;
 }
 .breadcrumbs a {
@@ -129,7 +174,7 @@
   text-decoration: none;
 }
 
-/* NEW: Quick Action Row Style */
+/* Quick Action Row */
 .quick-action-row {
   display: flex;
   flex-wrap: wrap;
@@ -157,7 +202,7 @@
   color: #fff;
 }
 
-/* RETAINED: Search & Layout Styles */
+/* Search & Layout */
 .search-label { display:block; margin-bottom:6px; font-size:14px; color:var(--muted); }
 .search-input {
   width:100%; max-width:420px; padding:12px 16px;
@@ -236,13 +281,13 @@
 <section class="hero hero-inner fade-up">
   <div class="hero-content">
     <h1 class="shimmer-title">All Signature Services</h1>
-    <p>Premium masonry, structural remodeling, hardscape design, and comprehensive exterior care for NYC and nearby NJ homes.</p>
+    <p>Premium masonry, structural remodeling, hardscape design, and comprehensive exterior home care for NYC and nearby NJ.</p>
   </div>
 </section>
 
 <section class="section fade-up" style="margin-top: -20px; text-align: center;">
     <p class="section-note" style="font-size: 12px; font-weight: 700; color: var(--gold-soft);">
-        NYC DCWP HIC License **#21311291** &bull; EPA Lead-Safe Certified Firm &bull; General Liability + Workers Comp
+        NYC DCWP HIC License <strong>#21311291</strong> &bull; EPA Lead-Safe Certified Firm &bull; General Liability + Workers Comp
     </p>
 </section>
 
@@ -416,19 +461,29 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // Load Header and Footer
-  Promise.all([
-    fetch("/header.html").then(r=>r.text()),
-    fetch("/footer.html").then(r=>r.text())
-  ]).then(([h,f])=>{
-    document.getElementById("header-include").innerHTML = h;
-    document.getElementById("footer-include").innerHTML = f;
-    const yr = document.getElementById("yr");
-    if(yr) yr.textContent = new Date().getFullYear();
-    if(typeof initHeaderInteractions === "function") initHeaderInteractions();
-  }).catch(console.error);
+  // 5. FETCH FIX: Ensure chat loads even if this fails
+  const loadIncludes = async () => {
+    try {
+      const [header, footer] = await Promise.all([
+        fetch("/header.html").then(r => r.text()),
+        fetch("/footer.html").then(r => r.text())
+      ]);
+      document.getElementById("header-include").innerHTML = header;
+      document.getElementById("footer-include").innerHTML = footer;
+      const yr = document.getElementById("yr");
+      if(yr) yr.textContent = new Date().getFullYear();
+      
+      // 7. JS ERROR BLOCK: Wrap in check so chat.js doesn't die
+      if(typeof initHeaderInteractions === "function") {
+        initHeaderInteractions();
+      }
+    } catch (err) {
+      console.error("Include loading failed:", err);
+    }
+  };
+  loadIncludes();
 
-  // 4. FIX: Corrected Search Logic to hide the button itself
+  // 4. SEARCH LOGIC FIX: Uses style.display = "" to let CSS rule take over
   const input = document.getElementById("serviceSearch");
   const noResults = document.getElementById("noResults");
   const buttons = document.querySelectorAll(".service-grid .service-button");
@@ -441,8 +496,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const textContent = btn.textContent.toLowerCase();
         const match = textContent.includes(query);
         
-        // This is the layout fix: hide the button element directly
-        btn.style.display = match ? "flex" : "none"; 
+        // FIX: Set to empty string so CSS class (flex) takes over
+        btn.style.display = match ? "" : "none"; 
         
         if(match) visible++;
       });
