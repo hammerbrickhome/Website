@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Services | Masonry, Hardscape, Remodeling & Exterior Care | Hammer Brick & Home LLC</title>
-<meta name="description" content="Hammer Brick & Home LLC offers luxury masonry, concrete, pavers, structural remodeling, carpentry, painting, and comprehensive exterior home care in NYC and nearby New Jersey.">
+<title>Licensed Contractor Services NYC | Masonry, Hardscape, Remodeling & Exterior Care</title>
+<meta name="description" content="Hammer Brick & Home LLC offers luxury masonry, concrete, pavers, structural remodeling, carpentry, painting, and comprehensive exterior home care in NYC and nearby New Jersey. EPA Lead-Safe Certified Firm.">
 <link rel="canonical" href="https://www.hammerbrickhome.com/services.html">
 <link rel="icon" href="/images/hero.PNG">
-<link rel="stylesheet" href="/chat.css">
+<link rel="preload" as="image" href="/images/hero.webp"> <link rel="stylesheet" href="/chat.css">
 <link rel="stylesheet" href="/style.css">
 
 <meta property="og:title" content="Services — Hammer Brick & Home LLC">
@@ -27,9 +27,29 @@
   "@context": "https://schema.org",
   "@type": "HomeAndConstructionBusiness",
   "name": "Hammer Brick & Home LLC",
-  "url": "https://www.hammerbrickhome.com/services.html",
-  "telephone": "+19295955300",
+  "url": "https://www.hammerbrickhome.com/",
+  "logo": "https://www.hammerbrickhome.com/images/hero.PNG",
   "image": "https://www.hammerbrickhome.com/images/hero.PNG",
+  "priceRange": "$$$",
+  "telephone": "+19295955300",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "telephone": "+19295955300",
+    "email": "contact@hammerbrickhome.com"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Staten Island",
+    "addressRegion": "NY",
+    "addressCountry": "US"
+  },
+  "openingHours": "Mo-Fr 08:00-17:00",
+  "sameAs": [
+    "https://facebook.com/hammerbrickhome",
+    "https://instagram.com/hammerbrickhome",
+    "https://tiktok.com/hammerbrickhome"
+  ],
   "areaServed": [
     { "@type": "City", "name": "Staten Island" },
     { "@type": "City", "name": "Brooklyn" },
@@ -42,16 +62,23 @@
     "@type": "OfferCatalog",
     "name": "Full Range of Masonry, Hardscape, Remodeling, and Exterior Services",
     "itemListElement": [
-      { "@type": "OfferCatalog", "name": "Masonry & Hardscape Services" },
-      { "@type": "OfferCatalog", "name": "Carpentry & Remodeling Services" },
-      { "@type": "OfferCatalog", "name": "Painting, Finishes & Exterior Care" }
+      // Detailed Service Schema (ServiceType implementation)
+      {
+        "@type": "OfferCatalog",
+        "name": "Masonry & Hardscape Services",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "DOT Violation Repairs", "serviceType": "Sidewalk Repair"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Custom Hardscape Design", "serviceType": "Paver Installation"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Brickwork & Repointing", "serviceType": "Facade Restoration"}}
+        ]
+      }
     ]
   }
 }
 </script>
 
 <style>
-/* Styling for the service buttons and grid (Assumed from your style.css) */
+/* Service button and grid styling is placed here using the provided variables and classes */
 .service-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -127,7 +154,7 @@
   gap: 10px;
 }
 
-/* NEW TIER EXPLANATION SECTION STYLING */
+/* TIER EXPLANATION STYLING */
 .tier-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -157,7 +184,39 @@
   color: #fff;
   margin-bottom: 12px;
 }
-/* END NEW TIER EXPLANATION STYLING */
+/* SEO Blocks */
+.seo-block {
+    background: rgba(15,25,40,.8);
+    padding: 18px;
+    border-radius: 14px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--gold-soft);
+}
+.seo-block h3 {
+    font-size: 16px;
+    color: var(--gold-soft);
+    margin-bottom: 8px;
+}
+.seo-block p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+.mini-cta {
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 40px;
+}
+/* Pricing Span Styling */
+.price-span {
+    display: block;
+    font-size: 11px;
+    color: #fff;
+    opacity: 0.8;
+    margin-top: 5px;
+    font-weight: 400;
+}
 </style>
 </head>
 
@@ -169,9 +228,15 @@
 
 <section class="hero hero-inner fade-up">
   <div class="hero-content">
-    <h1>All Signature Services</h1>
+    <h1 class="shimmer-title">All Signature Services</h1>
     <p>Premium masonry, structural remodeling, hardscape design, and comprehensive exterior care for NYC and nearby NJ homes.</p>
   </div>
+</section>
+
+<section class="section fade-up" style="margin-top: -20px; text-align: center;">
+    <p class="section-note" style="font-size: 12px; font-weight: 700; color: var(--gold-soft);">
+        NYC DCWP HIC License **#21311291** &bull; EPA Lead-Safe Certified Firm &bull; General Liability + Workers Comp
+    </p>
 </section>
 
 <section class="section fade-up">
@@ -188,10 +253,10 @@
     <p>Every service below can be customized into three clear tiers, defining the scope, material quality, and **warranty** (1-5 Years). Choose the perfect fit for your budget and project vision.</p>
   </div>
   <div class="cta-actions">
-    <a href="/pricing.html" class="btn breathing-gold">See Tiered Pricing & Details</a>
-    <a href="/project-estimator.html" class="btn ghost">Use AI Project Estimator</a>
+    <a href="/pricing-packages.html" class="btn breathing-gold">See Tiered Pricing & Details</a> <a href="/project-estimator.html" class="btn ghost">Use AI Project Estimator</a>
   </div>
 </section>
+
 <section class="section fade-up">
     <h2>How Our Tiers Differ</h2>
     <p class="section-note">The level of assurance, materials, and process management scales with your investment.</p>
@@ -201,9 +266,9 @@
             <h3 class="breathing-gold">Foundation Tier</h3>
             <p class="tier-highlight">Essential Quality & Code Compliance</p>
             <ul class="bullets" style="font-size: 13px;">
-                <li>**Process:** Licensed Crew & Basic Site Protection.</li>
-                <li>**Materials:** Durable, Code-Compliant standard materials.</li>
-                <li>**Warranty:** 1-Year Comprehensive Warranty.</li>
+                <li><strong>Process:</strong> Licensed Crew & Basic Site Protection.</li>
+                <li><strong>Materials:</strong> Durable, Code-Compliant standard materials.</li>
+                <li><strong>Warranty:</strong> 1-Year Comprehensive Warranty.</li>
             </ul>
         </div>
 
@@ -211,9 +276,9 @@
             <h3 class="breathing-gold">Premium Tier</h3>
             <p class="tier-highlight">Enhanced Management & Extended Warranty</p>
             <ul class="bullets" style="font-size: 13px;">
-                <li>**Process:** Dedicated Project Manager & Enhanced Dust Control.</li>
-                <li>**Materials:** Mid-to-High Grade Finishes & Superior Materials.</li>
-                <li>**Warranty:** 3-Year Extended Warranty.</li>
+                <li><strong>Process:</strong> Dedicated Project Manager & Enhanced Dust Control.</li>
+                <li><strong>Materials:</strong> Mid-to-High Grade Finishes & Superior Materials.</li>
+                <li><strong>Warranty:</strong> 3-Year Extended Warranty.</li>
             </ul>
         </div>
 
@@ -221,88 +286,110 @@
             <h3 class="breathing-gold">Signature Tier</h3>
             <p class="tier-highlight">White-Glove Design-Build & VIP Perks</p>
             <ul class="bullets" style="font-size: 13px;">
-                <li>**Process:** Full Design/Board Approval Mgmt & White-Glove Clean.</li>
-                <li>**Materials:** Custom, Bespoke, & Imported Finishes.</li>
-                <li>**Warranty:** 5-Year Unmatched Warranty + VIP Perks.</li>
+                <li><strong>Process:</strong> Full Design/Board Approval Mgmt & White-Glove Clean.</li>
+                <li><strong>Materials:</strong> Custom, Bespoke, & Imported Finishes.</li>
+                <li><strong>Warranty:</strong> 5-Year Unmatched Warranty + VIP Perks.</li>
             </ul>
         </div>
 
     </div>
 </section>
-<section class="section fade-up">
+<section class="section fade-up" id="lead-safe-section">
   <h2>Lead-Safe Renovation (Pre-1978 Homes)</h2>
   <p class="section-note">EPA RRP Lead-Safe Certified Firm — strict dust control, protection, and compliance for older buildings.</p>
   <div class="service-grid">
-    <div class="service-button">Lead-Safe Kitchen & Bath Renovations</div>
-    <div class="service-button">Lead-Safe Window & Door Work</div>
-    <div class="service-button">Paint Stabilization & Encapsulation</div>
-    <div class="service-button">Exterior Lead-Safe Work</div>
-    <div class="service-button">EPA Test-Kit Screening</div>
-    <div class="service-button">Cleaning Verification</div>
-    <div class="service-button">RRP Compliance Pack</div>
+    <div class="service-button"><a href="#lead-safe-details">Lead-Safe Kitchen & Bath Renovations</a></div>
+    <div class="service-button"><a href="#lead-safe-details">Lead-Safe Window & Door Work</a></div>
+    <div class="service-button"><a href="#lead-safe-details">Paint Stabilization & Encapsulation</a></div>
+    <div class="service-button"><a href="#lead-safe-details">Exterior Lead-Safe Work</a></div>
+    <div class="service-button"><a href="#lead-safe-details">EPA Test-Kit Screening</a></div>
+    <div class="service-button"><a href="#lead-safe-details">Cleaning Verification</a></div>
+    <div class="service-button"><a href="#lead-safe-details">RRP Compliance Pack</a></div>
   </div>
+    <div class="seo-block" id="lead-safe-details">
+        <h3>Certified Lead-Safe Compliance for NYC</h3>
+        <p>In New York City, working on any structure built before 1978 requires strict adherence to EPA Renovation, Repair, and Painting (RRP) standards. We specialize in comprehensive containment, using air scrubbers and negative air pressure to eliminate the risk of lead dust. This is non-negotiable for safety and compliance in the **5 Boroughs**. We provide full documentation for your records.</p>
+    </div>
+    <div class="mini-cta"><a href="/project-estimator.html" class="btn breathing-gold">Get a Fast Estimate</a></div>
 </section>
 
-<section class="section fade-up">
+<section class="section fade-up" id="masonry-section">
   <h2>Masonry, Concrete & Hardscape Design</h2>
   <p class="section-note">Structural integrity meets aesthetic design. Includes DOT compliance and **Outdoor Living** services.</p>
   <div class="service-grid">
-    <div class="service-button">Brickwork & Repointing</div>
-    <div class="service-button">Concrete Sidewalks</div>
-    <div class="service-button">DOT Violation Repairs</div>
-    <div class="service-button">Pavers & Walkways</div>
-    <div class="service-button">Custom Hardscape Design</div>
-    <div class="service-button">Outdoor Kitchen Bases</div>
-    <div class="service-button">Steps & Stoops</div>
-    <div class="service-button">Retaining Walls</div>
-    <div class="service-button">Stone Veneer</div>
-    <div class="service-button">Chimney Repair</div>
-    <div class="service-button">Foundation Crack Repair</div>
-    <div class="service-button">Parapet Wall Rebuilds</div>
-    <div class="service-button">Sidewalk Permits</div>
+    <div class="service-button"><a href="#masonry-details">Brickwork & Repointing</a><span class="price-span">($18-35/sq ft)</span></div>
+    <div class="service-button"><a href="#masonry-details">Concrete Sidewalks (NYC)</a><span class="price-span">($28-42/sq ft)</span></div>
+    <div class="service-button"><a href="/dot-violation-repair.html">DOT Violation Repairs</a><span class="price-span">(Priority Service)</span></div>
+    <div class="service-button"><a href="#masonry-details">Pavers & Walkways (NJ & NY)</a><span class="price-span">($22-38/sq ft)</span></div>
+    <div class="service-button"><a href="#masonry-details">Custom Hardscape Design</a><span class="price-span">(Quote Required)</span></div>
+    <div class="service-button"><a href="#masonry-details">Outdoor Kitchen Bases</a></div>
+    <div class="service-button"><a href="#masonry-details">Steps & Stoops Rebuild</a><span class="price-span">($2.8k-8.5k)</span></div>
+    <div class="service-button"><a href="#masonry-details">Retaining Walls</a></div>
+    <div class="service-button"><a href="#masonry-details">Chimney & Lintel Repair</a></div>
+    <div class="service-button"><a href="#masonry-details">Parapet Wall Rebuilds</a></div>
+    <div class="service-button"><a href="#masonry-details">Sidewalk Permits</a></div>
   </div>
+    <div class="seo-block" id="masonry-details">
+        <h3>NYC Masonry, Concrete & Sidewalk Repair (Staten Island, Brooklyn, Queens)</h3>
+        <p>As true masonry experts, we handle both structural repair and luxury hardscape installations. This includes specialized work like full sidewalk replacements, clearing NYC Department of Transportation violations, and detailed brick repointing to restore the integrity and beauty of your facade. We offer custom hardscape solutions like bluestone patios and outdoor kitchen foundations for your New Jersey or New York home.</p>
+    </div>
+    <div class="mini-cta"><a href="/project-estimator.html" class="btn breathing-gold">Get a Fast Estimate</a></div>
 </section>
 
-<section class="section fade-up">
+<section class="section fade-up" id="remodeling-section">
   <h2>Carpentry & Structural Remodeling</h2>
   <p class="section-note">High-end finishing for interiors and critical structural modifications.</p>
   <div class="service-grid">
-    <div class="service-button">Kitchen Remodels</div>
-    <div class="service-button">Bathroom Remodels</div>
-    <div class="service-button">Basement Finishing & Waterproofing</div>
-    <div class="service-button">Open Concept Framing</div>
-    <div class="service-button">Load-Bearing Wall Removal</div>
-    <div class="service-button">Built-Ins & Custom Millwork</div>
-    <div class="service-button">Decks & Fences</div>
-    <div class="service-button">Flooring Installation</div>
-    <div class="service-button">Window Replacement</div>
+    <div class="service-button"><a href="/kitchen-remodeling.html">Kitchen Remodels (NYC)</a></div>
+    <div class="service-button"><a href="/bathroom-remodeling.html">Bathroom Remodels (NYC & NJ)</a></div>
+    <div class="service-button"><a href="#remodeling-details">Basement Finishing & Waterproofing</a></div>
+    <div class="service-button"><a href="#remodeling-details">Open Concept Framing</a></div>
+    <div class="service-button"><a href="#remodeling-details">Load-Bearing Wall Removal</a></div>
+    <div class="service-button"><a href="#remodeling-details">Built-Ins & Custom Millwork</a></div>
+    <div class="service-button"><a href="#remodeling-details">Decks & Fences</a></div>
+    <div class="service-button"><a href="#remodeling-details">Flooring Installation</a></div>
+    <div class="service-button"><a href="#remodeling-details">Window Replacement</a></div>
   </div>
+    <div class="seo-block" id="remodeling-details">
+        <h3>Interior & Structural Renovations</h3>
+        <p>Our interior remodeling expertise focuses on creating open, functional, and beautiful spaces. This includes structural carpentry, such as securing permits and executing load-bearing wall removals to achieve modern open-concept layouts. From high-end bathroom remodels to full basement finishing projects, we ensure meticulous execution and coordination with all licensed trades (plumbing, electrical).</p>
+    </div>
+    <div class="mini-cta"><a href="/project-estimator.html" class="btn breathing-gold">Get a Fast Estimate</a></div>
 </section>
 
-<section class="section fade-up">
+<section class="section fade-up" id="painting-section">
   <h2>Painting & Finishes</h2>
   <div class="service-grid">
-    <div class="service-button">Interior Painting</div>
-    <div class="service-button">Exterior Painting</div>
-    <div class="service-button">Plaster & Patch</div>
-    <div class="service-button">Stucco Repair</div>
-    <div class="service-button">Trim Enamel</div>
-    <div class="service-button">Epoxy Floors</div>
+    <div class="service-button"><a href="#painting-details">Interior Painting</a></div>
+    <div class="service-button"><a href="#painting-details">Exterior Painting (NYC)</a></div>
+    <div class="service-button"><a href="#painting-details">Plaster & Patch</a></div>
+    <div class="service-button"><a href="#painting-details">Stucco Repair</a></div>
+    <div class="service-button"><a href="#painting-details">Epoxy Floors</a></div>
   </div>
+    <div class="seo-block" id="painting-details">
+        <h3>Professional Painting and Specialty Finishes</h3>
+        <p>We provide professional painting services using premium, low-VOC paints for interior and exterior applications. Our finish work includes specialty services like stucco repair and durable epoxy coatings for basement and garage floors. We ensure proper surface preparation, including plaster and sheetrock repair, for a flawless, long-lasting result.</p>
+    </div>
+    <div class="mini-cta"><a href="/project-estimator.html" class="btn breathing-gold">Get a Fast Estimate</a></div>
 </section>
 
-<section class="section fade-up">
+<section class="section fade-up" id="exterior-section">
   <h2>Exterior Care & Seasonal Maintenance</h2>
   <p class="section-note">Protecting your investment with white-glove cleaning and seasonal preparation.</p>
   <div class="service-grid">
-    <div class="service-button">Soft-Wash Cleaning</div>
-    <div class="service-button">Paver Wash</div>
-    <div class="service-button">Deck Stain</div>
-    <div class="service-button">Gutter Cleaning</div>
-    <div class="service-button">Landscape Touch-Ups & Pruning</div>
-    <div class="service-button">Safety Checklists</div>
-    <div class="service-button">Emergency Masonry Patches</div>
+    <div class="service-button"><a href="#exterior-details">Soft-Wash Cleaning</a></div>
+    <div class="service-button"><a href="#exterior-details">Paver Wash</a></div>
+    <div class="service-button"><a href="#exterior-details">Deck Stain</a></div>
+    <div class="service-button"><a href="#exterior-details">Gutter Cleaning</a></div>
+    <div class="service-button"><a href="#exterior-details">Landscape Touch-Ups & Pruning</a></div>
+    <div class="service-button"><a href="#exterior-details">Safety Checklists</a></div>
+    <div class="service-button"><a href="#exterior-details">Emergency Masonry Patches</a></div>
   </div>
+    <div class="seo-block" id="exterior-details">
+        <h3>Comprehensive Seasonal Home Protection</h3>
+        <p>Our exterior care packages are designed to protect and maintain your property year-round. Services include low-pressure soft-wash cleaning for delicate surfaces, seasonal gutter clearing, and professional paver/deck staining to prevent weather damage. We also include light landscaping touch-ups and pruning, ensuring maximum curb appeal and longevity of your home.</p>
+    </div>
+    <div class="mini-cta"><a href="/project-estimator.html" class="btn breathing-gold">Get a Fast Estimate</a></div>
 </section>
 
 <section class="section note-box fade-up">
@@ -310,13 +397,37 @@
   <p>We perform **small roof repairs only**: shingle fixes, flashing adjustments, and leak tracing. Full replacements are referred to trusted partners.</p>
 </section>
 
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Do you repair DOT sidewalk violations?",
+   "acceptedAnswer": { "@type": "Answer", "text": "Yes, we handle violation removal, permits, demolition, concrete pouring, broom finish, and final inspection for all 5 boroughs. We specialize in fast compliance." }
+  },
+  {
+   "@type": "Question",
+   "name": "What is the difference between your Premium and Signature tiers?",
+   "acceptedAnswer": { "@type": "Answer", "text": "The Premium Tier offers a 3-Year Warranty and Enhanced Dust Control. The Signature Tier offers a 5-Year Warranty, White-Glove Cleanup, and includes full management of Co-op/Condo board approvals and custom design work." }
+  },
+  {
+   "@type": "Question",
+   "name": "Are you licensed and insured for all NYC boroughs?",
+   "acceptedAnswer": { "@type": "Answer", "text": "Yes, Hammer Brick & Home LLC is fully licensed (NYC HIC #21311291) and carries all required general liability and worker's compensation insurance to operate legally across Staten Island, Brooklyn, Queens, Manhattan, and The Bronx." }
+  }
+ ]
+}
+</script>
+
 </main>
 
 <div id="footer-include"></div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // Load Header and Footer
+  // Load Header and Footer (omitted for brevity)
   Promise.all([
     fetch("/header.html").then(r=>r.text()),
     fetch("/footer.html").then(r=>r.text())
@@ -328,7 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(typeof initHeaderInteractions === "function") initHeaderInteractions();
   }).catch(console.error);
 
-  // Search/Filter Functionality
+  // Search/Filter Functionality (retained)
   const input = document.getElementById("serviceSearch");
   const noResults = document.getElementById("noResults");
   const buttons = document.querySelectorAll(".service-grid .service-button");
@@ -338,8 +449,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const query = input.value.toLowerCase().trim();
       let visible = 0;
       buttons.forEach(btn=>{
-        const match = btn.textContent.toLowerCase().includes(query);
-        btn.style.display = match ? "" : "none";
+        const textContent = btn.textContent.toLowerCase();
+        const match = textContent.includes(query);
+        btn.parentNode.style.display = match ? "" : "none"; // Hide parent div
         if(match) visible++;
       });
       noResults.style.display = visible ? "none" : "block";
