@@ -58,26 +58,71 @@
 </script>
 
 <style>
-/* Local Styles for About Page Enhancements */
-.trust-bar {
+/* --- FIXED BADGE STYLES (Prevents Huge Icons) --- */
+.badge-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   justify-content: center;
-  margin-top: 25px;
-  padding: 20px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
+  margin-top: 20px;
 }
-.trust-item {
-  font-size: 13px;
-  color: var(--gold-soft);
-  font-weight: 700;
+.badge-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(231,191,99,0.3);
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold-soft);
+  transition: .3s;
 }
+.badge-item:hover {
+  background: rgba(231,191,99,0.15);
+  border-color: var(--gold);
+}
+/* FORCED SIZE TO PREVENT HUGE ICONS */
+.badge-item svg {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  fill: var(--gold);
+  flex-shrink: 0;
+}
+
+/* Mission Statement Style */
+.mission-box {
+  max-width: 900px;
+  margin: -30px auto 40px;
+  padding: 30px;
+  background: linear-gradient(145deg, rgba(8,19,35,0.95), rgba(5,10,20,0.98));
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(212,175,55,0.15);
+  position: relative;
+  z-index: 10;
+}
+.mission-title {
+  font-family: var(--font-serif);
+  color: var(--gold-soft);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  display: block;
+}
+.mission-text {
+  font-size: 20px;
+  font-style: italic;
+  line-height: 1.6;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* General Page Styles */
 .about-image-frame {
   border-radius: 22px;
   overflow: hidden;
@@ -187,36 +232,6 @@
   padding-top: 20px;
 }
 .micro-summary strong { color: #fff; }
-
-/* --- NEW: MISSION STATEMENT STYLE --- */
-.mission-box {
-  max-width: 900px;
-  margin: -30px auto 40px; /* Overlap slightly or sit tight to hero */
-  padding: 30px;
-  background: linear-gradient(145deg, rgba(8,19,35,0.95), rgba(5,10,20,0.98));
-  border: 1px solid var(--gold);
-  border-radius: 18px;
-  text-align: center;
-  box-shadow: 0 10px 40px rgba(212,175,55,0.15);
-  position: relative;
-  z-index: 10;
-}
-.mission-title {
-  font-family: var(--font-serif);
-  color: var(--gold-soft);
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
-  display: block;
-}
-.mission-text {
-  font-size: 20px;
-  font-style: italic;
-  line-height: 1.6;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
 </style>
 
 </head>
@@ -234,19 +249,19 @@
       
       <div class="badge-grid">
         <div class="badge-item">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
           NYC HIC #21311291
         </div>
         <div class="badge-item">
-          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
           EPA Lead-Safe Certified
         </div>
         <div class="badge-item">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
           Fully Insured
         </div>
         <div class="badge-item">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           NYC & NJ Service
         </div>
       </div>
