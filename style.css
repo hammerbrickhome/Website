@@ -265,8 +265,16 @@ body::before {
    PAGE LAYOUT
 =============================================================== */
 
+/* NEW: Global Content Wrapper for Centering and Max Width */
+.content-wrapper {
+  max-width: 1000px; /* Set max width for readability */
+  margin: 0 auto;    /* Center the block horizontally */
+  padding: 0 18px;   /* Add horizontal padding for mobile safety */
+}
+
+
 .page{
-  max-width:1240px;
+  max-width:1240px; /* This is too wide, we will use .content-wrapper instead */
   margin:0 auto;
   padding:26px 18px 120px;
 }
