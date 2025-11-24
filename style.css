@@ -274,7 +274,7 @@ body::before {
 
 
 .page{
-  max-width:1240px; /* This is too wide, we will use .content-wrapper instead */
+  /* Removed max-width:1240px; as it conflicts with content-wrapper */
   margin:0 auto;
   padding:26px 18px 120px;
 }
