@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Licensed Contractor Services NYC | Masonry, Windows, Doors & Carpentry</title>
+
 <meta name="description" content="Hammer Brick & Home LLC offers luxury masonry, concrete, pavers, window & door installation, carpentry, painting, and comprehensive exterior home care in NYC and nearby New Jersey. EPA Lead-Safe Certified Firm.">
+
 <link rel="canonical" href="https://www.hammerbrickhome.com/services.html">
 <link rel="icon" href="/images/hero.PNG">
 <link rel="preload" as="image" href="/images/hero.webp"> 
@@ -34,6 +36,12 @@
     "image": "https://www.hammerbrickhome.com/images/hero.PNG",
     "priceRange": "$$$",
     "telephone": "+19295955300",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "telephone": "+19295955300",
+      "email": "contact@hammerbrickhome.com"
+    },
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Staten Island",
@@ -45,9 +53,23 @@
       "@type": "OfferCatalog",
       "name": "Full Range of Masonry, Hardscape, Windows, Doors, and Exterior Services",
       "itemListElement": [
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "DOT Violation Repairs"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Custom Hardscape Design"}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Window & Door Installation"}}
+        {
+          "@type": "OfferCatalog",
+          "name": "Masonry & Hardscape Services",
+          "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "DOT Violation Repairs", "serviceType": "Sidewalk Repair"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Custom Hardscape Design", "serviceType": "Paver Installation"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Brickwork & Repointing", "serviceType": "Facade Restoration"}}
+          ]
+        },
+        {
+          "@type": "OfferCatalog",
+          "name": "Carpentry, Windows & Doors", 
+          "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Window Installation"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Door Installation"}}
+          ]
+        }
       ]
     }
   },
@@ -55,8 +77,17 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.hammerbrickhome.com/" },
-      { "@type": "ListItem", "position": 2, "name": "Services" }
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.hammerbrickhome.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services"
+      }
     ]
   },
   {
@@ -66,7 +97,17 @@
       {
         "@type": "Question",
         "name": "Do you repair DOT sidewalk violations?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes, we handle violation removal, permits, demolition, concrete pouring, broom finish, and final inspection for all 5 boroughs." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, we handle violation removal, permits, demolition, concrete pouring, broom finish, and final inspection for all 5 boroughs. We specialize in fast compliance." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between your Premium and Signature tiers?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The Premium Tier offers a 3-Year Warranty and Enhanced Dust Control. The Signature Tier offers a 5-Year Warranty, White-Glove Cleanup, and includes full management of Co-op/Condo board approvals and custom design work." }
+      },
+      {
+        "@type": "Question",
+        "name": "Are you licensed and insured for all NYC boroughs?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, Hammer Brick & Home LLC is fully licensed (NYC HIC #21311291) and carries all required general liability and worker's compensation insurance to operate legally across Staten Island, Brooklyn, Queens, Manhattan, and The Bronx." }
       }
     ]
   }
@@ -348,7 +389,7 @@
 </section>
 
 <section class="section fade-up" id="remodeling-section">
-  <h2>Windows, Doors & Carpentry</h2>
+  <h2>Carpentry, Windows & Doors</h2>
   <p class="section-note">High-end finishing, expert installation, and detailed interior work.</p>
   <div class="service-grid">
     <div class="service-button"><a href="/kitchen-remodeling.html">Kitchen Remodels (NYC)</a></div>
@@ -427,7 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(typeof initHeaderInteractions === "function") initHeaderInteractions();
   }).catch(console.error);
 
-  // Search/Filter Functionality
+  // 4. FIX: Corrected Search Logic to hide the button itself
   const input = document.getElementById("serviceSearch");
   const noResults = document.getElementById("noResults");
   const buttons = document.querySelectorAll(".service-grid .service-button");
@@ -440,7 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const textContent = btn.textContent.toLowerCase();
         const match = textContent.includes(query);
         
-        // Correctly toggles the FLEX display we defined in style block
+        // This is the layout fix: hide the button element directly
         btn.style.display = match ? "flex" : "none"; 
         
         if(match) visible++;
