@@ -508,11 +508,11 @@ body::before {
   font-size:12px;
 }
 
+/* OLD CARD GRID (Preserving for older pages) */
 .card-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:16px;
-  /* FIX 1: Ensure columns stretch to the height of the tallest card */
   align-items: stretch; 
 }
 
@@ -522,7 +522,6 @@ body::before {
   border-radius:var(--radius-xl);
   padding:16px;
   box-shadow:var(--shadow-soft);
-  /* FIX 2: Make card a flex container to push buttons to the bottom */
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -537,7 +536,6 @@ body::before {
   margin-top:8px;
   font-weight:800;
 }
-/* FIX 3: Push the button wrapper down using auto margin */
 .pkg-card a.btn {
   margin-top: auto;
 }
@@ -2241,3 +2239,76 @@ input.gallery-search-box,
 
 /* Ensure the rules grid collapses correctly on smaller screens based on original HTML */
 @media(max-width:800px) { .rules-join-grid { grid-template-columns:1fr !important; } }
+
+
+/* ============================================================
+   MONTHLY SPECIALS – 4-CARD LAYOUT (New Fix)
+=============================================================== */
+.specials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 1.75rem;
+  /* Ensure all cards are equal height */
+  align-items: stretch;
+}
+
+.special-card {
+  background: rgba(5, 12, 25, .96);
+  border-radius: 18px;
+  border: 1px solid rgba(231, 191, 99, .35);
+  padding: 18px 18px 20px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, .45);
+  /* Make card a flex container to align contents vertically */
+  display: flex;
+  flex-direction: column;
+}
+
+.special-card h3 {
+  margin-top: 0;
+  margin-bottom: .5rem;
+  font-size: 1.1rem;
+}
+
+.special-card p {
+  margin: .35rem 0;
+}
+
+.special-card ul {
+  margin: .5rem 0 .75rem;
+  padding-left: 1.2rem;
+  /* Flex shrink 0 prevents the list from collapsing */
+  flex-shrink: 0; 
+}
+
+.special-price {
+  font-weight: 600;
+  color: var(--gold, #e7bf63);
+  margin-top: .4rem;
+  flex-shrink: 0;
+}
+
+.special-note {
+  font-size: .85rem;
+  opacity: .8;
+  flex-shrink: 0;
+}
+
+/* Bonus badge */
+.special-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  font-size: .8rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(231, 191, 99, .55);
+  margin-left: .5rem;
+}
+
+/* CTA button line inside cards - push to bottom */
+.special-cta {
+  margin-top: auto; /* Pushes element to the bottom */
+  padding-top: 10px;
+  flex-shrink: 0;
+}
