@@ -12,7 +12,6 @@
 
 <link rel="icon" href="/images/hero.PNG">
 
-<!-- FIXED: chat.css must load BEFORE style.css -->
 <link rel="stylesheet" href="/chat.css">
 <link rel="stylesheet" href="/style.css">
 
@@ -30,23 +29,124 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Home improvement, masonry and remodeling services",
-  "provider": {
-    "@type": "HomeAndConstructionBusiness",
-    "name": "Hammer Brick & Home LLC",
-    "url": "https://www.hammerbrickhome.com/"
-  },
-  "areaServed": ["Staten Island","Brooklyn","Queens","Manhattan","Bronx","New Jersey"],
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Hammer Brick & Home LLC",
+  "url": "https://www.hammerbrickhome.com/services.html",
+  "telephone": "+19295955300",
+  "image": "https://www.hammerbrickhome.com/images/hero.PNG",
+  "areaServed": [
+    { "@type": "City", "name": "Staten Island" },
+    { "@type": "City", "name": "Brooklyn" },
+    { "@type": "City", "name": "Queens" },
+    { "@type": "City", "name": "Manhattan" },
+    { "@type": "City", "name": "Bronx" },
+    { "@type": "State", "name": "New Jersey" }
+  ],
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
-    "name": "Service Categories",
+    "name": "Full Range of Masonry, Remodeling, and Exterior Services",
     "itemListElement": [
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Lead-Safe Renovation (Pre-1978 Homes)" }},
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masonry & Concrete" }},
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Carpentry & Remodeling" }},
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Painting & Finishes" }},
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Care & Seasonal Maintenance" }}
+      // CATEGORY 1: Masonry & Concrete
+      {
+        "@type": "OfferCatalog",
+        "name": "Masonry & Concrete Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Brickwork & Repointing",
+              "description": "Precision brick repair, restoration, and repointing services for façades and walls."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Concrete Sidewalks & DOT Violation Repairs",
+              "description": "Installation and repair of concrete sidewalks and clearance of NYC Department of Transportation violations."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Pavers & Walkways",
+              "description": "Installation of durable pavers and custom stone walkways for driveways and patios."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Steps & Stoops",
+              "description": "Rebuilding and repair of front steps, masonry stoops, and entryways."
+            }
+          }
+        ]
+      },
+      // CATEGORY 2: Carpentry & Remodeling
+      {
+        "@type": "OfferCatalog",
+        "name": "Carpentry & Remodeling Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Kitchen Remodels",
+              "description": "Full-service kitchen remodeling, from design to installation of cabinets and backsplashes."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Bathroom Remodels",
+              "description": "Complete bathroom renovations including tile, plumbing, and fixture installation."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Basement Finishing",
+              "description": "Converting basements into livable, finished spaces with proper framing and finishes."
+            }
+          }
+        ]
+      },
+      // CATEGORY 3: Painting & Exterior Care
+      {
+        "@type": "OfferCatalog",
+        "name": "Painting & Exterior Care",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Interior & Exterior Painting",
+              "description": "Professional painting services for all interior rooms and exterior facades."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Lead-Safe Renovation",
+              "description": "EPA RRP Certified renovation work with strict dust control protocols for pre-1978 homes."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Soft-Wash Cleaning",
+              "description": "Low-pressure soft-wash cleaning for siding, roofs, and exterior masonry."
+            }
+          }
+        ]
+      }
     ]
   }
 }
