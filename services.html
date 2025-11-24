@@ -46,113 +46,37 @@
     "@type": "OfferCatalog",
     "name": "Full Range of Masonry, Hardscape, Remodeling, and Exterior Services",
     "itemListElement": [
-      // CATEGORY 1: Masonry & Concrete (Hardscape Focus)
+      // CATEGORY 1: Masonry & Hardscape Services
       {
         "@type": "OfferCatalog",
         "name": "Masonry & Hardscape Services",
         "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Brickwork & Repointing",
-              "description": "Precision brick repair, restoration, and repointing services for façades and walls."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Concrete Sidewalks & DOT Violation Repairs",
-              "description": "Installation and repair of concrete sidewalks and clearance of NYC Department of Transportation violations."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Pavers, Hardscape & Outdoor Living",
-              "description": "Installation of durable pavers, custom stone walkways, and hardscape design for patios and outdoor kitchens."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Steps, Stoops & Retaining Walls",
-              "description": "Rebuilding and repair of front steps, masonry stoops, and structural retaining walls."
-            }
-          }
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Brickwork & Repointing"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Concrete Sidewalks & DOT Violation Repairs"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Pavers, Hardscape & Outdoor Living"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Steps, Stoops & Retaining Walls"}}
         ]
       },
-      // CATEGORY 2: Carpentry & Remodeling (Kitchens Restored)
+      // CATEGORY 2: Carpentry & Remodeling
       {
         "@type": "OfferCatalog",
         "name": "Carpentry & Remodeling Services",
         "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Kitchen Remodels",
-              "description": "Full-service kitchen remodeling, from design to installation of cabinets, countertops, and backsplashes."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Bathroom Remodels",
-              "description": "Complete bathroom renovations including tile, plumbing, and fixture installation."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Basement Finishing & Waterproofing",
-              "description": "Converting basements into livable, finished spaces with proper framing and finishes."
-            }
-          }
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Kitchen Remodels"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Bathroom Remodels"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Basement Finishing & Waterproofing"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Open Concept Structural Framing"}}
         ]
       },
-      // CATEGORY 3: Painting & Exterior Care (Landscaping Added)
+      // CATEGORY 3: Painting & Exterior Care
       {
         "@type": "OfferCatalog",
         "name": "Painting, Finishes & Exterior Care",
         "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Interior & Exterior Painting",
-              "description": "Professional painting services for all interior rooms and exterior facades."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Lead-Safe Renovation",
-              "description": "EPA RRP Certified renovation work with strict dust control protocols for pre-1978 homes."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Soft-Wash Cleaning & Exterior Detailing",
-              "description": "Low-pressure soft-wash cleaning for siding, roofs, masonry, and exterior detailing."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Landscape Touch-Ups & Seasonal Clean-Up",
-              "description": "Seasonal exterior maintenance including pruning, debris removal, and property tidying."
-            }
-          }
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Interior & Exterior Painting"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Lead-Safe Renovation"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Soft-Wash Cleaning & Exterior Detailing"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landscape Touch-Ups & Seasonal Clean-Up"}}
         ]
       }
     ]
@@ -161,7 +85,7 @@
 </script>
 
 <style>
-/* Service button and grid styling assumes your style.css is linked correctly */
+/* Service button and grid styling is placed here using the provided variables and classes */
 .service-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -206,7 +130,7 @@
   display:none; margin-top:10px; text-align:center; color:var(--gold-soft);
   font-weight:600; letter-spacing:0.4px;
 }
-/* CTA Band Styling (Reusing existing classes with assumed styles) */
+/* CTA Band Styling */
 .cta-band {
   margin-top: 40px;
   padding: 22px 18px 24px;
@@ -255,24 +179,24 @@
 <section class="section fade-up">
   <label class="search-label" for="serviceSearch">Search Services</label>
   <input id="serviceSearch" class="search-input"
-    placeholder="Type to filter (e.g., pavers, bathroom, sidewalk)..."
+    placeholder="Type to filter (e.g., pavers, kitchen, sidewalk)..."
     aria-label="Search available services">
   <p id="noResults">No matching services found.</p>
 </section>
 
 <section class="cta-band fade-up" id="pricing-tiers">
   <div class="cta-text">
-    <h2>Ready for Transparent Tiered Pricing?</h2>
-    <p>Choose from three structured tiers—Foundation, Premium, and Signature—to match your budget and vision for any of the services below.</p>
+    <h2>Transparent Tiers: Foundation, Premium, Signature</h2>
+    <p>Every service below can be customized into three clear tiers, defining the scope, material quality, and **warranty** (1-5 Years). Choose the perfect fit for your budget and project vision.</p>
   </div>
   <div class="cta-actions">
-    <a href="/pricing.html" class="btn breathing-gold">See Pricing & Packages</a>
+    <a href="/pricing.html" class="btn breathing-gold">See Tiered Pricing & Details</a>
     <a href="/project-estimator.html" class="btn ghost">Use AI Project Estimator</a>
   </div>
 </section>
 <section class="section fade-up">
   <h2>Lead-Safe Renovation (Pre-1978 Homes)</h2>
-  <p class="section-note">EPA RRP Lead-Safe Certified Firm — dust control, protection, compliance.</p>
+  <p class="section-note">EPA RRP Lead-Safe Certified Firm — strict dust control, protection, and compliance for older buildings.</p>
   <div class="service-grid">
     <div class="service-button">Lead-Safe Kitchen & Bath Renovations</div>
     <div class="service-button">Lead-Safe Window & Door Work</div>
@@ -286,45 +210,36 @@
 
 <section class="section fade-up">
   <h2>Masonry, Concrete & Hardscape Design</h2>
-  <p class="section-note">Durable, precise, and properly installed. Now includes **Outdoor Living** and **Hardscape** services.</p>
+  <p class="section-note">Structural integrity meets aesthetic design. Includes DOT compliance and **Outdoor Living** expertise.</p>
   <div class="service-grid">
     <div class="service-button">Brickwork & Repointing</div>
-    <div class="service-button">Block Walls</div>
     <div class="service-button">Concrete Sidewalks</div>
     <div class="service-button">DOT Violation Repairs</div>
-    <div class="service-button">Driveways</div>
     <div class="service-button">Pavers & Walkways</div>
     <div class="service-button">Custom Hardscape Design</div>
     <div class="service-button">Outdoor Kitchen Bases</div>
     <div class="service-button">Steps & Stoops</div>
     <div class="service-button">Retaining Walls</div>
     <div class="service-button">Stone Veneer</div>
-    <div class="service-button">Bluestone / Flagstone</div>
     <div class="service-button">Chimney Repair</div>
-    <div class="service-button">Masonry Waterproofing</div>
     <div class="service-button">Foundation Crack Repair</div>
-    <div class="service-button">Lintel Replacement</div>
     <div class="service-button">Parapet Wall Rebuilds</div>
-    <div class="service-button">Paver Lift-Relay</div>
     <div class="service-button">Sidewalk Permits</div>
   </div>
 </section>
 
 <section class="section fade-up">
   <h2>Carpentry & Structural Remodeling</h2>
-  <p class="section-note">Clean layouts, detailed finishing, and structural expertise. Includes full-service Kitchens.</p>
+  <p class="section-note">High-end finishing for interiors and critical structural modifications.</p>
   <div class="service-grid">
     <div class="service-button">Kitchen Remodels</div>
     <div class="service-button">Bathroom Remodels</div>
     <div class="service-button">Basement Finishing & Waterproofing</div>
     <div class="service-button">Open Concept Framing</div>
     <div class="service-button">Load-Bearing Wall Removal</div>
-    <div class="service-button">Sheetrock & Spackle</div>
-    <div class="service-button">Doors & Trim</div>
-    <div class="service-button">Built-Ins</div>
+    <div class="service-button">Built-Ins & Custom Millwork</div>
     <div class="service-button">Decks & Fences</div>
-    <div class="service-button">Flooring</div>
-    <div class="service-button">Backsplashes</div>
+    <div class="service-button">Flooring Installation</div>
     <div class="service-button">Window Replacement</div>
   </div>
 </section>
@@ -338,18 +253,18 @@
     <div class="service-button">Stucco Repair</div>
     <div class="service-button">Trim Enamel</div>
     <div class="service-button">Epoxy Floors</div>
-    <div class="service-button">Wallpaper Removal</div>
   </div>
 </section>
 
 <section class="section fade-up">
   <h2>Exterior Care & Seasonal Maintenance</h2>
+  <p class="section-note">Protecting your investment with white-glove cleaning and seasonal preparation.</p>
   <div class="service-grid">
     <div class="service-button">Soft-Wash Cleaning</div>
     <div class="service-button">Paver Wash</div>
     <div class="service-button">Deck Stain</div>
     <div class="service-button">Gutter Cleaning</div>
-    <div class="service-button">**Landscape Touch-Ups**</div>
+    <div class="service-button">Landscape Touch-Ups & Pruning</div>
     <div class="service-button">Safety Checklists</div>
     <div class="service-button">Emergency Masonry Patches</div>
   </div>
@@ -357,7 +272,7 @@
 
 <section class="section note-box fade-up">
   <h2>Roofing Policy</h2>
-  <p>We perform <strong>small roof repairs only</strong>: shingle fixes, flashing adjustments, and leak tracing. Full replacements are referred to trusted partners.</p>
+  <p>We perform **small roof repairs only**: shingle fixes, flashing adjustments, and leak tracing. Full replacements are referred to trusted partners.</p>
 </section>
 
 </main>
@@ -366,7 +281,6 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
   // Load Header and Footer
   Promise.all([
     fetch("/header.html").then(r=>r.text()),
@@ -374,17 +288,14 @@ document.addEventListener("DOMContentLoaded", () => {
   ]).then(([h,f])=>{
     document.getElementById("header-include").innerHTML = h;
     document.getElementById("footer-include").innerHTML = f;
-
     const yr = document.getElementById("yr");
     if(yr) yr.textContent = new Date().getFullYear();
-
     if(typeof initHeaderInteractions === "function") initHeaderInteractions();
   }).catch(console.error);
 
   // Search/Filter Functionality
   const input = document.getElementById("serviceSearch");
   const noResults = document.getElementById("noResults");
-  // Find all buttons inside all service-grid sections
   const buttons = document.querySelectorAll(".service-grid .service-button");
 
   if(input && buttons.length){
@@ -399,7 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
       noResults.style.display = visible ? "none" : "block";
     });
   }
-
 });
 </script>
 
@@ -408,10 +318,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
-
-
-
-
-
-
-
