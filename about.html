@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>About Us | Luxury Remodeling & Masonry | Hammer Brick & Home LLC</title>
-<meta name="description" content="Meet Noman and the team at Hammer Brick & Home LLC. Licensed NYC contractors offering Transparent Tiers (Foundation, Premium, Signature) for masonry and remodeling. HIC #21311291.">
+<meta name="description" content="Meet Noman and the team at Hammer Brick & Home LLC. Our mission is luxury craftsmanship and white-glove cleanliness. Licensed NYC HIC #21311291 & EPA Certified.">
 <link rel="canonical" href="https://www.hammerbrickhome.com/about.html">
 
 <link rel="icon" href="/images/hero.PNG">
@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="/chat.css">
 
 <meta property="og:title" content="About Us — Hammer Brick & Home LLC">
-<meta property="og:description" content="Our craftsmanship, values, and tiered pricing options. Luxury NYC remodeling & true masonry with white-glove clean-up.">
+<meta property="og:description" content="Luxury NYC remodeling & true masonry with white-glove clean-up. See our credentials and tiered service options.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.hammerbrickhome.com/about.html">
 <meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
@@ -58,38 +58,93 @@
 </script>
 
 <style>
-/* Local Styles for About Page Enhancements */
-.trust-bar {
+/* --- NEW: MISSION STATEMENT STYLE --- */
+.mission-box {
+  max-width: 900px;
+  margin: -30px auto 40px; /* Overlap slightly or sit tight to hero */
+  padding: 30px;
+  background: linear-gradient(145deg, rgba(8,19,35,0.95), rgba(5,10,20,0.98));
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(212,175,55,0.15);
+  position: relative;
+  z-index: 10;
+}
+.mission-title {
+  font-family: var(--font-serif);
+  color: var(--gold-soft);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  display: block;
+}
+.mission-text {
+  font-size: 20px;
+  font-style: italic;
+  line-height: 1.6;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* --- NEW: PREMIUM BADGE GRID (SVG Icons) --- */
+.badge-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   justify-content: center;
-  margin-top: 25px;
-  padding: 20px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
+  margin-top: 20px;
 }
-.trust-item {
-  font-size: 13px;
-  color: var(--gold-soft);
-  font-weight: 700;
+.badge-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(231,191,99,0.3);
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold-soft);
+  transition: .3s;
 }
+.badge-item:hover {
+  background: rgba(231,191,99,0.15);
+  border-color: var(--gold);
+}
+.badge-item svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--gold);
+}
+
+/* Existing Styles Enhancements */
 .about-image-frame {
   border-radius: 22px;
   overflow: hidden;
   border: 1px solid rgba(231,191,99,0.3);
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   margin-bottom: 20px;
+  position: relative;
+}
+.about-image-frame::after {
+  content: "Real Project Site";
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 10px;
+  border-radius: 4px;
 }
 .about-image-frame img {
   width: 100%;
   height: auto;
   display: block;
 }
+
 .process-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -139,7 +194,7 @@
   text-align: right;
 }
 
-/* --- NEW TIER SECTION STYLES --- */
+/* Tier Styles */
 .tier-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -160,30 +215,21 @@
   transform: translateY(-5px);
   border-color: var(--gold);
 }
-.tier-card h3 {
-  font-size: 20px;
-  color: #fff;
-  margin-bottom: 5px;
-}
-.tier-sub {
-  font-size: 13px;
-  color: var(--gold-soft);
-  font-weight: 700;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.tier-best-for {
-  margin-top: auto;
-  padding-top: 15px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+.tier-card h3 { font-size: 20px; color: #fff; margin-bottom: 5px; }
+.tier-sub { font-size: 13px; color: var(--gold-soft); font-weight: 700; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+.tier-best-for { margin-top: auto; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: var(--muted); }
+.how-it-works-box h3 { color: var(--gold-soft); margin-bottom: 10px; }
+
+/* Micro-Summary Box */
+.micro-summary {
+  margin-top: 40px;
+  text-align: center;
   font-size: 12px;
   color: var(--muted);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
 }
-.how-it-works-box h3 {
-    color: var(--gold-soft);
-    margin-bottom: 10px;
-}
+.micro-summary strong { color: #fff; }
 </style>
 
 </head>
@@ -199,14 +245,31 @@
       <h1>About Hammer Brick &amp; Home LLC</h1>
       <p>Luxury craftsmanship. Clean, disciplined work. Respect for your home. We bring a premium remodeling & masonry experience to every NYC project.</p>
       
-      <div class="trust-bar">
-        <div class="trust-item"><span>📜</span> NYC Licensed HIC #21311291</div>
-        <div class="trust-item"><span>🛡️</span> EPA Lead-Safe Certified</div>
-        <div class="trust-item"><span>✅</span> Fully Insured</div>
-        <div class="trust-item"><span>📍</span> NYC & NJ Service</div>
+      <div class="badge-grid">
+        <div class="badge-item">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          NYC HIC #21311291
+        </div>
+        <div class="badge-item">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+          EPA Lead-Safe Certified
+        </div>
+        <div class="badge-item">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          Fully Insured
+        </div>
+        <div class="badge-item">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          NYC & NJ Service
+        </div>
       </div>
     </div>
   </section>
+
+  <div class="mission-box fade-up">
+    <span class="mission-title">Our Mission</span>
+    <p class="mission-text">"Our mission is to deliver luxury-grade craftsmanship with disciplined, white-glove cleanliness — protecting every home as if it were our own, and treating every client with honesty, respect, and transparency."</p>
+  </div>
 
   <section class="section split fade-up">
     <div class="about-image-frame">
@@ -227,6 +290,7 @@
   <section class="section fade-up">
     <h2>Our "White-Glove" Philosophy</h2>
     <p>Hammer Brick &amp; Home LLC was created to solve the biggest complaint homeowners have: <em>the mess</em>. We deliver the kind of craftsmanship you are proud to show off, with a process that respects your living space.</p>
+    <p>Visit our <a href="/services.html" style="color:var(--gold-soft);">Services Page</a> to see what we offer, or check out our <a href="/gallery.html" style="color:var(--gold-soft);">Gallery</a> to see real before & after transformations.</p>
 
     <div class="process-grid">
       <div class="process-card">
@@ -241,30 +305,6 @@
         <h3>3. Spotless Finish</h3>
         <p>We don't just sweep. We perform a detailed clean-up so you can enjoy your new space immediately.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="section split fade-up">
-    <div>
-      <h2>What We’re Known For</h2>
-      <ul class="bullets">
-        <li><strong>Masonry &amp; Concrete:</strong> Sidewalks, pavers, stoops, retaining walls, pointing.</li>
-        <li><strong>Carpentry &amp; Remodeling:</strong> Kitchens, baths, basements, decks, fences.</li>
-        <li><strong>Painting &amp; Finishes:</strong> Interior/exterior painting, plaster &amp; patch, stucco repair.</li>
-        <li><strong>Exterior Care:</strong> Power-washing, gutters, seasonal home protection.</li>
-      </ul>
-    </div>
-
-    <div class="accent-card">
-      <h3>Why Homeowners Choose Us</h3>
-      <ul class="bullets">
-        <li>Luxury-level cleanliness & dust control</li>
-        <li>Clear communication (Daily updates & photos)</li>
-        <li>Detailed, itemized estimates (No surprises)</li>
-        <li>Premium materials & disciplined prep</li>
-        <li>Before/After documentation on every job</li>
-        <li>Licensed · Insured · RRP Lead-Safe Certified</li>
-      </ul>
     </div>
   </section>
 
@@ -383,8 +423,14 @@
     <h2>Let’s Talk About Your Project</h2>
     <p style="max-width: 600px; margin: 0 auto 20px;">Your home deserves high-end workmanship. Whether remodeling, masonry repair, or seasonal upkeep, we take pride in delivering clean, exceptional results.</p>
 
-    <div class="hero-actions" style="justify-content: center;">
+    <div class="micro-summary">
+      <strong>Why Hammer Brick & Home?</strong><br>
+      • Licensed & Insured • EPA Lead-Safe Certified • White-Glove Clean-Up • Premium Materials • Daily Updates • Local NYC/NJ Contractor
+    </div>
+
+    <div class="hero-actions" style="justify-content: center; margin-top: 20px;">
       <a class="btn" href="tel:+19295955300">📞 Call 929-595-5300</a>
+      <a class="btn ghost" href="sms:+19295955300">📱 Text Us Photos</a>
       <a class="btn ghost" href="/contact.html">Online Contact Form</a>
     </div>
   </section>
