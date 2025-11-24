@@ -1,5 +1,5 @@
 /* ============================================================
-   HAMMER BRICK & HOME — ULTRA-ADVANCED CHAT AI UI v2
+   HAMMER BRICK & HOME — ULTRA-ADVANCED CHAT AI UI v2.1
    Desktop + Mobile • iPhone Keyboard Safe • Luxury Dark+Gold
 =============================================================== */
 
@@ -210,7 +210,7 @@
   border-color: var(--hb-chat-gold);
 }
 
-/* --- GOLDEN BUTTON FIX (New Class Added) --- */
+/* Primary / Gold Button */
 .hb-chip.hb-primary-btn {
   background: var(--hb-chat-gold) !important;
   color: #000 !important;
@@ -221,11 +221,10 @@
 }
 
 .hb-chip.hb-primary-btn:hover {
-  background: #ffcc66 !important; /* Lighter gold on hover */
+  background: #ffcc66 !important;
   transform: scale(1.02);
   box-shadow: 0 6px 20px rgba(231,191,99,0.7);
 }
-/* ------------------------------------------- */
 
 /* --- Receipt Card ------------------------------------------ */
 
@@ -286,7 +285,6 @@
   box-sizing: border-box;
 }
 
-/* Input: keep at 16px+ to avoid iOS zoom */
 .hb-chat-input {
   flex: 1;
   background: #1c263b;
@@ -408,19 +406,8 @@
   }
 }
 
-/* ============================================================
-   SAFETY / VISIBILITY OVERRIDES
-=============================================================== */
-
-/* Keep FAB always tappable; JS controls hide/show with style.display */
+/* Safety Override */
 .hb-chat-fab {
   opacity: 1;
   visibility: visible;
 }
-
-/* If you ever create a class .hb-fab-hidden in JS, you can use: */
-/*
-.hb-chat-fab.hb-fab-hidden {
-  display: none !important;
-}
-*/
