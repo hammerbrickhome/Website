@@ -835,41 +835,48 @@
     });
   }
 
-  // --- UPDATED: HONEST TRUST TICKER ---
-  function startTicker() {
-      if (!els.ticker) return;
-      const msgs = [
-          "🛡️ NYC Licensed & Insured: HIC #2131291 · EPA Lead-Safe Certified",
-          "🧱 Specializing in: Masonry · Brownstones · Outdoor Living · Roofing",
-          "🔥 Trending: Basement Waterproofing & Custom Outdoor Living",
-          "❄️ Winter Prep: Ask about waterproofing & freeze-protection.",
-          "💳 VIP Members get 15% off labor + priority emergency scheduling.",
-          "📍 Serving Manhattan, Brooklyn, Queens, Bronx & New Jersey."
-      ];
-      let i = 0;
-      els.ticker.innerText = msgs[0];
-      setInterval(() => {
-          i = (i + 1) % msgs.length;
-          els.ticker.innerText = msgs[i];
-      }, 5000); // Cycle every 5 seconds
-  }
+// --- UPDATED: HONEST TRUST TICKER ---
+function startTicker() {
+  if (!els.ticker) return;
+  const msgs = [
+    "🛡️ NYC Licensed & Insured: HIC #2131291 · EPA Lead-Safe Certified",
+    "🧱 Specializing in: Masonry · Brownstones · Outdoor Living · Roofing",
+    "🔥 Trending: Basement Waterproofing & Custom Outdoor Living",
+    "❄️ Winter Prep: Ask about waterproofing & freeze-protection.",
+    "💳 VIP Members get 15% off labor + priority emergency scheduling.",
+    "📍 Serving Manhattan, Staten Island Brooklyn, Queens, Bronx & New Jersey. ",
+    "📄 Every project starts with a clear, written, itemized estimate.",
+    "📸 Text photos for a fast ballpark estimate – no pressure, no spam.",
+    "🚶 Sidewalk, steps & stoops – repair, rebuild, or DOT-style upgrades.",
+    "🧼 We protect floors, control dust, and leave your space broom-clean.",
+    "🧱 Brownstone & limestone: repointing, patching, and facade care.",
+    "🛠️ Masonry Tune-Up: fix small cracks, joints, and trip hazards before they grow."
+  ];
+  let i = 0;
+  els.ticker.innerText = msgs[0];
+  setInterval(() => {
+    i = (i + 1) % msgs.length;
+    els.ticker.innerText = msgs[i];
+  }, 5000); // Cycle every 5 seconds
+}
 
-  function toggleChat() {
-    const isOpen = els.wrapper.classList.toggle("hb-open");
-    if (isOpen) {
-      els.fab.style.display = "none";
-      sessionStorage.setItem("hb_chat_active", "true");
-      // Auto-focus
-      if(els.input && !els.input.disabled) els.input.focus();
-    } else {
-      els.fab.style.display = "flex";
-      sessionStorage.removeItem("hb_chat_active");
-    }
+function toggleChat() {
+  const isOpen = els.wrapper.classList.toggle("hb-open");
+  if (isOpen) {
+    els.fab.style.display = "none";
+    sessionStorage.setItem("hb_chat_active", "true");
+    // Auto-focus
+    if (els.input && !els.input.disabled) els.input.focus();
+  } else {
+    els.fab.style.display = "flex";
+    sessionStorage.removeItem("hb_chat_active");
   }
+}
 
-  function updateProgress(pct, label) {
-    if (els.prog) els.prog.style.width = pct + "%";
-  }
+function updateProgress(pct, label) {
+  if (els.prog) els.prog.style.width = pct + "%";
+}
+
 
   // --- MESSAGING ---------------------------------------------
 
