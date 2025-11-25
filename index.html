@@ -87,7 +87,7 @@
     }
     .hero-content, .hero-badge { z-index: 2; position: relative; }
 
-    /* 16. Gold Divider Shimmer */
+    /* 2. Gold Divider Shimmer */
     .gold-divider {
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(231,191,99,0.5), transparent);
@@ -107,7 +107,7 @@
     }
     @keyframes shimmerDivider { 100% { left: 200%; } }
 
-    /* 5. Review Carousel */
+    /* 3. Review Carousel */
     .review-carousel-container { position: relative; overflow: hidden; padding: 20px 0; }
     .review-track { display: flex; transition: transform 0.5s ease-in-out; }
     .review-slide { min-width: 100%; padding: 0 20px; box-sizing: border-box; text-align: center; }
@@ -115,15 +115,55 @@
     .review-dot { width: 10px; height: 10px; border-radius: 50%; background: #333; cursor: pointer; }
     .review-dot.active { background: #e7bf63; }
 
-    /* 19. Background Noise */
+    /* 4. Background Noise */
     body::after {
       content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
       background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDIiLz4KPC9zdmc+');
       opacity: 0.4;
     }
 
-    /* 8. Fix Services Glow Icons (SVG Sizing) */
+    /* 5. Fix Services Glow Icons (SVG Sizing) */
     .glow-icon svg { width: 28px; height: 28px; fill: currentColor; }
+
+    /* 6. ✅ MOBILE LAYOUT FIX: Un-squeezes the services box */
+    @media (max-width: 1000px) {
+      /* Force the split section to stack vertically */
+      .split { 
+        display: flex !important; 
+        flex-direction: column-reverse !important; 
+        gap: 35px !important;
+        align-items: center !important;
+      }
+      
+      .trust-content { 
+        width: 100% !important; 
+        text-align: center !important; 
+        padding-right: 0 !important;
+      }
+      
+      /* Make the services box full width so buttons have room */
+      .services-glow-container { 
+        width: 100% !important; 
+        max-width: 500px !important; /* Prevents it from getting too wide on tablets */
+        margin: 0 auto !important;
+      }
+      
+      /* Ensure the grid is always 2 columns on mobile */
+      .glow-grid { 
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 15px !important; 
+      }
+      
+      /* Adjust padding inside cards so text fits */
+      .glow-card {
+        padding: 15px 5px !important;
+      }
+
+      .mini-brand-strip { 
+        justify-content: center; 
+        margin-top: 20px;
+      }
+    }
   </style>
 </head>
 
@@ -379,7 +419,6 @@
   <div id="footer-include"></div>
 
   <script>
-    // ✅ FIXED: Animation Script
     document.addEventListener("DOMContentLoaded", () => {
       // Fade Up
       const observer = new IntersectionObserver(entries => {
