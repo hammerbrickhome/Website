@@ -80,6 +80,64 @@
     }
   ]
   </script>
+
+  <style>
+    /* INLINE STYLES FOR HOME SPECIFIC ELEMENTS */
+    
+    /* Luxury Tagline Animation */
+    .luxury-tagline {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--gold);
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #e7bf63, #f5d89b, #e7bf63);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 5px rgba(231, 191, 99, 0.3));
+      animation: shineTagline 4s linear infinite;
+    }
+    @keyframes shineTagline { to { background-position: 200% center; } }
+
+    /* Featured Project Card */
+    .featured-project {
+      background: var(--bg-alt);
+      border: 1px solid rgba(231,191,99,0.3);
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 40px;
+    }
+    .fp-content { padding: 25px; }
+    .fp-label { 
+      background: var(--gold); color: #000; 
+      font-size: 11px; font-weight: 800; 
+      padding: 4px 8px; border-radius: 4px; 
+      text-transform: uppercase; 
+    }
+    
+    /* Badge Grid Override for Hero - FIXED SIZING */
+    .hero-badges {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;
+    }
+    .h-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; color: var(--gold-soft);
+      background: rgba(255,255,255,0.05); padding: 6px 12px;
+      border-radius: 20px; border: 1px solid rgba(231,191,99,0.2);
+    }
+    /* THIS PREVENTS ICONS FROM BEING HUGE */
+    .h-badge svg { width: 14px !important; height: 14px !important; fill: var(--gold); flex-shrink: 0; }
+
+    /* Neighborhood SEO Block */
+    .hoods-block {
+      text-align: center; font-size: 11px; color: var(--muted); 
+      margin: 40px auto 20px; max-width: 800px; line-height: 1.6; opacity: 0.7;
+    }
+  </style>
 </head>
 
 <body>
@@ -96,9 +154,9 @@
         <p>Ritz-level craftsmanship with neighborly care — from precision masonry and pavers to spotless interiors and white-glove clean-up.</p>
         
         <div class="hero-badges">
-          <div class="h-badge"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg> NYC Licensed</div>
-          <div class="h-badge"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg> EPA Lead-Safe</div>
-          <div class="h-badge"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Fully Insured</div>
+          <div class="h-badge"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg> NYC Licensed</div>
+          <div class="h-badge"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg> EPA Lead-Safe</div>
+          <div class="h-badge"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Fully Insured</div>
         </div>
 
         <div class="hero-actions" style="margin-top: 20px;">
