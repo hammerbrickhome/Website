@@ -320,7 +320,27 @@ body {
   margin-bottom:40px;
 }
 
-.hero-home{align-items:center;}
+/* 🎯 FIX: HOMEPAGE HERO OVERRIDE */
+.hero-home{
+  /* This ensures the badge container spans full width, ignoring the content-wrapper */
+  width: 100% !important; 
+  max-width: none !important; 
+  align-items:center;
+  /* Reset padding from the main content-wrapper */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* 🎯 FIX: CENTER HERO TEXT/BUTTONS */
+.hero-home .hero-content {
+  /* Re-apply the centering and max-width to the content *inside* the full-width hero */
+  max-width: 1000px; 
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 18px; /* Maintain padding for small screens */
+}
+/* END HERO FIX */
+
 
 .hero-inner{
   padding:24px 22px 26px;
