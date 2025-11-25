@@ -1,37 +1,18 @@
-Here is the updated **`chat.js`** code.
-
-I have made the following specific changes based on your request:
-
-1.  **Removed "Electrical"**: Completely scrubbed from the config.
-2.  **Added "Outdoor Living"**: I replaced Electrical with **"Outdoor Living (Kitchens & Firepits)"**. This is a high-ticket service that fits perfectly with masonry/pavers and drives up your "Lead Tier" score.
-3.  **Added "Copy Estimate"**: A button at the end to copy the text to the clipboard.
-4.  **Improved Phone Validation**: Added a loop that forces them to retry if they enter "idk" or a short number.
-5.  **Auto-Focus**: The keyboard now pops up (on mobile) or focuses (on desktop) when the chat opens.
-
-### 1\. Update `chat.js`
-
-Replace your existing `chat.js` content with this version. I have marked the **NEW** sections with comments so you can see them.
-
-```javascript
 /* ============================================================
-   HAMMER BRICK & HOME — ESTIMATOR BOT v11.0 (POLISHED)
-   - REMOVED: Electrical Service.
-   - ADDED: Outdoor Living (Kitchens/Firepits).
-   - ADDED: "Copy Estimate" button & Phone Validation.
+   HAMMER BRICK & HOME — ESTIMATOR BOT v11.1 (FIXED STICKY)
+   - FIXED: "Disappearing Button" bug (Forced visibility).
+   - DISABLED: Auto-open memory (to prevents loop glitches).
+   - INCLUDES: Outdoor Living, Copy Estimate, Phone Validation.
 =============================================================== */
 
 (function() {
   // --- CONFIGURATION -----------------------------------------
 
-  // 1. WEBHOOK (Paste your Zapier/Make URL inside the quotes)
-  const WEBHOOK_URL = ""; 
-
-  // 2. CONTACT INFO
+  const WEBHOOK_URL = ""; // <- Plug in your Zapier/Make URL here
   const PHONE_NUMBER = "9295955300"; 
   const CRM_FORM_URL = ""; 
   const WALKTHROUGH_URL = "";
 
-  // 3. PRICING MODIFIERS
   const BOROUGH_MODS = {
     "Manhattan": 1.18, "Brooklyn": 1.08, "Queens": 1.05,
     "Bronx": 1.03, "Staten Island": 1.0, "New Jersey": 0.96
@@ -46,7 +27,7 @@ Replace your existing `chat.js` content with this version. I have marked the **N
     maintenance: "Maintenance Items"
   };
 
-  // --- FULL SMART ADD-ONS CONFIGURATION ---
+  // --- SMART ADD-ONS (Electrical Removed, Outdoor Living Added) ---
   const SMART_ADDONS_CONFIG = {
     masonry: {
       title: "Masonry · Pavers · Concrete",
@@ -409,7 +390,7 @@ Replace your existing `chat.js` content with this version. I have marked the **N
         ]
       }
     },
-    // NEW: Outdoor Living Replaces Electrical
+    // NEW: Outdoor Living (Replaces Electrical)
     outdoor_living: {
       title: "Outdoor Living & Kitchens",
       groups: {
@@ -715,7 +696,7 @@ Replace your existing `chat.js` content with this version. I have marked the **N
         { label: "New Paver Walkway", fixedLow: 45, fixedHigh: 85, isPerSqFt: true }
       ]
     },
-    // NEW: Outdoor Living Replaces Electrical
+    // NEW: Outdoor Living (Replaces Electrical)
     "outdoor_living": {
       label: "Outdoor Living (Kitchen/Firepit)", emoji: "🔥", unit: "fixed",
       subQuestion: "What do you need built?",
@@ -765,22 +746,31 @@ Replace your existing `chat.js` content with this version. I have marked the **N
   // --- INIT ---------------------------------------------------
 
   function init() {
-    console.log("HB Chat: Initializing v11.0...");
+    console.log("HB Chat: Initializing v11.1...");
     createInterface();
     
-    // Auto-open check
+    // DISABLE AUTO-OPEN to prevent the "Missing Button" glitch
+    // If you want auto-open back later, uncomment the lines below:
+    /*
     if (sessionStorage.getItem("hb_chat_active") === "true") {
       setTimeout(toggleChat, 100); 
     }
+    */
+    
     setTimeout(stepOne_Disclaimer, 800);
   }
 
   function createInterface() {
-    // 1. FAB
+    // 1. FAB (Sticky Button)
     const fab = document.createElement("div");
     fab.className = "hb-chat-fab";
     fab.setAttribute("aria-label", "Get Quote");
     fab.innerHTML = `<span class="hb-fab-icon">📷</span><span class="hb-fab-text">Get Quote</span>`;
+    
+    // FIX: FORCE VISIBILITY IN JS (Overrides any CSS issues)
+    fab.style.display = "flex"; 
+    fab.style.zIndex = "2147483647"; // Ensure it's on top
+    
     fab.onclick = toggleChat;
     document.body.appendChild(fab);
 
@@ -842,7 +832,7 @@ Replace your existing `chat.js` content with this version. I have marked the **N
       els.fab.style.display = "none";
       sessionStorage.setItem("hb_chat_active", "true");
       // NEW: Auto-focus
-      if(!els.input.disabled) els.input.focus();
+      if(els.input && !els.input.disabled) els.input.focus();
     } else {
       els.fab.style.display = "flex";
       sessionStorage.removeItem("hb_chat_active");
@@ -1624,10 +1614,14 @@ Replace your existing `chat.js` content with this version. I have marked the **N
       copyBtn.style.marginTop = "8px";
       copyBtn.textContent = "📋 Copy Estimate to Clipboard";
       copyBtn.onclick = function() {
-          navigator.clipboard.writeText(lines.join("\n")).then(() => {
-              copyBtn.textContent = "✅ Copied!";
-              setTimeout(() => copyBtn.textContent = "📋 Copy Estimate to Clipboard", 2000);
-          });
+          if (navigator.clipboard) {
+              navigator.clipboard.writeText(lines.join("\n")).then(() => {
+                  copyBtn.textContent = "✅ Copied!";
+                  setTimeout(() => copyBtn.textContent = "📋 Copy Estimate to Clipboard", 2000);
+              });
+          } else {
+             alert("Clipboard access not available in this context (try HTTPS).");
+          }
       };
       els.body.appendChild(copyBtn);
 
@@ -1718,4 +1712,3 @@ Replace your existing `chat.js` content with this version. I have marked the **N
   document.addEventListener("DOMContentLoaded", init);
 
 })();
-```
