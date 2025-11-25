@@ -1,46 +1,77 @@
 <style>
   /* =========================================
-     SMART SCROLL HEADER STYLES
+     FIX: STICKY "GLASS" HEADER
      ========================================= */
   .topbar {
-    position: fixed;
+    position: fixed !important; /* Locks to top */
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9999;
-    background: rgba(3, 8, 16, 0.95); /* Slightly darker for readability */
-    backdrop-filter: blur(12px);
+    z-index: 9999; /* Stays on top of everything */
+    
+    /* THE GLASS EFFECT FIX */
+    background: rgba(3, 8, 16, 0.85); /* More transparent so blur is visible */
+    backdrop-filter: blur(20px);      /* Strong blur */
+    -webkit-backdrop-filter: blur(20px); /* Safari/iPhone support */
+    
     border-bottom: 1px solid rgba(231,191,99,0.2);
-    transition: transform 0.4s ease-in-out; /* Smooth slide animation */
+    transition: all 0.3s ease;
   }
 
-  /* CLASS TO HIDE HEADER */
-  .topbar.hidden {
-    transform: translateY(-100%); /* Slides header up and out of view */
-  }
-
+  /* Push content down so it doesn't hide behind the fixed header */
   body {
-    padding-top: 80px; /* Prevent content hiding behind header */
+    padding-top: 80px; 
   }
 
   /* =========================================
-     EXISTING STYLES (Kept exactly the same)
+     EXISTING STYLES
      ========================================= */
-  .gold-glow { box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
-  .gold-text { color: #e7bf63; text-shadow: 0 0 6px rgba(231,191,99,0.7); }
-  .pkg-card:hover { box-shadow: 0 0 20px rgba(231,191,99,0.35); transform: translateY(-3px); transition: 0.25s ease; }
-  .btn, .pill-btn { position: relative; overflow: hidden; }
-  .btn::after, .pill-btn::after {
-    content: ""; position: absolute; top: 0; left: -120%; width: 120%; height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(231,191,99,0.35), transparent);
-    transform: skewX(-20deg); transition: 0.45s;
+
+  .gold-glow {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
   }
-  .btn:hover::after, .pill-btn:hover::after { left: 120%; }
-  .hero-badge img { filter: drop-shadow(0 0 12px rgba(231,191,99,0.45)); }
-  .note-box.lux { border: 1px solid rgba(231,191,99,0.55); background: rgba(10,15,25,0.82); box-shadow: 0 0 18px rgba(231,191,99,0.25); border-radius: 18px; }
+
+  .gold-text {
+    color: #e7bf63;
+    text-shadow: 0 0 6px rgba(231,191,99,0.7);
+  }
+
+  .pkg-card:hover {
+    box-shadow: 0 0 20px rgba(231,191,99,0.35);
+    transform: translateY(-3px);
+    transition: 0.25s ease;
+  }
+
+  .btn, .pill-btn {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::after, .pill-btn::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -120%;
+    width: 120%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(231,191,99,0.35), transparent);
+    transform: skewX(-20deg);
+    transition: 0.45s;
+  }
+  .btn:hover::after, .pill-btn:hover::after {
+    left: 120%;
+  }
+
+  .hero-badge img {
+    filter: drop-shadow(0 0 12px rgba(231,191,99,0.45));
+  }
+
+  .note-box.lux {
+    border: 1px solid rgba(231,191,99,0.55);
+    background: rgba(10,15,25,0.82);
+    box-shadow: 0 0 18px rgba(231,191,99,0.25);
+    border-radius: 18px;
+  }
 </style>
 
-<header class="topbar gold-glow" id="smartHeader" role="banner">
+<header class="topbar gold-glow" role="banner">
   <div class="topbar-inner">
 
     <a class="brand-lockup" href="/index.html">
@@ -56,11 +87,15 @@
     <button class="nav-toggle" aria-label="Open menu">☰</button>
 
     <nav class="main-nav" aria-label="Primary Navigation">
+
       <a href="/index.html">Home</a>
       <a href="/about.html">Our Story</a>
       <a href="/services.html">What We Do</a>
+
       <a href="/gallery.html">Portfolio</a>
+
       <a href="/reviews.html">Client Reviews</a>
+
       <div class="dropdown">
         <a href="#" class="nav-link dropbtn">Pricing & Estimates ▾</a>
         <div class="dropdown-content">
@@ -68,10 +103,14 @@
           <a href="/project-estimator.html">Project Estimator</a>
         </div>
       </div>
+
       <a href="/monthly-specials.html">Seasonal Offers</a>
       <a href="/downloads.html">Home Care Library</a>
+
       <a href="/membership.html">Signature Membership (Free)</a>
+
       <a href="/faq.html">Help Center</a>
+
       <div class="dropdown">
         <a href="#" class="nav-link dropbtn">Areas We Serve ▾</a>
         <div class="dropdown-content">
@@ -83,28 +122,12 @@
           <a href="/new-jersey.html">New Jersey</a>
         </div>
       </div>
+
       <a href="/contact.html">Get in Touch</a>
+
     </nav>
   </div>
 </header>
-
-<script>
-  let lastScrollTop = 0;
-  const header = document.getElementById('smartHeader');
-
-  window.addEventListener('scroll', function() {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    // If scrolling DOWN and past the top area, hide header
-    if (scrollTop > lastScrollTop && scrollTop > 100) {
-      header.classList.add('hidden');
-    } else {
-      // If scrolling UP, show header
-      header.classList.remove('hidden');
-    }
-    lastScrollTop = scrollTop;
-  });
-</script>
 
 
 
