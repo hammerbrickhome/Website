@@ -1,13 +1,29 @@
+Here is the updated **`chat.js`** code.
+
+I have made the following specific changes based on your request:
+
+1.  **Removed "Electrical"**: Completely scrubbed from the config.
+2.  **Added "Outdoor Living"**: I replaced Electrical with **"Outdoor Living (Kitchens & Firepits)"**. This is a high-ticket service that fits perfectly with masonry/pavers and drives up your "Lead Tier" score.
+3.  **Added "Copy Estimate"**: A button at the end to copy the text to the clipboard.
+4.  **Improved Phone Validation**: Added a loop that forces them to retry if they enter "idk" or a short number.
+5.  **Auto-Focus**: The keyboard now pops up (on mobile) or focuses (on desktop) when the chat opens.
+
+### 1\. Update `chat.js`
+
+Replace your existing `chat.js` content with this version. I have marked the **NEW** sections with comments so you can see them.
+
+```javascript
 /* ============================================================
-   HAMMER BRICK & HOME — ESTIMATOR BOT v10.0 (FINAL LEAD ENGINE)
-   - FIXED: Multi-project and Edit functionality now 100% stable.
-   - Integrated ALL requested UX, Lead-Gen, and Automation features.
+   HAMMER BRICK & HOME — ESTIMATOR BOT v11.0 (POLISHED)
+   - REMOVED: Electrical Service.
+   - ADDED: Outdoor Living (Kitchens/Firepits).
+   - ADDED: "Copy Estimate" button & Phone Validation.
 =============================================================== */
 
 (function() {
   // --- CONFIGURATION -----------------------------------------
 
-  // 1. WEBHOOK (Optional - Paste your Zapier/Make URL inside the quotes)
+  // 1. WEBHOOK (Paste your Zapier/Make URL inside the quotes)
   const WEBHOOK_URL = ""; 
 
   // 2. CONTACT INFO
@@ -30,7 +46,7 @@
     maintenance: "Maintenance Items"
   };
 
-  // --- FULL SMART ADD-ONS CONFIGURATION (Complete List) ---
+  // --- FULL SMART ADD-ONS CONFIGURATION ---
   const SMART_ADDONS_CONFIG = {
     masonry: {
       title: "Masonry · Pavers · Concrete",
@@ -393,24 +409,27 @@
         ]
       }
     },
-    electrical: {
-      title: "Electrical Upgrades",
+    // NEW: Outdoor Living Replaces Electrical
+    outdoor_living: {
+      title: "Outdoor Living & Kitchens",
       groups: {
         luxury: [
-          { label: "Smart home hub integration", low: 1200, high: 3500 },
-          { label: "Whole-house surge protection", low: 450, high: 950 }
+          { label: "Built-in Pizza Oven", low: 2500, high: 6500 },
+          { label: "Granite/Stone Counter Upgrade", low: 1800, high: 4500 }
         ],
         protection: [
-          { label: "AFCI/GFCI Breaker Upgrade", low: 850, high: 2200 }
+          { label: "Gas Line Safety Shut-off & Permit", low: 900, high: 2200 },
+          { label: "Custom Canvas Cover", low: 450, high: 1200 }
         ],
         design: [
-          { label: "Recessed Lighting Package", low: 1500, high: 3200 }
+          { label: "Pergola / Shade Structure", low: 3500, high: 9500 },
+          { label: "Under-counter LED lighting", low: 650, high: 1500 }
         ]
       }
     }
   };
 
-  // --- FULL SERVICE DEFINITIONS (Complete List) ---
+  // --- FULL SERVICE DEFINITIONS ---
   const SERVICES = {
     "masonry": {
       label: "Masonry & Concrete", emoji: "🧱", unit: "sq ft",
@@ -696,13 +715,14 @@
         { label: "New Paver Walkway", fixedLow: 45, fixedHigh: 85, isPerSqFt: true }
       ]
     },
-    "electrical": {
-      label: "Electrical / Wiring", emoji: "⚡", unit: "fixed",
-      subQuestion: "What is needed?",
+    // NEW: Outdoor Living Replaces Electrical
+    "outdoor_living": {
+      label: "Outdoor Living (Kitchen/Firepit)", emoji: "🔥", unit: "fixed",
+      subQuestion: "What do you need built?",
       options: [
-        { label: "Panel Upgrade (200A)", fixedLow: 3000, fixedHigh: 5500 },
-        { label: "New Outlet/Switch Run (per unit)", fixedLow: 250, fixedHigh: 450 },
-        { label: "Recessed Lighting Install (per unit)", fixedLow: 180, fixedHigh: 300 }
+        { label: "Fire Pit Station", fixedLow: 3500, fixedHigh: 6500 },
+        { label: "Outdoor Kitchen (Base)", fixedLow: 12000, fixedHigh: 25000 },
+        { label: "Full Entertainment Patio", fixedLow: 25000, fixedHigh: 65000 }
       ]
     },
     "waterproofing": {
@@ -745,7 +765,7 @@
   // --- INIT ---------------------------------------------------
 
   function init() {
-    console.log("HB Chat: Initializing v10.0...");
+    console.log("HB Chat: Initializing v11.0...");
     createInterface();
     
     // Auto-open check
@@ -821,6 +841,8 @@
     if (isOpen) {
       els.fab.style.display = "none";
       sessionStorage.setItem("hb_chat_active", "true");
+      // NEW: Auto-focus
+      if(!els.input.disabled) els.input.focus();
     } else {
       els.fab.style.display = "flex";
       sessionStorage.removeItem("hb_chat_active");
@@ -829,9 +851,6 @@
 
   function updateProgress(pct, label) {
     if (els.prog) els.prog.style.width = pct + "%";
-    // Optional: Add label text update (needs supporting HTML structure in CSS)
-    // const lbl = document.getElementById("hb-prog-label");
-    // if (lbl && label) lbl.textContent = label;
   }
 
   // --- MESSAGING ---------------------------------------------
@@ -935,12 +954,10 @@
     const svc = SERVICES[state.serviceKey];
     if (!svc) return;
 
-    // Quick Quote Check (New Feature)
     if (svc.quickQuote) {
       addBotMessage("⚡ This looks like a quick job. Do you want a fast estimate or full detail?");
       addChoices([{label:"⚡ Quick Estimate", k:"quick"}, {label:"📝 Full Detail", k:"full"}], (c) => {
         if(c.k === "quick") {
-           // Skip sub-options and lead check
            state.subOption = { factor: 1.0, label: "Standard" };
            if(svc.unit === "consult") stepFive_Location(); 
            else stepFour_Size();
@@ -981,8 +998,6 @@
     }
   }
 
-  // --- STEP FOUR: SIZE (UPDATED WITH SIZE PRESETS) ---------------------
-
   function stepFour_Size() {
     updateProgress(40, "Step 4 of 8: Size Estimate");
     const svc = SERVICES[state.serviceKey];
@@ -990,7 +1005,6 @@
     if (!svc) return;
 
     if (svc.unit === "consult" || state.serviceKey === "other") {
-        // Special handling for custom "Other" logic (New Feature)
         if (state.serviceKey === "other") {
             addBotMessage("Is this project mostly **Indoor**, **Outdoor**, or **Both**?");
             addChoices(["Indoor", "Outdoor", "Both"], () => {
@@ -1006,11 +1020,9 @@
     if (svc.unit !== "fixed" || sub.isPerSqFt) {
       const unitLabel = sub.isPerSqFt ? "sq ft" : svc.unit;
       
-      // Check for Size Presets
       if (svc.sizePresets && svc.sizePresets.length > 0) {
         addBotMessage(`Choose a common size, or type exact ${unitLabel} below:`);
         
-        // Add Presets as choices
         const presetChoices = svc.sizePresets.map(p => ({ label: p.label, val: p.val }));
         
         addChoices(presetChoices, function(choice) {
@@ -1019,13 +1031,11 @@
             setTimeout(stepFive_Location, 500);
         });
         
-        // Also enable manual input
         setTimeout(() => {
             enableInput(function(val) {
               const num = parseInt(val.replace(/[^0-9]/g, ""), 10);
               if (!num || num < 10) {
                 addBotMessage("That number seems low. Please enter a valid number (e.g. 500).");
-                // re-trigger manual input
                 stepFour_Size(); 
               } else {
                 state.size = num;
@@ -1035,7 +1045,6 @@
         }, 1700);
 
       } else {
-        // Fallback to manual only
         addBotMessage("Approximate size in " + unitLabel + "?");
         askSizeManual();
       }
@@ -1126,7 +1135,6 @@
     updateProgress(80, "Step 8 of 8: Add-ons");
     const config = SMART_ADDONS_CONFIG[state.serviceKey];
     
-    // Only proceed if there are configured add-ons for this service
     if (config && config.groups) {
       addBotMessage(`I found optional **Smart Add-ons** for ${config.title}. Would you like to view categories like Luxury Upgrades or Protection?`);
       addChoices([
@@ -1145,13 +1153,10 @@
   }
 
   function showAddonCategories(config) {
-    // List available groups
     const groups = Object.keys(config.groups).map(key => ({
       label: `📂 ${SMART_ADDON_GROUP_LABELS[key] || key}`,
       key: key
     }));
-
-    // Add a Done button
     groups.push({ label: "✅ Done Selecting", key: "done" });
 
     addBotMessage("Select a category to view upgrades:", false);
@@ -1168,7 +1173,6 @@
     const items = config.groups[groupKey] || [];
     const groupLabel = SMART_ADDON_GROUP_LABELS[groupKey] || groupKey;
 
-    // Filter out already selected items to prevent duplicates
     const availableItems = items.filter(item => 
       !state.selectedAddons.some(sel => sel.label === item.label)
     ).map(item => ({
@@ -1183,7 +1187,6 @@
       return;
     }
 
-    // Add back button
     availableItems.push({ label: "🔙 Back to Categories", isBack: true });
 
     addBotMessage(`**${groupLabel} Options:** Tap to add.`);
@@ -1191,13 +1194,11 @@
       if (choice.isBack) {
         showAddonCategories(config);
       } else {
-        // Add item
         state.selectedAddons.push({
           ...choice.itemData,
           group: choice.group
         });
         addBotMessage(`✅ Added: **${choice.itemData.label}**`);
-        // Return to categories to allow jumping around
         setTimeout(() => showAddonCategories(config), 600);
       }
     });
@@ -1205,7 +1206,6 @@
 
   function finishCalculation() {
     const est = computeEstimateForCurrent();
-    // CRITICAL FIX 1: Attach svcKey and Push Project
     est.svcKey = state.serviceKey;
     state.projects.push(est); 
     showEstimateAndAskAnother(est);
@@ -1247,7 +1247,6 @@
     const mod = BOROUGH_MODS[state.borough] || 1.0;
     let low = 0, high = 0;
 
-    // Base Calculation
     if (state.serviceKey === "other" || svc.unit === "consult") {
       // Consult
     } else if (svc.unit === "fixed") {
@@ -1272,14 +1271,12 @@
 
     const adjusted = applyPriceModifiers(low, high);
     
-    // Add Smart Add-ons totals
     let addonLow = 0, addonHigh = 0;
     state.selectedAddons.forEach(addon => {
         addonLow += addon.low;
         addonHigh += addon.high;
     });
 
-    // Final sums
     const finalLow = adjusted.low + addonLow;
     const finalHigh = adjusted.high + addonHigh;
 
@@ -1292,7 +1289,7 @@
       discountRate: adjusted.discountRate, 
       isCustom: (low === 0 && high === 0),
       debrisRemoval: state.debrisRemoval,
-      selectedAddons: [...state.selectedAddons] // Copy
+      selectedAddons: [...state.selectedAddons] 
     };
   }
 
@@ -1338,7 +1335,6 @@
       sizeRow = `<div class="hb-receipt-row"><span>Size:</span><span>${est.size} ${unitLabel}</span></div>`;
     }
 
-    // Build Add-on List
     let addonsHtml = "";
     if (est.selectedAddons && est.selectedAddons.length > 0) {
         addonsHtml += `<div class="hb-receipt-row" style="margin-top:8px; border-bottom:1px solid #eee; padding-bottom:4px; font-weight:600;"><span>Selected Add-ons:</span></div>`;
@@ -1371,13 +1367,10 @@
     `;
   }
 
-  // Helper to re-run the calculation without losing other projects
   function editCurrentProject(projectIndex) {
       if (projectIndex >= 0 && projectIndex < state.projects.length) {
-          // CRITICAL FIX 2: Use p.svcKey instead of p.svc.key
           const p = state.projects[projectIndex];
-          
-          state.serviceKey = p.svcKey; // Correctly retrieve the service key
+          state.serviceKey = p.svcKey; 
           state.subOption = p.sub;
           state.size = p.size || 0;
           state.borough = p.borough;
@@ -1388,12 +1381,8 @@
           state.debrisRemoval = p.debrisRemoval;
           state.selectedAddons = p.selectedAddons || [];
           
-          // Remove the project being edited from the permanent list
           state.projects.splice(projectIndex, 1);
-          
           addBotMessage(`✏️ Editing **${p.svc.label}**. Starting from step 2 (Sub-Questions).`);
-          
-          // Jump back to step 2 to re-run the flow
           stepTwo_SubQuestions();
       }
   }
@@ -1404,11 +1393,8 @@
     const html = '--- **Project Estimate** ---<br>' + buildEstimateHtml(est);
     addBotMessage(html, true);
     
-    // Add Edit/Add/Continue options immediately
     setTimeout(() => {
-        // Find the index of the project just added (it's the last one)
         const currentProjectIndex = state.projects.length - 1;
-        
         const choices = [
             { label: "➕ Add Another Project", key: "add" },
             { label: "✏️ Edit This Project", key: "edit", index: currentProjectIndex },
@@ -1421,7 +1407,6 @@
                 addBotMessage("Great! What type of project is the next one?");
                 presentServiceOptions();
             } else if (choice.key === "edit") {
-                // Pass the index to the helper function
                 editCurrentProject(choice.index);
             } else {
                 stepMembershipUpsell();
@@ -1430,7 +1415,6 @@
     }, 1200);
   }
 
-  // --- NEW STEP: MEMBERSHIP UPSELL ---
   function stepMembershipUpsell() {
     addBotMessage("Before we finish, would you like to hear about **VIP Home Care Memberships** (15% off labor + priority booking)?");
     addChoices([
@@ -1439,7 +1423,6 @@
     ], function(choice) {
         if (choice.key === "yes") {
             addBotMessage("🏆 **VIP Members** get 15% off all labor, priority emergency booking, and annual maintenance checks. We'll include the brochure in your text/email.");
-            // Add a flag to the state
             state.interestedInMembership = true;
         }
         showCombinedReceiptAndLeadCapture();
@@ -1477,7 +1460,6 @@
       ? `<div class="hb-receipt-total"><span>Combined Total Range:</span><span>$${Math.round(totals.totalLow).toLocaleString()} – $${Math.round(totals.totalHigh).toLocaleString()}</span></div>`
       : "";
 
-    // LEAD SCORING DISPLAY
     let leadScoreHtml = "";
     if (totals.totalHigh > 25000) {
         leadScoreHtml = `<div class="hb-receipt-footer" style="color:#e7bf63; font-weight:bold;">🌟 VIP Project Tier</div>`;
@@ -1507,7 +1489,7 @@
     state.isRush = false;
     state.promoCode = "";
     state.debrisRemoval = false;
-    state.selectedAddons = []; // Reset selected add-ons
+    state.selectedAddons = []; 
     state.interestedInMembership = false;
   }
   
@@ -1518,27 +1500,25 @@
     addBotMessage("What is your name?");
     enableInput(function(name) {
       state.name = name;
-      addBotMessage("And your mobile number?");
-      enableInput(function(phone) {
-        
-        // PHONE VALIDATION (New Feature)
-        const cleanPhone = phone.replace(/\D/g, "");
-        if (cleanPhone.length < 10 || cleanPhone.length > 15) {
-            addBotMessage("⚠️ That number looks a bit off. Please enter a valid mobile number (digits only).");
-            // Re-ask phone
-            enableInput(function(retryPhone) {
-                state.phone = retryPhone;
-                askExtraQuestions();
-            });
-        } else {
-            state.phone = phone;
-            askExtraQuestions();
-        }
-      });
+      askPhone();
     });
+
+    function askPhone() {
+        addBotMessage("And your mobile number?");
+        enableInput(function(phone) {
+            // NEW: Improved Phone Validation
+            const cleanPhone = phone.replace(/\D/g, "");
+            if (cleanPhone.length < 10 || cleanPhone.length > 15) {
+                addBotMessage("⚠️ That number looks a bit short. Please enter a valid mobile number (10+ digits).");
+                setTimeout(askPhone, 500); // retry loop
+            } else {
+                state.phone = phone;
+                askExtraQuestions();
+            }
+        });
+    }
   }
 
-  // --- NEW EXTRA LEAD FIELDS ---
   function askExtraQuestions() {
       addBotMessage("Almost done! When are you hoping to start this project?");
       addChoices(["ASAP / Rush", "Within 1 month", "1-3 Months", "Just budgeting"], function(timing) {
@@ -1574,7 +1554,6 @@
         }
         lines.push(line);
 
-        // Add detailed breakdown line
         let extras = [];
         if (p.pricingMode !== "full") extras.push(p.pricingMode);
         if (p.isRush) extras.push("Rush");
@@ -1583,7 +1562,6 @@
         
         if (extras.length) lines.push("   [" + extras.join(" | ") + "]");
 
-        // List smart add-ons
         if (p.selectedAddons && p.selectedAddons.length) {
              p.selectedAddons.forEach(addon => {
                  lines.push(`   + Add-on: ${addon.label}`);
@@ -1596,7 +1574,6 @@
           lines.push(`Add-on: Debris Removal (~$${Math.round(ADD_ON_PRICES.debrisRemoval.low).toLocaleString()})`);
       }
       
-      // LEAD SCORING LOGIC (New Feature)
       let leadTier = getLeadScore(totals.totalHigh);
 
       if (totals.totalLow) {
@@ -1607,13 +1584,12 @@
 
     lines.push(`Customer Name: ${state.name}`);
     lines.push(`Phone: ${state.phone}`);
-    lines.push(`Timing: ${state.projectTiming}`); // New Field
-    lines.push(`Source: ${state.leadSource}`);   // New Field
+    lines.push(`Timing: ${state.projectTiming}`); 
+    lines.push(`Source: ${state.leadSource}`);  
     if (state.interestedInMembership) lines.push("** Interested in VIP Membership **");
 
     lines.push("Please reply to schedule a walkthrough.");
 
-    // WEBHOOK SEND (Silent - New Feature)
     sendLeadToWebhook(lines.join("\n"), state);
 
     const body = encodeURIComponent(lines.join("\n"));
@@ -1621,7 +1597,7 @@
     const emailLink = "mailto:hammerbrickhome@gmail.com?subject=" + encodeURIComponent("Estimate Request") + "&body=" + body;
 
     addBotMessage(`Thanks, ${state.name}! Choose how you’d like to contact us.`, false);
-    addBotMessage(`📅 We usually reply same day during business hours.`, false); // Expectation setting
+    addBotMessage(`📅 We usually reply same day during business hours.`, false); 
     
     setTimeout(function() {
       const createBtn = (text, href, isPrimary, isCall) => {
@@ -1639,10 +1615,22 @@
 
       createBtn("📲 Text Estimate to Hammer Brick & Home", smsLink, true, false);
       createBtn("✉️ Email Estimate to Hammer Brick & Home", emailLink, true, false);
-      
-      // Direct Call Button (New)
       createBtn("📞 Call Hammer Brick & Home", "tel:" + PHONE_NUMBER, false, true);
       
+      // NEW: Copy to Clipboard Button
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "hb-chip";
+      copyBtn.style.display = "block";
+      copyBtn.style.marginTop = "8px";
+      copyBtn.textContent = "📋 Copy Estimate to Clipboard";
+      copyBtn.onclick = function() {
+          navigator.clipboard.writeText(lines.join("\n")).then(() => {
+              copyBtn.textContent = "✅ Copied!";
+              setTimeout(() => copyBtn.textContent = "📋 Copy Estimate to Clipboard", 2000);
+          });
+      };
+      els.body.appendChild(copyBtn);
+
       if (CRM_FORM_URL) createBtn("📝 Complete Full Intake Form", CRM_FORM_URL, false, false);
       if (WALKTHROUGH_URL) createBtn("📅 Book a Walkthrough", WALKTHROUGH_URL, false, false);
 
@@ -1654,15 +1642,14 @@
       photoBtn.onclick = () => { if (els.photoInput) els.photoInput.click(); };
       els.body.appendChild(photoBtn);
 
-      // START OVER BUTTON (New Feature)
       const resetBtn = document.createElement("button");
       resetBtn.className = "hb-chip";
       resetBtn.style.display = "block";
       resetBtn.style.marginTop = "20px";
-      resetBtn.style.background = "#333"; // distinct color
+      resetBtn.style.background = "#333"; 
       resetBtn.textContent = "🔁 Start Over";
       resetBtn.onclick = function() {
-          location.reload(); // Simple hard reset
+          location.reload(); 
       };
       els.body.appendChild(resetBtn);
 
@@ -1731,3 +1718,4 @@
   document.addEventListener("DOMContentLoaded", init);
 
 })();
+```
