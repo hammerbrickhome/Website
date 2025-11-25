@@ -71,8 +71,7 @@ body::before {
 
 /* Pushes page content down so it doesn't hide behind the fixed header */
 body {
-  padding-top: 110px; /* Increased from 80px for better clearance */
-
+  padding-top: 110px; /* MODIFIED: Increased for better clearance! */
 }
 
 .topbar-inner{
@@ -1452,10 +1451,10 @@ input.gallery-search-box,
 }
 
 /* Shimmer animation */
-@keyframes faqShimmer {
-  0%   { width: 20%; opacity: 0.2; }
-  50%  { width: 65%; opacity: 1; }
-  100% { width: 20%; opacity: 0.25; }
+@keyframes shimmerScan {
+  0% { opacity: 0; transform: translateX(-40%); }
+  40% { opacity: 1; transform: translateX(0%); }
+  100% { opacity: 0; transform: translateX(40%); }
 }
 
 /* Gold breathing glow */
