@@ -2369,3 +2369,145 @@ input.gallery-search-box,
   transform: scale(1.1);
   box-shadow: 0 0 24px rgba(212,175,55,0.8);
 }
+/* ============================================================
+   TIERED PRICING SECTION (HOMEPAGE)
+=============================================================== */
+
+.tier-section {
+  margin-top: 60px;
+}
+
+.tier-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 30px;
+}
+
+.tier-header h2 {
+  font-size: 28px;
+  color: var(--gold-soft);
+  margin-bottom: 10px;
+}
+
+.tier-header p {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* Grid Layout */
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  margin-bottom: 30px;
+}
+
+/* Card Base Style */
+.tier-card {
+  background: rgba(8, 16, 28, 0.95);
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tier-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* TIER SPECIFIC COLORS */
+/* Foundation (Blue) */
+.tier-card.foundation {
+  border-top: 4px solid #4a90e2;
+}
+.tier-card.foundation .tier-badge { background: rgba(74, 144, 226, 0.15); color: #4a90e2; }
+
+/* Premium (Gold) */
+.tier-card.premium {
+  border-top: 4px solid #e7bf63;
+  background: linear-gradient(145deg, rgba(8, 16, 28, 0.95), rgba(231, 191, 99, 0.05));
+  border-color: rgba(231, 191, 99, 0.3);
+}
+.tier-card.premium .tier-badge { background: rgba(231, 191, 99, 0.15); color: #e7bf63; border: 1px solid rgba(231, 191, 99, 0.2); }
+
+/* Signature (Bronze/Orange) */
+.tier-card.signature {
+  border-top: 4px solid #e67e22;
+}
+.tier-card.signature .tier-badge { background: rgba(230, 126, 34, 0.15); color: #e67e22; }
+
+/* Card Internals */
+.tier-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.tier-top h3 {
+  font-size: 20px;
+  color: #fff;
+  margin: 0;
+}
+
+.tier-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.tier-desc {
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  min-height: 60px; /* Aligns buttons if descriptions vary */
+}
+
+.tier-card .bullets {
+  margin-bottom: 20px;
+  flex-grow: 1; /* Pushes content down */
+}
+
+.tier-best {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.tier-best strong {
+  color: #fff;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Bottom Hook */
+.tier-hook {
+  text-align: center;
+  background: rgba(231, 191, 99, 0.05);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(231, 191, 99, 0.2);
+  margin-top: 10px;
+}
+
+.tier-hook p {
+  color: var(--gold-soft);
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Mobile Fix */
+@media (max-width: 600px) {
+  .tier-desc { min-height: auto; }
+}
