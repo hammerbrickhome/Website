@@ -1160,8 +1160,8 @@
     addBotMessage("Any promo code today?");
     addChoices([
       { label: "No Code", code: "" },
-      { label: "VIP10", code: "VIP10" },
-      { label: "REFERRAL5", code: "REFERRAL5" }
+      { label: "VIP10 (10% OFF)", code: "VIP10" },
+      { label: "REFERRAL5 (5% OFF)", code: "REFERRAL5" }
     ], function(choice) {
         if (choice.code === "") {
             // NEW: Surprise Bonus
