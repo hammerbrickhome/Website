@@ -1,8 +1,10 @@
 /* ============================================================
-   HAMMER BRICK & HOME — ESTIMATOR BOT v11.1 (FIXED STICKY)
-   - FIXED: "Disappearing Button" bug (Forced visibility).
-   - DISABLED: Auto-open memory (to prevents loop glitches).
+   HAMMER BRICK & HOME — ESTIMATOR BOT v12.0 (PLAN A + AUTO-OPEN)
    - INCLUDES: Outdoor Living, Copy Estimate, Phone Validation.
+   - NEW: Auto-Open (4s delay, once per session).
+   - NEW: Live Activity Ticker (FOMO).
+   - NEW: Seasonal Greeting (November = Winter Hook).
+   - NEW: Availability Check (Artificial wait).
 =============================================================== */
 
 (function() {
@@ -27,7 +29,7 @@
     maintenance: "Maintenance Items"
   };
 
-  // --- SMART ADD-ONS (Electrical Removed, Outdoor Living Added) ---
+  // --- SMART ADD-ONS CONFIG ---
   const SMART_ADDONS_CONFIG = {
     masonry: {
       title: "Masonry · Pavers · Concrete",
@@ -390,7 +392,7 @@
         ]
       }
     },
-    // NEW: Outdoor Living (Replaces Electrical)
+    // OUTDOOR LIVING (Added)
     outdoor_living: {
       title: "Outdoor Living & Kitchens",
       groups: {
@@ -696,7 +698,7 @@
         { label: "New Paver Walkway", fixedLow: 45, fixedHigh: 85, isPerSqFt: true }
       ]
     },
-    // NEW: Outdoor Living (Replaces Electrical)
+    // OUTDOOR LIVING (Added)
     "outdoor_living": {
       label: "Outdoor Living (Kitchen/Firepit)", emoji: "🔥", unit: "fixed",
       subQuestion: "What do you need built?",
@@ -742,21 +744,26 @@
   };
 
   let els = {};
+  let tickerInterval; // For live ticker
 
   // --- INIT ---------------------------------------------------
 
   function init() {
-    console.log("HB Chat: Initializing v11.1...");
+    console.log("HB Chat: Initializing v12.0...");
     createInterface();
+    startTicker();
     
-    // DISABLE AUTO-OPEN to prevent the "Missing Button" glitch
-    // If you want auto-open back later, uncomment the lines below:
-    /*
-    if (sessionStorage.getItem("hb_chat_active") === "true") {
-      setTimeout(toggleChat, 100); 
+    // NEW: Smart Auto-Open (Opens once per session after 4 seconds)
+    if (!sessionStorage.getItem("hb_has_opened_automatically")) {
+        setTimeout(function() {
+            // Only open if it's not already open
+            if (!els.wrapper.classList.contains("hb-open")) {
+                toggleChat();
+                sessionStorage.setItem("hb_has_opened_automatically", "true");
+            }
+        }, 4000); // 4 seconds delay
     }
-    */
-    
+
     setTimeout(stepOne_Disclaimer, 800);
   }
 
@@ -767,9 +774,9 @@
     fab.setAttribute("aria-label", "Get Quote");
     fab.innerHTML = `<span class="hb-fab-icon">📷</span><span class="hb-fab-text">Get Quote</span>`;
     
-    // FIX: FORCE VISIBILITY IN JS (Overrides any CSS issues)
+    // Force visibility to fix any glitches
     fab.style.display = "flex"; 
-    fab.style.zIndex = "2147483647"; // Ensure it's on top
+    fab.style.zIndex = "2147483647";
     
     fab.onclick = toggleChat;
     document.body.appendChild(fab);
@@ -784,6 +791,9 @@
           <span>AI Estimator</span>
         </div>
         <button class="hb-chat-close">×</button>
+      </div>
+      <div id="hb-ticker" style="background:#1c263b; color:#888; font-size:10px; padding:6px 16px; border-bottom:1px solid rgba(255,255,255,0.05); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        Initializing live updates...
       </div>
       <div class="hb-progress-container">
         <div class="hb-progress-bar" id="hb-prog"></div>
@@ -810,6 +820,7 @@
       input: document.getElementById("hb-input"),
       send: document.getElementById("hb-send"),
       prog: document.getElementById("hb-prog"),
+      ticker: document.getElementById("hb-ticker"),
       close: wrapper.querySelector(".hb-chat-close"),
       photoInput
     };
@@ -826,12 +837,29 @@
     });
   }
 
+  function startTicker() {
+      if (!els.ticker) return;
+      const msgs = [
+          "🔥 Last booking: Pavers in Brooklyn (12m ago)",
+          "🔨 Last booking: Roofing in Queens (42m ago)",
+          "🧱 Last booking: Concrete in Bronx (1h ago)",
+          "🕒 Last inquiry: Outdoor Kitchen in NJ (5m ago)",
+          "👀 3 other people are getting estimates right now"
+      ];
+      let i = 0;
+      els.ticker.innerText = msgs[0];
+      setInterval(() => {
+          i = (i + 1) % msgs.length;
+          els.ticker.innerText = msgs[i];
+      }, 5000); // Cycle every 5 seconds
+  }
+
   function toggleChat() {
     const isOpen = els.wrapper.classList.toggle("hb-open");
     if (isOpen) {
       els.fab.style.display = "none";
       sessionStorage.setItem("hb_chat_active", "true");
-      // NEW: Auto-focus
+      // Auto-focus
       if(els.input && !els.input.disabled) els.input.focus();
     } else {
       els.fab.style.display = "flex";
@@ -901,11 +929,26 @@
     }, 1600);
   }
 
+  // --- HELPER: SEASONAL GREETING ---
+  function getSeasonalGreeting() {
+      const month = new Date().getMonth(); // 0-11
+      // Nov (10) or Dec (11)
+      if (month === 10 || month === 11) return "❄️ Winter is coming! Check our freeze-protection packages."; 
+      // March (2) to May (4)
+      if (month >= 2 && month <= 4) return "🌸 Spring Rush is starting! Secure your dates now.";
+      // June (5) to August (7)
+      if (month >= 5 && month <= 7) return "☀️ Summer is here! Perfect time for outdoor living.";
+      // Default
+      return "👋 Hi! Ready to upgrade your home?";
+  }
+
   // --- FLOW: DISCLAIMER -> SERVICE -> SUB OPTIONS --------------------------
 
   function stepOne_Disclaimer() {
     updateProgress(5, "Step 1 of 8: Disclaimer");
-    addBotMessage("👋 Hi! I can generate a ballpark estimate for your project instantly.");
+    
+    // NEW: Seasonal Greeting
+    addBotMessage(getSeasonalGreeting());
 
     const disclaimerText = `
         Quick heads-up: this is a **ballpark estimate only**, not a contract. Final price comes after an in-person visit and written proposal. OK to continue?
@@ -1063,8 +1106,23 @@
     const locs = Object.keys(BOROUGH_MODS);
     addChoices(locs, function(loc) {
       state.borough = (typeof loc === "string") ? loc : loc.label;
-      stepSix_PricingMode();
+      
+      // NEW: Trigger Availability Check instead of going straight to pricing
+      stepFive_AvailabilityCheck();
     });
+  }
+
+  // --- NEW: ARTIFICIAL AVAILABILITY CHECK ---
+  function stepFive_AvailabilityCheck() {
+      addBotMessage(`Let me check if we have crews available in ${state.borough}...`);
+      
+      // Fake "Thinking" Delay (2 seconds)
+      setTimeout(() => {
+          // You can randomize this number for realism (e.g., 2, 3, or 4 slots)
+          const slots = Math.floor(Math.random() * 3) + 2; 
+          addBotMessage(`✅ Good news. We have ${slots} estimate slots open for next week.`);
+          setTimeout(stepSix_PricingMode, 1000);
+      }, 2000);
   }
 
   function stepSix_PricingMode() {
@@ -1496,11 +1554,10 @@
     function askPhone() {
         addBotMessage("And your mobile number?");
         enableInput(function(phone) {
-            // NEW: Improved Phone Validation
             const cleanPhone = phone.replace(/\D/g, "");
             if (cleanPhone.length < 10 || cleanPhone.length > 15) {
                 addBotMessage("⚠️ That number looks a bit short. Please enter a valid mobile number (10+ digits).");
-                setTimeout(askPhone, 500); // retry loop
+                setTimeout(askPhone, 500); 
             } else {
                 state.phone = phone;
                 askExtraQuestions();
@@ -1607,7 +1664,6 @@
       createBtn("✉️ Email Estimate to Hammer Brick & Home", emailLink, true, false);
       createBtn("📞 Call Hammer Brick & Home", "tel:" + PHONE_NUMBER, false, true);
       
-      // NEW: Copy to Clipboard Button
       const copyBtn = document.createElement("button");
       copyBtn.className = "hb-chip";
       copyBtn.style.display = "block";
