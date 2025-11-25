@@ -1127,7 +1127,7 @@
   function stepFive_AvailabilityCheck() {
       addBotMessage(`Let me check our schedule for ${state.borough}...`);
       setTimeout(() => {
-          addBotMessage(`🗓️ OK, yes! We have estimate slots available for next week.`);
+          addBotMessage(`🗓️ OK, yes! We have estimate slots available.`);
           setTimeout(stepSix_PricingMode, 1000);
       }, 2000);
   }
