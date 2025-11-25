@@ -1,8 +1,10 @@
 /* ============================================================
-   HAMMER BRICK & HOME — ESTIMATOR BOT v12.1 (HONEST AUTHORITY)
-   - UPDATED: Ticker now shows real License, Offers, & Trends.
-   - UPDATED: Availability Check is now honest but positive.
-   - INCLUDES: Auto-Open, Outdoor Living, Copy Estimate.
+   HAMMER BRICK & HOME — ESTIMATOR BOT v13.0 (CONVERSION BEAST)
+   - UPDATED: Button = "⚡ Instant Estimate"
+   - NEW: Header has 5-Stars & Direct Call Button.
+   - NEW: "Send Photo" Shortcut in main menu (skips logic).
+   - NEW: "Surprise Discount" if user has no code.
+   - INCLUDES: Auto-Open, Outdoor Living, Ticker, Honest Availability.
 =============================================================== */
 
 (function() {
@@ -18,7 +20,7 @@
     "Bronx": 1.03, "Staten Island": 1.0, "New Jersey": 0.96
   };
 
-  const DISCOUNTS = { "VIP10": 0.10, "REFERRAL5": 0.05 };
+  const DISCOUNTS = { "VIP10": 0.10, "REFERRAL5": 0.05, "WEBSAVER": 0.05 };
   const ADD_ON_PRICES = { "debrisRemoval": { low: 800, high: 1500 } };
 
   const SMART_ADDON_GROUP_LABELS = {
@@ -390,7 +392,7 @@
         ]
       }
     },
-    // OUTDOOR LIVING (Added)
+    // OUTDOOR LIVING
     outdoor_living: {
       title: "Outdoor Living & Kitchens",
       groups: {
@@ -696,7 +698,7 @@
         { label: "New Paver Walkway", fixedLow: 45, fixedHigh: 85, isPerSqFt: true }
       ]
     },
-    // OUTDOOR LIVING (Added)
+    // OUTDOOR LIVING
     "outdoor_living": {
       label: "Outdoor Living (Kitchen/Firepit)", emoji: "🔥", unit: "fixed",
       subQuestion: "What do you need built?",
@@ -738,60 +740,63 @@
     phone: "",
     projectTiming: "",
     leadSource: "",
-    projects: []
+    projects: [],
+    isPhotoSkip: false // NEW Flag
   };
 
   let els = {};
-  let tickerInterval; // For live ticker
+  let tickerInterval; 
 
   // --- INIT ---------------------------------------------------
 
   function init() {
-    console.log("HB Chat: Initializing v12.1...");
+    console.log("HB Chat: Initializing v13.0...");
     createInterface();
     startTicker();
     
-    // NEW: Smart Auto-Open (Opens once per session after 4 seconds)
+    // Auto-Open (Opens once per session after 4 seconds)
     if (!sessionStorage.getItem("hb_has_opened_automatically")) {
         setTimeout(function() {
-            // Only open if it's not already open
             if (!els.wrapper.classList.contains("hb-open")) {
                 toggleChat();
                 sessionStorage.setItem("hb_has_opened_automatically", "true");
             }
-        }, 4000); // 4 seconds delay
+        }, 4000); 
     }
 
     setTimeout(stepOne_Disclaimer, 800);
   }
 
   function createInterface() {
-    // 1. FAB (Sticky Button)
+    // 1. FAB (Instant Estimate Button)
     const fab = document.createElement("div");
     fab.className = "hb-chat-fab";
     fab.setAttribute("aria-label", "Instant Estimate");
+    // UPDATED: Lightning Icon + Text
     fab.innerHTML = `<span class="hb-fab-icon">⚡</span><span class="hb-fab-text">Instant Estimate</span>`;
     
-    // Force visibility to fix any glitches
     fab.style.display = "flex"; 
     fab.style.zIndex = "2147483647";
     
     fab.onclick = toggleChat;
     document.body.appendChild(fab);
 
-    // 2. Wrapper
+    // 2. Wrapper (UPDATED HEADER with 5-Stars & Call Button)
     const wrapper = document.createElement("div");
     wrapper.className = "hb-chat-wrapper";
     wrapper.innerHTML = `
       <div class="hb-chat-header">
         <div class="hb-chat-title">
           <h3>Hammer Brick & Home</h3>
-          <span>AI Estimator</span>
+          <span style="color:#e7bf63; font-size:11px; letter-spacing:0.5px;">★★★★★ 5.0 on Google</span>
         </div>
-        <button class="hb-chat-close">×</button>
+        <div style="display:flex; gap:15px; align-items:center;">
+            <a href="tel:${PHONE_NUMBER}" style="text-decoration:none; color:#fff; font-size:18px;" aria-label="Call Now">📞</a>
+            <button class="hb-chat-close" style="font-size:24px;">×</button>
+        </div>
       </div>
       <div id="hb-ticker" style="background:#1c263b; color:#888; font-size:10px; padding:6px 16px; border-bottom:1px solid rgba(255,255,255,0.05); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-        Initializing live updates...
+        Initializing...
       </div>
       <div class="hb-progress-container">
         <div class="hb-progress-bar" id="hb-prog"></div>
@@ -835,50 +840,41 @@
     });
   }
 
-// --- UPDATED: HONEST TRUST TICKER ---
-function startTicker() {
-  if (!els.ticker) return;
-  const msgs = [
-    "🛡️ NYC Licensed & Insured: HIC #2131291 · EPA Lead-Safe Certified",
-    "🧱 Specializing in: Masonry · Brownstones · Outdoor Living · Roofing",
-    "🔥 Trending: Basement Waterproofing & Custom Outdoor Living",
-    "❄️ Winter Prep: Ask about waterproofing & freeze-protection.",
-    "💳 VIP Members get 15% off labor + priority emergency scheduling.",
-    "📍 Serving Manhattan, Staten Island Brooklyn, Queens, Bronx & New Jersey. ",
-    "📄 Every project starts with a clear, written, itemized estimate.",
-    "📸 Text photos for a fast ballpark estimate – no pressure, no spam.",
-    "🚶 Sidewalk, steps & stoops – repair, rebuild, or DOT-style upgrades.",
-    "🧼 We protect floors, control dust, and leave your space broom-clean.",
-    "🧱 Brownstone & limestone: repointing, patching, and facade care.",
-    "🛠️ Masonry Tune-Up: fix small cracks, joints, and trip hazards before they grow."
-  ];
-  let i = 0;
-  els.ticker.innerText = msgs[0];
-  setInterval(() => {
-    i = (i + 1) % msgs.length;
-    els.ticker.innerText = msgs[i];
-  }, 5000); // Cycle every 5 seconds
-}
-
-function toggleChat() {
-  const isOpen = els.wrapper.classList.toggle("hb-open");
-  if (isOpen) {
-    els.fab.style.display = "none";
-    sessionStorage.setItem("hb_chat_active", "true");
-    // Auto-focus
-    if (els.input && !els.input.disabled) els.input.focus();
-  } else {
-    els.fab.style.display = "flex";
-    sessionStorage.removeItem("hb_chat_active");
+  // --- UPDATED: OPTIMIZED TICKER (Top 5 Hooks) ---
+  function startTicker() {
+      if (!els.ticker) return;
+      const msgs = [
+        "⚡ Get a price range in 60 seconds – No phone call needed.",
+        "🛡️ NYC Licensed & Insured: HIC #2131291 · EPA Lead-Safe Certified",
+        "💳 VIP Members get 15% off labor + priority emergency scheduling.",
+        "📸 Text us photos for a fast ballpark estimate.",
+        "📍 Serving Manhattan, Brooklyn, Queens, Bronx, Staten Island & NJ."
+      ];
+      let i = 0;
+      els.ticker.innerText = msgs[0];
+      setInterval(() => {
+          i = (i + 1) % msgs.length;
+          els.ticker.innerText = msgs[i];
+      }, 4000); 
   }
-}
 
-function updateProgress(pct, label) {
-  if (els.prog) els.prog.style.width = pct + "%";
-}
+  function toggleChat() {
+    const isOpen = els.wrapper.classList.toggle("hb-open");
+    if (isOpen) {
+      els.fab.style.display = "none";
+      sessionStorage.setItem("hb_chat_active", "true");
+      if(els.input && !els.input.disabled) els.input.focus();
+    } else {
+      els.fab.style.display = "flex";
+      sessionStorage.removeItem("hb_chat_active");
+    }
+  }
 
+  function updateProgress(pct, label) {
+    if (els.prog) els.prog.style.width = pct + "%";
+  }
 
-  // --- MESSAGING ---------------------------------------------
+  // --- MESSAGING ---
 
   function addBotMessage(text, isHtml) {
     const typingId = "typing-" + Date.now();
@@ -936,38 +932,33 @@ function updateProgress(pct, label) {
     }, 1600);
   }
 
-  // --- HELPER: SEASONAL GREETING ---
   function getSeasonalGreeting() {
-      const month = new Date().getMonth(); // 0-11
-      // Nov (10) or Dec (11)
+      const month = new Date().getMonth(); 
       if (month === 10 || month === 11) return "❄️ Winter is coming! Check our freeze-protection packages."; 
-      // March (2) to May (4)
       if (month >= 2 && month <= 4) return "🌸 Spring Rush is starting! Secure your dates now.";
-      // June (5) to August (7)
       if (month >= 5 && month <= 7) return "☀️ Summer is here! Perfect time for outdoor living.";
-      // Default
       return "👋 Hi! Ready to upgrade your home?";
   }
 
-  // --- FLOW: DISCLAIMER -> SERVICE -> SUB OPTIONS --------------------------
-
+  // --- UPDATED: SOFTER DISCLAIMER (Low Friction) ---
   function stepOne_Disclaimer() {
-    updateProgress(5, "Step 1 of 8: Disclaimer");
+    updateProgress(5, "Step 1 of 8: Start");
     
-    // NEW: Seasonal Greeting
     addBotMessage(getSeasonalGreeting());
 
     const disclaimerText = `
-        Quick heads-up: this is a **ballpark estimate only**, not a contract. Final price comes after an in-person visit and written proposal. OK to continue?
+        I can generate a **ballpark price range** for your project in about 60 seconds. 
+        
+        (Note: This is an automated estimate, not a final contract. We'll confirm exact pricing with a quick visit.)
     `;
     setTimeout(() => {
         addBotMessage(disclaimerText, true);
         addChoices([
-            { label: "✅ I Agree to the Disclaimer", key: "agree" },
-            { label: "❌ Close Chat", key: "exit" }
+            { label: "🚀 Start Estimate", key: "agree" }, 
+            { label: "❌ Close", key: "exit" }
         ], function(choice) {
             if (choice.key === "agree") {
-                addBotMessage("Great! What type of project are you planning?");
+                addBotMessage("Awesome. What type of project are you planning?");
                 presentServiceOptions();
             } else {
                 toggleChat();
@@ -976,16 +967,32 @@ function updateProgress(pct, label) {
     }, 1200);
   }
 
+  // --- UPDATED: PHOTO SHORTCUT IN MENU ---
   function presentServiceOptions() {
     updateProgress(10, "Step 2 of 8: Service Selection");
+    
     const opts = Object.keys(SERVICES).map(function(k) {
       return { label: SERVICES[k].emoji + " " + SERVICES[k].label, key: k };
     });
 
+    // NEW: Add "Photo Shortcut" to the top
+    opts.unshift({ label: "📸 Send Photo (Skip to Quote)", key: "photo_skip" });
+
     addChoices(opts, function(selection) {
-      state.serviceKey = selection.key;
-      state.subOption = null;
-      stepTwo_SubQuestions();
+      if (selection.key === "photo_skip") {
+          state.isPhotoSkip = true;
+          addBotMessage("Smart choice. A picture is worth a thousand words.");
+          
+          if(els.photoInput) els.photoInput.click();
+          
+          setTimeout(() => {
+              showLeadCapture("After you attach your photo, I'll grab your contact info so we can text you the analysis.");
+          }, 1000);
+      } else {
+          state.serviceKey = selection.key;
+          state.subOption = null;
+          stepTwo_SubQuestions();
+      }
     });
   }
 
@@ -1113,17 +1120,12 @@ function updateProgress(pct, label) {
     const locs = Object.keys(BOROUGH_MODS);
     addChoices(locs, function(loc) {
       state.borough = (typeof loc === "string") ? loc : loc.label;
-      
-      // Trigger Availability Check
       stepFive_AvailabilityCheck();
     });
   }
 
-  // --- UPDATED: HONEST AVAILABILITY CHECK ---
   function stepFive_AvailabilityCheck() {
       addBotMessage(`Let me check our schedule for ${state.borough}...`);
-      
-      // 2-second "Thinking" Delay
       setTimeout(() => {
           addBotMessage(`🗓️ OK, yes! We have estimate slots available for next week.`);
           setTimeout(stepSix_PricingMode, 1000);
@@ -1152,16 +1154,24 @@ function updateProgress(pct, label) {
     });
   }
 
+  // --- UPDATED: SURPRISE DISCOUNT HOOK ---
   function stepEight_Promo() {
     updateProgress(70, "Step 7 of 8: Promo");
-    addBotMessage("Any promo code today? If not, tap 'No Code'.");
+    addBotMessage("Any promo code today?");
     addChoices([
       { label: "No Code", code: "" },
       { label: "VIP10", code: "VIP10" },
       { label: "REFERRAL5", code: "REFERRAL5" }
     ], function(choice) {
-      state.promoCode = choice.code || "";
-      stepNine_DebrisRemoval();
+        if (choice.code === "") {
+            // NEW: Surprise Bonus
+            addBotMessage("Wait! Since you're booking online, I've applied the **'WEB-SAVER'** discount (-5%) for you automatically. 🎉");
+            state.promoCode = "WEBSAVER"; 
+            stepNine_DebrisRemoval();
+        } else {
+            state.promoCode = choice.code;
+            stepNine_DebrisRemoval();
+        }
     });
   }
 
@@ -1182,8 +1192,7 @@ function updateProgress(pct, label) {
     }
   }
 
-  // --- SMART ADD-ONS ----------------
-
+  // --- SMART ADD-ONS ---
   function stepTen_SmartAddonsIntro() {
     updateProgress(80, "Step 8 of 8: Add-ons");
     const config = SMART_ADDONS_CONFIG[state.serviceKey];
@@ -1264,7 +1273,7 @@ function updateProgress(pct, label) {
     showEstimateAndAskAnother(est);
   }
 
-  // --- CALCULATION ENGINE ------------------------------------
+  // --- CALCULATION ENGINE ---
 
   function applyPriceModifiers(low, high) {
     let factor = 1;
@@ -1594,6 +1603,12 @@ function updateProgress(pct, label) {
     updateProgress(100);
 
     let lines = [`Hello, I'm ${state.name}.`, "Projects:"];
+    
+    // Check if they skipped for photos
+    if (state.isPhotoSkip) {
+        lines.push("User opted to SKIP ESTIMATE and send photos directly.");
+    }
+
     if (state.projects && state.projects.length) {
       state.projects.forEach((p, idx) => {
         const unitLabel = p.sub.isPerSqFt ? "sq ft" : p.svc.unit;
