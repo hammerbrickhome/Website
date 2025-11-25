@@ -1,10 +1,8 @@
 /* ============================================================
-   HAMMER BRICK & HOME — ESTIMATOR BOT v13.0 (CONVERSION BEAST)
-   - UPDATED: Button = "⚡ Instant Estimate"
-   - NEW: Header has 5-Stars & Direct Call Button.
-   - NEW: "Send Photo" Shortcut in main menu (skips logic).
-   - NEW: "Surprise Discount" if user has no code.
-   - INCLUDES: Auto-Open, Outdoor Living, Ticker, Honest Availability.
+   HAMMER BRICK & HOME — ESTIMATOR BOT v14.0 (NYC MARKET RATES)
+   - FIXED: "Freezing" bug (Added random IDs to prevent collision).
+   - UPDATED: 2025 NYC Pricing for Add-ons (based on market research).
+   - INCLUDES: Instant Estimate, 5-Star Header, Auto-Open, Ticker.
 =============================================================== */
 
 (function() {
@@ -21,7 +19,7 @@
   };
 
   const DISCOUNTS = { "VIP10": 0.10, "REFERRAL5": 0.05, "WEBSAVER": 0.05 };
-  const ADD_ON_PRICES = { "debrisRemoval": { low: 800, high: 1500 } };
+  const ADD_ON_PRICES = { "debrisRemoval": { low: 1200, high: 2800 } }; // Updated for NYC Dump Fees
 
   const SMART_ADDON_GROUP_LABELS = {
     luxury: "Luxury Upgrades", protection: "Protection & Safety",
@@ -29,34 +27,35 @@
     maintenance: "Maintenance Items"
   };
 
-  // --- SMART ADD-ONS CONFIG ---
+  // --- SMART ADD-ONS CONFIG (UPDATED 2025 NYC PRICING) ---
+  // Prices reflect high-cost labor markets (NYC/NJ) & logistics
   const SMART_ADDONS_CONFIG = {
     masonry: {
       title: "Masonry · Pavers · Concrete",
       groups: {
         luxury: [
-          { label: "Premium border band with contrasting pavers", low: 900, high: 2200 },
-          { label: "Decorative inlays or medallion pattern", low: 850, high: 2600 },
-          { label: "Raised seating wall or planter", low: 1800, high: 4800 },
-          { label: "Outdoor kitchen prep pad (gas/electric ready)", low: 2200, high: 6800 }
+          { label: "Premium border band (Granite/Blue Stone)", low: 1800, high: 3500 },
+          { label: "Decorative inlays or medallion pattern", low: 1500, high: 4200 },
+          { label: "Raised seating wall (per 10ft)", low: 3500, high: 6800 }, 
+          { label: "Outdoor kitchen prep pad (gas/electric ready)", low: 3200, high: 7500 }
         ],
         protection: [
-          { label: "Full base compaction upgrade", low: 850, high: 2200 },
-          { label: "Perimeter drain or channel drain", low: 950, high: 2600 },
-          { label: "Concrete edge restraint / curb", low: 650, high: 1600 }
+          { label: "Full base compaction + Geogrid", low: 1200, high: 2800 },
+          { label: "Perimeter channel drain system", low: 1800, high: 3800 }, 
+          { label: "Concrete edge restraint / curb", low: 950, high: 2200 }
         ],
         design: [
-          { label: "Color upgrade / multi-blend pavers", low: 650, high: 1900 },
-          { label: "Large-format or European-style pavers", low: 1500, high: 5200 },
-          { label: "Step face stone veneer upgrade", low: 1100, high: 3600 }
+          { label: "Color upgrade / multi-blend pavers", low: 850, high: 2200 },
+          { label: "Large-format or European-style pavers", low: 2200, high: 5800 }, 
+          { label: "Step face stone veneer upgrade", low: 1800, high: 4500 }
         ],
         speed: [
-          { label: "Weekend or off-hours install", low: 850, high: 2600 },
-          { label: "Phased work scheduling", low: 450, high: 1200 }
+          { label: "Weekend or off-hours install", low: 1500, high: 3500 },
+          { label: "Phased work scheduling", low: 650, high: 1500 }
         ],
         maintenance: [
-          { label: "Polymeric sand refill & joint tightening", low: 250, high: 650 },
-          { label: "Clean & seal package", low: 450, high: 1800 }
+          { label: "Polymeric sand refill & joint tightening", low: 450, high: 950 },
+          { label: "Clean & seal package", low: 850, high: 2200 }
         ]
       }
     },
@@ -64,23 +63,23 @@
       title: "Driveway / Parking Area",
       groups: {
         luxury: [
-          { label: "Decorative apron or entry pattern", low: 900, high: 2800 },
-          { label: "Heated driveway rough-in", low: 2800, high: 7800 },
-          { label: "Integrated lighting at edges", low: 950, high: 2600 }
+          { label: "Decorative apron (Belgium Block)", low: 2200, high: 5500 }, //
+          { label: "Heated driveway system (Electric/Hydronic)", low: 12000, high: 28000 }, // Major Correction
+          { label: "Integrated lighting at edges", low: 1500, high: 3200 }
         ],
         protection: [
-          { label: "Thicker base / driveway reinforcement", low: 1200, high: 3500 },
-          { label: "Drain basin or trench drain at garage", low: 950, high: 2600 }
+          { label: "Commercial grade base (6-inch concrete)", low: 2800, high: 5500 },
+          { label: "Heavy-duty trench drain at garage", low: 2200, high: 4500 }
         ],
         design: [
-          { label: "Two-tone driveway with borders", low: 1500, high: 4200 },
-          { label: "Stamped concrete pattern upgrade", low: 1800, high: 5200 }
+          { label: "Two-tone driveway with borders", low: 1800, high: 4800 },
+          { label: "Stamped concrete pattern upgrade", low: 2500, high: 6500 }
         ],
         speed: [
-          { label: "Temporary parking pad during work", low: 650, high: 1600 }
+          { label: "Temporary parking pad during work", low: 850, high: 1800 }
         ],
         maintenance: [
-          { label: "Sealcoat package (asphalt)", low: 450, high: 900 }
+          { label: "Sealcoat package (asphalt)", low: 550, high: 1200 }
         ]
       }
     },
@@ -88,23 +87,23 @@
       title: "Roofing",
       groups: {
         luxury: [
-          { label: "Architectural or designer shingle upgrade", low: 1800, high: 5200 },
-          { label: "Decorative metal accent roofing", low: 2200, high: 7800 }
+          { label: "Architectural designer shingle upgrade", low: 2500, high: 6500 },
+          { label: "Copper flashing & accents", low: 3500, high: 8500 } // Copper is premium in NYC
         ],
         protection: [
-          { label: "Full ice & water shield upgrade", low: 1500, high: 4200 },
-          { label: "High-performance synthetic underlayment", low: 650, high: 1900 },
-          { label: "Premium flashing & chimney reflashing", low: 900, high: 2600 }
+          { label: "Full ice & water shield (Entire Roof)", low: 2200, high: 5500 },
+          { label: "High-performance synthetic underlayment", low: 850, high: 2200 },
+          { label: "Chimney repointing & new flashing", low: 1800, high: 4200 }
         ],
         design: [
-          { label: "Color-matched drip edge & accessories", low: 450, high: 1200 },
-          { label: "Decorative ridge cap upgrade", low: 650, high: 1600 }
+          { label: "Color-matched drip edge & accessories", low: 650, high: 1500 },
+          { label: "Decorative ridge cap upgrade", low: 850, high: 1800 }
         ],
         speed: [
-          { label: "One-day tear-off & install", low: 1500, high: 4500 }
+          { label: "One-day tear-off & install (Extra Crew)", low: 2500, high: 5500 }
         ],
         maintenance: [
-          { label: "Gutter cleaning added to roof project", low: 250, high: 650 }
+          { label: "Gutter cleaning & guard install", low: 850, high: 2200 }
         ]
       }
     },
@@ -112,19 +111,19 @@
       title: "Siding – Exterior",
       groups: {
         luxury: [
-          { label: "Stone or brick accent wall", low: 3500, high: 9800 },
-          { label: "Board-and-batten or mixed cladding look", low: 2200, high: 6800 }
+          { label: "Stone or brick accent wall", low: 5500, high: 14000 },
+          { label: "Board-and-batten composite look", low: 4500, high: 11000 }
         ],
         protection: [
-          { label: "Full house wrap / moisture barrier upgrade", low: 950, high: 2800 },
-          { label: "Flashing and sill pan upgrade at windows", low: 900, high: 2600 }
+          { label: "Rigid foam insulation board (R-Value+)", low: 2800, high: 6500 },
+          { label: "Custom PVC window trim surrounds", low: 2200, high: 5500 }
         ],
         design: [
-          { label: "Premium color or insulated siding line", low: 2600, high: 7800 },
-          { label: "Decorative trim and crown details", low: 1500, high: 4200 }
+          { label: "Premium dark colors (Anti-Fade)", low: 3200, high: 8500 },
+          { label: "Decorative crown & fascia details", low: 1800, high: 4800 }
         ],
         maintenance: [
-          { label: "Annual siding wash & inspection", low: 350, high: 900 }
+          { label: "Annual siding wash & inspection", low: 450, high: 950 }
         ]
       }
     },
@@ -132,19 +131,19 @@
       title: "Windows & Exterior Doors",
       groups: {
         luxury: [
-          { label: "Black or color-exterior window upgrade", low: 2200, high: 6800 },
-          { label: "Sliding or French patio door upgrade", low: 2800, high: 7800 }
+          { label: "Black interior/exterior frames", low: 3500, high: 8500 },
+          { label: "Sliding patio door (8ft upgrade)", low: 3800, high: 9200 }
         ],
         protection: [
-          { label: "Impact-resistant / laminated glass", low: 2600, high: 7800 },
-          { label: "Storm door package", low: 650, high: 1800 }
+          { label: "Triple-pane noise reduction glass", low: 3200, high: 8800 }, // NYC Noise control
+          { label: "Security storm door package", low: 950, high: 2200 }
         ],
         design: [
-          { label: "Grids / divided lite pattern upgrade", low: 450, high: 1600 },
-          { label: "Interior casing & stool upgrade", low: 750, high: 2600 }
+          { label: "Simulated Divided Lites (Grids)", low: 850, high: 2400 },
+          { label: "New interior casing & stools", low: 1200, high: 3500 }
         ],
         speed: [
-          { label: "Same-day glass removal & board-up", low: 450, high: 1200 }
+          { label: "Same-day glass removal & board-up", low: 650, high: 1500 }
         ]
       }
     },
@@ -152,18 +151,18 @@
       title: "Exterior Facade / Painting",
       groups: {
         luxury: [
-          { label: "Multi-color accent scheme", low: 950, high: 2600 },
-          { label: "Premium elastomeric or masonry coating", low: 1800, high: 5200 }
+          { label: "Multi-color Victorian accent scheme", low: 2200, high: 5500 },
+          { label: "Premium elastomeric coating (Waterproof)", low: 3500, high: 7500 }
         ],
         protection: [
-          { label: "Full scrape & prime upgrade", low: 1200, high: 3800 },
-          { label: "Lead-safe exterior paint protocol", low: 1500, high: 4500 }
+          { label: "Full scrape & oil-based prime", low: 2500, high: 5500 },
+          { label: "Lead-safe containment protocol", low: 1800, high: 4800 } // EPA RRP compliance
         ],
         design: [
-          { label: "Color consult with sample boards", low: 450, high: 950 }
+          { label: "Color consult with sample boards", low: 550, high: 1200 }
         ],
         speed: [
-          { label: "Lift / boom access where allowed", low: 1800, high: 5200 }
+          { label: "Lift / boom access (if accessible)", low: 2200, high: 5800 }
         ]
       }
     },
@@ -171,20 +170,20 @@
       title: "Deck / Patio Build or Rebuild",
       groups: {
         luxury: [
-          { label: "Composite decking upgrade", low: 2800, high: 9800 },
-          { label: "Cable or glass railing system", low: 2600, high: 8800 },
-          { label: "Built-in benches", low: 1500, high: 4200 }
+          { label: "Premium Composite (Trex Transcend)", low: 4500, high: 12000 }, 
+          { label: "Cable or glass railing system", low: 3500, high: 11000 },
+          { label: "Built-in cocktail rail & benches", low: 2200, high: 5500 }
         ],
         protection: [
-          { label: "Hidden fastener upgrade", low: 950, high: 2600 },
-          { label: "Joist protection tape", low: 450, high: 1200 }
+          { label: "Steel framing upgrade", low: 3500, high: 9500 },
+          { label: "Joist protection tape & flashing", low: 650, high: 1500 }
         ],
         design: [
-          { label: "Picture-frame decking border", low: 900, high: 2600 },
-          { label: "Pergola or shade structure", low: 2800, high: 9800 }
+          { label: "Picture-frame border & inlay", low: 1500, high: 3500 },
+          { label: "Custom Pergola / Shade Structure", low: 7500, high: 18000 } // Corrected for custom NYC builds
         ],
         maintenance: [
-          { label: "Clean & seal package (wood decks)", low: 550, high: 1600 }
+          { label: "Clean & seal package (wood decks)", low: 650, high: 1800 }
         ]
       }
     },
@@ -192,19 +191,19 @@
       title: "Fence Install / Replacement",
       groups: {
         luxury: [
-          { label: "Decorative aluminum or steel upgrade", low: 2200, high: 7800 },
-          { label: "Automatic driveway gate prep", low: 2600, high: 8800 }
+          { label: "Decorative aluminum / steel upgrade", low: 2800, high: 8500 },
+          { label: "Horizontal cedar slat (Modern)", low: 3200, high: 9200 }
         ],
         protection: [
-          { label: "Privacy height upgrade", low: 900, high: 2600 },
-          { label: "Child / pet safety latch package", low: 350, high: 900 }
+          { label: "8ft Privacy height upgrade", low: 1500, high: 3500 },
+          { label: "Concrete footer reinforcement", low: 850, high: 1800 }
         ],
         design: [
-          { label: "Decorative caps and trim boards", low: 450, high: 1200 },
-          { label: "Lattice style upgrade", low: 1200, high: 3500 }
+          { label: "Decorative post caps & trim", low: 550, high: 1500 },
+          { label: "Lattice topper", low: 1200, high: 3200 }
         ],
         speed: [
-          { label: "Temporary safety fence", low: 450, high: 1200 }
+          { label: "Temporary safety fence", low: 550, high: 1400 }
         ]
       }
     },
@@ -212,14 +211,14 @@
       title: "Waterproofing",
       groups: {
         luxury: [
-          { label: "Battery backup sump system", low: 1800, high: 5200 }
+          { label: "Dual Battery backup sump system", low: 2200, high: 5800 }
         ],
         protection: [
-          { label: "Interior drain tile system", low: 4800, high: 14800 },
-          { label: "Full wall membrane upgrade", low: 2800, high: 9800 }
+          { label: "Interior French drain (Jackhammer)", low: 5800, high: 16000 }, //
+          { label: "Full exterior excavation membrane", low: 12000, high: 35000 }
         ],
         design: [
-          { label: "Finished wall panel system", low: 2600, high: 7800 }
+          { label: "Finished waterproof wall panels", low: 3500, high: 8500 }
         ]
       }
     },
@@ -227,16 +226,16 @@
       title: "Power Washing",
       groups: {
         luxury: [
-          { label: "House + driveway + patio bundle", low: 450, high: 1600 }
+          { label: "House + driveway + patio bundle", low: 650, high: 1800 }
         ],
         protection: [
-          { label: "Soft-wash roof treatment", low: 650, high: 1900 }
+          { label: "Soft-wash roof treatment", low: 850, high: 2200 }
         ],
         design: [
-          { label: "Fence & rail cleaning upgrade", low: 250, high: 650 }
+          { label: "Paver sanding & sealing", low: 1200, high: 3500 }
         ],
         maintenance: [
-          { label: "Seasonal wash contract (2x per year)", low: 650, high: 1900 }
+          { label: "Seasonal wash contract (2x per year)", low: 850, high: 2200 }
         ]
       }
     },
@@ -244,17 +243,17 @@
       title: "Sidewalk / DOT",
       groups: {
         luxury: [
-          { label: "Decorative broom or border finish", low: 650, high: 1900 }
+          { label: "Colored concrete / decorative finish", low: 1200, high: 2800 }
         ],
         protection: [
-          { label: "Extra thickness at tree/driveway", low: 900, high: 2600 },
-          { label: "Root barrier installation", low: 1200, high: 3800 }
+          { label: "Steel mesh & fiber reinforcement", low: 950, high: 2200 },
+          { label: "Tree root barrier & protection", low: 1500, high: 4200 }
         ],
         design: [
-          { label: "Scored control joint pattern", low: 450, high: 1200 }
+          { label: "Scored control joint pattern", low: 550, high: 1400 }
         ],
         speed: [
-          { label: "Phased pour scheduling", low: 450, high: 1200 }
+          { label: "Expedited DOT violation removal", low: 850, high: 2500 }
         ]
       }
     },
@@ -262,17 +261,17 @@
       title: "Gutters",
       groups: {
         luxury: [
-          { label: "Seamless half-round or decorative profile", low: 1200, high: 3500 }
+          { label: "Copper or Galvalume gutters", low: 2500, high: 6500 } //
         ],
         protection: [
-          { label: "Premium gutter guard system", low: 1500, high: 3800 },
-          { label: "Additional downspouts", low: 450, high: 1200 }
+          { label: "Micro-mesh gutter guards", low: 1200, high: 3200 },
+          { label: "New fascia board installation", low: 1500, high: 3800 }
         ],
         design: [
-          { label: "Color-matched gutter & trim package", low: 450, high: 1200 }
+          { label: "Color-matched system", low: 550, high: 1200 }
         ],
         speed: [
-          { label: "Same-day cleaning add-on", low: 250, high: 650 }
+          { label: "Same-day cleaning add-on", low: 350, high: 750 }
         ]
       }
     },
@@ -280,18 +279,18 @@
       title: "Interior Painting",
       groups: {
         luxury: [
-          { label: "Accent wall feature paint or wallpaper", low: 450, high: 1600 },
-          { label: "Fine finish trim & door spray", low: 900, high: 2600 }
+          { label: "Wallpaper installation (per room)", low: 850, high: 2200 },
+          { label: "Fine finish cabinet spray", low: 2500, high: 6500 }
         ],
         protection: [
-          { label: "Full skim coat upgrade", low: 1800, high: 5800 },
-          { label: "Zero-VOC paint line", low: 650, high: 1900 }
+          { label: "Full Level-5 skim coat", low: 2800, high: 7500 },
+          { label: "Zero-VOC / Eco paint", low: 850, high: 2200 }
         ],
         design: [
-          { label: "Color consult with samples", low: 350, high: 900 }
+          { label: "Color consult with samples", low: 450, high: 950 }
         ],
         speed: [
-          { label: "Night or weekend painting", low: 650, high: 1900 }
+          { label: "Night or weekend painting", low: 1200, high: 3500 }
         ]
       }
     },
@@ -299,18 +298,18 @@
       title: "Flooring",
       groups: {
         luxury: [
-          { label: "Wide-plank or herringbone layout", low: 2200, high: 7800 },
-          { label: "Heated floor rough-in", low: 1800, high: 5200 }
+          { label: "Wide-plank / Herringbone install", low: 3500, high: 9500 },
+          { label: "Radiant floor heating mats", low: 2500, high: 6500 } //
         ],
         protection: [
-          { label: "Moisture barrier upgrade", low: 650, high: 1900 },
-          { label: "Subfloor repair allowance", low: 900, high: 2600 }
+          { label: "Sound-proof cork underlayment", low: 1200, high: 3200 },
+          { label: "Subfloor leveling & repair", low: 1500, high: 4500 }
         ],
         design: [
-          { label: "Stair treads & nosing upgrade", low: 1200, high: 3800 }
+          { label: "Custom stair treads & risers", low: 2200, high: 5500 }
         ],
         speed: [
-          { label: "Room-by-room phased install", low: 450, high: 1200 }
+          { label: "Furniture moving & protection", low: 650, high: 1800 }
         ]
       }
     },
@@ -318,17 +317,17 @@
       title: "Drywall",
       groups: {
         luxury: [
-          { label: "Level 5 finish on key walls", low: 1800, high: 5200 }
+          { label: "Level 5 smooth finish (per room)", low: 2500, high: 6500 } //
         ],
         protection: [
-          { label: "Sound-damping board upgrade", low: 1500, high: 4800 },
-          { label: "Mold-resistant board", low: 900, high: 2600 }
+          { label: "QuietRock / Sound-damping board", low: 1800, high: 5200 },
+          { label: "Mold-resistant purple board", low: 950, high: 2800 }
         ],
         design: [
-          { label: "Simple ceiling design (tray/beams)", low: 2200, high: 7800 }
+          { label: "Soffit / tray ceiling framing", low: 2800, high: 8200 }
         ],
         speed: [
-          { label: "Dust-reduced sanding upgrade", low: 650, high: 1900 }
+          { label: "Dust-free sanding system", low: 850, high: 2200 }
         ]
       }
     },
@@ -336,21 +335,20 @@
       title: "Bathroom Remodel",
       groups: {
         luxury: [
-          { label: "Full glass shower enclosure", low: 1800, high: 4200 },
-          { label: "Heated floor system", low: 1800, high: 3200 },
-          { label: "Rain head + handheld combo", low: 950, high: 2600 },
-          { label: "Floating vanity build", low: 1500, high: 3800 }
+          { label: "Frameless glass shower enclosure", low: 2200, high: 4800 },
+          { label: "Heated floor system", low: 1800, high: 3500 },
+          { label: "Wall-mounted vanity install", low: 1200, high: 2800 }
         ],
         protection: [
-          { label: "Waterproofing membrane upgrade", low: 1200, high: 3800 },
-          { label: "Linear drain upgrade", low: 900, high: 2600 }
+          { label: "Schluter-Kerdi waterproofing", low: 1500, high: 3800 },
+          { label: "New subfloor & framing reinforcement", low: 1800, high: 4500 }
         ],
         design: [
-          { label: "Large-format / Italian tile", low: 1800, high: 5200 },
-          { label: "LED niche lighting", low: 650, high: 1900 }
+          { label: "Floor-to-ceiling tile work", low: 3500, high: 8500 },
+          { label: "LED niche & accent lighting", low: 850, high: 2200 }
         ],
         speed: [
-          { label: "Fast-track bathroom", low: 1500, high: 4500 }
+          { label: "Expedited plumbing rough-in", low: 1500, high: 3500 }
         ]
       }
     },
@@ -358,20 +356,20 @@
       title: "Kitchen Remodel",
       groups: {
         luxury: [
-          { label: "Full height backsplash", low: 1800, high: 5200 },
-          { label: "Waterfall island edge", low: 2800, high: 9800 },
-          { label: "Pro-style appliance prep", low: 2200, high: 7800 }
+          { label: "Full height stone backsplash", low: 2500, high: 6500 },
+          { label: "Waterfall island edge (Stone)", low: 3500, high: 8500 }, //
+          { label: "Pot filler plumbing & install", low: 1200, high: 2800 }
         ],
         protection: [
-          { label: "Under-cabinet lighting upgrade", low: 900, high: 2600 },
-          { label: "Water leak sensor kit", low: 450, high: 1200 }
+          { label: "Under-cabinet LED lighting", low: 1200, high: 2800 },
+          { label: "New subfloor & tile prep", low: 1800, high: 4500 }
         ],
         design: [
-          { label: "Glass or accent cabinet doors", low: 950, high: 2600 },
-          { label: "Custom hood treatment", low: 2200, high: 6800 }
+          { label: "Glass cabinet doors / inserts", low: 1200, high: 3200 },
+          { label: "Custom range hood enclosure", low: 2500, high: 6800 }
         ],
         speed: [
-          { label: "Temporary sink setup", low: 650, high: 1900 }
+          { label: "Temporary sink setup", low: 850, high: 2200 }
         ]
       }
     },
@@ -379,34 +377,33 @@
       title: "Handyman",
       groups: {
         luxury: [
-          { label: "Priority same-week booking", low: 150, high: 450 }
+          { label: "Priority same-week booking", low: 250, high: 550 }
         ],
         protection: [
-          { label: "Safety package (grab bars)", low: 250, high: 750 }
+          { label: "Safety package (grab bars)", low: 350, high: 850 }
         ],
         design: [
-          { label: "Decor hardware refresh", low: 350, high: 900 }
+          { label: "Decor hardware refresh", low: 450, high: 1200 }
         ],
         speed: [
-          { label: "Evening/weekend window", low: 250, high: 650 }
+          { label: "Evening/weekend window", low: 350, high: 750 }
         ]
       }
     },
-    // OUTDOOR LIVING
     outdoor_living: {
       title: "Outdoor Living & Kitchens",
       groups: {
         luxury: [
-          { label: "Built-in Pizza Oven", low: 2500, high: 6500 },
-          { label: "Granite/Stone Counter Upgrade", low: 1800, high: 4500 }
+          { label: "Built-in Pizza Oven", low: 3500, high: 8500 },
+          { label: "Granite/Stone Counter Upgrade", low: 2500, high: 6500 }
         ],
         protection: [
-          { label: "Gas Line Safety Shut-off & Permit", low: 900, high: 2200 },
-          { label: "Custom Canvas Cover", low: 450, high: 1200 }
+          { label: "Gas Line Safety Shut-off & Permit", low: 1200, high: 2800 },
+          { label: "Custom Canvas Cover", low: 650, high: 1800 }
         ],
         design: [
-          { label: "Pergola / Shade Structure", low: 3500, high: 9500 },
-          { label: "Under-counter LED lighting", low: 650, high: 1500 }
+          { label: "Pergola / Shade Structure", low: 4500, high: 12500 },
+          { label: "Under-counter LED lighting", low: 850, high: 2200 }
         ]
       }
     }
@@ -741,7 +738,7 @@
     projectTiming: "",
     leadSource: "",
     projects: [],
-    isPhotoSkip: false // NEW Flag
+    isPhotoSkip: false 
   };
 
   let els = {};
@@ -750,11 +747,10 @@
   // --- INIT ---------------------------------------------------
 
   function init() {
-    console.log("HB Chat: Initializing v13.0...");
+    console.log("HB Chat: Initializing v14.0...");
     createInterface();
     startTicker();
     
-    // Auto-Open (Opens once per session after 4 seconds)
     if (!sessionStorage.getItem("hb_has_opened_automatically")) {
         setTimeout(function() {
             if (!els.wrapper.classList.contains("hb-open")) {
@@ -768,20 +764,15 @@
   }
 
   function createInterface() {
-    // 1. FAB (Instant Estimate Button)
     const fab = document.createElement("div");
     fab.className = "hb-chat-fab";
     fab.setAttribute("aria-label", "Instant Estimate");
-    // UPDATED: Lightning Icon + Text
     fab.innerHTML = `<span class="hb-fab-icon">⚡</span><span class="hb-fab-text">Instant Estimate</span>`;
-    
     fab.style.display = "flex"; 
     fab.style.zIndex = "2147483647";
-    
     fab.onclick = toggleChat;
     document.body.appendChild(fab);
 
-    // 2. Wrapper (UPDATED HEADER with 5-Stars & Call Button)
     const wrapper = document.createElement("div");
     wrapper.className = "hb-chat-wrapper";
     wrapper.innerHTML = `
@@ -809,7 +800,6 @@
     `;
     document.body.appendChild(wrapper);
 
-    // 3. Photo Input
     const photoInput = document.createElement("input");
     photoInput.type = "file";
     photoInput.accept = "image/*";
@@ -840,7 +830,6 @@
     });
   }
 
-  // --- UPDATED: OPTIMIZED TICKER (Top 5 Hooks) ---
   function startTicker() {
       if (!els.ticker) return;
       const msgs = [
@@ -874,10 +863,12 @@
     if (els.prog) els.prog.style.width = pct + "%";
   }
 
-  // --- MESSAGING ---
+  // --- MESSAGING (FIXED FREEZING BUG) ---
 
   function addBotMessage(text, isHtml) {
-    const typingId = "typing-" + Date.now();
+    // FIX: Added Random number to prevent ID collisions when messages fire too fast
+    const typingId = "typing-" + Date.now() + "-" + Math.floor(Math.random() * 10000);
+    
     const typingDiv = document.createElement("div");
     typingDiv.className = "hb-msg hb-msg-bot";
     typingDiv.id = typingId;
@@ -890,6 +881,7 @@
     els.body.appendChild(typingDiv);
     els.body.scrollTop = els.body.scrollHeight;
 
+    // Dynamic delay based on text length (min 500ms, max 1.5s)
     const delay = Math.min(1500, text.length * 20 + 500);
 
     setTimeout(function() {
@@ -940,7 +932,6 @@
       return "👋 Hi! Ready to upgrade your home?";
   }
 
-  // --- UPDATED: SOFTER DISCLAIMER (Low Friction) ---
   function stepOne_Disclaimer() {
     updateProgress(5, "Step 1 of 8: Start");
     
@@ -967,7 +958,6 @@
     }, 1200);
   }
 
-  // --- UPDATED: PHOTO SHORTCUT IN MENU ---
   function presentServiceOptions() {
     updateProgress(10, "Step 2 of 8: Service Selection");
     
@@ -975,7 +965,6 @@
       return { label: SERVICES[k].emoji + " " + SERVICES[k].label, key: k };
     });
 
-    // NEW: Add "Photo Shortcut" to the top
     opts.unshift({ label: "📸 Send Photo (Skip to Quote)", key: "photo_skip" });
 
     addChoices(opts, function(selection) {
@@ -1154,7 +1143,6 @@
     });
   }
 
-  // --- UPDATED: SURPRISE DISCOUNT HOOK ---
   function stepEight_Promo() {
     updateProgress(70, "Step 7 of 8: Promo");
     addBotMessage("Any promo code today?");
@@ -1164,7 +1152,6 @@
       { label: "REFERRAL5 (5% OFF)", code: "REFERRAL5" }
     ], function(choice) {
         if (choice.code === "") {
-            // NEW: Surprise Bonus
             addBotMessage("Wait! Since you're booking online, I've applied the **'WEB-SAVER'** discount (-5%) for you automatically. 🎉");
             state.promoCode = "WEBSAVER"; 
             stepNine_DebrisRemoval();
@@ -1181,7 +1168,7 @@
     const hasPrice = svc && svc.unit !== "consult" && state.serviceKey !== "other";
 
     if (hasPrice) {
-        addBotMessage("Should we include debris removal & dumpster costs? (Typically +$800–$1,500)");
+        addBotMessage("Should we include debris removal & dumpster costs? (Typically +$1,200–$2,800)");
         addChoices(["Yes, include debris removal", "No, I'll handle debris"], function(ans) {
             state.debrisRemoval = !!(ans && ans.indexOf("Yes") !== -1);
             stepTen_SmartAddonsIntro();
@@ -1192,7 +1179,6 @@
     }
   }
 
-  // --- SMART ADD-ONS ---
   function stepTen_SmartAddonsIntro() {
     updateProgress(80, "Step 8 of 8: Add-ons");
     const config = SMART_ADDONS_CONFIG[state.serviceKey];
@@ -1604,7 +1590,6 @@
 
     let lines = [`Hello, I'm ${state.name}.`, "Projects:"];
     
-    // Check if they skipped for photos
     if (state.isPhotoSkip) {
         lines.push("User opted to SKIP ESTIMATE and send photos directly.");
     }
