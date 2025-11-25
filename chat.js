@@ -846,7 +846,7 @@
       const msgs = [
         "⚡ Get a price range in 60 seconds – No phone call needed.",
         "🛡️ NYC Licensed & Insured: HIC #2131291 · EPA Lead-Safe Certified",
-        "💳 VIP Members get 15% off labor + priority emergency scheduling.",
+        "💳 VIP Members get 10% off labor + priority emergency scheduling.",
         "📸 Text us photos for a fast ballpark estimate.",
         "📍 Serving Manhattan, Brooklyn, Queens, Bronx, Staten Island & NJ."
       ];
