@@ -50,7 +50,7 @@
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
-            "reviewCount": "25" // <<< REMINDER: UPDATE THIS WITH YOUR ACTUAL NUMBER OF REVIEWS
+            "reviewCount": "25" 
         },
         "areaServed": ["Staten Island", "Brooklyn", "Queens", "Manhattan", "Bronx", "New Jersey"],
         "identifier": [
@@ -470,18 +470,69 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      fetch("/gallery.json").then(r=>r.json()).then(data => {
-        const grid=document.getElementById("ba-grid"), tmpl=document.getElementById("ba-card");
-        (data.homePairs||[]).slice(0,6).forEach(item => {
-          const card=tmpl.content.cloneNode(true);
-          card.querySelector(".ba-before").src="/images/"+item.before;
-          card.querySelector(".ba-after").src="/images/"+item.after;
-          card.querySelector(".ba-caption").textContent=item.label||"";
-          const wrap=card.querySelector(".ba-after-wrap");
-          card.querySelector(".ba-slider").addEventListener("input",e=>wrap.style.width=e.target.value+"%");
+      // 1. Setup variables to track state
+      let allHomePairs = [];
+      let currentIndex = 0;
+      const PAGE_SIZE = 6;
+      
+      const grid = document.getElementById("ba-grid");
+      const loadBtn = document.getElementById("ba-loadmore");
+      const tmpl = document.getElementById("ba-card");
+
+      // 2. Define the render function
+      function renderBatch() {
+        const nextBatch = allHomePairs.slice(currentIndex, currentIndex + PAGE_SIZE);
+        
+        nextBatch.forEach(item => {
+          const card = tmpl.content.cloneNode(true);
+          
+          // Set Images
+          card.querySelector(".ba-before").src = "/images/" + item.before;
+          card.querySelector(".ba-after").src = "/images/" + item.after;
+          card.querySelector(".ba-caption").textContent = item.label || "";
+          
+          // Setup Slider Logic
+          const wrap = card.querySelector(".ba-after-wrap");
+          const slider = card.querySelector(".ba-slider");
+          slider.addEventListener("input", e => {
+            wrap.style.width = e.target.value + "%";
+          });
+
           grid.appendChild(card);
         });
-      }).catch(e=>console.log("No gallery items"));
+
+        // Update Index
+        currentIndex += nextBatch.length;
+
+        // Hide button if no more items
+        if (currentIndex >= allHomePairs.length) {
+          loadBtn.style.display = "none";
+        } else {
+          loadBtn.style.display = "inline-block";
+        }
+      }
+
+      // 3. Fetch Data and Initialize
+      fetch("/gallery.json")
+        .then(r => r.json())
+        .then(data => {
+          // Use 'homePairs' from JSON, or empty array if missing
+          allHomePairs = data.homePairs || [];
+          
+          if (allHomePairs.length > 0) {
+            // Render first batch immediately
+            renderBatch(); 
+            
+            // Attach Click Event to Load More Button
+            loadBtn.addEventListener("click", renderBatch);
+          } else {
+            loadBtn.style.display = "none"; // Hide button if no data
+          }
+        })
+        .catch(e => {
+          console.log("No gallery items found or JSON error", e);
+          loadBtn.style.display = "none";
+        });
     });
   </script>
   
