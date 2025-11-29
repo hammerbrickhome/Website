@@ -2778,129 +2778,73 @@ input.gallery-search-box,
 
 }
 /* =========================================
-   LUXURY GRID UPGRADES (The "Missing" Polish)
-   Add this to the very bottom of style.css
+   FIXED: DARK LUXURY GRID + BIGGER PHOTOS
+   Paste this at the VERY BOTTOM of style.css
 ========================================= */
 
-/* 1. THE CARD: 3D Lift & Soft Shadows */
+/* 1. MAKE GRID ITEMS WIDER */
+.ba-grid {
+  /* Increased min-width from 260px to 350px so photos are much larger */
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+  gap: 30px !important;
+}
+
+/* 2. DARK CARD THEME (Fixes the "Can't See" issue) */
 .ba-card {
-  border-radius: 16px;
-  overflow: hidden;
-  background: #fff; /* Clean white frame for contrast */
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Deep shadow */
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Apple-style smooth motion */
-  transform: translateZ(0); /* Hardware acceleration */
+  background: #08101f !important; /* Dark Luxury Blue */
+  border: 1px solid rgba(231,191,99,0.3) !important; /* Gold border */
+  padding: 0 !important; /* REMOVE PADDING so image touches edges */
+  border-radius: 16px !important;
+  overflow: hidden; /* Keeps image inside rounded corners */
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6) !important; /* Deep shadow */
+  transition: transform 0.3s ease;
 }
 
+/* Lift Effect */
 .ba-card:hover {
-  transform: translateY(-8px); /* Lifts up physically */
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5); /* Shadow gets deeper */
-  border-color: var(--gold-soft); /* Subtle gold glow on edges */
+  transform: translateY(-8px);
+  border-color: #e7bf63 !important; /* Brighter gold on hover */
 }
 
-/* 2. THE IMAGES: High Definition Pop */
-.ba-after {
-  filter: contrast(1.1) saturate(1.1); /* Makes the "New" work look richer */
+/* 3. MAKE IMAGE FILL THE CARD */
+.ba-frame {
+  width: 100% !important;
+  margin: 0 !important; /* No gaps */
+  border-radius: 0 !important; /* Let card handle corners */
+  aspect-ratio: 4/3; /* Slightly taller for better view */
+  box-shadow: none !important;
 }
 
-/* 3. THE SLIDER HANDLE: The "Scanner" Look */
-/* This replaces the default circle with a custom branded controller */
-.ba-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
-  height: 100%; /* Cover full height for touch area */
-  z-index: 20;
-}
-
-/* Chrome/Safari Handle */
-.ba-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 44px;
-  height: 44px;
-  background-color: #fff;
-  /* Adds a 'Drag' icon inside the circle */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4af37'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12zM8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z'/%3E%3C/svg%3E");
-  background-size: 28px;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 50%;
-  border: 3px solid var(--gold); /* Gold Ring */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  cursor: ew-resize;
-  position: relative;
-  margin-top: -22px; /* Centers it vertically */
-}
-
-/* Firefox Handle */
-.ba-slider::-moz-range-thumb {
-  width: 44px;
-  height: 44px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 3px solid var(--gold);
-  cursor: ew-resize;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-/* 4. THE WHITE SPLIT LINE */
-/* Creates the sharp line cutting through the image */
-.ba-after-wrap {
-  border-right: 3px solid #fff; 
-  box-shadow: 5px 0 20px rgba(0,0,0,0.3); /* Shadow BEHIND the cut line */
-}
-
-/* 5. GLASS LABELS (Glassmorphism) */
-.ba-label {
-  position: absolute;
-  top: 18px;
-  padding: 6px 14px;
-  background: rgba(0, 0, 0, 0.65); /* Dark semi-transparent */
-  backdrop-filter: blur(8px); /* The "Frosted Glass" effect */
-  -webkit-backdrop-filter: blur(8px);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-radius: 30px;
-  border: 1px solid rgba(255,255,255,0.15);
-  pointer-events: none;
-  z-index: 5;
-}
-
-.ba-label-left { left: 18px; }
-.ba-label-right { right: 18px; }
-
-/* 6. CAPTION TYPOGRAPHY */
+/* 4. CAPTION: GOLD TEXT ON DARK BACKGROUND */
 .ba-caption {
-  padding: 18px 20px;
-  background: #fff; /* Clean white bottom bar */
-  font-family: var(--font-sans);
-  font-weight: 700;
-  color: #071426; /* Dark Navy Text */
-  font-size: 14px;
-  text-align: left;
-  border-top: 1px solid #f0f0f0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background: #08101f !important; /* Matches card dark bg */
+  color: #f5d89b !important; /* GOLD TEXT - High Contrast */
+  padding: 20px !important;
+  font-size: 16px !important;
+  text-align: center;
+  border-top: 1px solid rgba(231,191,99,0.15); /* Subtle separator */
 }
 
-/* Adds a small gold arrow after the text automatically */
-.ba-caption::after {
-  content: "→";
-  color: var(--gold);
-  font-weight: 900;
-  font-size: 18px;
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: all 0.3s ease;
+/* 5. FIX SLIDER HANDLE & LINE */
+.ba-slider::-webkit-slider-thumb {
+  background-color: #000 !important; /* Black center */
+  border: 2px solid #e7bf63 !important; /* Gold Ring */
+  box-shadow: 0 0 10px rgba(231,191,99,0.5);
 }
 
-.ba-card:hover .ba-caption::after {
-  opacity: 1;
-  transform: translateX(0);
+.ba-after-wrap {
+  border-right: 2px solid rgba(255,255,255,0.8) !important; /* Crisp white cut line */
 }
+
+/* 6. BETTER LABELS (BEFORE/AFTER) */
+.ba-label {
+  top: 15px;
+  background: rgba(0, 0, 0, 0.75) !important; /* Dark background for readability */
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,0.2);
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 5px 12px;
+}
+.ba-label-left { left: 15px; }
+.ba-label-right { right: 15px; }
