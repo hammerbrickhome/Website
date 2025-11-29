@@ -2848,3 +2848,53 @@ input.gallery-search-box,
 }
 .ba-label-left { left: 15px; }
 .ba-label-right { right: 15px; }
+
+/* =========================================
+   GALLERY PHOTO GRID: MATCH LUXURY STYLE
+   Paste this at the very bottom of style.css
+========================================= */
+
+/* 1. MAKE THE GRID COLUMNS WIDE (Matches Homepage) */
+.gallery-grid {
+  display: grid;
+  /* 350px = Big, High-End Photos */
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important; 
+  gap: 30px !important;
+}
+
+/* 2. STYLE THE PHOTOS TO LOOK LIKE "CARDS" */
+/* This copies the .ba-card Dark Luxury style onto your raw images */
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 4/3; /* Forces every photo to be a perfect rectangle */
+  object-fit: cover;
+  
+  /* LUXURY SKIN */
+  background: #08101f; /* Dark Navy Background */
+  border: 1px solid rgba(231,191,99,0.3); /* Gold Border */
+  border-radius: 16px; /* Soft Corners */
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6); /* Deep Lifted Shadow */
+  
+  /* ANIMATION */
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+/* 3. HOVER EFFECT (Lift & Glow) */
+.gallery-grid img:hover {
+  transform: translateY(-8px); /* Physically lifts up */
+  border-color: #e7bf63; /* Bright Gold Border */
+  box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+  z-index: 5;
+}
+
+/* 4. FIX THE SEARCH BAR (To Match Dark Theme) */
+.gallery-search {
+  max-width: 600px;
+  background: #08101f !important;
+  border: 1px solid rgba(231,191,99,0.4) !important;
+  color: #e7bf63 !important;
+  font-size: 16px;
+  padding: 16px 24px;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
