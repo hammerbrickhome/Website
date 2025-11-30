@@ -1,8 +1,9 @@
 /* ============================================================
-   HAMMER BRICK & HOME — ESTIMATOR BOT v17.1 (COMPETITIVE PRICING UPDATE)
-   - Updated: Friendly Disclaimer emphasizing "Competitive Pricing"
-   - Updated: Price presentation reminds user these are market averages
-   - INCLUDES: All Smart Brain & v17.0 logic preserved.
+   HAMMER BRICK & HOME — ESTIMATOR BOT v17.4 (HONEST VALUE STACK)
+   - UPDATED: Availability Check (Honest & Friendly)
+   - UPDATED: Add-on Intro (Removed fake stats)
+   - NEW: Double Value Stack (Free Assessment + Monthly Draw)
+   - INCLUDES: All Smart Brain & v17 logic preserved.
 =============================================================== */
 
 (function() {
@@ -768,7 +769,7 @@
   // --- INIT ---------------------------------------------------
 
   function init() {
-    console.log("HB Chat: Initializing v17.1 Smart...");
+    console.log("HB Chat: Initializing v17.4 Smart...");
     injectCustomStyles();
     createInterface();
     startTicker();
@@ -1288,11 +1289,12 @@
   }
 
   function stepFive_AvailabilityCheck() {
-      addBotMessage(`Let me check our schedule for ${state.borough}...`);
+      // 🧠 UPDATED: HONEST + POSITIVE
+      addBotMessage(`Checking our schedule for ${state.borough}...`);
       setTimeout(() => {
-          addBotMessage(`🗓️ OK, yes! We have estimate slots available.`);
-          setTimeout(stepSix_PricingMode, 1000);
-      }, 2000);
+          addBotMessage(`✅ Good news! We have estimate slots open in **${state.borough}** for this type of project.`);
+          setTimeout(stepSix_PricingMode, 1500);
+      }, 1500);
   }
 
   function stepSix_PricingMode() {
@@ -1358,7 +1360,9 @@
     const config = SMART_ADDONS_CONFIG[state.serviceKey];
     
     if (config && config.groups) {
-      addBotMessage(`I found optional **Smart Add-ons** for ${config.title}. Would you like to view categories like Luxury Upgrades or Protection?`);
+      // 🧠 UPDATED: HONEST INTRO (No fake neighbor stats)
+      addBotMessage(`I found some optional upgrades for **${config.title}**. These items can improve the final look or durability.`);
+      
       addChoices([
         { label: "✨ View Add-ons", key: "yes" },
         { label: "Skip", key: "no" }
@@ -1665,13 +1669,16 @@
   }
 
   function stepMembershipUpsell() {
-    addBotMessage("Before we finish, would you like to hear about **VIP Home Care Memberships** (15% off labor + priority booking)?");
+    // 🧠 HONEST PITCH FOR VIP
+    addBotMessage("Before we finish, would you like to hear about our **VIP Home Care Program**?");
+    addBotMessage("It includes 15% off all labor, priority booking, PLUS entry into our **Monthly Draw** (2 winners/month for free services).");
+    
     addChoices([
-        { label: "💳 Tell me about memberships", key: "yes" },
+        { label: "💳 Tell me more", key: "yes" },
         { label: "No thanks", key: "no" }
     ], function(choice) {
         if (choice.key === "yes") {
-            addBotMessage("🏆 **VIP Members** get 15% off all labor, priority emergency booking, and annual maintenance checks. We'll include the brochure in your text/email.");
+            addBotMessage("🏆 **VIP Members** get discounts, priority service, and a chance to win one service each month from over 50 options! I'll include the brochure in your text/email.");
             state.interestedInMembership = true;
         }
         showCombinedReceiptAndLeadCapture();
@@ -1719,6 +1726,17 @@
         leadScoreHtml = `<div class="hb-receipt-footer" style="color:#e7bf63; font-weight:bold;">🌟 VIP Project Tier</div>`;
     }
 
+    // 🧠 DOUBLE VALUE STACK (SEPARATE GIFT + DRAW)
+    let bonusHtml = `
+    <div class="hb-receipt-row" style="background:#f0fdf4; color:#166534; font-weight:bold; margin-top:8px; border-radius:4px; padding:8px; text-align:center; display:block;">
+        🎁 <strong>GIFT UNLOCKED:</strong><br>
+        Free On-Site Expert Assessment ($250 Value) — Included with estimate!
+    </div>
+    <div class="hb-receipt-row" style="background:#fffbe6; color:#b58900; font-weight:bold; margin-top:4px; border-radius:4px; padding:8px; text-align:center; display:block;">
+        🏆 <strong>${state.borough || "NYC"} MONTHLY DRAW:</strong><br>
+        Join our VIP list: 2 lucky subscribers win one service each from over 50 services free!
+    </div>`;
+
     const html = `
       <div class="hb-receipt">
         <h4>Combined Estimate Summary</h4>
@@ -1726,6 +1744,7 @@
         ${debrisRow}
         ${totalRow}
         ${financingRow}
+        ${bonusHtml}
         ${leadScoreHtml}
         <div class="hb-receipt-footer">Ask about VIP Home Care memberships & referral rewards.</div>
       </div>`;
