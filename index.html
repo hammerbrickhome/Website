@@ -47,11 +47,6 @@
           "postalCode": "10302",
           "addressCountry": "US"
         },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "25" 
-        },
         "areaServed": ["Staten Island", "Brooklyn", "Queens", "Manhattan", "Bronx", "New Jersey"],
         "identifier": [
           { "@type": "PropertyValue", "name": "NYC HIC", "value": "2131291" },
@@ -354,7 +349,7 @@
           <div class="ba-frame">
             <img class="ba-img ba-before" alt="Before image">
             <div class="ba-after-wrap"><img class="ba-img ba-after" alt="After image"></div>
-            <input class="ba-slider" type="range" min="0" max="100" value="50">
+            <input class="ba-slider" type="range" min="0" max="100" value="50" aria-label="Compare before and after images">
             <div class="ba-label ba-label-left">Before</div><div class="ba-label ba-label-right">After</div>
           </div>
           <div class="ba-caption"></div>
@@ -385,17 +380,17 @@
           <div class="review-slide">
             <p class="review-score">⭐⭐⭐⭐⭐</p>
             <p class="review-quote">“Respectful crew, clean job site, and beautiful work. Our front steps look like a brand-new house.”</p>
-            <p class="review-note">- Sarah J., Staten Island</p>
+            <p class="review-note">- Anonymous, Staten Island</p>
           </div>
           <div class="review-slide">
             <p class="review-score">⭐⭐⭐⭐⭐</p>
             <p class="review-quote">“Noman was honest about the pricing and the tiers made it easy to choose.”</p>
-            <p class="review-note">- Mike T., Brooklyn</p>
+            <p class="review-note">- Anonymous, Brooklyn</p>
           </div>
           <div class="review-slide">
             <p class="review-score">⭐⭐⭐⭐⭐</p>
             <p class="review-quote">“Best experience I've had with a contractor in 20 years.”</p>
-            <p class="review-note">- David R., New Jersey</p>
+            <p class="review-note">- Anonymous, New Jersey</p>
           </div>
         </div>
         <div class="review-nav" id="reviewNav">
@@ -435,7 +430,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Animations
+      // 1. ANIMATIONS
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -447,91 +442,69 @@
       }, { threshold: 0.1 });
       document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-      // Review Carousel
+      // 2. REVIEW CAROUSEL
       const track = document.getElementById('reviewTrack');
       const dots = document.querySelectorAll('.review-dot');
       let currentSlide = 0;
       function updateSlide(index) {
+        if(!track) return;
         track.style.transform = `translateX(-${index * 100}%)`;
         dots.forEach(d => d.classList.remove('active'));
-        dots[index].classList.add('active');
+        if(dots[index]) dots[index].classList.add('active');
         currentSlide = index;
       }
       dots.forEach((dot, index) => dot.addEventListener('click', () => updateSlide(index)));
-      setInterval(() => updateSlide((currentSlide + 1) % dots.length), 5000);
+      if(track) setInterval(() => updateSlide((currentSlide + 1) % dots.length), 5000);
 
-      // Contact Panel
+      // 3. CONTACT PANEL
       const panel = document.getElementById("contact-panel");
-      document.querySelectorAll(".contact-panel-toggle").forEach(b => b.addEventListener("click", () => panel.style.display="flex"));
-      panel.querySelector(".contact-panel-close").addEventListener("click", () => panel.style.display="none");
-      panel.addEventListener("click", (e) => { if(e.target===panel) panel.style.display="none"; });
-    });
-  </script>
+      if(panel) {
+        document.querySelectorAll(".contact-panel-toggle").forEach(b => b.addEventListener("click", () => panel.style.display="flex"));
+        panel.querySelector(".contact-panel-close").addEventListener("click", () => panel.style.display="none");
+        panel.addEventListener("click", (e) => { if(e.target===panel) panel.style.display="none"; });
+      }
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // 1. Setup variables to track state
+      // 4. GALLERY LOGIC
       let allHomePairs = [];
       let currentIndex = 0;
       const PAGE_SIZE = 6;
-      
       const grid = document.getElementById("ba-grid");
       const loadBtn = document.getElementById("ba-loadmore");
       const tmpl = document.getElementById("ba-card");
 
-      // 2. Define the render function
       function renderBatch() {
         const nextBatch = allHomePairs.slice(currentIndex, currentIndex + PAGE_SIZE);
-        
         nextBatch.forEach(item => {
           const card = tmpl.content.cloneNode(true);
-          
-          // Set Images
           card.querySelector(".ba-before").src = "/images/" + item.before;
           card.querySelector(".ba-after").src = "/images/" + item.after;
           card.querySelector(".ba-caption").textContent = item.label || "";
           
-          // Setup Slider Logic
           const wrap = card.querySelector(".ba-after-wrap");
           const slider = card.querySelector(".ba-slider");
-          slider.addEventListener("input", e => {
-            wrap.style.width = e.target.value + "%";
-          });
-
+          slider.addEventListener("input", e => { wrap.style.width = e.target.value + "%"; });
+          
           grid.appendChild(card);
         });
-
-        // Update Index
         currentIndex += nextBatch.length;
-
-        // Hide button if no more items
-        if (currentIndex >= allHomePairs.length) {
-          loadBtn.style.display = "none";
-        } else {
-          loadBtn.style.display = "inline-block";
-        }
+        if (currentIndex >= allHomePairs.length) loadBtn.style.display = "none";
+        else loadBtn.style.display = "inline-block";
       }
 
-      // 3. Fetch Data and Initialize
       fetch("/gallery.json")
         .then(r => r.json())
         .then(data => {
-          // Use 'homePairs' from JSON, or empty array if missing
           allHomePairs = data.homePairs || [];
-          
           if (allHomePairs.length > 0) {
-            // Render first batch immediately
-            renderBatch(); 
-            
-            // Attach Click Event to Load More Button
+            renderBatch();
             loadBtn.addEventListener("click", renderBatch);
           } else {
-            loadBtn.style.display = "none"; // Hide button if no data
+            loadBtn.style.display = "none";
           }
         })
         .catch(e => {
-          console.log("No gallery items found or JSON error", e);
-          loadBtn.style.display = "none";
+          console.log("Gallery unavailable:", e);
+          if(loadBtn) loadBtn.style.display = "none";
         });
     });
   </script>
