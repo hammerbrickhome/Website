@@ -9,9 +9,6 @@
   <link rel="icon" href="/images/hero.PNG">
   <link rel="stylesheet" href="/style.css">
 
-    
-// ... rest of your code
-  <!-- ⭐⭐⭐ STRUCTURED DATA — MASTER ESTIMATOR + FAQ ⭐⭐⭐ -->
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -196,7 +193,7 @@
           "name": "How accurate is the estimator?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "This calculator gives a realistic NYC ballpark estimate based on size, scope, finish level, access, borough, and typical labor trends. Final pricing requires an on-site walkthrough."
+            "text": "This calculator gives a realistic NYC ballpark estimate based on size, scope, finish level, access, and typical labor trends. Final pricing requires an on-site walkthrough."
           }
         },
 
@@ -341,9 +338,6 @@
   ]
 }
   </script>
-  <!-- ⭐⭐⭐ END STRUCTURED DATA ⭐⭐⭐ -->
-
-  <!-- ⭐⭐⭐ CALCULATOR WEB-APP SCHEMA (REQUIRED FOR GOOGLE TO SHOW TOOL) ⭐⭐⭐ -->
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -462,16 +456,13 @@
 </head>
 
 <body>
-  <!-- HEADER INCLUDE -->
   <div id="header-include"></div>
 
   <main class="page">
     <section class="hero hero-inner fade-up">
       <div class="hero-content">
-        <!-- ⭐ SHIMMERING MAIN TITLE ⭐ -->
         <h1 class="shimmer-title">Project Estimator</h1>
 
-        <!-- Subtitle stays normal (NOT shimmering) -->
         <p class="sub-align-left" style="max-width:800px;margin:auto;">
           Get an NYC/NJ ballpark range in seconds. A final quote is only issued after an on-site walkthrough.
         </p>
@@ -479,7 +470,6 @@
     </section>
 
     <section class="section fade-up" id="estimator">
-      <!-- ⭐ SHIMMERING SECOND TITLE ⭐ -->
       <h2 class="shimmer-title">NYC &amp; NJ Project Estimator (Ballpark Only)</h2>
       <p class="muted" style="max-width:800px;margin:auto;">
         This tool gives a rough NYC-area ballpark range based on typical labor and material trends.
@@ -487,7 +477,6 @@
       </p>
 
       <div class="estimator-grid">
-        <!-- LEFT: FORM -->
         <form id="est-form" class="est-card">
           <div class="field-row">
             <label for="est-service">Project Type</label>
@@ -595,15 +584,11 @@
             </select>
           </div>
 
-          <!-- BRAND PREFERENCE (dynamic) -->
           <div class="field-row" id="brand-row" style="display:none;">
             <label for="est-brand" id="est-brand-label">Preferred Brand / Line</label>
             <select id="est-brand"></select>
           </div>
 
-          <!-- ======================
-               ADVANCED: MASONRY / DRIVEWAY
-          ======================= -->
           <div class="field-row" id="adv-masonry" style="display:none;">
             <div class="adv-label">Masonry / Driveway Details</div>
             <label for="masonry-focus">Masonry focus</label>
@@ -641,9 +626,6 @@
             </div>
           </div>
 
-          <!-- ======================
-               ADVANCED: ROOFING
-          ======================= -->
           <div class="field-row" id="adv-roof" style="display:none;">
             <div class="adv-label">Roofing Details</div>
             <label for="roof-tearoff">Tear-off / existing layers</label>
@@ -673,9 +655,6 @@
             </p>
           </div>
 
-          <!-- ======================
-               ADVANCED: SIDING
-          ======================= -->
           <div class="field-row" id="adv-siding" style="display:none;">
             <div class="adv-label">Siding Details</div>
             <label for="siding-remove">Existing siding to remove</label>
@@ -693,9 +672,6 @@
             </select>
           </div>
 
-          <!-- ======================
-               ADVANCED: WINDOWS / DOORS
-          ======================= -->
           <div class="field-row" id="adv-windows" style="display:none;">
             <div class="adv-label">Windows &amp; Doors</div>
 
@@ -710,9 +686,6 @@
             </p>
           </div>
 
-          <!-- ======================
-               ADVANCED: DESIGN STYLE (KITCHEN/BATH)
-          ======================= -->
           <div class="field-row" id="adv-style" style="display:none;">
             <div class="adv-label">Design Style</div>
             <label for="design-style">Overall style</label>
@@ -726,7 +699,6 @@
             </p>
           </div>
 
-          <!-- ADD-ONS -->
           <div class="field-row">
             <label for="est-dumpster">Dumpster Needed?</label>
             <select id="est-dumpster">
@@ -759,11 +731,20 @@
             </p>
           </div>
 
-          <!-- SMART ADD-ONS PANEL (auto populated with JS) -->
           <div id="smart-addons-panel"
                style="display:none; margin-top:20px; border:1px solid rgba(231,191,99,.45);
                       padding:12px 14px; border-radius:10px; background:rgba(7,14,26,.9);">
-            <!-- JS will inject smart add-on checkboxes here -->
+            </div>
+
+          <div class="field-row" style="margin: 15px 0; padding: 10px; background: rgba(231,191,99,0.1); border-radius: 6px; border-left: 3px solid #e7bf63;">
+            <label style="font-weight: normal; font-size: 12px; color: #ddd; cursor: pointer; display: flex; align-items: flex-start; gap: 10px; line-height: 1.4;">
+              <input type="checkbox" required style="width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0; accent-color: #e7bf63;">
+              <span>
+                <strong>I understand this is a generic NYC/NJ market estimate.</strong><br>
+                Hammer Brick & Home is often able to offer <strong>more competitive pricing</strong> than these market averages.
+                I understand this is not a final quote until a site walkthrough is completed.
+              </span>
+            </label>
           </div>
 
           <button type="submit" class="btn">Calculate Ballpark Range</button>
@@ -772,15 +753,12 @@
           </p>
         </form>
 
-        <!-- RIGHT: RESULT / DISCLAIMERS -->
         <aside class="est-card est-result-card">
           <h3>Ballpark Range (Not a Formal Estimate)</h3>
           <div id="est-result">
             <div id="est-result-content">
-              <!-- Main Range -->
               <div id="est-main-range"></div>
 
-              <!-- MONTHLY ESTIMATE BOX -->
               <div id="est-monthly-box" style="
                 display:none;
                 margin-top:12px;
@@ -794,32 +772,23 @@
                 <div id="est-monthly-content" style="font-size:13px; line-height:1.5;"></div>
               </div>
 
-              <!-- Compare — Basic / Premium / Luxury -->
               <div id="est-compare" class="scenario-grid"></div>
 
-              <!-- Monthly Payment Estimate -->
               <div id="est-monthly"></div>
 
-              <!-- Confidence Meter -->
               <div id="est-confidence"></div>
 
-              <!-- National vs NYC Comparison -->
               <div id="est-avg-box"></div>
 
-              <!-- Cost Breakdown Bars -->
               <div id="est-breakdown-box"></div>
 
-              <!-- Insights Box -->
               <div id="est-insights-box"></div>
 
-              <!-- Pro Tips -->
               <div id="est-protips"></div>
 
-              <!-- Buttons (Email / Print) -->
               <div id="est-buttons"></div>
             </div>
 
-            <!-- Smart Permit Helper -->
             <div id="permit-helper" style="
               border:1px solid rgba(231,191,99,0.35);
               padding:10px 12px;
@@ -831,7 +800,6 @@
               display:none;
             "></div>
 
-            <!-- Main disclaimer -->
             <div style="
               border:1px solid rgba(231,191,99,0.35);
               padding:12px 14px;
@@ -848,7 +816,6 @@
               </p>
             </div>
 
-            <!-- NOT INCLUDED -->
             <div style="
               border:1px solid rgba(255,80,80,0.45);
               padding:12px 14px;
@@ -870,7 +837,6 @@
               </ul>
             </div>
 
-            <!-- Final note -->
             <div style="
               border-left:3px solid var(--gold);
               padding:12px 14px;
@@ -889,13 +855,9 @@
     </section>
   </main>
 
-  <!-- ⭐ FAQ TITLE (centered) ⭐ -->
   <h1 class="faq-title shimmer-gold">Frequently Asked Questions</h1>
 
   <div class="faq-section">
-    <!-- =====================
-         CATEGORY: SERVICE AREA & LICENSING
-         ===================== -->
     <h2>Service Area & Licensing</h2>
 
     <details>
@@ -908,9 +870,6 @@
       <p>Yes — Hammer Brick & Home LLC is a fully Licensed & Insured NYC Home Improvement Contractor (HIC #21311291) and an EPA Lead-Safe Certified Renovation Firm.</p>
     </details>
 
-    <!-- =====================
-         CATEGORY: ESTIMATOR & PRICING
-         ===================== -->
     <h2>Estimator & Pricing</h2>
 
     <details>
@@ -920,7 +879,7 @@
 
     <details>
       <summary>What affects the final price?</summary>
-      <p>Project size, finish level, materials, access, demo, lead-safe requirements, timeline, and any required permits all impact the final price.</p>
+      <p>Project size, finish level, materials, access, demo, lead-safe requirements, and any required permits all impact the final price.</p>
     </details>
 
     <details>
@@ -968,9 +927,6 @@
       <p>Yes. We offer itemized breakdowns upon request for transparency, especially on larger remodels.</p>
     </details>
 
-    <!-- =====================
-         CATEGORY: PERMITS & COMPLIANCE
-         ===================== -->
     <h2>Permits & Compliance</h2>
 
     <details>
@@ -983,9 +939,6 @@
       <p>Structural work, major remodels, roofing, plumbing, electrical, and sidewalk work usually require permits. We'll advise you based on your project.</p>
     </details>
 
-    <!-- =====================
-         CATEGORY: PROJECT TIMELINE & PROCESS
-         ===================== -->
     <h2>Project Timeline & Process</h2>
 
     <details>
@@ -1013,9 +966,6 @@
       <p>Yes — we provide a written workmanship warranty plus manufacturer warranties on materials (roofing, pavers, windows, fixtures, etc.).</p>
     </details>
 
-    <!-- =====================
-         CATEGORY: DESIGN, MATERIALS & SUPPORT
-         ===================== -->
     <h2>Design, Materials & Support</h2>
 
     <details>
@@ -1038,9 +988,6 @@
       <p>Remove personal items, secure valuables, move pets to a safe area, and clear nearby furniture if possible. We handle protection for floors and walls.</p>
     </details>
 
-    <!-- =====================
-         CATEGORY: CONTACT
-         ===================== -->
     <h2>Contact & Getting Started</h2>
 
     <details>
@@ -1049,9 +996,6 @@
     </details>
   </div>
 
-  <!-- =====================
-       STILL HAVE A QUESTION — GOLD PILL VERSION
-       ===================== -->
   <div class="contact-box fade-up">
     <h3>Still have a question?</h3>
     <p>We're happy to help. Send photos, a quick description, and your borough — we reply fast.</p>
@@ -1064,10 +1008,8 @@
     </div>
   </div>
 
-  <!-- FOOTER INCLUDE -->
   <div id="footer-include"></div>
 
-  <!-- HEADER/FOOTER LOADER -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       Promise.all([
@@ -1085,18 +1027,14 @@
     });
   </script>
 
-  <!-- LOAD THE ADVANCED ESTIMATOR LOGIC -->
   <script src="/estimator-advanced.js"></script>
 
-  <!-- LOAD SMART ADD-ONS (EXTERNAL FILE) -->
- <script src="https://hammerbrickhome.com/hammer-smart-addons-v1.js"></script>
+  <script src="https://hammerbrickhome.com/hammer-smart-addons-v1.js"></script>
 <link rel="stylesheet" href="/chat.css">
 <script src="/chat.js" defer></script>
 
 <script src="/script.js" defer></script>
 
-</body>
-</html>
 </body>
 </html>
 
