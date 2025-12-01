@@ -2898,3 +2898,85 @@ input.gallery-search-box,
   border-radius: 50px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
+/* ============================================================
+   NEW SPECIALS GRID (Masonry, Paint, Window)
+   "Lift & Glow" Effect
+=============================================================== */
+
+.specials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.special-card {
+  position: relative;
+  background: rgba(6, 12, 23, 0.95); /* Dark Luxury Background */
+  border: 1px solid rgba(231,191,99,0.25); /* Subtle Gold Border */
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+}
+
+/* HOVER EFFECT: Lift + Gold Glow */
+.special-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px rgba(231,191,99,0.15);
+  border-color: rgba(231,191,99,0.8);
+}
+
+/* The Tag (Safety, Design, etc) */
+.special-tag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--gold);
+  color: #000;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-bottom-left-radius: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.special-card h3 {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 6px;
+  padding-right: 20px; /* Space for tag */
+}
+
+.special-price {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--gold-soft);
+  margin-bottom: 12px;
+  text-shadow: 0 0 15px rgba(212,175,55,0.4);
+}
+
+.special-desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+  flex-grow: 1; /* Pushes button down */
+}
+
+.special-card .bullets li {
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #e0e0e0;
+}
+
+/* Button Alignment */
+.special-card .btn {
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+}
