@@ -2274,76 +2274,146 @@ input.gallery-search-box,
 
 
 /* ============================================================
-   MONTHLY SPECIALS – 4-CARD LAYOUT (New Fix)
+   NEW SPECIALS GRID (Masonry, Paint, Window)
+   "Lift & Glow" Effect - FIXED FOR TAG CUTOFF
 =============================================================== */
+
 .specials-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
-  margin-top: 1.75rem;
-  /* Ensure all cards are equal height */
-  align-items: stretch;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
 }
 
 .special-card {
-  background: rgba(5, 12, 25, .96);
+  position: relative;
+  background: rgba(6, 12, 23, 0.95); /* Dark Luxury Background */
+  border: 1px solid rgba(231,191,99,0.25); /* Subtle Gold Border */
   border-radius: 18px;
-  border: 1px solid rgba(231, 191, 99, .35);
-  padding: 18px 18px 20px;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, .45);
-  /* Make card a flex container to align contents vertically */
+  padding: 24px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  
+  /* --- FIX BELOW: Changed from hidden to visible so tag doesn't cut off --- */
+  overflow: visible; 
+}
+
+/* HOVER EFFECT: Lift + Gold Glow */
+.special-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px rgba(231,191,99,0.15);
+  border-color: rgba(231,191,99,0.8);
+  z-index: 10; /* Ensures card floats above others when hovered */
+}
+
+/* The Tag (Safety, Design, Best Seller) */
+.special-tag {
+  position: absolute;
+  /* --- FIX BELOW: Pull the tag UP and RIGHT to sit on the edge --- */
+  top: -12px;
+  right: 20px; 
+  
+  background: var(--gold);
+  color: #000;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 4px; /* Slight rounded corners on the tag itself */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4); /* Gives the tag its own shadow */
 }
 
 .special-card h3 {
-  margin-top: 0;
-  margin-bottom: .5rem;
-  font-size: 1.1rem;
-}
-
-.special-card p {
-  margin: .35rem 0;
-}
-
-.special-card ul {
-  margin: .5rem 0 .75rem;
-  padding-left: 1.2rem;
-  /* Flex shrink 0 prevents the list from collapsing */
-  flex-shrink: 0; 
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 6px;
+  padding-right: 20px; /* Space for tag */
 }
 
 .special-price {
-  font-weight: 600;
-  color: var(--gold, #e7bf63);
-  margin-top: .4rem;
-  flex-shrink: 0;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--gold-soft);
+  margin-bottom: 12px;
+  text-shadow: 0 0 15px rgba(212,175,55,0.4);
 }
 
-.special-note {
-  font-size: .85rem;
-  opacity: .8;
-  flex-shrink: 0;
+.special-desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+  flex-grow: 1; /* Pushes button down */
 }
 
-/* Bonus badge */
-.special-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: .25rem;
-  font-size: .8rem;
-  padding: 3px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(231, 191, 99, .55);
-  margin-left: .5rem;
+.special-card .bullets li {
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #e0e0e0;
 }
 
-/* CTA button line inside cards - push to bottom */
-.special-cta {
-  margin-top: auto; /* Pushes element to the bottom */
-  padding-top: 10px;
-  flex-shrink: 0;
+/* Button Alignment */
+.special-card .btn {
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
 }
+
+/* ============================================================
+   ADD-ONS & PROTECTION STYLES (New)
+=============================================================== */
+
+/* The Add-on Section */
+.special-addons {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(231,191,99,0.2);
+}
+.special-addons h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.addon-list {
+  list-style: none;
+  padding: 0;
+  font-size: 12px;
+  color: #ccc;
+}
+.addon-list li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.addon-price {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* The Protection/Prep Box */
+.special-protection {
+  margin-top: 15px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,100,100,0.15); /* Subtle red warning tint */
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.4;
+}
+.special-protection strong {
+  color: #ff8e8e; /* Soft Red for "Important" */
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
 
 /* --- FIX: OVERLAPPING SERVICES & SPACING --- */
 
@@ -2897,137 +2967,4 @@ input.gallery-search-box,
   padding: 16px 24px;
   border-radius: 50px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-/* ============================================================
-   NEW SPECIALS GRID (Masonry, Paint, Window)
-   "Lift & Glow" Effect
-=============================================================== */
-
-.specials-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-top: 20px;
-}
-
-.special-card {
-  position: relative;
-  background: rgba(6, 12, 23, 0.95); /* Dark Luxury Background */
-  border: 1px solid rgba(231,191,99,0.25); /* Subtle Gold Border */
-  border-radius: 18px;
-  padding: 24px 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  overflow: hidden;
-}
-
-/* HOVER EFFECT: Lift + Gold Glow */
-.special-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px rgba(231,191,99,0.15);
-  border-color: rgba(231,191,99,0.8);
-}
-
-/* The Tag (Safety, Design, etc) */
-.special-tag {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: var(--gold);
-  color: #000;
-  font-size: 11px;
-  font-weight: 800;
-  padding: 6px 14px;
-  border-bottom-left-radius: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.special-card h3 {
-  font-size: 18px;
-  color: #fff;
-  margin-bottom: 6px;
-  padding-right: 20px; /* Space for tag */
-}
-
-.special-price {
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--gold-soft);
-  margin-bottom: 12px;
-  text-shadow: 0 0 15px rgba(212,175,55,0.4);
-}
-
-.special-desc {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 16px;
-  line-height: 1.5;
-  flex-grow: 1; /* Pushes button down */
-}
-
-.special-card .bullets li {
-  font-size: 13px;
-  margin-bottom: 8px;
-  color: #e0e0e0;
-}
-
-/* Button Alignment */
-.special-card .btn {
-  width: 100%;
-  text-align: center;
-  margin-top: 15px;
-}
-/* ============================================================
-   ADD-ONS & PROTECTION STYLES (New)
-=============================================================== */
-
-/* The Add-on Section */
-.special-addons {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid rgba(231,191,99,0.2);
-}
-.special-addons h4 {
-  font-size: 12px;
-  text-transform: uppercase;
-  color: var(--gold-soft);
-  margin-bottom: 6px;
-  letter-spacing: 0.5px;
-}
-.addon-list {
-  list-style: none;
-  padding: 0;
-  font-size: 12px;
-  color: #ccc;
-}
-.addon-list li {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-.addon-price {
-  color: #fff;
-  font-weight: 700;
-}
-
-/* The Protection/Prep Box */
-.special-protection {
-  margin-top: 15px;
-  background: rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,100,100,0.15); /* Subtle red warning tint */
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 11px;
-  color: rgba(255,255,255,0.7);
-  line-height: 1.4;
-}
-.special-protection strong {
-  color: #ff8e8e; /* Soft Red for "Important" */
-  display: block;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-  font-size: 10px;
 }
