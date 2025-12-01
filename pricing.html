@@ -13,25 +13,19 @@
 <link rel="stylesheet" href="/style.css?v=3">
 
 <style>
-  /* --- FIX 1: EXAGGERATED SPACING --- */
+  /* --- FIX 1: GRID SPACING --- */
   .specials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    
-    /* Pushes the entire grid down away from the header text */
-    margin-top: 70px !important; 
-    
-    /* Adds internal room so tags don't get clipped by the box */
-    padding-top: 40px !important;
-    
-    overflow: visible !important;
+    margin-top: 40px !important;
+    overflow: visible !important; /* Prevents clipping */
   }
 
   /* Section Header Spacing */
   .category-header {
-    margin-top: 100px; /* Huge space above titles */
-    margin-bottom: 20px;
+    margin-top: 80px; 
+    margin-bottom: 10px;
     border-bottom: 1px solid var(--gold);
     padding-bottom: 10px;
     color: var(--gold);
@@ -41,7 +35,8 @@
     clear: both;
   }
 
-  /* Card Styling */
+  /* --- FIX 2: CARD MARGIN --- */
+  /* This creates a specific 'safe zone' above the card so the tag can't get cut off */
   .special-card {
     background: #111;
     border: 1px solid #333;
@@ -50,8 +45,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    /* Ensure no weird overlapping */
     z-index: 1;
+    margin-top: 35px !important; /* THE FIX: Pushes card down so tag has room */
   }
   
   .special-card:hover {
@@ -60,11 +55,11 @@
     transition: all 0.3s ease;
   }
   
-  /* --- FIX 2: TAG POSITIONING --- */
+  /* --- FIX 3: TAG POSITION --- */
   .special-tag {
     position: absolute;
-    /* Moves the tag slightly lower so it sits straddling the border perfectly */
-    top: -15px; 
+    /* We move it slightly less high so it stays safe */
+    top: -14px; 
     right: 20px;
     background: #D4AF37;
     color: #000;
@@ -74,13 +69,13 @@
     text-transform: uppercase;
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-    z-index: 10; /* Forces it on top of everything */
+    z-index: 10;
     white-space: nowrap;
   }
 
   .special-card h3 {
     color: #fff;
-    margin-top: 15px; /* Extra room inside card */
+    margin-top: 15px; 
     margin-bottom: 5px;
     font-size: 1.4rem;
   }
