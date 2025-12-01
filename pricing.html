@@ -18,14 +18,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px; 
-    
-    /* --- THE FIX FOR HEIGHT --- */
-    /* Pushes the whole grid down away from the text above it */
     margin-top: 70px; 
-    
-    /* Creates internal room so the tag is considered "inside" the area */
     padding-top: 30px; 
-    
     overflow: visible; 
   }
 
@@ -46,20 +40,37 @@
   /* Card Styling */
   .special-card {
     background: #111;
-    border: 1px solid #333;
+    border: 1px solid #333; /* Standard thin border on sides/bottom */
     border-radius: 8px;
     padding: 25px;
     position: relative;
     transition: transform 0.3s ease, border-color 0.3s ease;
     display: flex;
     flex-direction: column;
-    /* Extra margin on the card itself to ensure tag clearance */
     margin-top: 15px; 
   }
   .special-card:hover {
     transform: translateY(-5px);
     border-color: #D4AF37;
   }
+
+  /* --- NEW TIER COLORS (TOP BORDER ONLY) --- */
+  
+  /* Foundation (Blue) - Maintenance/Repair */
+  .special-card.foundation {
+    border-top: 4px solid #4a90e2; 
+  }
+
+  /* Premium (Gold) - Upgrades/Standard */
+  .special-card.premium {
+    border-top: 4px solid #e7bf63;
+  }
+
+  /* Signature (Orange/Bronze) - Luxury/New Build */
+  .special-card.signature {
+    border-top: 4px solid #e67e22;
+  }
+
   
   /* FIXED TAG POSITION */
   .special-tag {
@@ -74,13 +85,13 @@
     text-transform: uppercase;
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
-    z-index: 20; /* High Z-index ensures it sits on top */
+    z-index: 20; 
     white-space: nowrap;
   }
 
   .special-card h3 {
     color: #fff;
-    margin-top: 15px; /* Added space so title doesn't hit tag */
+    margin-top: 15px;
     margin-bottom: 5px;
     font-size: 1.4rem;
   }
@@ -206,7 +217,7 @@
         
         <div class="specials-grid fade-up">
 
-            <div class="special-card">
+            <div class="special-card premium">
               <div class="special-tag">Best Seller</div>
               <h3>Masonry Tune-Up</h3>
               <div class="special-price">$349</div>
@@ -231,7 +242,7 @@
               <button type="button" class="btn contact-panel-toggle">Book Tune-Up</button>
             </div>
 
-            <div class="special-card">
+            <div class="special-card foundation">
               <div class="special-tag">Protection</div>
               <h3>"Winter Shield" Waterproofing</h3>
               <div class="special-price">$499</div>
@@ -256,7 +267,7 @@
               <button type="button" class="btn contact-panel-toggle">Book Waterproofing</button>
             </div>
 
-            <div class="special-card">
+            <div class="special-card signature">
               <div class="special-tag">New Build</div>
               <h3>Paver Walkway Install</h3>
               <div class="special-price">$3,200+</div>
@@ -281,7 +292,7 @@
               <button type="button" class="btn contact-panel-toggle">Request Estimate</button>
             </div>
 
-            <div class="special-card">
+            <div class="special-card foundation">
               <div class="special-tag">Maintenance</div>
               <h3>Driveway Renewal</h3>
               <div class="special-price">$1,200+</div>
@@ -306,7 +317,7 @@
               <button type="button" class="btn contact-panel-toggle">Book Driveway</button>
             </div>
 
-            <div class="special-card">
+            <div class="special-card foundation">
                 <div class="special-tag">Curb Appeal</div>
                 <h3>Sidewalk Deep Clean</h3>
                 <div class="special-price">$750+</div>
@@ -336,7 +347,7 @@
         <h2 class="category-header fade-up">Interior, Bath & Kitchen</h2>
         <div class="specials-grid fade-up">
 
-            <div class="special-card">
+            <div class="special-card premium">
                 <div class="special-tag">Featured</div>
                 <h3>"Signature Room" Refresh</h3>
                 <div class="special-price">$699</div>
@@ -361,7 +372,7 @@
                 <button type="button" class="btn contact-panel-toggle">Book Paint Job</button>
               </div>
 
-            <div class="special-card">
+            <div class="special-card foundation">
                 <div class="special-tag">Hygiene</div>
                 <h3>"Spa Bath" Refresh</h3>
                 <div class="special-price">$399</div>
@@ -386,7 +397,7 @@
                 <button type="button" class="btn contact-panel-toggle">Book Bath Refresh</button>
               </div>
 
-             <div class="special-card">
+             <div class="special-card premium">
                 <div class="special-tag">Style</div>
                 <h3>"Chef's Splash" Install</h3>
                 <div class="special-price">$899</div>
@@ -411,7 +422,7 @@
                 <button type="button" class="btn contact-panel-toggle">Book Backsplash</button>
               </div>
 
-            <div class="special-card">
+            <div class="special-card signature">
               <div class="special-tag">Renovation</div>
               <h3>Kitchen Mini-Remodel</h3>
               <div class="special-price">$4,500+</div>
@@ -436,7 +447,7 @@
               <button type="button" class="btn contact-panel-toggle">Get Estimate</button>
             </div>
 
-            <div class="special-card">
+            <div class="special-card signature">
                 <div class="special-tag">Renovation</div>
                 <h3>Bath Cosmetic Makeover</h3>
                 <div class="special-price">$5,500+</div>
@@ -461,7 +472,7 @@
                 <button type="button" class="btn contact-panel-toggle">Get Estimate</button>
               </div>
 
-            <div class="special-card">
+            <div class="special-card premium">
               <div class="special-tag">Moving Day</div>
               <h3>Whole-Home Touch-Up</h3>
               <div class="special-price">$1,250+</div>
@@ -486,7 +497,7 @@
               <button type="button" class="btn contact-panel-toggle">Book Day Rate</button>
             </div>
 
-            <div class="special-card">
+            <div class="special-card premium">
                 <div class="special-tag">Clean Up</div>
                 <h3>Basement Freshen-Up</h3>
                 <div class="special-price">$3,000+</div>
@@ -516,7 +527,7 @@
         <h2 class="category-header fade-up">Exterior, Yard & Windows</h2>
         <div class="specials-grid fade-up">
 
-            <div class="special-card">
+            <div class="special-card premium">
                 <div class="special-tag">Efficiency</div>
                 <h3>"Draft-Stop" Window Swap</h3>
                 <div class="special-price">$949</div>
@@ -541,7 +552,7 @@
                 <button type="button" class="btn contact-panel-toggle">Book Window</button>
               </div>
 
-            <div class="special-card">
+            <div class="special-card signature">
                 <div class="special-tag">First Impression</div>
                 <h3>Premium Entry Door</h3>
                 <div class="special-price">$2,250+</div>
@@ -566,7 +577,7 @@
                 <button type="button" class="btn contact-panel-toggle">Get Estimate</button>
               </div>
 
-            <div class="special-card">
+            <div class="special-card signature">
               <div class="special-tag">Security</div>
               <h3>Fence Install Starter</h3>
               <div class="special-price">$3,200+</div>
@@ -591,7 +602,7 @@
               <button type="button" class="btn contact-panel-toggle">Get Estimate</button>
             </div>
 
-            <div class="special-card">
+            <div class="special-card premium">
                 <div class="special-tag">Summer Ready</div>
                 <h3>Deck Wash & Seal</h3>
                 <div class="special-price">$1,750+</div>
@@ -616,7 +627,7 @@
                 <button type="button" class="btn contact-panel-toggle">Book Deck Care</button>
               </div>
 
-            <div class="special-card">
+            <div class="special-card foundation">
               <div class="special-tag">Maintenance</div>
               <h3>Gutter Clean & Check</h3>
               <div class="special-price">$375+</div>
@@ -641,7 +652,7 @@
               <button type="button" class="btn contact-panel-toggle">Book Cleaning</button>
             </div>
 
-             <div class="special-card">
+             <div class="special-card foundation">
                 <div class="special-tag">Seasonal</div>
                 <h3>Yard Clean-Up</h3>
                 <div class="special-price">$650+</div>
