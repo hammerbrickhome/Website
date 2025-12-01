@@ -1,3 +1,8 @@
+Here is the **full, updated `index.html`** file.
+
+I have replaced the old single "Masonry Special" section with the new **3-Card Grid** (Masonry, Painting, Windows) using the luxury layout we designed. Nothing else has been deleted.
+
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -192,20 +197,58 @@
       </div>
     </section>
 
-    <section class="section section-special fade-up">
-      <h2>Masonry Tune-Up Special – $349</h2>
-      <p class="lead">A focused masonry service for NYC homeowners who want safer, better-looking steps and walkways without a full rebuild.</p>
-      <ul class="bullets">
-        <li>Repoint 6–8 bricks or joints in a problem area</li>
-        <li>Fill and seal small cracks in front steps or walkway</li>
-        <li>Blend mortar for a clean, uniform look</li>
-        <li>Quick safety check for trip hazards at entries</li>
-      </ul>
-      <p class="fine-print">Residential projects only. Final pricing may vary for larger repairs. Ask about full masonry options during your visit.</p>
-      <div class="hero-actions">
-        <button type="button" class="btn contact-panel-toggle">Book This Special</button>
-        <a class="btn ghost" href="/project-estimator.html">Open Project Estimator</a>
+    <section class="section fade-up">
+      <div style="text-align:center; max-width:700px; margin:0 auto 25px;">
+        <h2>Monthly Service Specials</h2>
+        <p style="color:var(--muted); font-size:14px;">Exclusive pricing on high-impact upgrades. No major construction required.</p>
       </div>
+
+      <div class="specials-grid">
+        
+        <div class="special-card">
+          <div class="special-tag">Safety</div>
+          <h3>Masonry Tune-Up</h3>
+          <div class="special-price">$349</div>
+          <p class="special-desc">Restore safety and curb appeal to your front steps without a rebuild.</p>
+          <ul class="bullets">
+            <li>Repoint 6–8 bricks or joints</li>
+            <li>Seal cracks in steps/walkways</li>
+            <li>Color-matched mortar blend</li>
+            <li>Trip-hazard safety check</li>
+          </ul>
+          <button type="button" class="btn contact-panel-toggle">Book Masonry Special</button>
+        </div>
+
+        <div class="special-card">
+          <div class="special-tag">Design</div>
+          <h3>"Signature Room" Refresh</h3>
+          <div class="special-price">$699</div>
+          <p class="special-desc">A white-glove interior painting service to transform one standard room.</p>
+          <ul class="bullets">
+            <li>Walls painted (up to 12'x12')</li>
+            <li>Includes Minor Plaster Patching</li>
+            <li>Baseboards cleaned & caulk-checked</li>
+            <li>Full floor & furniture protection</li>
+          </ul>
+          <button type="button" class="btn contact-panel-toggle">Book Paint Special</button>
+        </div>
+
+        <div class="special-card">
+          <div class="special-tag">Efficiency</div>
+          <h3>"Draft-Stop" Window Swap</h3>
+          <div class="special-price">$949</div>
+          <p class="special-desc">Stop the drafts. We supply and install a new energy-efficient window.</p>
+          <ul class="bullets">
+            <li>1 Double-Hung Vinyl Window included</li>
+            <li>Old window removal & disposal</li>
+            <li>Insulated frame & interior caulk</li>
+            <li>Water-tight exterior seal</li>
+          </ul>
+          <button type="button" class="btn contact-panel-toggle">Book Window Special</button>
+        </div>
+
+      </div>
+      <p class="fine-print" style="text-align:center; margin-top:20px;">*Prices for standard residential conditions. Oversized rooms or custom windows may vary.</p>
     </section>
 
     <div class="gold-divider"></div>
@@ -523,3 +566,4 @@
 
 </body>
 </html>
+```
