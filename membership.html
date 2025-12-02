@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Membership Perks & Monthly Draw — Hammer Brick & Home LLC</title>
-<meta name="description" content="Join our free loyalty program for NYC homeowners. Subscribe & Follow to win monthly home improvement perks like power washing, repairs, and safety checks.">
+<meta name="description" content="Join our free loyalty program. NYC/NJ homeowners win service perks; national followers win gift cards. Subscribe & Follow to enter.">
 
 <link rel="canonical" href="https://www.hammerbrickhome.com/membership.html">
 <link rel="icon" href="/images/hero.PNG">
@@ -24,12 +24,20 @@
         "image": "https://www.hammerbrickhome.com/images/hero.PNG",
         "priceRange": "$$-$$$$"
       },
-      "areaServed": ["Staten Island", "Brooklyn", "Queens", "Manhattan", "Bronx", "New Jersey"],
-      "description": "A free loyalty program offering monthly home improvement perks and safety checks to local homeowners."
+      "areaServed": ["Staten Island", "Brooklyn", "Queens", "Manhattan", "Bronx", "New Jersey", "National (Gift Cards)"],
+      "description": "A free loyalty program offering monthly home improvement perks to locals and gift cards to national followers."
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "I live outside the service area. Can I still enter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! While our physical labor perks are restricted to the NYC/NJ Metro area, we appreciate support from everywhere. If an out-of-area follower wins, we will substitute the service perk with a $25 Home Improvement Gift Card (Home Depot/Lowe's) or exclusive Hammer Brick & Home merchandise."
+          }
+        },
         {
           "@type": "Question",
           "name": "What is the 55-Minute Rule?",
@@ -43,15 +51,7 @@
           "name": "Are materials included in the free perks?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. We provide the labor, tools, and basic consumables (screws, glue, cleaning spray). You must provide specific hardware (light fixtures, new locks, paint, batteries, etc.) ready at the start of the appointment."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who is eligible for the membership?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The program is open to owner-occupied homes in our service area. Limit one perk per household per month."
+            "text": "No. We provide the labor, tools, and basic consumables. You must provide specific hardware (light fixtures, new locks, paint, batteries, etc.)."
           }
         }
       ]
@@ -220,7 +220,7 @@
   .perk-content p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.4; }
   .hidden { display: none !important; }
 
-  /* NEW: Legal Footer Style */
+  /* Legal Footer Style */
   .legal-disclaimer {
       margin-top: 30px;
       padding-top: 15px;
@@ -232,18 +232,23 @@
       opacity: 0.7;
   }
 
-  /* NEW: Location Badge Style */
+  /* Updated Location Badge Style */
   .location-warning {
       display: inline-block;
-      background-color: #d32f2f;
+      background-color: #2c3e50;
+      border: 1px solid #d32f2f;
       color: white;
-      padding: 5px 15px;
+      padding: 6px 18px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: bold;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       margin-bottom: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  .location-highlight {
+      color: #e7bf63;
   }
 </style>
 </head>
@@ -262,10 +267,13 @@
 <main class="page-wrapper" style="max-width: 1000px; margin: 0 auto; padding: 26px 18px 120px;">
 
     <section class="hero-inner fade-up" style="text-align: center; padding-top: 40px;">
-        <div class="location-warning">📍 Location Based: NYC/NJ Metro Area Only</div>
+        <!-- UPDATED: Location Badge -->
+        <div class="location-warning">
+            Services: NYC/NJ Metro • <span class="location-highlight">National Winners: Gift Prizes</span>
+        </div>
         
         <h1 style="margin-bottom: 10px;">Signature Membership</h1>
-        <p style="max-width: 600px; margin: 0 auto; color: var(--muted);">Join the only contractor loyalty program in NYC that gives back. Real perks for real homeowners.</p>
+        <p style="max-width: 600px; margin: 0 auto; color: var(--muted);">Join the only contractor loyalty program in NYC that gives back. Service perks for locals, gift cards for everyone else.</p>
 
         <div class="member-card-container">
             <div class="member-card">
@@ -290,7 +298,7 @@
     <section class="section fade-up">
         <h2 style="text-align:center;">How to Enter the Monthly Draw</h2>
         <p style="text-align:center; font-size:13px; color:var(--gold-soft); margin-bottom:30px;">
-            It’s 100% Free. You just need to support us online.
+            It’s 100% Free. Support us online to win.
         </p>
 
         <div class="roadmap">
@@ -307,7 +315,7 @@
             <div class="step-node">
                 <div class="step-icon">🎁</div>
                 <div class="step-title">3. You're In!</div>
-                <div class="step-desc">Send us your location & details to enter the monthly draw.</div>
+                <div class="step-desc">Locals win Service Perks. National fans win Gift Cards!</div>
             </div>
         </div>
 
@@ -322,19 +330,20 @@
 
             <h3 style="margin-bottom:15px; font-size: 18px;">Step 2: Email Details & Subscribe</h3>
             
-            <a class="btn" href="mailto:Hammerbrickhome@gmail.com?subject=Contest%20Entry&body=Hi%2C%20I%20would%20like%20to%20enter%20the%20draw.%0A%0A---%20REQUIRED%20DETAILS%20---%0A%0A1.%20Social%20Site%20%231%20Followed%3A%0A2.%20Social%20Site%20%232%20Followed%3A%0A%0AFull%20Name%3A%0APhone%20Number%3A%0APhysical%20Address%20(For%20Location%20Check)%3A%0A%0A">
+            <!-- Email Link -->
+            <a class="btn" href="mailto:Hammerbrickhome@gmail.com?subject=Contest%20Entry&body=Hi%2C%20I%20would%20like%20to%20enter%20the%20draw.%0A%0A---%20REQUIRED%20DETAILS%20---%0A%0A1.%20Social%20Site%20%231%20Followed%3A%0A2.%20Social%20Site%20%232%20Followed%3A%0A%0AFull%20Name%3A%0APhone%20Number%3A%0APhysical%20Address%20(For%20Prize%20Allocation)%3A%0A%0A">
                 📧 Click to Send Entry
             </a>
             
             <p style="margin-top:15px; font-size:11px; color: var(--muted); font-style: italic;">
-                <strong>Please Note:</strong> By sending this email, you are automatically subscribed to the Hammer Brick & Home LLC newsletter to receive updates and news.
+                <strong>Please Note:</strong> By emailing, you are automatically subscribed to the Hammer Brick & Home LLC newsletter.
             </p>
         </div>
     </section>
 
     <section class="section fade-up" id="perks-menu">
-        <h2 style="text-align:center; margin-bottom: 10px;">The Perks Menu</h2>
-        <p style="text-align:center; color:var(--muted); margin-bottom: 20px;">Winners choose ANY one service from this list.</p>
+        <h2 style="text-align:center; margin-bottom: 10px;">The Perks Menu (NYC/NJ Only)</h2>
+        <p style="text-align:center; color:var(--muted); margin-bottom: 20px;">Non-local winners receive a $25 Gift Card or Merchandise.</p>
 
         <div class="filter-controls">
             <div class="search-box">
@@ -350,6 +359,7 @@
         </div>
 
         <div id="perks-list">
+            <!-- CONSULTATIONS -->
             <div class="perk-item" data-cat="consult">
                 <div class="perk-number">01</div>
                 <div class="perk-content"><strong>The "ROI Renovation" Roadmap</strong><p>A strategic walk-through to identify which renovations will actually increase resale value.</p></div>
@@ -391,6 +401,7 @@
                 <div class="perk-content"><strong>Outdoor Living Concept Sketch</strong><p>We sketch a "zone plan" for your patio, fire pit, or outdoor kitchen.</p></div>
             </div>
 
+            <!-- INTERIOR -->
             <div class="perk-item" data-cat="interior">
                 <div class="perk-number">11</div>
                 <div class="perk-content"><strong>Front Door "Grand Entrance" Detail</strong><p>Polish hardware, tighten hinges, clean glass, and wipe threshold.</p></div>
@@ -452,6 +463,7 @@
                 <div class="perk-content"><strong>Loose Handle Lockdown</strong><p>Tighten wobbly knobs, towel bars, and holders.</p></div>
             </div>
 
+            <!-- EXTERIOR -->
             <div class="perk-item" data-cat="exterior">
                 <div class="perk-number">26</div>
                 <div class="perk-content"><strong>Mailbox Rescue</strong><p>Straighten post, tighten box, and apply black paint touch-up.</p></div>
@@ -513,6 +525,7 @@
                 <div class="perk-content"><strong>Pressure Wash "Test Patch"</strong><p>Clean 5x5 square so you can see the difference.</p></div>
             </div>
 
+            <!-- SAFETY -->
             <div class="perk-item" data-cat="safety">
                 <div class="perk-number">41</div>
                 <div class="perk-content"><strong>Smoke/CO Battery Swap</strong><p>We bring ladder, you supply 9V batteries. We change all.</p></div>
@@ -557,8 +570,17 @@
     </section>
 
     <section class="rules-accordion-section fade-up">
-        <h2 class="rules-accordion-title" style="text-align: center;">Rules & Exclusions</h2>
+        <h2 class="rules-accordion-title" style="text-align: center;">Rules & FAQs</h2>
         <div class="accordion" style="max-width: 900px; margin: auto;">
+            
+            <!-- NEW FAQ ITEM: OUT OF AREA -->
+            <div class="accordion-item">
+                <button class="accordion-header">🌎 I live outside the service area. Can I still enter?</button>
+                <div class="accordion-content">
+                    <p><strong>Absolutely!</strong> While our physical labor perks are restricted to our service zone (NYC/NJ Metro), we are constantly expanding. If a non-local supporter wins the monthly draw, we will send a <strong>$25 Home Depot/Lowe's Gift Card</strong> or exclusive Hammer Brick & Home merchandise (pen, keychain, etc.) as a token of our appreciation.</p>
+                </div>
+            </div>
+
             <div class="accordion-item">
                 <button class="accordion-header">⚠️ The "55-Minute Rule"</button>
                 <div class="accordion-content"><p>Strict 1-hour window. We do as much quality work as possible. If unforeseen issues arise, we stop and quote or leave safe.</p></div>
@@ -568,17 +590,16 @@
                 <div class="accordion-content"><p>We provide labor/tools/glue/screws. You provide hardware (lights, locks, paint, batteries).</p></div>
             </div>
             <div class="accordion-item">
-                <button class="accordion-header">🪜 Safe Access Only</button>
-                <div class="accordion-content"><p>No roofs. No ladders over 8ft. No live electrical/gas plumbing work.</p></div>
-            </div>
-            <div class="accordion-item">
                 <button class="accordion-header">How do I win?</button>
-                <div class="accordion-content"><p>Subscribe + Follow 2 socials + Send Address. We draw a winner monthly and notify via email.</p></div>
+                <div class="accordion-content"><p>Subscribe + Follow 2 socials + Send details. We draw a winner monthly and notify via email.</p></div>
             </div>
         </div>
         
+        <!-- UPDATED: Legal Protection / Prize Substitution Clause -->
         <div class="legal-disclaimer">
-            <p><strong>PROGRAM TERMS & CONDITIONS:</strong> Hammer Brick & Home LLC reserves the right, at its sole discretion, to modify, suspend, cancel, or discontinue this program—including the draw, rewards, rules, or terms mentioned herein—at any time without prior notice. By participating in this program and submitting your contact information, you acknowledge and agree to these terms.</p>
+            <p><strong>PROGRAM TERMS & CONDITIONS:</strong> Hammer Brick & Home LLC reserves the right, at its sole discretion, to modify, suspend, cancel, or discontinue this program at any time without prior notice. 
+            <br><br>
+            <strong>PRIZE SUBSTITUTION:</strong> We reserve the right to substitute physical service perks with a gift card or merchandise of equal or lesser value for winners residing outside our active service zones. By participating in this program and submitting your contact information, you acknowledge and agree to these terms.</p>
         </div>
     </section>
 
