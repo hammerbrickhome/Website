@@ -1,249 +1,298 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Home Care Library | Hammer Brick & Home LLC</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <meta name="description"
-        content="Download checklists, guides, and homeowner resources created by Hammer Brick & Home LLC. Free PDFs for maintenance, remodeling prep, safety, and masonry care.">
+<title>Free Homeowner Checklists & Guides | Hammer Brick & Home LLC</title>
+<meta name="description" content="Download free NYC home maintenance checklists, renovation prep guides, and masonry care PDFs. Expert advice for Staten Island, Brooklyn, and NJ homeowners.">
 
-  <link rel="icon" href="/images/hero.PNG">
-  <link rel="stylesheet" href="/style.css">
+<link rel="icon" href="/images/hero.PNG">
+<link rel="stylesheet" href="/style.css">
+<link rel="canonical" href="https://www.hammerbrickhome.com/downloads.html">
 
-  <style>
-    /******** PAGE LAYOUT FIX ********/
-    main.page {
-      max-width: 1250px;
-      margin: 0 auto;
-      padding: 20px;
+<meta property="og:title" content="Free Homeowner Resources — Hammer Brick & Home LLC">
+<meta property="og:description" content="Download free checklists and guides for maintaining your NYC/NJ home.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.hammerbrickhome.com/downloads.html">
+<meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Homeowner Care Library",
+  "description": "A collection of free downloadable guides and checklists for home maintenance and renovation preparation.",
+  "provider": {
+    "@type": "HomeAndConstructionBusiness",
+    "name": "Hammer Brick & Home LLC"
+  },
+  "hasPart": [
+    {
+      "@type": "DigitalDocument",
+      "name": "Home Improvement Pre-Checklist",
+      "format": "application/pdf",
+      "url": "https://www.hammerbrickhome.com/pdfs/home-improvement-pre-checklist.pdf",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "DigitalDocument",
+      "name": "Winter Home Maintenance Checklist",
+      "format": "application/pdf",
+      "url": "https://www.hammerbrickhome.com/pdfs/winter-home-maintenance-checklist.pdf",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "DigitalDocument",
+      "name": "Masonry & Concrete Care Guide",
+      "format": "application/pdf",
+      "url": "https://www.hammerbrickhome.com/pdfs/masonry-and-concrete-care-guide.pdf",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "DigitalDocument",
+      "name": "Lead-Safe Renovation Guide",
+      "format": "application/pdf",
+      "url": "https://www.hammerbrickhome.com/pdfs/lead-safe-renovation-guide-pre-1978.pdf",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
+  ]
+}
+</script>
 
-    /******** HERO FIX ********/
-    .hero.hero-home {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-      padding: 45px 30px;
-      background: rgba(10,15,25,0.85);
-      border-radius: 22px;
-      box-shadow: 0 0 22px rgba(231,191,99,0.25);
-      border: 1px solid rgba(231,191,99,0.45);
-    }
+<style>
+/* --- DOWNLOAD SPECIFIC STYLES --- */
 
-    .hero-content h1 {
-      color: #e7bf63;
-      font-size: 36px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 8px rgba(231,191,99,0.6);
-    }
+/* Grid Layout */
+.downloads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
 
-    .hero-content p {
-      color: #ffffff;
-      font-size: 17px;
-      line-height: 1.55;
-      margin-bottom: 16px;
-    }
+/* Luxury Download Card */
+.download-card {
+  background: rgba(8, 16, 28, 0.95);
+  border: 1px solid rgba(231, 191, 99, 0.2);
+  border-radius: var(--radius-xl);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
 
-    .hero-badge img {
-      width: 160px;
-      filter: drop-shadow(0 0 14px rgba(231,191,99,0.55));
-      border-radius: 14px;
-    }
+/* Hover Effect: Lift & Glow */
+.download-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 15px rgba(212,175,55,0.2);
+}
 
-    /******** CARD GRID ********/
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin-top: 20px;
-    }
+/* Icon Styling */
+.doc-icon {
+  font-size: 32px;
+  margin-bottom: 15px;
+  background: rgba(231, 191, 99, 0.1);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(231, 191, 99, 0.3);
+  color: var(--gold);
+}
 
-    .pkg-card {
-      background: rgba(10,20,35,0.75);
-      padding: 22px;
-      border-radius: 18px;
-      border: 1px solid rgba(231,191,99,0.45);
-      box-shadow: 0 0 16px rgba(231,191,99,0.20);
-      transition: 0.25s ease;
-    }
+.download-card h3 {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
 
-    .pkg-card h3 {
-      color: #e7bf63;
-      font-size: 20px;
-      margin-bottom: 6px;
-    }
+.download-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  flex-grow: 1; /* Pushes button to bottom */
+}
 
-    .pkg-card p {
-      color: #dcdcdc;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
+/* Download Button styling */
+.download-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--gold-soft);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  transition: 0.25s ease;
+}
 
-    .pkg-card .btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 16px;
-      border-radius: 12px;
-      background: #e7bf63;
-      color: #071426;
-      font-weight: 700;
-      text-decoration: none;
-      transition: 0.2s ease;
-    }
+.download-btn:hover {
+  background: var(--gold);
+  color: #000;
+  box-shadow: 0 0 15px rgba(212,175,55,0.5);
+}
 
-    /******** FOOTER CARD HOVER ********/
-    .pkg-card:hover {
-      box-shadow: 0 0 25px rgba(231,191,99,0.35);
-      transform: translateY(-4px);
-    }
+/* Badge for "Popular" items */
+.badge-popular {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--gold);
+  color: #000;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
 
-    /******** NOTE BOX ********/
-    .note-box {
-      border-radius: 18px;
-      padding: 22px;
-      background: rgba(10,20,35,0.82);
-      border: 1px solid rgba(231,191,99,0.45);
-      box-shadow: 0 0 14px rgba(231,191,99,0.25);
-    }
+/* Disclaimer Box */
+.disclaimer-section {
+  margin-top: 60px;
+  padding: 25px;
+  background: rgba(255,255,255,0.03);
+  border-left: 3px solid var(--gold-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+</style>
 
-    .note-box h2 {
-      color: #e7bf63;
-      margin-bottom: 10px;
-    }
-
-    /******** DISCLAIMER ********/
-    .disclaimer-box {
-      margin-top: 40px;
-      padding: 22px;
-      border-radius: 18px;
-      background: rgba(10,20,35,0.75);
-      border:1px solid rgba(231,191,99,0.45);
-      box-shadow: 0 0 14px rgba(231,191,99,0.25);
-    }
-
-  </style>
 </head>
 
 <body>
 
-<!-- AUTO-LOADED HEADER -->
 <div id="header-include"></div>
 
-<!-- MAIN PAGE -->
-<main class="page">
+<main class="page content-wrapper" style="padding-bottom: 120px;">
 
-  <!-- HERO -->
-  <section class="hero hero-home fade-up">
+  <section class="hero hero-inner fade-up" style="flex-direction: column; text-align: center; margin-top: 30px;">
     <div class="hero-content">
-      <h1>Home Care Library</h1>
-      <p>
-        Free downloadable checklists, prep guides, and homeowner resources created by Hammer Brick & Home LLC. 
-        Designed to help NYC homeowners stay prepared with clear, step-by-step tools.
+      <h1 style="margin-bottom: 10px;">Homeowner Care Library</h1>
+      <p style="max-width: 650px; margin: 0 auto; font-size: 15px;">
+        Free professional resources created by Hammer Brick & Home LLC. 
+        Download checklists and guides to keep your NYC or NJ home safe, efficient, and renovation-ready.
       </p>
-      <ul class="trust-pills">
-        <li class="gold-pill">NYC Licensed & Insured · HIC #2131291</li>
-        <li class="gold-pill">EPA Lead-Safe Certified Firm</li>
-        <li class="gold-pill">Staten Island • Brooklyn • Queens • Manhattan • Bronx</li>
-      </ul>
-    </div>
 
-    <div class="hero-badge">
-      <img src="/images/hero.PNG" alt="">
+      <div class="pill-row" style="justify-content: center; margin-top: 20px;">
+        <span class="gold-pill">100% Free Downloads</span>
+        <span class="gold-pill">Expert Advice</span>
+        <span class="gold-pill">Printer Friendly</span>
+      </div>
     </div>
   </section>
 
-  <!-- INTRO TEXT -->
   <section class="section fade-up">
-    <div class="note-box">
-      <h2>Free Homeowner Guides & Checklists</h2>
-      <p class="muted">
-        These PDFs include practical preparation steps, safety notes, maintenance reminders,
-        and professional insights from Hammer Brick & Home LLC.
-      </p>
-    </div>
-  </section>
+    <div class="downloads-grid">
 
-  <!-- CARD GRID -->
-  <section class="section fade-up">
-    <div class="card-grid">
-
-      <article class="pkg-card">
+      <article class="download-card">
+        <span class="badge-popular">Most Popular</span>
+        <div class="doc-icon">📋</div>
         <h3>Home Improvement Pre-Checklist</h3>
-        <p class="muted">Prep steps before any home improvement project.</p>
-        <a class="btn" download href="/pdfs/home-improvement-pre-checklist.pdf">📥 Download PDF</a>
+        <p>Don't start construction without this. A step-by-step guide to preparing your budget, timeline, and home for renovation.</p>
+        <a class="download-btn" download href="/pdfs/home-improvement-pre-checklist.pdf">📥 Download PDF</a>
       </article>
 
-      <article class="pkg-card">
-        <h3>Before We Start — Prep Your Home</h3>
-        <p class="muted">Room-by-room prep for smooth, clean projects.</p>
-        <a class="btn" download href="/pdfs/before-we-start-prep-your-home.pdf">📥 Download PDF</a>
+      <article class="download-card">
+        <div class="doc-icon">🏠</div>
+        <h3>Before We Start — Home Prep</h3>
+        <p>Room-by-room preparation instructions to ensure a clean, smooth, and safe project execution.</p>
+        <a class="download-btn" download href="/pdfs/before-we-start-prep-your-home.pdf">📥 Download PDF</a>
       </article>
 
-      <article class="pkg-card">
-        <h3>Winter Home Maintenance Checklist</h3>
-        <p class="muted">NYC cold-weather home protection guide.</p>
-        <a class="btn" download href="/pdfs/winter-home-maintenance-checklist.pdf">📥 Download PDF</a>
+      <article class="download-card">
+        <div class="doc-icon">❄️</div>
+        <h3>Winter Maintenance Checklist</h3>
+        <p>Essential steps for NYC homeowners to protect pipes, roofs, and masonry from freezing temperatures.</p>
+        <a class="download-btn" download href="/pdfs/winter-home-maintenance-checklist.pdf">📥 Download PDF</a>
       </article>
 
-      <article class="pkg-card">
-        <h3>Masonry & Concrete Care Guide</h3>
-        <p class="muted">Protect brick, pavers & concrete year-round.</p>
-        <a class="btn" download href="/pdfs/masonry-and-concrete-care-guide.pdf">📥 Download PDF</a>
+      <article class="download-card">
+        <div class="doc-icon">🧱</div>
+        <h3>Masonry & Concrete Care</h3>
+        <p>How to clean, seal, and protect your brick stoops, pavers, and concrete driveways year-round.</p>
+        <a class="download-btn" download href="/pdfs/masonry-and-concrete-care-guide.pdf">📥 Download PDF</a>
       </article>
 
-      <article class="pkg-card">
-        <h3>Kitchen Remodeling — What to Know First</h3>
-        <p class="muted">What to prepare before any kitchen remodel.</p>
-        <a class="btn" download href="/pdfs/kitchen-remodel-what-to-know.pdf">📥 Download PDF</a>
+      <article class="download-card">
+        <div class="doc-icon">🍳</div>
+        <h3>Kitchen Remodel Guide</h3>
+        <p>What you need to know about plumbing, electrical, and layout before tearing out your old kitchen.</p>
+        <a class="download-btn" download href="/pdfs/kitchen-remodel-what-to-know.pdf">📥 Download PDF</a>
       </article>
 
-      <article class="pkg-card">
-        <h3>Lead-Safe Renovation Guide (Pre-1978)</h3>
-        <p class="muted">EPA-style guide for older NYC homes.</p>
-        <a class="btn" download href="/pdfs/lead-safe-renovation-guide-pre-1978.pdf">📥 Download PDF</a>
+      <article class="download-card">
+        <div class="doc-icon">⚠️</div>
+        <h3>Lead-Safe Guide (Pre-1978)</h3>
+        <p>Understanding EPA rules and safety protocols for renovating older NYC homes containing lead paint.</p>
+        <a class="download-btn" download href="/pdfs/lead-safe-renovation-guide-pre-1978.pdf">📥 Download PDF</a>
       </article>
 
-      <article class="pkg-card">
-        <h3>Membership Welcome Packet</h3>
-        <p class="muted">Perks, rules & VIP member benefits.</p>
-        <a class="btn" download href="/pdfs/membership-welcome-packet.pdf">📥 Download PDF</a>
+      <article class="download-card" style="background: linear-gradient(145deg, rgba(8,16,28,0.95), rgba(231,191,99,0.05)); border-color: rgba(231,191,99,0.4);">
+        <div class="doc-icon" style="color: #fff; background: var(--gold);">👑</div>
+        <h3 style="color: var(--gold-soft);">Membership Welcome Packet</h3>
+        <p>Details on our loyalty program, monthly draws, and exclusive perks for subscribed homeowners.</p>
+        <a class="download-btn" download href="/pdfs/membership-welcome-packet.pdf" style="background: var(--gold); color: #000;">📥 Download Packet</a>
       </article>
 
     </div>
   </section>
 
-  <!-- DISCLAIMER -->
   <section class="section fade-up">
-    <div class="disclaimer-box">
-      <h3>Important Legal Disclaimer</h3>
+    <div class="disclaimer-section">
+      <h4 style="color: #fff; margin-bottom: 10px;">Important Legal Disclaimer</h4>
       <p>
-        The checklists and guides provided are for educational purposes only and do not replace professional engineering,
-        architectural, or trade-specific advice.
+        The checklists and guides provided are for educational purposes only. They do not replace professional engineering, architectural, or trade-specific advice. 
+        Always consult a licensed professional for structural or safety-critical work. DIY work is performed at your own risk.
       </p>
-      <p>
-        Always follow NYC codes, EPA Lead-Safe rules, and consult a licensed engineer, plumber, or electrician for
-        structural or safety-critical work.
+      <p style="margin-top: 10px; font-size: 11px; opacity: 0.6;">
+        © <span id="yr2"></span> Hammer Brick & Home LLC
       </p>
-      <p>DIY work is performed at your own risk.</p>
-      <p>© <span id="yr2"></span> Hammer Brick & Home LLC</p>
     </div>
   </section>
 
 </main>
 
-<!-- FOOTER -->
 <div id="footer-include"></div>
 
+<a href="sms:+13473233632" class="contact-float-btn" aria-label="Text Us">💬</a>
+
 <script>
+  // Simple year script inline
   document.getElementById("yr2").textContent = new Date().getFullYear();
 </script>
 
-  <link rel="stylesheet" href="/chat.css">
-<script src="/chat.js" defer></script>
+<script src="/script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  Promise.all([
+    fetch("/header.html").then(r => r.text()),
+    fetch("/footer.html").then(r => r.text())
+  ])
+  .then(([header, footer]) => {
+    document.getElementById("header-include").innerHTML = header;
+    document.getElementById("footer-include").innerHTML = footer;
 
-<script src="/script.js" defer></script>
+    if (typeof initHeaderInteractions === "function") {
+      initHeaderInteractions();
+    }
+  })
+  .catch(console.error);
+});
+</script>
+<link rel="stylesheet" href="/chat.css">
+<script src="/chat.js" defer></script>
 
 </body>
 </html>
