@@ -220,6 +220,31 @@
   .perk-content p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.4; }
   .hidden { display: none !important; }
 
+  /* NEW: Legal Footer Style */
+  .legal-disclaimer {
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 10px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.4;
+      opacity: 0.7;
+  }
+
+  /* NEW: Location Badge Style */
+  .location-warning {
+      display: inline-block;
+      background-color: #d32f2f;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+  }
 </style>
 </head>
 
@@ -237,6 +262,8 @@
 <main class="page-wrapper" style="max-width: 1000px; margin: 0 auto; padding: 26px 18px 120px;">
 
     <section class="hero-inner fade-up" style="text-align: center; padding-top: 40px;">
+        <div class="location-warning">📍 Location Based: NYC/NJ Metro Area Only</div>
+        
         <h1 style="margin-bottom: 10px;">Signature Membership</h1>
         <p style="max-width: 600px; margin: 0 auto; color: var(--muted);">Join the only contractor loyalty program in NYC that gives back. Real perks for real homeowners.</p>
 
@@ -270,7 +297,7 @@
             <div class="step-node">
                 <div class="step-icon">📧</div>
                 <div class="step-title">1. Subscribe</div>
-                <div class="step-desc">Join our email newsletter list below.</div>
+                <div class="step-desc">Join our email newsletter (Auto-subscribed upon entry).</div>
             </div>
             <div class="step-node">
                 <div class="step-icon">👍</div>
@@ -280,7 +307,7 @@
             <div class="step-node">
                 <div class="step-icon">🎁</div>
                 <div class="step-title">3. You're In!</div>
-                <div class="step-desc">You are now eligible for the monthly draw to win any perk below.</div>
+                <div class="step-desc">Send us your location & details to enter the monthly draw.</div>
             </div>
         </div>
 
@@ -293,11 +320,15 @@
                 <a class="btn ghost" href="https://youtube.com/@hammerbrickhome" target="_blank">YouTube</a>
             </div>
 
-            <h3 style="margin-bottom:15px; font-size: 18px;">Step 2: Subscribe & Confirm</h3>
-            <a class="btn" href="mailto:Hammerbrickhome@gmail.com?subject=Activate%20Membership&body=Hi%2C%20I%20have%20followed%20you%20on%202%20platforms.%0A%0AMy%20Details%3A%0AName%3A%0AAddress%3A%0APhone%3A%0A%0APlease%20enter%20me%20in%20the%20monthly%20draw!">
-                📧 Click to Activate Membership
+            <h3 style="margin-bottom:15px; font-size: 18px;">Step 2: Email Details & Subscribe</h3>
+            
+            <a class="btn" href="mailto:Hammerbrickhome@gmail.com?subject=Contest%20Entry&body=Hi%2C%20I%20would%20like%20to%20enter%20the%20draw.%0A%0A---%20REQUIRED%20DETAILS%20---%0A%0A1.%20Social%20Site%20%231%20Followed%3A%0A2.%20Social%20Site%20%232%20Followed%3A%0A%0AFull%20Name%3A%0APhone%20Number%3A%0APhysical%20Address%20(For%20Location%20Check)%3A%0A%0A">
+                📧 Click to Send Entry
             </a>
-            <p class="muted" style="margin-top:10px; font-size:12px;">(Opens your email app to send us your details)</p>
+            
+            <p style="margin-top:15px; font-size:11px; color: var(--muted); font-style: italic;">
+                <strong>Please Note:</strong> By sending this email, you are automatically subscribed to the Hammer Brick & Home LLC newsletter to receive updates and news.
+            </p>
         </div>
     </section>
 
@@ -542,8 +573,12 @@
             </div>
             <div class="accordion-item">
                 <button class="accordion-header">How do I win?</button>
-                <div class="accordion-content"><p>Subscribe + Follow 2 socials. We draw a winner monthly and notify via email.</p></div>
+                <div class="accordion-content"><p>Subscribe + Follow 2 socials + Send Address. We draw a winner monthly and notify via email.</p></div>
             </div>
+        </div>
+        
+        <div class="legal-disclaimer">
+            <p><strong>PROGRAM TERMS & CONDITIONS:</strong> Hammer Brick & Home LLC reserves the right, at its sole discretion, to modify, suspend, cancel, or discontinue this program—including the draw, rewards, rules, or terms mentioned herein—at any time without prior notice. By participating in this program and submitting your contact information, you acknowledge and agree to these terms.</p>
         </div>
     </section>
 
