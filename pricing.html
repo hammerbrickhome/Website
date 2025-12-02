@@ -222,7 +222,7 @@
     margin-top: 10px;
   }
 
-  /* --- "NYC STRONG" TERMS STYLING --- */
+  /* --- NYC COMPLIANT TERMS STYLING --- */
   .terms-section {
     margin-top: 60px;
     padding: 45px 35px;
@@ -263,7 +263,7 @@
     background: rgba(255,255,255,0.02);
     padding: 24px;
     border-radius: 8px;
-    border-left: 2px solid var(--gold-soft);
+    border-left: 3px solid var(--gold-soft); /* Thicker border for authority */
   }
 
   .term-block h3 {
@@ -275,11 +275,28 @@
     letter-spacing: 0.5px;
   }
 
-  .term-block p {
+  .term-block p, .term-block li {
     font-size: 13px;
     color: #ccc;
     line-height: 1.7;
-    margin-bottom: 0;
+    margin-bottom: 8px;
+  }
+
+  .term-block ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .term-block ul li {
+    padding-left: 15px;
+    position: relative;
+  }
+  
+  .term-block ul li::before {
+    content: "•";
+    color: var(--gold);
+    position: absolute;
+    left: 0;
   }
 
   .warning-box {
@@ -881,49 +898,108 @@
 
         <section class="section terms-section fade-up">
           <div class="terms-header">
-            <h2>Terms, Conditions & Pricing Policies</h2>
+            <h2>Terms, Conditions & Pricing Policy</h2>
             <p class="terms-subtitle">
-              At Hammer Brick & Home, we protect our clients with clarity. Below are the rules that ensure fair, safe, and transparent work in NYC & NJ.
+              Fully compliant with NYC HIC & DOB standards. Designed to protect you and ensure transparent, safe work.
             </p>
           </div>
 
           <div class="terms-grid">
             
             <div class="term-block">
-              <h3>1. Ironclad Scope of Work</h3>
-              <p><strong>"If it is not written, it is not included."</strong> Our contracts are specific. We do not offer unlimited labor. Any request outside the written agreement (e.g., "While you are here...") requires a separate <strong>Change Order</strong> and fee. Verbal changes are not valid.</p>
+              <h3>1. Pricing Assumptions</h3>
+              <ul>
+                <li>Prices based on <strong>typical 1–2 family NYC homes</strong> with standard access.</li>
+                <li>Pricing is for <strong>labor only</strong> unless explicitly stated.</li>
+                <li>Premium or custom materials are always billed separately.</li>
+              </ul>
             </div>
 
             <div class="term-block">
-              <h3>2. Unforeseen Conditions Clause</h3>
-              <p>NYC homes often hide defects. If we discover hidden damage (rot behind siding, mold, structural cracks, broken pipes) after work begins, <strong>work stops immediately</strong>. We will document the issue and issue a revised quote. We are not responsible for pre-existing structural faults.</p>
+              <h3>2. Written Proposals</h3>
+              <ul>
+                <li>Every project receives a detailed, <strong>line-item written proposal</strong>.</li>
+                <li>No verbal pricing is binding.</li>
+                <li>Work begins only after signed approval and deposit.</li>
+              </ul>
             </div>
 
             <div class="term-block">
-              <h3>3. NYC/DOB/HRA Compliance</h3>
-              <p>Base pricing covers labor & standard materials only. It <strong>DOES NOT</strong> include DOB filing fees, architectural drawings, expeditors, or landmark permits unless explicitly listed. Clients are responsible for building management approvals.</p>
+              <h3>3. Unforeseen Conditions</h3>
+              <ul>
+                <li>If hidden damage (rot, mold, leaks, asbestos) is found, <strong>work stops immediately</strong>.</li>
+                <li>We are not responsible for pre-existing defects or code violations.</li>
+                <li>A revised estimate will be issued for approval.</li>
+              </ul>
             </div>
 
             <div class="term-block">
-              <h3>4. Payment & Stop Work Rights</h3>
-              <p>Projects over $1,000 require a 25% deposit. We reserve the legal right to <strong>suspend services immediately</strong> if progress payments are not made on schedule. Final payment is due upon substantial completion.</p>
+              <h3>4. Change Orders</h3>
+              <ul>
+                <li>Any work outside the original scope requires a <strong>written Change Order</strong>.</li>
+                <li>Includes updated pricing and client signature.</li>
+                <li>No "assumed" extra work is included.</li>
+              </ul>
             </div>
 
             <div class="term-block">
-              <h3>5. Client Duties & Access</h3>
-              <p>Clients must provide safe access, water, and electricity. <strong>We do not move furniture or personal items.</strong> Work areas must be cleared before arrival. Delays caused by lack of access will be billed at our hourly rate.</p>
+              <h3>5. Access & Responsibilities</h3>
+              <p>Homeowner must provide:</p>
+              <ul>
+                <li>Safe access, water, and electricity.</li>
+                <li>Clear pathways (no furniture blocking).</li>
+                <li><strong>$95 fee</strong> may apply if access is blocked upon arrival.</li>
+              </ul>
             </div>
 
             <div class="term-block">
-              <h3>6. Warranty Limitations</h3>
-              <p>We provide a workmanship warranty on our installation. However, we <strong>cannot warrant</strong> against failure caused by pre-existing structural movement, water intrusion from other areas, or material failure (if materials were supplied by the client).</p>
+              <h3>6. Safety & Compliance</h3>
+              <ul>
+                <li>We follow NYC DOB, HRA, and OSHA safety standards.</li>
+                <li>We do <strong>not</strong> perform work involving asbestos, lead removal, or live gas lines without proper specialty containment or subcontracting.</li>
+              </ul>
             </div>
 
-          </div>
+            <div class="term-block">
+              <h3>7. Deposits & Stop-Work</h3>
+              <ul>
+                <li>Projects over $1,000 require up to a <strong>25% deposit</strong>.</li>
+                <li>We reserve the right to <strong>pause work</strong> if payments are not made on schedule.</li>
+                <li>No payments = No warranty.</li>
+              </ul>
+            </div>
 
-          <div class="warning-box">
-            <strong>⚠️ Hazardous Materials & Safety:</strong> 
-            We strictly adhere to EPA and OSHA safety rules. We reserve the right to stop work immediately if asbestos, chemical hazards, or unsafe structural conditions are found until the site is remediated by a specialist.
+            <div class="term-block">
+              <h3>8. Permits & Filings</h3>
+              <ul>
+                <li>DOB permits, inspections, and architectural filings are <strong>not included</strong> unless listed.</li>
+                <li>These are priced separately based on project scope.</li>
+              </ul>
+            </div>
+
+            <div class="term-block">
+              <h3>9. Photo Documentation</h3>
+              <p>We may take photos of before/after work for records and marketing unless the client opts out in writing prior to the appointment.</p>
+            </div>
+
+            <div class="term-block">
+              <h3>10. Warranty</h3>
+              <ul>
+                <li>Standard <strong>90-day workmanship warranty</strong> on labor-only tasks.</li>
+                <li>No warranty on owner-supplied materials or pre-existing structural issues.</li>
+              </ul>
+            </div>
+
+            <div class="term-block">
+              <h3>11. Delays</h3>
+              <p>Hammer Brick & Home LLC is not responsible for delays caused by weather, material shortages, or unsafe site conditions beyond our control.</p>
+            </div>
+
+            <div class="term-block">
+              <h3>12. Final Authority</h3>
+              <p>The most recent version of terms published on this page overrides all earlier versions or verbal discussions.</p>
+            </div>
+
           </div>
         </section>
 
