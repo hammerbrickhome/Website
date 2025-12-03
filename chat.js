@@ -9,9 +9,9 @@
   // --- CONFIGURATION -----------------------------------------
 
   // Updated with your Google Web App URL + the source tag
-  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycby5B6HHpX5u4WzWOBaYXpqKcGOvszmdVezPXIijEgCeysA130AzqcJgAPNFrr1a5zh4/exec?source=chatbot"; 
+   const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycby5B6HHpX5u4WzWOBaYXpqKcGOvszmdVezPXIijEgCeysA130AzqcJgAPNFrr1a5zh4/exec?source=chatbot"; 
   
-  const PHONE_NUMBER = "9295955300"; 
+   const PHONE_NUMBER = "9295955300"; 
   const CRM_FORM_URL = ""; 
   const WALKTHROUGH_URL = "";
 
