@@ -17,7 +17,6 @@
 <meta property="og:title" content="About Us — Hammer Brick & Home LLC">
 <meta property="og:description" content="Our craftsmanship, values, and tiered pricing options. Luxury NYC remodeling & true masonry with white-glove clean-up.">
 <meta property="og:type" content="website">
-
 <meta property="og:url" content="https://www.hammerbrickhome.com/about">
 <meta property="og:image" content="https://www.hammerbrickhome.com/images/hero.PNG">
 
@@ -55,17 +54,18 @@
 </script>
 
 <style>
-  /* Hero Manifesto */
+  /* --- 1. HERO MANIFESTO --- */
   .about-hero {
     text-align: center;
     padding: 60px 20px 40px;
-    background: radial-gradient(circle at center, rgba(231,191,99,0.15) 0%, transparent 70%);
+    background: radial-gradient(circle at center, rgba(231,191,99,0.12) 0%, transparent 70%);
   }
   .about-hero h1 {
     font-size: 38px;
     color: var(--gold-soft);
     margin-bottom: 15px;
     text-shadow: 0 0 20px rgba(212,175,55,0.4);
+    font-family: var(--font-serif);
   }
   .about-hero p {
     font-size: 18px;
@@ -75,7 +75,29 @@
     line-height: 1.6;
   }
 
-  /* Owner Section */
+  /* --- 2. TRUST STRIP --- */
+  .trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 25px;
+    background: rgba(8,16,28,0.6);
+    border-radius: 12px;
+    margin: 30px 0 50px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .trust-item span { color: var(--gold); font-size: 18px; }
+
+  /* --- 3. OWNER SECTION --- */
   .owner-frame {
     position: relative;
     border: 1px solid var(--gold);
@@ -97,9 +119,10 @@
     margin-top: 20px;
     display: block;
     transform: rotate(-2deg);
+    text-align: right;
   }
 
-  /* The Hammer Standard Grid */
+  /* --- 4. THE HAMMER STANDARD GRID --- */
   .standard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -118,9 +141,9 @@
   .standard-card::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 4px;
-    background: var(--gold);
-    opacity: 0.5;
+    top: 0; left: 0; width: 100%; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.7;
   }
   .standard-card:hover {
     transform: translateY(-5px);
@@ -133,32 +156,66 @@
     display: block;
   }
 
-  /* Trust Strip */
-  .trust-strip {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 30px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 12px;
-    margin: 40px 0;
-    border: 1px solid rgba(255,255,255,0.05);
+  /* --- 5. NEW "HOW IT WORKS" ACTION BOX --- */
+  .tier-hook-luxury {
+    margin-top: 40px;
+    background: rgba(10,20,35,0.95);
+    border: 1px solid rgba(231,191,99,0.4);
+    border-radius: 18px;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 30px rgba(212,175,55,0.15);
+    overflow: hidden;
   }
-  .trust-item {
+  /* Glossy Effect */
+  .tier-hook-luxury::after {
+    content: "";
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+    transform: rotate(30deg);
+    pointer-events: none;
+  }
+  .th-steps {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 25px 0 30px;
+    flex-wrap: wrap;
+  }
+  .th-step {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 700;
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 700;
   }
-  .trust-item span { color: var(--gold); font-size: 18px; }
+  .th-num {
+    background: var(--gold);
+    color: #000;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 900;
+  }
+
+  /* --- 6. FIX CHAT BACKGROUND (Requested) --- */
+  .chat-modal, .chat-window, .chat-container, .chat-bubble-content {
+    background-color: rgba(6, 12, 23, 0.98) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(231, 191, 99, 0.3) !important;
+  }
+  .chat-input, .chat-textarea, input[type="text"], textarea {
+    background: rgba(0,0,0,0.5) !important; 
+    color: #fff !important;
+  }
 
   /* Mobile Adjustments */
   @media(max-width: 768px) {
     .about-hero h1 { font-size: 28px; }
-    .about-hero p { font-size: 15px; }
+    .th-steps { flex-direction: column; gap: 15px; align-items: center; }
   }
 </style>
 
@@ -188,7 +245,7 @@
     </div>
     <div style="padding-top: 10px;">
       <h2 style="color: #fff;">Meet Noman — Owner & Lead</h2>
-      <p style="color: var(--gold-soft); font-weight: bold; margin-bottom: 15px;">"I don't just send a crew. I lead them."</p>
+      <p style="color: var(--gold-soft); font-weight: bold; margin-bottom: 15px; font-style: italic;">"I don't just send a crew. I lead them."</p>
       
       <p style="color: var(--muted); line-height: 1.7; margin-bottom: 20px;">
         I founded Hammer Brick & Home to bridge the gap between <strong>old-world durability</strong> and <strong>modern luxury design</strong>. I saw too many homeowners stressed out by messy job sites and hidden fees.
@@ -270,10 +327,28 @@
       </div>
     </div>
 
-    <div class="tier-hook" style="text-align:center; margin-top:30px;">
-      <p><strong>How it works:</strong> You give us a ballpark budget, and we show you exactly what we can build at each tier. No hidden fees, no surprises.</p>
+    <div class="tier-hook-luxury fade-up">
+      <h3 style="color: var(--gold-soft); font-size: 20px;">Your Project, Your Budget</h3>
+      <p style="color: var(--muted); font-size: 14px;">We calculate the tiers. You choose the one that fits.</p>
+      
+      <div class="th-steps">
+        <div class="th-step">
+          <span class="th-num">1</span>
+          <span>Send Photos</span>
+        </div>
+        <div class="th-step">
+          <span class="th-num">2</span>
+          <span>Get 3 Tiered Prices</span>
+        </div>
+        <div class="th-step">
+          <span class="th-num">3</span>
+          <span>We Build & Clean</span>
+        </div>
+      </div>
+
       <a href="/project-estimator.html" class="btn">Get a Tiered Estimate</a>
     </div>
+
   </section>
 
   <section class="section fade-up" style="text-align:center; margin-top: 80px; margin-bottom: 60px;">
