@@ -160,6 +160,48 @@
         padding: 15px 5px !important;
       }
     }
+
+    /* 7. NEW STYLES FOR MEMBERSHIP CARD (From Membership.html) */
+    .free-badge {
+      background-color: #2ecc71; /* Trusty Green */
+      color: #000;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 11px;
+      border: 1px solid #27ae60;
+      box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+    .mini-card {
+      background: linear-gradient(135deg, #0f1c30 0%, #071426 100%);
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      padding: 15px;
+      position: relative;
+      margin-top: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+      overflow: hidden;
+    }
+    .mini-card::before {
+      content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(231,191,99,0.1) 0%, transparent 70%);
+      transform: rotate(45deg); pointer-events: none;
+    }
+    .card-chip {
+      width: 35px; height: 24px;
+      background: linear-gradient(135deg, #e7bf63, #b8860b);
+      border-radius: 4px;
+    }
+    .card-status {
+      font-size: 9px; font-weight: 800; letter-spacing: 1px;
+      color: var(--gold); border: 1px solid var(--gold);
+      padding: 3px 6px; border-radius: 4px; text-transform: uppercase;
+      animation: pulseStatus 2s infinite;
+    }
+    @keyframes pulseStatus { 0% {opacity:0.6;} 50% {opacity:1;} 100% {opacity:0.6;} }
   </style>
 </head>
 
@@ -357,13 +399,34 @@
           <li><strong>Lead Safety:</strong> EPA RRP Lead-Safe Certified for pre-1978 homes.</li>
         </ul>
 
-        <div style="background:rgba(231,191,99,0.1); border:1px solid rgba(231,191,99,0.3); border-radius:12px; padding:15px;">
-          <h3 style="font-size:16px; color:var(--gold-soft); margin-bottom:5px;">🎁 Signature Membership (Free)</h3>
-          <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">
-            Local homeowners can join our <strong>Community Giveback</strong>. Members are entered for a chance to receive <strong>complimentary home-care perks</strong> (from 50+ services) as we work in your area.
+        <div style="background:rgba(231,191,99,0.05); border:1px solid rgba(231,191,99,0.25); border-radius:16px; padding:20px; position:relative;">
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+             <h3 style="font-size:17px; color:#fff; margin:0;">🎁 Signature Membership</h3>
+             <span class="free-badge">100% FREE</span>
+          </div>
+
+          <p style="font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:15px;">
+            <strong>There is no catch.</strong> Most companies spend thousands on billboard ads. We prefer to spend that budget on <strong>YOU—our neighbors</strong>. We believe if we fix your small repair for free, you'll remember us for the big renovation.
           </p>
-          <a href="/membership.html" style="font-size:12px; color:#fff; font-weight:bold; text-decoration:underline;">See Perks & How to Join &rarr;</a>
+          
+          <div style="background:#0a0f18; border-radius:8px; padding:12px; margin-bottom:15px; border:1px dashed #333; font-size:12px; color:#ccc;">
+             <span style="color:var(--gold);">📍 Local (NYC/NJ):</span> Win Service Perks (Repairs, Consults)<br>
+             <span style="color:var(--gold);">🌎 National:</span> Win Gift Prizes
+          </div>
+
+          <div class="mini-card">
+            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:15px;">
+                <div class="card-chip"></div>
+                <div class="card-status">PENDING ACTIVATION</div>
+            </div>
+            <div style="color:#fff; font-family:monospace; letter-spacing:2px; margin-bottom:10px; font-size:16px; text-shadow:0 2px 2px #000;">•••• •••• •••• 2025</div>
+            <div style="font-size:10px; color:var(--muted);">MEMBER: <strong style="color:#fff;">FUTURE WINNER</strong></div>
+          </div>
+
+          <a href="/membership.html" class="btn" style="width:100%; margin-top:15px; text-align:center;">Activate Card & Enter Draw &rarr;</a>
         </div>
+
       </div>
 
       <div class="services-glow-container">
