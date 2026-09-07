@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-08-31T18:27:58.260379+00:00",
-  "status": "ACTION NEEDED",
-  "summary": "11 checks: 1 failed, 2 warning(s).",
+  "generatedAt": "2026-09-07T16:52:54.202891+00:00",
+  "status": "GOOD",
+  "summary": "11 checks: 0 failed, 0 warning(s).",
   "checks": [
     {
       "name": "Working site core",
@@ -41,27 +41,9 @@
     },
     {
       "name": "Gallery photo references",
-      "status": "FAIL",
-      "details": "Active gallery items reference missing or blank photos.",
-      "items": [
-        "homePairs item 6 (before): no photo selected",
-        "homePairs item 7 (before): no photo selected",
-        "homePairs item 7 (after): no photo selected",
-        "galleryPairs item 3 (before): /images/stone2-after.png",
-        "galleryPairs item 3 (after): /images/stone2-before.png",
-        "galleryPairs item 4 (before): /images/stone3-after.png",
-        "galleryPairs item 4 (after): /images/stone3-before.png",
-        "galleryPairs item 5 (before): /images/job_after.jpg",
-        "galleryPairs item 5 (after): /images/job_before.jpg",
-        "galleryPairs item 6 (before): /images/after5.png",
-        "galleryPairs item 6 (after): /images/before5.png",
-        "galleryPairs item 7 (before): /images/after6.png",
-        "galleryPairs item 7 (after): /images/before6.png",
-        "galleryGrid item 5: /images/full-gut-deck-remodel-after.jpeg",
-        "galleryGrid item 6: /images/full-front-remodel-after.jpeg",
-        "galleryGrid item 11: /images/after2.jpg",
-        "galleryGrid item 15: no photo selected"
-      ]
+      "status": "PASS",
+      "details": "Every active gallery photo exists.",
+      "items": []
     },
     {
       "name": "CMS-managed photos and downloads",
@@ -77,24 +59,15 @@
     },
     {
       "name": "NYC HIC consistency",
-      "status": "WARN",
-      "details": "Some older page text has a different NYC HIC value.",
-      "items": [
-        "contact.html: HIC #21311291",
-        "estimator-advanced.js: HIC #21311291",
-        "monthly-specials.html: HIC #21311291",
-        "new-jersey.html: HIC #21311291",
-        "project-estimator.html: HIC #21311291"
-      ]
+      "status": "PASS",
+      "details": "NYC HIC values match Business Settings.",
+      "items": []
     },
     {
       "name": "Analytics setup",
-      "status": "WARN",
-      "details": "Analytics placeholders remain and will not collect useful data.",
-      "items": [
-        "header.html: Google Analytics placeholder",
-        "header.html: Microsoft Clarity placeholder"
-      ]
+      "status": "PASS",
+      "details": "No known analytics placeholders were found.",
+      "items": []
     }
   ]
 }
